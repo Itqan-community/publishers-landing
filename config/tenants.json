@@ -1,0 +1,359 @@
+{
+  "default": {
+    "id": "default",
+    "name": "Default Publisher",
+    "template": "default",
+    "branding": {
+      "logo": "https://via.placeholder.com/200x60/FFFFFF/0F4C81?text=Default+Publisher",
+      "favicon": "/favicon.ico",
+      "primaryColor": "#0F4C81",
+      "secondaryColor": "#F4B400",
+      "accentColor": "#FF6B35",
+      "font": "inter"
+    },
+    "features": {
+      "speakers": true,
+      "statistics": true,
+      "readings": true,
+      "media": false,
+      "newsletter": true
+    },
+    "content": {
+      "hero": {
+        "title": "Discover Knowledge, Empower Your Mind",
+        "description": "Explore thousands of readings, listen to renowned speakers, and access premium content from trusted publishers.",
+        "image": "https://via.placeholder.com/1920x1080/0F4C81/FFFFFF?text=Discover+Knowledge",
+        "ctaText": "Explore Our Store",
+        "ctaLink": "https://cms.domain.com/default"
+      },
+      "statistics": [
+        {
+          "label": "Active Readers",
+          "value": "50000",
+          "suffix": "+"
+        },
+        {
+          "label": "Published Works",
+          "value": "12500",
+          "suffix": "+"
+        },
+        {
+          "label": "Expert Speakers",
+          "value": "250",
+          "suffix": "+"
+        },
+        {
+          "label": "Countries Reached",
+          "value": "85",
+          "suffix": ""
+        }
+      ],
+      "assetCategories": [
+        {
+          "id": "newspapers",
+          "title": "Digital Newspapers",
+          "description": "Access daily news and articles from premium sources",
+          "image": "https://via.placeholder.com/800x600/0F4C81/FFFFFF?text=Newspapers",
+          "itemCount": 450,
+          "link": "https://cms.domain.com/default/newspapers"
+        },
+        {
+          "id": "readings",
+          "title": "Audio Readings",
+          "description": "Listen to professionally narrated content on the go",
+          "image": "https://via.placeholder.com/800x600/00796B/FFFFFF?text=Audio+Readings",
+          "itemCount": 3200,
+          "link": "https://cms.domain.com/default/readings"
+        },
+        {
+          "id": "media",
+          "title": "Multimedia Content",
+          "description": "Watch videos, documentaries, and educational content",
+          "image": "https://via.placeholder.com/800x600/5E35B1/FFFFFF?text=Multimedia",
+          "itemCount": 850,
+          "link": "https://cms.domain.com/default/media"
+        }
+      ],
+      "speakers": [
+        {
+          "id": "speaker-1",
+          "name": "Dr. Sarah Mitchell",
+          "title": "Literary Scholar & Narrator",
+          "bio": "With over 20 years of experience, Dr. Mitchell brings classic and contemporary literature to life through her captivating narrations.",
+          "image": "https://via.placeholder.com/400x500/37474F/FFFFFF?text=Dr.+Sarah+Mitchell",
+          "audioSample": "/audio/sample-1.mp3",
+          "social": {
+            "twitter": "https://twitter.com/sarahmitchell",
+            "linkedin": "https://linkedin.com/in/sarahmitchell"
+          }
+        },
+        {
+          "id": "speaker-2",
+          "name": "James Anderson",
+          "title": "Voice Artist & Podcaster",
+          "bio": "James specializes in non-fiction and educational content, making complex topics accessible and engaging for all audiences.",
+          "image": "https://via.placeholder.com/400x500/455A64/FFFFFF?text=James+Anderson",
+          "audioSample": "/audio/sample-2.mp3",
+          "social": {
+            "website": "https://jamesanderson.com"
+          }
+        },
+        {
+          "id": "speaker-3",
+          "name": "Maria Rodriguez",
+          "title": "Multilingual Narrator",
+          "bio": "Fluent in five languages, Maria brings international literature to diverse audiences with authentic pronunciation and cultural sensitivity.",
+          "image": "https://via.placeholder.com/400x500/546E7A/FFFFFF?text=Maria+Rodriguez",
+          "audioSample": "/audio/sample-3.mp3"
+        }
+      ],
+      "footer": {
+        "description": "Your trusted platform for discovering and accessing premium content from publishers worldwide.",
+        "links": [
+          {
+            "label": "Quick Links",
+            "items": [
+              { "text": "Browse Store", "href": "https://cms.domain.com/default" },
+              { "text": "About Us", "href": "/about" },
+              { "text": "Contact", "href": "/contact" }
+            ]
+          },
+          {
+            "label": "Resources",
+            "items": [
+              { "text": "Help Center", "href": "/help" },
+              { "text": "FAQ", "href": "/faq" },
+              { "text": "Privacy Policy", "href": "/privacy" }
+            ]
+          },
+          {
+            "label": "For Publishers",
+            "items": [
+              { "text": "Partner With Us", "href": "/partners" },
+              { "text": "Publisher Portal", "href": "https://admin.domain.com" },
+              { "text": "API Documentation", "href": "/docs" }
+            ]
+          }
+        ],
+        "social": [
+          { "platform": "twitter", "url": "https://twitter.com/default", "icon": "twitter" },
+          { "platform": "facebook", "url": "https://facebook.com/default", "icon": "facebook" },
+          { "platform": "linkedin", "url": "https://linkedin.com/company/default", "icon": "linkedin" },
+          { "platform": "instagram", "url": "https://instagram.com/default", "icon": "instagram" }
+        ],
+        "copyright": "© 2025 Default Publisher. All rights reserved."
+      }
+    },
+    "cmsLinks": {
+      "store": "https://cms.domain.com/default",
+      "admin": "https://admin.domain.com",
+      "support": "https://support.domain.com"
+    }
+  },
+  "publisher-1": {
+    "id": "publisher-1",
+    "name": "Academic Press International",
+    "template": "default",
+    "branding": {
+      "logo": "https://via.placeholder.com/200x60/FFFFFF/1a237e?text=Academic+Press",
+      "favicon": "/favicon.ico",
+      "primaryColor": "#1a237e",
+      "secondaryColor": "#ffd600",
+      "accentColor": "#00bfa5",
+      "font": "roboto"
+    },
+    "features": {
+      "speakers": true,
+      "statistics": true,
+      "readings": true,
+      "media": true,
+      "newsletter": true
+    },
+    "content": {
+      "hero": {
+        "title": "Excellence in Academic Publishing",
+        "description": "Access cutting-edge research, scholarly articles, and educational resources from leading academics worldwide.",
+        "image": "https://via.placeholder.com/1920x1080/1a237e/FFFFFF?text=Academic+Excellence",
+        "ctaText": "Access Library",
+        "ctaLink": "https://cms.domain.com/publisher-1"
+      },
+      "statistics": [
+        {
+          "label": "Research Papers",
+          "value": "25000",
+          "suffix": "+"
+        },
+        {
+          "label": "Citations",
+          "value": "500000",
+          "suffix": "+"
+        },
+        {
+          "label": "Contributing Scholars",
+          "value": "3200",
+          "suffix": "+"
+        },
+        {
+          "label": "Universities",
+          "value": "450",
+          "suffix": ""
+        }
+      ],
+      "assetCategories": [
+        {
+          "id": "journals",
+          "title": "Academic Journals",
+          "description": "Peer-reviewed journals across all disciplines",
+          "image": "https://via.placeholder.com/800x600/1a237e/FFFFFF?text=Journals",
+          "itemCount": 850,
+          "link": "https://cms.domain.com/publisher-1/journals"
+        },
+        {
+          "id": "research",
+          "title": "Research Papers",
+          "description": "Latest research findings and studies",
+          "image": "https://via.placeholder.com/800x600/0277BD/FFFFFF?text=Research+Papers",
+          "itemCount": 12000,
+          "link": "https://cms.domain.com/publisher-1/research"
+        }
+      ],
+      "speakers": [
+        {
+          "id": "prof-1",
+          "name": "Prof. David Chen",
+          "title": "Physics & Quantum Computing",
+          "bio": "Leading researcher in quantum mechanics with contributions to quantum computing algorithms.",
+          "image": "https://via.placeholder.com/400x500/1a237e/FFFFFF?text=Prof.+David+Chen",
+          "audioSample": "/audio/prof-1.mp3"
+        }
+      ],
+      "footer": {
+        "description": "Leading the way in academic publishing since 1987.",
+        "links": [
+          {
+            "label": "Resources",
+            "items": [
+              { "text": "Research Library", "href": "https://cms.domain.com/publisher-1" },
+              { "text": "Submit Paper", "href": "/submit" },
+              { "text": "Peer Review", "href": "/review" }
+            ]
+          }
+        ],
+        "social": [
+          { "platform": "twitter", "url": "https://twitter.com/academicpress", "icon": "twitter" },
+          { "platform": "linkedin", "url": "https://linkedin.com/company/academicpress", "icon": "linkedin" }
+        ],
+        "copyright": "© 2025 Academic Press International. All rights reserved."
+      }
+    },
+    "cmsLinks": {
+      "store": "https://cms.domain.com/publisher-1",
+      "admin": "https://admin.domain.com/publisher-1",
+      "support": "https://support.domain.com"
+    }
+  },
+  "publisher-2": {
+    "id": "publisher-2",
+    "name": "Global Magazine Network",
+    "template": "magazine",
+    "branding": {
+      "logo": "https://via.placeholder.com/200x60/FFFFFF/d32f2f?text=Global+Magazine",
+      "favicon": "/favicon.ico",
+      "primaryColor": "#d32f2f",
+      "secondaryColor": "#212121",
+      "accentColor": "#ffc107",
+      "font": "montserrat"
+    },
+    "features": {
+      "speakers": false,
+      "statistics": true,
+      "readings": true,
+      "media": true,
+      "newsletter": true
+    },
+    "content": {
+      "hero": {
+        "title": "Stories That Matter, Voices That Inspire",
+        "description": "Award-winning journalism, in-depth features, and compelling stories from around the globe.",
+        "image": "https://via.placeholder.com/1920x1080/d32f2f/FFFFFF?text=Stories+That+Matter",
+        "ctaText": "Read Now",
+        "ctaLink": "https://cms.domain.com/publisher-2"
+      },
+      "statistics": [
+        {
+          "label": "Monthly Readers",
+          "value": "2500000",
+          "suffix": "+"
+        },
+        {
+          "label": "Published Stories",
+          "value": "45000",
+          "suffix": "+"
+        },
+        {
+          "label": "Award-Winning Articles",
+          "value": "150",
+          "suffix": "+"
+        },
+        {
+          "label": "Countries",
+          "value": "120",
+          "suffix": ""
+        }
+      ],
+      "assetCategories": [
+        {
+          "id": "magazine-issues",
+          "title": "Magazine Issues",
+          "description": "Monthly editions featuring the best in journalism",
+          "image": "https://via.placeholder.com/800x600/d32f2f/FFFFFF?text=Magazine+Issues",
+          "itemCount": 350,
+          "link": "https://cms.domain.com/publisher-2/issues"
+        },
+        {
+          "id": "special-reports",
+          "title": "Special Reports",
+          "description": "Investigative journalism and in-depth analysis",
+          "image": "https://via.placeholder.com/800x600/C62828/FFFFFF?text=Special+Reports",
+          "itemCount": 280,
+          "link": "https://cms.domain.com/publisher-2/reports"
+        }
+      ],
+      "readings": [
+        {
+          "id": "reading-1",
+          "title": "Climate Change: The Next Decade",
+          "excerpt": "An in-depth look at climate initiatives and what the future holds...",
+          "author": "Elena Martinez",
+          "date": "2025-12-15",
+          "image": "https://via.placeholder.com/600x400/00695C/FFFFFF?text=Climate+Change",
+          "link": "/reading/climate-change-next-decade"
+        }
+      ],
+      "footer": {
+        "description": "Delivering quality journalism since 1975.",
+        "links": [
+          {
+            "label": "Content",
+            "items": [
+              { "text": "Latest Issues", "href": "https://cms.domain.com/publisher-2" },
+              { "text": "Archives", "href": "/archives" },
+              { "text": "Newsletters", "href": "/newsletters" }
+            ]
+          }
+        ],
+        "social": [
+          { "platform": "twitter", "url": "https://twitter.com/globalmagazine", "icon": "twitter" },
+          { "platform": "facebook", "url": "https://facebook.com/globalmagazine", "icon": "facebook" },
+          { "platform": "instagram", "url": "https://instagram.com/globalmagazine", "icon": "instagram" }
+        ],
+        "copyright": "© 2025 Global Magazine Network. All rights reserved."
+      }
+    },
+    "cmsLinks": {
+      "store": "https://cms.domain.com/publisher-2",
+      "admin": "https://admin.domain.com/publisher-2"
+    }
+  }
+}
+
