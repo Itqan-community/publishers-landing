@@ -19,24 +19,39 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems }) =>
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-gray-200/70" dir="rtl">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-[72px] gap-6">
-          {/* CTA Buttons (left in RTL) */}
-          <div className="hidden md:flex items-center gap-3">
-            <Button variant="primary" size="sm">
-              تسجيل الدخول
-            </Button>
-            <Button variant="surface" size="sm">
-              إنشاء حساب
-            </Button>
-          </div>
+          {/* Logo (start side in RTL) - Figma: logo with icon and 2 lines of text */}
+          <Link href="/" className="flex-shrink-0 order-1 flex items-center gap-3">
+            {/* Logo icon */}
+            <div className="relative w-[77px] h-[44px]">
+              <Image
+                src="/logos/center-logo-full.png"
+                alt={tenantName}
+                fill
+                className="object-contain object-left"
+                priority
+              />
+            </div>
+            {/* Two lines of text */}
+            <div className="flex flex-col text-right">
+              <div className="text-[18px] font-semibold text-black leading-tight">
+                المركز السعودي
+              </div>
+              <div className="text-[16px] font-medium text-black leading-tight">
+                للتلاوات القرآنية والأحاديث النبوية
+              </div>
+            </div>
+          </Link>
 
-          {/* Navigation */}
-          <nav className="hidden md:flex items-center gap-6 text-base font-semibold text-gray-700">
+          {/* Navigation (center) - Figma: gap 24px, 16px font, Medium weight, #6a6a6a inactive, black active */}
+          <nav className="hidden md:flex items-center gap-6 text-[16px] font-medium order-2">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`hover:text-primary transition-colors ${
-                  item.label === 'الرئيسية' ? 'text-gray-900 font-bold' : ''
+                className={`transition-colors ${
+                  item.label === 'الرئيسية'
+                    ? 'text-black font-semibold' // Active: black, SemiBold
+                    : 'text-[#6a6a6a] hover:text-primary' // Inactive: gray #6a6a6a
                 }`}
               >
                 {item.label}
@@ -44,18 +59,15 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems }) =>
             ))}
           </nav>
 
-          {/* Logo (right in RTL) */}
-          <Link href="/" className="flex-shrink-0">
-            <div className="relative w-44 h-12">
-              <Image
-                src={logo}
-                alt={tenantName}
-                fill
-                className="object-contain"
-                priority
-              />
-            </div>
-          </Link>
+          {/* CTA Buttons (end side in RTL) - Figma: gap 16px between buttons, "تسجيل الدخول" (black) and "استمع الان" (green) */}
+          <div className="hidden md:flex items-center gap-4 order-3">
+            <Button variant="secondary" size="sm">
+              تسجيل الدخول
+            </Button>
+            <Button variant="primary" size="sm">
+              استمع الان
+            </Button>
+          </div>
 
           {/* Mobile Menu Button */}
           <button
@@ -82,11 +94,11 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems }) =>
                 </Link>
               ))}
               <div className="flex flex-col gap-3 pt-4 border-t border-gray-200">
-                <Button variant="surface" size="sm" className="w-full">
+                <Button variant="secondary" size="sm" className="w-full">
                   تسجيل الدخول
                 </Button>
                 <Button variant="primary" size="sm" className="w-full">
-                  إنشاء حساب
+                  استمع الان
                 </Button>
               </div>
             </nav>

@@ -8,6 +8,7 @@
 import { TenantConfig } from '@/types/tenant.types';
 import { PageLayout } from '@/components/layout/PageLayout';
 import { HeroSection } from '@/components/sections/HeroSection';
+import { PartnersSection } from '@/components/sections/PartnersSection';
 import { AboutSection } from '@/components/sections/AboutSection';
 import { StatisticsSection } from '@/components/sections/StatisticsSection';
 import { RecitersSection } from '@/components/sections/RecitersSection';
@@ -177,6 +178,9 @@ export function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) {
           description: 'مستمعون من مختلف أنحاء العالم',
         }}
       />
+
+      {/* Partners Section - Part of hero visually */}
+      <PartnersSection />
 
       {/* About Section */}
       <AboutSection

@@ -360,7 +360,7 @@
     "name": "المركز السعودي للتلاوات القرآنية",
     "template": "saudi-center",
     "branding": {
-      "logo": "https://via.placeholder.com/266x44/FFFFFF/0F4C81?text=المركز+السعودي",
+      "logo": "/logos/center-logo.png",
       "favicon": "/favicon.ico",
       "primaryColor": "#0F4C81",
       "secondaryColor": "#F4B400",
@@ -378,8 +378,8 @@
       "hero": {
         "title": "المركز السعودي للتلاوات القرآنية",
         "description": "نسعى لنشر كلام الله المبارك بأجمل الأصوات وأعذبها، من خلال نخبة من أفضل القراء في المملكة العربية السعودية والعالم الإسلامي",
-        "image": "https://via.placeholder.com/1920x1080/0F4C81/FFFFFF?text=المركز+السعودي",
-        "ctaText": "استكشف التلاوات",
+        "image": "/images/hero-image.jpg",
+        "ctaText": "استمع الان",
         "ctaLink": "/saudi-center/recitations"
       },
       "statistics": [
