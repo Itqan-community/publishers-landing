@@ -354,6 +354,94 @@
       "store": "https://cms.domain.com/publisher-2",
       "admin": "https://admin.domain.com/publisher-2"
     }
+  },
+  "saudi-center": {
+    "id": "saudi-center",
+    "name": "المركز السعودي للتلاوات القرآنية",
+    "template": "saudi-center",
+    "branding": {
+      "logo": "https://via.placeholder.com/266x44/FFFFFF/0F4C81?text=المركز+السعودي",
+      "favicon": "/favicon.ico",
+      "primaryColor": "#0F4C81",
+      "secondaryColor": "#F4B400",
+      "accentColor": "#FF6B35",
+      "font": "inter"
+    },
+    "features": {
+      "speakers": true,
+      "statistics": true,
+      "readings": true,
+      "media": true,
+      "newsletter": false
+    },
+    "content": {
+      "hero": {
+        "title": "المركز السعودي للتلاوات القرآنية",
+        "description": "نسعى لنشر كلام الله المبارك بأجمل الأصوات وأعذبها، من خلال نخبة من أفضل القراء في المملكة العربية السعودية والعالم الإسلامي",
+        "image": "https://via.placeholder.com/1920x1080/0F4C81/FFFFFF?text=المركز+السعودي",
+        "ctaText": "استكشف التلاوات",
+        "ctaLink": "/saudi-center/recitations"
+      },
+      "statistics": [
+        {
+          "label": "دولة",
+          "value": "120",
+          "suffix": "",
+          "description": "يستمعون لتلاواتنا"
+        },
+        {
+          "label": "تلاوة قرآنية",
+          "value": "+45",
+          "suffix": "",
+          "description": "تلاوات متنوعة بمختلف الأساليب"
+        },
+        {
+          "label": "استماع",
+          "value": "+2.5M",
+          "suffix": "",
+          "description": "من مختلف أنحاء العالم"
+        },
+        {
+          "label": "تلاوة قرآنية",
+          "value": "+850",
+          "suffix": "",
+          "description": "تلاوات متنوعة بمختلف الأساليب"
+        }
+      ],
+      "footer": {
+        "description": "المركز السعودي للتلاوات القرآنية هو منصة إسلامية رائدة تهدف إلى نشر كتاب الله الكريم بأفضل التسجيلات الصوتية",
+        "links": [
+          {
+            "label": "روابط سريعة",
+            "items": [
+              { "text": "التلاوات", "href": "/saudi-center/recitations" },
+              { "text": "القراء", "href": "/saudi-center/reciters" },
+              { "text": "المصاحف المسجلة", "href": "/saudi-center/mushafs" },
+              { "text": "عن المركز", "href": "/saudi-center/about" }
+            ]
+          },
+          {
+            "label": "معلومات",
+            "items": [
+              { "text": "سياسة الخصوصية", "href": "/privacy" },
+              { "text": "شروط الخدمة", "href": "/terms" },
+              { "text": "اتصل بنا", "href": "/contact" }
+            ]
+          }
+        ],
+        "social": [
+          { "platform": "twitter", "url": "https://twitter.com/saudicenter", "icon": "twitter" },
+          { "platform": "instagram", "url": "https://instagram.com/saudicenter", "icon": "instagram" },
+          { "platform": "tiktok", "url": "https://tiktok.com/@saudicenter", "icon": "tiktok" }
+        ],
+        "copyright": "© 2025 المركز السعودي للتلاوات القرآنية. جميع الحقوق محفوظة."
+      }
+    },
+    "cmsLinks": {
+      "store": "https://cms.domain.com/saudi-center",
+      "admin": "https://admin.domain.com/saudi-center",
+      "support": "https://support.domain.com"
+    }
   }
 }
 

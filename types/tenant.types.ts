@@ -125,7 +125,7 @@ export interface FooterContent {
 
 // ==================== TEMPLATE TYPES ====================
 
-export type TemplateType = 'default' | 'magazine' | 'minimal';
+export type TemplateType = 'default' | 'magazine' | 'minimal' | 'saudi-center';
 
 export interface TemplateConfig {
   id: TemplateType;
