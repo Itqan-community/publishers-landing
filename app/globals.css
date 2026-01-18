@@ -81,6 +81,16 @@
   will-change: transform;
 }
 
+/* Hide scrollbar while allowing horizontal scroll */
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 /* Custom Audio Player Styles */
 .custom-audio-player :global(.rhap_container) {
   background-color: transparent;

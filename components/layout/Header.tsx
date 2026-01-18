@@ -17,28 +17,18 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems }) =>
 
   return (
     <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-gray-200/70" dir="rtl">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-[72px] gap-6">
-          {/* Logo (start side in RTL) - Figma: logo with icon and 2 lines of text */}
-          <Link href="/" className="flex-shrink-0 order-1 flex items-center gap-3">
-            {/* Logo icon */}
-            <div className="relative w-[77px] h-[44px]">
+          {/* Logo (start side in RTL) - Figma logo lockup */}
+          <Link href="/" className="flex-shrink-0 order-1 flex items-center">
+            <div className="relative w-[266px] h-[44px]">
               <Image
                 src="/logos/center-logo-full.png"
                 alt={tenantName}
                 fill
-                className="object-contain object-left"
+                className="object-contain"
                 priority
               />
-            </div>
-            {/* Two lines of text */}
-            <div className="flex flex-col text-right">
-              <div className="text-[18px] font-semibold text-black leading-tight">
-                المركز السعودي
-              </div>
-              <div className="text-[16px] font-medium text-black leading-tight">
-                للتلاوات القرآنية والأحاديث النبوية
-              </div>
             </div>
           </Link>
 

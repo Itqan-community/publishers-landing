@@ -1,12 +1,11 @@
 import React from 'react';
-import { Card } from '@/components/ui/Card';
-import { FiCheckCircle } from 'react-icons/fi';
+import Image from 'next/image';
 
 export interface FeatureItem {
   id: string;
   title: string;
   description?: string;
-  icon?: React.ReactNode;
+  iconSrc?: string;
 }
 
 interface AboutSectionProps {
@@ -22,7 +21,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
 }) => {
   return (
     <section className="py-20 bg-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           {/* Text Content - Right side in RTL */}
           <div className="order-2 lg:order-2">
@@ -35,29 +34,32 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
           </div>
 
           {/* Features Grid - Left side in RTL, 4 cards in a row */}
-          <div className="order-1 lg:order-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="order-1 lg:order-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
             {features.map((feature) => (
-              <Card
+              <div
                 key={feature.id}
-                variant="outlined"
-                className="p-6 hover:shadow-md transition-shadow bg-gray-50"
+                className="relative h-[218px] rounded-[11px] border border-[#ebe8e8] bg-white overflow-hidden px-6 pt-6"
               >
-                <div className="flex items-start gap-4">
-                  {feature.icon || (
-                    <FiCheckCircle className="w-6 h-6 text-primary flex-shrink-0 mt-1" />
+                <div className="absolute right-6 top-5 h-[59px] w-[59px] rounded-[12px] bg-[#eef9f2] flex items-center justify-center">
+                  {feature.iconSrc && (
+                    <Image
+                      src={feature.iconSrc}
+                      alt=""
+                      width={26}
+                      height={26}
+                      className="object-contain"
+                    />
                   )}
-                  <div>
-                    <h3 className="font-semibold text-gray-900 mb-1">
-                      {feature.title}
-                    </h3>
-                    {feature.description && (
-                      <p className="text-sm text-gray-600">
-                        {feature.description}
-                      </p>
-                    )}
-                  </div>
                 </div>
-              </Card>
+                <h3 className="text-[20px] font-semibold text-black text-right mt-[58px]">
+                  {feature.title}
+                </h3>
+                {feature.description && (
+                  <p className="text-[19px] leading-[30.4px] text-[#343434] text-right mt-3 whitespace-pre-line">
+                    {feature.description}
+                  </p>
+                )}
+              </div>
             ))}
           </div>
         </div>

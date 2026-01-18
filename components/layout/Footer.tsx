@@ -29,7 +29,7 @@ export const Footer: React.FC<FooterProps> = ({
 }) => {
   return (
     <footer className="bg-white border-t border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-8">
           {/* Brand Section */}
           <div className="lg:col-span-1">

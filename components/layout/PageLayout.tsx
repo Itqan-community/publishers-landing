@@ -21,7 +21,6 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
     { label: 'عن المركز', href: `/${tenant.id}/about` },
     { label: 'المصاحف المسجلة', href: `/${tenant.id}/mushafs` },
     { label: 'القراء', href: `/${tenant.id}/reciters` },
-    { label: 'التلاوات', href: `/${tenant.id}/recitations` },
   ];
 
   return (

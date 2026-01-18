@@ -19,7 +19,7 @@ export const RecitersSection: React.FC<RecitersSectionProps> = ({
 }) => {
   return (
     <section className="py-20 bg-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-4">
           <div>
@@ -35,7 +35,7 @@ export const RecitersSection: React.FC<RecitersSectionProps> = ({
               href={viewAllHref}
               className="text-primary hover:text-primary-dark font-semibold transition-colors"
             >
-              عرض الكل →
+              عرض الكل
             </a>
           )}
         </div>
@@ -43,7 +43,7 @@ export const RecitersSection: React.FC<RecitersSectionProps> = ({
         {/* Carousel */}
         <Carousel slidesToScroll={1} loop={false} showArrows={true}>
           {reciters.map((reciter) => (
-            <div key={reciter.id} className="flex-[0_0_100%] md:flex-[0_0_calc(50%-0.5rem)] lg:flex-[0_0_calc(33.333%-0.67rem)]">
+            <div key={reciter.id} className="flex-[0_0_100%] md:flex-[0_0_calc(50%-0.5rem)] lg:flex-[0_0_calc(25%-0.75rem)]">
               <ReciterCard {...reciter} />
             </div>
           ))}

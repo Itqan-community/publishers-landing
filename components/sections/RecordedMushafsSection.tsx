@@ -20,7 +20,7 @@ export const RecordedMushafsSection: React.FC<RecordedMushafsSectionProps> = ({
 }) => {
   return (
     <section className="py-20 bg-gray-50">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-4">
           <div>

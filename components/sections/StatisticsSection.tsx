@@ -4,6 +4,7 @@
  * Displays key metrics and statistics in an attractive grid
  */
 
+import React from 'react';
 import { StatisticsContent } from '@/types/tenant.types';
 
 interface StatisticsSectionProps {
@@ -12,58 +13,57 @@ interface StatisticsSectionProps {
   statistics: StatisticsContent[];
 }
 
-export function StatisticsSection({ 
+export function StatisticsSection({
   title,
   description,
-  statistics 
+  statistics
 }: StatisticsSectionProps) {
   if (!statistics || statistics.length === 0) {
     return null;
   }
 
   return (
-    <section className="py-20 bg-gray-50">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-20 bg-[#193624] text-white">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         {(title || description) && (
-          <div className="text-center mb-12">
+          <div className="mb-12 text-right">
             {title && (
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">
                 {title}
               </h2>
             )}
             {description && (
-              <p className="text-lg text-gray-700 max-w-2xl mx-auto">
+              <p className="text-lg text-white/80 max-w-2xl">
                 {description}
               </p>
             )}
           </div>
         )}
 
-        {/* Statistics Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+        {/* Statistics Row */}
+        <div className="flex flex-col md:flex-row items-stretch justify-between gap-10">
           {statistics.map((stat, index) => (
-            <div
-              key={index}
-              className="text-center p-6 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100"
-            >
-              <div className="text-5xl md:text-6xl font-bold text-primary mb-2 leading-none">
-                {typeof stat.value === 'number'
-                  ? stat.value.toLocaleString()
-                  : stat.value}
-                {stat.suffix && (
-                  <span className="text-secondary text-3xl ml-1">{stat.suffix}</span>
+            <React.Fragment key={index}>
+              <div className="relative h-[187px] w-full md:w-[240px] text-right">
+                <div className="text-[69px] leading-none text-[#faaf41] font-medium">
+                  {typeof stat.value === 'number'
+                    ? stat.value.toLocaleString()
+                    : stat.value}
+                </div>
+                <div className="text-[36px] font-light mt-4">
+                  {stat.label}
+                </div>
+                {stat.description && (
+                  <div className="text-[19px] font-light mt-2 text-white/90">
+                    {stat.description}
+                  </div>
                 )}
               </div>
-              <div className="text-base md:text-lg text-gray-800 font-semibold mb-1">
-                {stat.label}
-              </div>
-              {stat.description && (
-                <div className="text-sm text-gray-500">
-                  {stat.description}
-                </div>
+              {index < statistics.length - 1 && (
+                <div className="hidden md:block w-px bg-white/20 h-[152px]" />
               )}
-            </div>
+            </React.Fragment>
           ))}
         </div>
       </div>

@@ -9,6 +9,7 @@ interface FeaturedRecitationsSectionProps {
   description: string;
   recitations: RecitationItem[];
   viewAllHref?: string;
+  detailsHrefBase?: string;
 }
 
 export const FeaturedRecitationsSection: React.FC<FeaturedRecitationsSectionProps> = ({
@@ -16,10 +17,11 @@ export const FeaturedRecitationsSection: React.FC<FeaturedRecitationsSectionProp
   description,
   recitations,
   viewAllHref,
+  detailsHrefBase,
 }) => {
   return (
     <section className="py-20 bg-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-4">
           <div>
@@ -42,6 +44,7 @@ export const FeaturedRecitationsSection: React.FC<FeaturedRecitationsSectionProp
           <AudioPlayerComponent
             recitations={recitations}
             defaultSelected={recitations[0]?.id}
+            detailsHrefBase={detailsHrefBase}
           />
         )}
       </div>

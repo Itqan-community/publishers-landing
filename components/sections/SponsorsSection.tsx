@@ -25,7 +25,7 @@ export const SponsorsSection: React.FC<SponsorsSectionProps> = ({
 
   return (
     <section className="py-20 bg-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
           {title}
         </h2>
@@ -35,15 +35,14 @@ export const SponsorsSection: React.FC<SponsorsSectionProps> = ({
           </p>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {sponsors.map((sponsor) => (
             <Card
               key={sponsor.id}
               variant="outlined"
-              hover
-              className="p-8 flex flex-col items-center justify-center bg-white"
+              className="border border-[#ebe8e8] rounded-[12px] p-10 flex flex-col items-center bg-white"
             >
-              <div className="relative w-40 h-32 mb-5">
+              <div className="relative w-[187px] h-[247px] mb-6">
                 <Image
                   src={sponsor.logo}
                   alt={sponsor.name}
@@ -51,11 +50,11 @@ export const SponsorsSection: React.FC<SponsorsSectionProps> = ({
                   className="object-contain"
                 />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3 text-center">
+              <h3 className="text-[29px] font-semibold text-black mb-4 text-center">
                 {sponsor.name}
               </h3>
               {sponsor.description && (
-                <p className="text-sm text-gray-600 text-center leading-relaxed line-clamp-4">
+                <p className="text-[20px] leading-[28.4px] text-[#343434] text-center">
                   {sponsor.description}
                 </p>
               )}

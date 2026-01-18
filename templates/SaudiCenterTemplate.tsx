@@ -31,7 +31,7 @@ export function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) {
       id: '1',
       name: 'الشيخ أحمد العبيدي',
       title: 'قارئ وإمام',
-      image: 'https://via.placeholder.com/408x516/0F4C81/FFFFFF?text=الشيخ+أحمد',
+      image: '/images/reciters/reciter-1.jpg',
       publisher: 'موقع دار الإسلام',
       publisherUrl: 'https://example.com',
       href: `/saudi-center/reciters/1`,
@@ -40,7 +40,7 @@ export function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) {
       id: '2',
       name: 'الشيخ سامي السلمي',
       title: 'قارئ وإمام',
-      image: 'https://via.placeholder.com/408x516/0F4C81/FFFFFF?text=الشيخ+سامي',
+      image: '/images/reciters/reciter-2.jpg',
       publisher: 'موقع دار الإسلام',
       publisherUrl: 'https://example.com',
       href: `/saudi-center/reciters/2`,
@@ -49,7 +49,7 @@ export function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) {
       id: '3',
       name: 'الشيخ يوسف الدوسري',
       title: 'قارئ وإمام',
-      image: 'https://via.placeholder.com/408x516/0F4C81/FFFFFF?text=الشيخ+يوسف',
+      image: '/images/reciters/reciter-3.jpg',
       publisher: 'موقع دار الإسلام',
       publisherUrl: 'https://example.com',
       href: `/saudi-center/reciters/3`,
@@ -58,7 +58,7 @@ export function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) {
       id: '4',
       name: 'الشيخ ياسر الدوسري',
       title: 'قارئ وإمام',
-      image: 'https://via.placeholder.com/408x516/0F4C81/FFFFFF?text=الشيخ+ياسر',
+      image: '/images/reciters/reciter-4.jpg',
       publisher: 'موقع دار الإسلام',
       publisherUrl: 'https://example.com',
       href: `/saudi-center/reciters/4`,
@@ -70,28 +70,28 @@ export function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) {
       id: '1',
       title: 'مصحف الحرم المكي',
       reciterName: 'الشيخ أحمد العبيدي',
-      image: 'https://via.placeholder.com/284x348/0F4C81/FFFFFF?text=مصحف+1',
+      image: '/images/mushafs/mushaf-1.png',
       href: `/saudi-center/mushafs/1`,
     },
     {
       id: '2',
       title: 'مصحف الحرم المدني',
       reciterName: 'الشيخ سامي السلمي',
-      image: 'https://via.placeholder.com/284x348/0F4C81/FFFFFF?text=مصحف+2',
+      image: '/images/mushafs/mushaf-2.png',
       href: `/saudi-center/mushafs/2`,
     },
     {
       id: '3',
       title: 'مصحف برواية حفص',
       reciterName: 'الشيخ يوسف الدوسري',
-      image: 'https://via.placeholder.com/284x348/0F4C81/FFFFFF?text=مصحف+3',
+      image: '/images/mushafs/mushaf-3.png',
       href: `/saudi-center/mushafs/3`,
     },
     {
       id: '4',
       title: 'مصحف برواية ورش',
       reciterName: 'الشيخ ياسر الدوسري',
-      image: 'https://via.placeholder.com/284x348/0F4C81/FFFFFF?text=مصحف+4',
+      image: '/images/mushafs/mushaf-4.png',
       href: `/saudi-center/mushafs/4`,
     },
   ];
@@ -103,7 +103,7 @@ export function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) {
       reciterName: 'الشيخ أحمد العبيدي',
       duration: '12:32',
       audioUrl: 'https://example.com/audio/surah-kahf.mp3',
-      image: 'https://via.placeholder.com/214x214/0F4C81/FFFFFF?text=سورة+الكهف',
+      image: '/images/reciters/reciter-1.jpg',
     },
     {
       id: '2',
@@ -111,7 +111,7 @@ export function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) {
       reciterName: 'الشيخ سامي السلمي',
       duration: '12:32',
       audioUrl: 'https://example.com/audio/surah-kahf-2.mp3',
-      image: 'https://via.placeholder.com/214x214/0F4C81/FFFFFF?text=سورة+الكهف',
+      image: '/images/reciters/reciter-2.jpg',
     },
     {
       id: '3',
@@ -119,7 +119,7 @@ export function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) {
       reciterName: 'الشيخ يوسف الدوسري',
       duration: '12:32',
       audioUrl: 'https://example.com/audio/surah-kahf-3.mp3',
-      image: 'https://via.placeholder.com/214x214/0F4C81/FFFFFF?text=سورة+الكهف',
+      image: '/images/reciters/reciter-3.jpg',
     },
     {
       id: '4',
@@ -127,7 +127,7 @@ export function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) {
       reciterName: 'الشيخ أحمد العبيدي',
       duration: '12:32',
       audioUrl: 'https://example.com/audio/surah-kahf-4.mp3',
-      image: 'https://via.placeholder.com/214x214/0F4C81/FFFFFF?text=سورة+الكهف',
+      image: '/images/reciters/reciter-1.jpg',
     },
     {
       id: '5',
@@ -135,7 +135,7 @@ export function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) {
       reciterName: 'الشيخ يوسف الدوسري',
       duration: '12:32',
       audioUrl: 'https://example.com/audio/surah-kahf-5.mp3',
-      image: 'https://via.placeholder.com/214x214/0F4C81/FFFFFF?text=سورة+الكهف',
+      image: '/images/reciters/reciter-3.jpg',
     },
   ];
 
@@ -144,14 +144,14 @@ export function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) {
       id: '1',
       name: 'أوقاف الراجحي',
       description: 'تأسس وقف الراجحي على يد الشيخ صالح الراجحي، وهو ملتزم بتمكين المجتمعات وتخفيف حدة الفقر. نحقق ذلك من خلال مشاريع التنمية المستدامة والمساعدات الإنسانية الشاملة.',
-      logo: 'https://via.placeholder.com/187x247/FFFFFF/0F4C81?text=أوقاف+الراجحي',
+      logo: '/images/sponsor-rajhi.png',
       website: 'https://example.com',
     },
     {
       id: '2',
       name: 'أوقاف السبيعي',
       description: 'مؤسسة عبدالله بن إبراهيم السبيعي الخيرية مؤسسة مانحة تسعى لتمكين العمل الخيري في المملكة العربية السعودية، وتقديم الخدمات والمنتجات النوعية للمستفدين منه، بما يساهم في تحقيق رؤية 2030، عبر نوعين من الدعم ( التأثير ) و ( التمكين )',
-      logo: 'https://via.placeholder.com/187x247/FFFFFF/0F4C81?text=أوقاف+السبيعي',
+      logo: '/images/sponsor-subai.png',
       website: 'https://example.com',
     },
   ];
@@ -159,11 +159,27 @@ export function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) {
   const aboutFeatures = [
     {
       id: '1',
-      title: 'مجموعة مختارة من أفضل القراء',
+      title: 'محتوى موثوق',
+      description: 'تلاوات متنوعة بمختلف\nالأساليب.',
+      iconSrc: '/icons/feature-ramadhan.svg',
     },
     {
       id: '2',
-      title: 'تلاوات متنوعة بمختلف الروايات',
+      title: 'بث مباشر',
+      description: 'استمع للتلاوات مباشرة على\nمدار الساعة',
+      iconSrc: '/icons/feature-airdrop.svg',
+    },
+    {
+      id: '3',
+      title: 'جودة عالية',
+      description: 'تسجيلات بجودة صوتية\nاستثنائية لأفضل تجربة استماع',
+      iconSrc: '/icons/feature-award.svg',
+    },
+    {
+      id: '4',
+      title: 'نخبة من القراء',
+      description: 'تسجيلات بجودة صوتية\nاستثنائية لأفضل تجربة استماع',
+      iconSrc: '/icons/feature-muslim.svg',
     },
   ];
 
@@ -189,31 +205,6 @@ export function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) {
         features={aboutFeatures}
       />
 
-      {/* Statistics Section */}
-      {tenant.content.statistics && tenant.content.statistics.length > 0 && (
-        <StatisticsSection
-          title="إحصائيات المركز"
-          description="أرقام تعكس ثقة الملايين في خدماتنا لنشر كتاب الله الكريم"
-          statistics={tenant.content.statistics}
-        />
-      )}
-
-      {/* Reciters Section */}
-      <RecitersSection
-        title="قراء المركز"
-        description="نخبة من أشهر وأفضل القراء والأئمة في الحرمين الشريفين"
-        reciters={reciters}
-        viewAllHref="/saudi-center/reciters"
-      />
-
-      {/* Featured Recitations Section */}
-      <FeaturedRecitationsSection
-        title="التلاوات المميزة"
-        description="استمع لمجموعة مختارة من أجمل التلاوات القرآنية"
-        recitations={recitations}
-        viewAllHref="/saudi-center/recitations"
-      />
-
       {/* Recorded Mushafs Section */}
       <RecordedMushafsSection
         title="المصاحف المسجلة"
@@ -222,11 +213,36 @@ export function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) {
         viewAllHref="/saudi-center/mushafs"
       />
 
+      {/* Featured Recitations Section */}
+      <FeaturedRecitationsSection
+        title="التلاوات المميزة"
+        description="استمع لمجموعة مختارة من أجمل التلاوات القرآنية"
+        recitations={recitations}
+        viewAllHref="/saudi-center/recitations"
+        detailsHrefBase={`/${tenant.id}/recitations`}
+      />
+
+      {/* Reciters Section */}
+      <RecitersSection
+        title="قراء المركز"
+        description="نخبة من أفضل القراء والأئمة في المملكة العربية السعودية والعالم العربي والإسلامي"
+        reciters={reciters}
+      />
+
       {/* Sponsors Section */}
       <SponsorsSection
         title="الراعيين"
         sponsors={sponsors}
       />
+
+      {/* Statistics Section */}
+      {tenant.content.statistics && tenant.content.statistics.length > 0 && (
+        <StatisticsSection
+          title="إحصائيات المركز"
+          description="أرقام تعكس ثقة الملايين في خدماتنا لنشر كتاب الله الكريم"
+          statistics={tenant.content.statistics}
+        />
+      )}
     </PageLayout>
   );
 }

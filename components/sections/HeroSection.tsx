@@ -33,7 +33,7 @@ export function HeroSection({ content, statsCard }: HeroSectionProps) {
           background: '#f6f6f4', // Figma BG color from design
         }}
       />
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20" style={{ overflow: 'visible' }}>
+      <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20" style={{ overflow: 'visible' }}>
         {/* RTL: Text on right (start), Image on left (end) */}
         {/* Figma: Image is 469px wide, text area is wider - adjust grid ratio */}
         <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-12 items-center">

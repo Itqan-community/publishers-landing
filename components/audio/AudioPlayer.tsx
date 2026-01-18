@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import Link from 'next/link';
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 import { Card } from '@/components/ui/Card';
@@ -19,12 +20,14 @@ interface AudioPlayerProps {
   recitations: RecitationItem[];
   defaultSelected?: string;
   onRecitationChange?: (recitation: RecitationItem) => void;
+  detailsHrefBase?: string;
 }
 
 export const AudioPlayerComponent: React.FC<AudioPlayerProps> = ({
   recitations,
   defaultSelected,
   onRecitationChange,
+  detailsHrefBase,
 }) => {
   const [selectedRecitation, setSelectedRecitation] = useState<RecitationItem>(
     recitations.find(r => r.id === defaultSelected) || recitations[0]
@@ -97,16 +100,50 @@ export const AudioPlayerComponent: React.FC<AudioPlayerProps> = ({
           <div className="space-y-2">
             {recitations.map((recitation) => {
               const isSelected = selectedRecitation.id === recitation.id;
+              const itemClasses = `w-full p-4 rounded-lg text-right transition-all duration-200 ${
+                isSelected
+                  ? 'bg-primary text-white'
+                  : 'bg-gray-50 hover:bg-gray-100 text-gray-900'
+              }`;
               
+              if (detailsHrefBase) {
+                return (
+                  <Link
+                    key={recitation.id}
+                    href={`${detailsHrefBase}/${recitation.id}`}
+                    className={itemClasses}
+                  >
+                    <div className="flex items-center justify-between gap-4">
+                      <div className="flex-1 min-w-0">
+                        <h4 className={`font-medium mb-1 truncate ${
+                          isSelected ? 'text-white' : 'text-gray-900'
+                        }`}>
+                          {recitation.title}
+                        </h4>
+                        <p className={`text-sm truncate ${
+                          isSelected ? 'text-white/90' : 'text-gray-600'
+                        }`}>
+                          {recitation.reciterName}
+                        </p>
+                      </div>
+                      
+                      <div className="flex items-center gap-3 flex-shrink-0">
+                        <span className={`text-sm ${
+                          isSelected ? 'text-white/90' : 'text-gray-500'
+                        }`}>
+                          {recitation.duration}
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              }
+
               return (
                 <button
                   key={recitation.id}
                   onClick={() => handleRecitationClick(recitation)}
-                  className={`w-full p-4 rounded-lg text-right transition-all duration-200 ${
-                    isSelected
-                      ? 'bg-primary text-white'
-                      : 'bg-gray-50 hover:bg-gray-100 text-gray-900'
-                  }`}
+                  className={itemClasses}
                 >
                   <div className="flex items-center justify-between gap-4">
                     <div className="flex-1 min-w-0">
