@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { AudioPlayerComponent, RecitationItem } from '@/components/audio/AudioPlayer';
+import { RecitationsPlayer, RecitationItem } from '@/components/audio/AudioPlayer';
 import { Button } from '@/components/ui/Button';
 
 interface FeaturedRecitationsSectionProps {
@@ -41,10 +41,11 @@ export const FeaturedRecitationsSection: React.FC<FeaturedRecitationsSectionProp
 
         {/* Audio Player */}
         {recitations.length > 0 && (
-          <AudioPlayerComponent
+          <RecitationsPlayer
             recitations={recitations}
             defaultSelected={recitations[0]?.id}
             detailsHrefBase={detailsHrefBase}
+            variant="featured"
           />
         )}
       </div>

@@ -1,0 +1,56 @@
+---
+title: Project Rules
+description: Mandatory Cursor rules for this codebase
+---
+
+## Non-Negotiable Quality Gates
+- Always preserve **performance**, **SEO**, **accessibility**, **best practices**, and **mobile** experience.
+- Prefer server rendering and minimal client JS; only use client components for interactivity.
+- Avoid regressions in Lighthouse/Core Web Vitals.
+
+## Tech Stack & Structure
+- Next.js App Router + TypeScript + Tailwind (with CSS variables for theming).
+- Follow existing file layout and patterns in `STRUCTURE.md` and `ARCHITECTURE.md`.
+- Use `templates/*` for page layouts and `components/sections/*` for sections.
+- Keep types in `types/tenant.types.ts` and keep tenant data in `config/tenants.json`.
+
+## Multi-Tenant Rules
+- Tenant resolution must follow the documented order (custom domain → subdomain → path-based for dev).
+- Do not introduce tenant-specific hardcoding outside config files.
+- Changes to tenant behavior should go through `lib/tenant-resolver.ts` / `lib/tenant-config.ts`.
+
+## Theming Rules
+- Use CSS variables for runtime theming. Do not hardcode theme colors when tenant branding exists.
+- Keep Tailwind tokens mapped to CSS variables as documented in `ARCHITECTURE.md` and `STRUCTURE.md`.
+
+## Performance Rules
+- Keep server components as the default; minimize `'use client'`.
+- Use `next/image` for images; supply `alt`, `sizes`, and `priority` for above-the-fold content.
+- Avoid unnecessary re-renders; prefer CSS variables and server-side rendering.
+- Respect caching patterns for tenant config (in-memory Map).
+
+## SEO Rules
+- Preserve SSR for crawlable content.
+- Use semantic HTML and correct heading order.
+- Maintain metadata patterns in pages/layouts (title/description/OG).
+
+## Accessibility Rules
+- Always include meaningful `alt` text and ARIA labels for interactive icons.
+- Ensure keyboard navigation, focus styles, and sufficient contrast.
+
+## Mobile & RTL Rules
+- Layouts must be fully responsive; test at mobile breakpoints.
+- Maintain RTL correctness for Arabic UI; align text and controls appropriately.
+- Avoid `left`/`right` CSS and Tailwind utilities; use logical properties (`start`/`end`, `ms`/`me`, `inset-inline-*`) so LTR works when English is added.
+
+## Documentation-Driven Changes
+- Follow constraints and patterns described in:
+  - `ARCHITECTURE.md`
+  - `STRUCTURE.md`
+  - `README.md`
+  - `GETTING_STARTED.md`
+  - `PROJECT_SUMMARY.md`
+  - `PRODUCTION_DOMAINS.md`
+  - `VISUAL_GUIDE.md`
+
+If a change conflicts with these docs, update the code to comply or explicitly note the conflict.

@@ -3,18 +3,91 @@ import { notFound } from 'next/navigation';
 import { loadTenantConfig } from '@/lib/tenant-config';
 import { PageLayout } from '@/components/layout/PageLayout';
 import { Button } from '@/components/ui/Button';
-import { FiCode, FiDownload, FiMessageCircle, FiHeart, FiShare2, FiSkipBack, FiSkipForward } from 'react-icons/fi';
+import { RecitationsPlayer, RecitationItem } from '@/components/audio/AudioPlayer';
+import { FiCode, FiDownload, FiMessageCircle, FiHeart, FiShare2 } from 'react-icons/fi';
 
-const surahItems = [
-  { id: '1', name: 'الفاتحة', meta: '7 آيات • مكية', isPlaying: true },
-  { id: '2', name: 'البقرة', meta: '286 آية • مدنية' },
-  { id: '3', name: 'آل عمران', meta: '200 آية • مدنية' },
-  { id: '4', name: 'النساء', meta: '176 آية • مدنية' },
-  { id: '5', name: 'المائدة', meta: '120 آية • مدنية' },
-  { id: '6', name: 'الأنعام', meta: '206 آية • مكية' },
-  { id: '7', name: 'الأعراف', meta: '75 آية • مدنية' },
-  { id: '8', name: 'الأنفال', meta: '129 آية • مدنية' },
-  { id: '9', name: 'التوبة', meta: '109 آية • مكية' },
+const surahItems: RecitationItem[] = [
+  {
+    id: '1',
+    title: '1. الفاتحة (Al-Fatihah)',
+    reciterName: 'الشيخ ياسر الدوسري',
+    duration: '01:23',
+    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+    surahInfo: '7 آيات • مكية',
+    image: '/images/recitations/reciter-badr-turki.png',
+  },
+  {
+    id: '2',
+    title: '2. البقرة',
+    reciterName: 'الشيخ ياسر الدوسري',
+    duration: '20:00',
+    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
+    surahInfo: '286 آية • مدنية',
+    image: '/images/recitations/reciter-badr-turki.png',
+  },
+  {
+    id: '3',
+    title: '3. آل عمران',
+    reciterName: 'الشيخ ياسر الدوسري',
+    duration: '15:30',
+    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
+    surahInfo: '200 آية • مدنية',
+    image: '/images/recitations/reciter-badr-turki.png',
+  },
+  {
+    id: '4',
+    title: '4. النساء',
+    reciterName: 'الشيخ ياسر الدوسري',
+    duration: '18:45',
+    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',
+    surahInfo: '176 آية • مدنية',
+    image: '/images/recitations/reciter-badr-turki.png',
+  },
+  {
+    id: '5',
+    title: '5. المائدة',
+    reciterName: 'الشيخ ياسر الدوسري',
+    duration: '10:10',
+    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3',
+    surahInfo: '120 آية • مدنية',
+    image: '/images/recitations/reciter-badr-turki.png',
+  },
+  {
+    id: '6',
+    title: '6. الأنعام',
+    reciterName: 'الشيخ ياسر الدوسري',
+    duration: '14:20',
+    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3',
+    surahInfo: '206 آية • مكية',
+    image: '/images/recitations/reciter-badr-turki.png',
+  },
+  {
+    id: '7',
+    title: '7. الأعراف',
+    reciterName: 'الشيخ ياسر الدوسري',
+    duration: '11:55',
+    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3',
+    surahInfo: '75 آية • مدنية',
+    image: '/images/recitations/reciter-badr-turki.png',
+  },
+  {
+    id: '8',
+    title: '8. الأنفال',
+    reciterName: 'الشيخ ياسر الدوسري',
+    duration: '09:00',
+    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3',
+    surahInfo: '129 آية • مدنية',
+    image: '/images/recitations/reciter-badr-turki.png',
+  },
+  {
+    id: '9',
+    title: '9. التوبة',
+    reciterName: 'الشيخ ياسر الدوسري',
+    duration: '16:15',
+    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3',
+    surahInfo: '109 آية • مكية',
+    image: '/images/recitations/reciter-badr-turki.png',
+  },
 ];
 
 const otherMushafs = [
@@ -135,80 +208,13 @@ export default async function RecitationDetailsPage({
             </div>
           </section>
 
-          <section className="mt-10 grid gap-6 lg:grid-cols-[1fr_1.4fr]">
-            <div className="rounded-[12px] border border-[#ebe8e8] bg-white px-6 py-6">
-              <div className="flex flex-col gap-6">
-                <div className="h-2 w-full rounded-full bg-[#e6e6e6]">
-                  <div className="h-2 w-[55%] rounded-full bg-[#f4b400]" />
-                </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <button className="flex h-11 w-11 items-center justify-center rounded-full border border-[#ebe8e8]">
-                      <FiSkipForward className="h-4 w-4" />
-                    </button>
-                    <button className="flex h-11 w-11 items-center justify-center rounded-full bg-black text-white">
-                      <Image
-                        src="/icons/recitations/play.png"
-                        alt="تشغيل"
-                        width={20}
-                        height={20}
-                      />
-                    </button>
-                    <button className="flex h-11 w-11 items-center justify-center rounded-full border border-[#ebe8e8]">
-                      <FiSkipBack className="h-4 w-4" />
-                    </button>
-                  </div>
-                  <div className="text-end">
-                    <p className="text-[18px] font-semibold text-black">1. الفاتحة (Al-Fatihah)</p>
-                    <p className="mt-1 text-[14px] text-[#6a6a6a]">الشيخ ياسر الدوسري</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="rounded-[12px] border border-[#ebe8e8] bg-white px-6 py-6">
-              <div className="flex flex-col gap-4">
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                  <h2 className="text-[22px] font-semibold text-black">قائمة السور</h2>
-                  <label className="flex w-full items-center gap-2 rounded-[10px] bg-[#f3f3f3] px-3 py-2 sm:w-[240px] flex-row-reverse">
-                    <input
-                      type="text"
-                      placeholder="ابحث عن السورة"
-                      className="w-full bg-transparent text-end text-[14px] text-[#6c737f] placeholder:text-[#6c737f] focus:outline-none"
-                    />
-                    <Image src="/icons/recitations/search.png" alt="بحث" width={20} height={20} />
-                  </label>
-                </div>
-
-                <div className="max-h-[620px] overflow-y-auto pe-2">
-                  {surahItems.map((surah, index) => (
-                    <div
-                      key={surah.id}
-                      className={`flex items-center justify-between gap-4 rounded-[10px] px-4 py-4 ${
-                        index === 0 ? 'bg-[#f3f3f3]' : 'border-b border-[#ebe8e8]'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2">
-                        <ActionIcon src="/icons/recitations/info.png" alt="معلومات" />
-                        <ActionIcon src="/icons/recitations/download.png" alt="تحميل" />
-                        <ActionIcon src="/icons/recitations/share.png" alt="مشاركة" />
-                        <ActionIcon src="/icons/recitations/heart.png" alt="إعجاب" />
-                        <ActionIcon
-                          src={surah.isPlaying ? '/icons/recitations/pause.png' : '/icons/recitations/play.png'}
-                          alt={surah.isPlaying ? 'إيقاف مؤقت' : 'تشغيل'}
-                        />
-                      </div>
-                      <div className="text-end">
-                        <p className="text-[16px] font-medium text-[#1f2a37]">
-                          {surah.id}. {surah.name}
-                        </p>
-                        <p className="mt-1 text-[14px] text-[#6a6a6a]">{surah.meta}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+          <section className="mt-10">
+            <RecitationsPlayer
+              recitations={surahItems}
+              defaultSelected={surahItems[0]?.id}
+              variant="details"
+              listTitle="قائمة السور"
+            />
           </section>
 
           <section className="mt-16">
@@ -280,14 +286,6 @@ export default async function RecitationDetailsPage({
         <FooterSection />
       </div>
     </PageLayout>
-  );
-}
-
-function ActionIcon({ src, alt }: { src: string; alt: string }) {
-  return (
-    <span className="flex h-[36px] w-[36px] items-center justify-center rounded-[11px] bg-white">
-      <Image src={src} alt={alt} width={19} height={19} />
-    </span>
   );
 }
 
