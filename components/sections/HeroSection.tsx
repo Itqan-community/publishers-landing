@@ -114,7 +114,7 @@ export function HeroSection({ content, statsCard }: HeroSectionProps) {
               {/* Floating stats badge - Figma: star shape, center aligned to left edge of image (end side in RTL) */}
               {/* Positioned outside image container so it's visible */}
               {statsCard && (
-                <div className="absolute bottom-10" style={{ left: '-95.5px' }}> {/* Center (95.5px) of 191px star aligns with image left edge */}
+                <div className="absolute bottom-6 left-4 lg:bottom-10 lg:left-[-95.5px]"> {/* Inside on mobile, aligned to edge on desktop */}
                   <div className="relative w-[191px] h-[191px]" style={{ filter: 'drop-shadow(0 14px 36px rgba(0,0,0,0.12))' }}>
                     {/* Star SVG - inline for better control */}
                     <svg
@@ -146,17 +146,16 @@ export function HeroSection({ content, statsCard }: HeroSectionProps) {
 
               {/* Feature pills - Figma: 30% of chip should be outside image (70% inside) */}
               {/* Position at edge, then move 30% of chip width outside */}
-              <div className="absolute top-6 flex flex-col gap-3 items-start" style={{ right: 0 }}>
+              <div className="absolute top-6 right-4 lg:right-0 flex flex-col gap-3 items-start">
                 {[
                   'مجموعة مختارة من أفضل القراء',
                   'تلاوات متنوعة بمختلف الروايات',
                 ].map((item, idx) => (
                   <div
                     key={item}
-                    className="flex items-center gap-2 bg-white px-4 py-1.5 rounded-[50px] shadow-sm ring-1 ring-gray-100"
+                    className="flex items-center gap-2 bg-white px-4 py-1.5 rounded-[50px] shadow-sm ring-1 ring-gray-100 translate-x-0 lg:translate-x-[30%]"
                     style={{ 
                       minHeight: '42px',
-                      transform: 'translateX(30%)' // Move 30% of chip width to the right (outside)
                     }}
                   >
                     <span className="text-[16px] font-medium text-black">{item}</span>
