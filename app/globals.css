@@ -64,23 +64,6 @@
   }
 }
 
-/* Partners Section Infinite Scroll Animation - RTL: scroll from end (left) to start (right) */
-/* In RTL, hidden content is on the end side (left). We scroll from left to right to reveal it */
-/* Start at -50% to show hidden content, animate to 0 to reveal it, then loop */
-@keyframes scroll-partners-rtl {
-  0% {
-    transform: translateX(-50%);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
-.partners-scroll-rtl {
-  animation: scroll-partners-rtl 60s linear infinite;
-  will-change: transform;
-}
-
 /* Hide scrollbar while allowing horizontal scroll */
 .hide-scrollbar {
   scrollbar-width: none;
