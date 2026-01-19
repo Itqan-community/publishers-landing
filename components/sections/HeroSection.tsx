@@ -26,13 +26,6 @@ export function HeroSection({ content, statsCard }: HeroSectionProps) {
 
   return (
     <section className="relative w-full" style={{ minHeight: '772px', overflow: 'visible' }}>
-      {/* Base background - solid color only */}
-      <div
-        className="absolute inset-0"
-        style={{
-          background: '#f6f6f4', // Figma BG color from design
-        }}
-      />
       <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20" style={{ overflow: 'visible' }}>
         {/* RTL: Text on right (start), Image on left (end) */}
         {/* Figma: Image is 469px wide, text area is wider - adjust grid ratio */}
@@ -114,7 +107,7 @@ export function HeroSection({ content, statsCard }: HeroSectionProps) {
               {/* Floating stats badge - Figma: star shape, center aligned to left edge of image (end side in RTL) */}
               {/* Positioned outside image container so it's visible */}
               {statsCard && (
-                <div className="absolute bottom-6 left-4 lg:bottom-10 lg:left-[-95.5px]"> {/* Inside on mobile, aligned to edge on desktop */}
+                <div className="absolute bottom-6 left-4 lg:bottom-10 lg:left-4 xl:left-[-32px] 2xl:left-[-95.5px]"> {/* Avoid viewport overflow on smaller desktops */}
                   <div className="relative w-[191px] h-[191px]" style={{ filter: 'drop-shadow(0 14px 36px rgba(0,0,0,0.12))' }}>
                     {/* Star SVG - inline for better control */}
                     <svg
@@ -153,7 +146,7 @@ export function HeroSection({ content, statsCard }: HeroSectionProps) {
                 ].map((item, idx) => (
                   <div
                     key={item}
-                    className="flex items-center gap-2 bg-white px-4 py-1.5 rounded-[50px] shadow-sm ring-1 ring-gray-100 translate-x-0 lg:translate-x-[30%]"
+                    className="flex items-center gap-2 bg-white px-4 py-1.5 rounded-[50px] shadow-sm ring-1 ring-gray-100 translate-x-0 xl:translate-x-[12%] 2xl:translate-x-[30%]"
                     style={{ 
                       minHeight: '42px',
                     }}

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/Button';
@@ -14,16 +14,34 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const thresholdPx = 140;
+
+    const onScroll = () => {
+      setScrolled(window.scrollY > thresholdPx);
+    };
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-gray-200/70" dir="rtl">
+    <header
+      className={`sticky top-0 z-50 transition-colors bg-white/95 backdrop-blur border-b border-gray-200/70 ${
+        scrolled ? '' : 'md:bg-transparent md:backdrop-blur-0 md:border-transparent'
+      }`}
+      dir="rtl"
+    >
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-[72px] gap-6">
           {/* Logo (start side in RTL) - Figma logo lockup */}
           <Link href="/" className="flex-shrink-0 order-1 flex items-center">
-            <div className="relative w-[266px] h-[44px]">
+            <div className="relative w-[180px] h-[32px] sm:w-[220px] sm:h-[40px] lg:w-[266px] lg:h-[44px]">
               <Image
-                src="/logos/center-logo-full.png"
+                src="/logos/full-logo.png"
                 alt={tenantName}
                 fill
                 className="object-contain"
