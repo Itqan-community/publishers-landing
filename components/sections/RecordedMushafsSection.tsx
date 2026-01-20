@@ -2,13 +2,14 @@
 
 import React from 'react';
 import { Carousel } from '@/components/ui/Carousel';
-import { MushafCard, MushafCardProps } from '@/components/cards/MushafCard';
+import { MushafCard } from '@/components/cards/MushafCard';
 import { Button } from '@/components/ui/Button';
+import type { RecordedMushaf } from '@/types/tenant.types';
 
 interface RecordedMushafsSectionProps {
   title: string;
   description: string;
-  mushafs: MushafCardProps[];
+  mushafs: RecordedMushaf[];
   viewAllHref?: string;
 }
 
@@ -19,7 +20,7 @@ export const RecordedMushafsSection: React.FC<RecordedMushafsSectionProps> = ({
   viewAllHref,
 }) => {
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-20 bg-white">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-4">
@@ -41,8 +42,11 @@ export const RecordedMushafsSection: React.FC<RecordedMushafsSectionProps> = ({
         {/* Carousel */}
         <Carousel slidesToScroll={1} loop={false} showArrows={true}>
           {mushafs.map((mushaf) => (
-            <div key={mushaf.id} className="flex-[0_0_100%] md:flex-[0_0_calc(50%-0.5rem)] lg:flex-[0_0_calc(25%-0.75rem)]">
-              <MushafCard {...mushaf} />
+            <div
+              key={mushaf.id}
+              className="flex-[0_0_100%] sm:flex-[0_0_284px]"
+            >
+              <MushafCard mushaf={mushaf} />
             </div>
           ))}
         </Carousel>

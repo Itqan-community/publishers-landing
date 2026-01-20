@@ -100,6 +100,45 @@ export interface ReadingContent {
   link: string;
 }
 
+// ==================== SAUDI CENTER: RECORDED MUSHAFS ====================
+
+/**
+ * BE-ready model for "Recorded Mushafs" cards.
+ * Keep this independent from UI so we can swap the data source (mock → API) without refactors.
+ */
+export interface RecordedMushaf {
+  id: string;
+  title: string;
+  description: string;
+  riwayaLabel?: string; // e.g. "برواية حفص"
+
+  reciter: {
+    id: string;
+    name: string;
+    avatarImage: string; // /images/... (from BE)
+  };
+
+  /**
+   * Card visuals (from BE / CMS)
+   * For this card, the top area is a solid color (no image).
+   */
+  visuals: {
+    topBackgroundColor: string;
+  };
+
+  /**
+   * Optional badges/icons shown on the card (shape/color should match design).
+   */
+  badges?: Array<{
+    id: string;
+    label: string;
+    icon?: 'headphones' | 'book' | 'mic' | 'sparkle';
+    tone?: 'green' | 'gold' | 'gray';
+  }>;
+
+  href: string;
+}
+
 export interface MediaContent {
   id: string;
   title: string;

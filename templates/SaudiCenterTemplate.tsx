@@ -16,15 +16,15 @@ import { FeaturedRecitationsSection } from '@/components/sections/FeaturedRecita
 import { RecordedMushafsSection } from '@/components/sections/RecordedMushafsSection';
 import { SponsorsSection } from '@/components/sections/SponsorsSection';
 import { ReciterCardProps } from '@/components/cards/ReciterCard';
-import { MushafCardProps } from '@/components/cards/MushafCard';
 import { RecitationItem } from '@/components/audio/AudioPlayer';
 import { SponsorItem } from '@/components/sections/SponsorsSection';
+import { getRecordedMushafs } from '@/lib/recorded-mushafs';
 
 interface SaudiCenterTemplateProps {
   tenant: TenantConfig;
 }
 
-export function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) {
+export async function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) {
   // Mock data - in production, this would come from the tenant config or API
   const reciters: ReciterCardProps[] = [
     {
@@ -65,36 +65,7 @@ export function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) {
     },
   ];
 
-  const mushafs: MushafCardProps[] = [
-    {
-      id: '1',
-      title: 'مصحف الحرم المكي',
-      reciterName: 'الشيخ أحمد العبيدي',
-      image: '/images/mushafs/mushaf-1.png',
-      href: `/saudi-center/mushafs/1`,
-    },
-    {
-      id: '2',
-      title: 'مصحف الحرم المدني',
-      reciterName: 'الشيخ سامي السلمي',
-      image: '/images/mushafs/mushaf-2.png',
-      href: `/saudi-center/mushafs/2`,
-    },
-    {
-      id: '3',
-      title: 'مصحف برواية حفص',
-      reciterName: 'الشيخ يوسف الدوسري',
-      image: '/images/mushafs/mushaf-3.png',
-      href: `/saudi-center/mushafs/3`,
-    },
-    {
-      id: '4',
-      title: 'مصحف برواية ورش',
-      reciterName: 'الشيخ ياسر الدوسري',
-      image: '/images/mushafs/mushaf-4.png',
-      href: `/saudi-center/mushafs/4`,
-    },
-  ];
+  const mushafs = await getRecordedMushafs(tenant.id);
 
   const recitations: RecitationItem[] = [
     {
@@ -214,12 +185,19 @@ export function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) {
         features={aboutFeatures}
       />
 
+      {/* Divider between About and Recorded Mushafs */}
+      <div className="bg-white">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="border-t border-[#ebe8e8]" />
+        </div>
+      </div>
+
       {/* Recorded Mushafs Section */}
       <RecordedMushafsSection
         title="المصاحف المسجلة"
         description="استمع إلى القرآن الكريم بأصوات نخبة من أشهر القراء في العالم الإسلامي"
         mushafs={mushafs}
-        viewAllHref="/saudi-center/mushafs"
+        viewAllHref={`/${tenant.id}/recitations`}
       />
 
       {/* Featured Recitations Section */}

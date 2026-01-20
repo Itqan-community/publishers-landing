@@ -22,46 +22,44 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
   return (
     <section className="py-20 bg-white">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
-          {/* Text Content - Right side in RTL */}
-          <div className="order-2 lg:order-2">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-              {title}
-            </h2>
-            <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
-              {description}
-            </p>
-          </div>
+        {/* Row 1: heading (start side) + description (other side) */}
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+          <h2 className="text-[32px] md:text-[39px] font-semibold text-black leading-[1.4] text-right lg:mb-0 lg:max-w-[520px] shrink-0">
+            {title}
+          </h2>
+          <p className="text-[18px] md:text-[20px] text-[#343434] leading-[30.4px] text-right lg:text-left lg:max-w-[640px]">
+            {description}
+          </p>
+        </div>
 
-          {/* Features Grid - Left side in RTL, 4 cards in a row */}
-          <div className="order-1 lg:order-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-            {features.map((feature) => (
-              <div
-                key={feature.id}
-                className="relative h-[218px] rounded-[11px] border border-[#ebe8e8] bg-white overflow-hidden px-6 pt-6"
-              >
-                <div className="absolute right-6 top-5 h-[59px] w-[59px] rounded-[12px] bg-[#eef9f2] flex items-center justify-center">
-                  {feature.iconSrc && (
-                    <Image
-                      src={feature.iconSrc}
-                      alt=""
-                      width={26}
-                      height={26}
-                      className="object-contain"
-                    />
-                  )}
-                </div>
-                <h3 className="text-[20px] font-semibold text-black text-right mt-[58px]">
-                  {feature.title}
-                </h3>
-                {feature.description && (
-                  <p className="text-[19px] leading-[30.4px] text-[#343434] text-right mt-3 whitespace-pre-line">
-                    {feature.description}
-                  </p>
+        {/* Cards (row 2) - 4 in a row on desktop */}
+        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+          {features.map((feature) => (
+            <div
+              key={feature.id}
+              className="relative h-[218px] rounded-[11px] border border-[#ebe8e8] bg-white overflow-hidden px-6 pt-6"
+            >
+              <div className="absolute right-6 top-5 h-[59px] w-[59px] rounded-[12px] bg-[#eef9f2] flex items-center justify-center">
+                {feature.iconSrc && (
+                  <Image
+                    src={feature.iconSrc}
+                    alt=""
+                    width={26}
+                    height={26}
+                    className="object-contain"
+                  />
                 )}
               </div>
-            ))}
-          </div>
+              <h3 className="text-[20px] font-semibold text-black text-right mt-[58px]">
+                {feature.title}
+              </h3>
+              {feature.description && (
+                <p className="text-[19px] leading-[30.4px] text-[#343434] text-right mt-3 whitespace-pre-line">
+                  {feature.description}
+                </p>
+              )}
+            </div>
+          ))}
         </div>
       </div>
     </section>
