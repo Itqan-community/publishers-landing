@@ -65,6 +65,7 @@ export interface StatisticsContent {
   value: string | number;
   icon?: string;
   suffix?: string;
+  description?: string;
 }
 
 export interface AssetCategoryContent {

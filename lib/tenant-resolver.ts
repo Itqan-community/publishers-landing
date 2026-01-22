@@ -9,6 +9,7 @@
  * The resolver checks all strategies and returns the first match.
  */
 
+import { getDefaultTenantId } from '@/lib/tenant-config';
 import { TenantRequest, TenantResolutionStrategy } from '@/types/tenant.types';
 
 /**
@@ -114,8 +115,9 @@ export function resolveTenant(request: TenantRequest): string | null {
     }
   }
   
-  console.log('[TenantResolver] No tenant resolved, using default');
-  return 'default';
+  const fallbackTenantId = getDefaultTenantId();
+  console.log(`[TenantResolver] No tenant resolved, using default "${fallbackTenantId}"`);
+  return fallbackTenantId;
 }
 
 /**

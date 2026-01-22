@@ -13,6 +13,16 @@ import tenantConfigs from '@/config/tenants.json';
 const configCache = new Map<string, TenantConfig>();
 
 /**
+ * Default tenant ID used when no tenant can be resolved from the request.
+ *
+ * This allows temporarily "disabling" multi-tenancy in local/dev by picking one
+ * tenant as the default without deleting the multi-tenant plumbing.
+ */
+export function getDefaultTenantId(): string {
+  return process.env.DEFAULT_TENANT_ID || 'saudi-center';
+}
+
+/**
  * Load tenant configuration by ID
  * In production, this would be an API call or database query
  */
