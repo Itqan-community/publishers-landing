@@ -218,7 +218,7 @@ export async function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) 
 
       {/* Sponsors Section */}
       <SponsorsSection
-        title="الراعيين"
+        title="الرعاة"
         sponsors={sponsors}
       />
 
