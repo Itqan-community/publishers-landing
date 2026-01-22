@@ -297,11 +297,11 @@ function FooterSection() {
           <div className="max-w-[387px] text-end">
             <div className="flex items-center justify-end gap-3">
               <div className="relative h-[44px] w-[77px]">
-                <Image src="/images/logo-icon.png" alt="شعار المركز السعودي" fill className="object-contain" />
+                <Image src="/logos/center-logo.png" alt="شعار المركز السعودي" fill className="object-contain" />
               </div>
               <div className="flex flex-col items-end gap-1">
                 <div className="relative h-[18px] w-[182px]">
-                  <Image src="/images/logo-full.png" alt="المركز السعودي" fill className="object-contain" />
+                  <Image src="/logos/center-logo-full.png" alt="المركز السعودي" fill className="object-contain" />
                 </div>
                 <div className="text-[12px] text-black">للتلاوات القرآنية والأحاديث النبوية</div>
               </div>

@@ -20,21 +20,26 @@ export const FeaturedRecitationsSection: React.FC<FeaturedRecitationsSectionProp
   detailsHrefBase,
 }) => {
   return (
-    <section className="py-20 bg-white">
+    <section className="bg-[#f6f4f1] py-20">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-4">
-          <div>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-3">
+        <div className="mb-12 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <div className="flex flex-col gap-2 lg:flex-row lg:items-start lg:gap-10">
+            <h2 className="text-end font-primary text-[34px] font-semibold leading-[1.4] text-black sm:text-[39px]">
               {title}
             </h2>
-            <p className="text-lg text-gray-700 max-w-2xl">
+            <p className="max-w-[320px] text-end font-primary text-[16px] font-light leading-[1.4] text-black/90 sm:text-[19px]">
               {description}
             </p>
           </div>
           {viewAllHref && (
             <Button variant="surface" size="sm" asChild>
-              <a href={viewAllHref}>جميع القراءات</a>
+              <a
+                href={viewAllHref}
+                className="h-auto rounded-[12px] border border-black/10 bg-white px-10 py-[18px] text-[16px] font-semibold leading-[22px] text-black shadow-sm hover:bg-gray-50"
+              >
+                جميع التلاوات
+              </a>
             </Button>
           )}
         </div>
