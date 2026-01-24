@@ -99,8 +99,9 @@ export const domainStrategy: TenantResolutionStrategy = {
 /**
  * Resolve tenant from request using all available strategies
  * Priority order: custom domain → subdomain → path-based
+ * Always returns a string (either resolved tenant or default)
  */
-export function resolveTenant(request: TenantRequest): string | null {
+export function resolveTenant(request: TenantRequest): string {
   // Check strategies in priority order
   // 1. Custom domain (highest priority for production)
   // 2. Subdomain (e.g., publisher-1.yourdomain.com)
@@ -137,8 +138,9 @@ export function createTenantRequest(
 
 /**
  * Get tenant from server-side headers (Next.js)
+ * Always returns a string (either resolved tenant or default)
  */
-export function getTenantFromHeaders(headers: Headers): string | null {
+export function getTenantFromHeaders(headers: Headers): string {
   const hostname = headers.get('host') || 'localhost';
   const pathname = headers.get('x-pathname') || '/';
   

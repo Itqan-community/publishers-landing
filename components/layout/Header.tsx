@@ -17,7 +17,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems }) =>
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const thresholdPx = 140;
+    const thresholdPx = 50;
 
     const onScroll = () => {
       setScrolled(window.scrollY > thresholdPx);

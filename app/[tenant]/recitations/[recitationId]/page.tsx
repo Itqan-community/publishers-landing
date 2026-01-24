@@ -145,7 +145,7 @@ export default async function RecitationDetailsPage({
             <div className="flex flex-col gap-6 lg:flex-row-reverse lg:items-start">
               <div className="flex items-center gap-6 flex-row-reverse">
                 <div className="rounded-[23px] border border-[#ebe8e8] bg-white p-2">
-                  <div className="relative h-[179px] w-[179px] overflow-hidden rounded-[20px]">
+                  <div className="relative h-[179px] w-[179px] overflow-hidden rounded-[10px]">
                     <Image
                       src="/images/recitations/reciter-badr-turki.png"
                       alt="صورة الشيخ بدر التركي"
@@ -198,7 +198,7 @@ export default async function RecitationDetailsPage({
                   {['مصحف مجود', 'رواية حفص عن عاصم', 'التوسط'].map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-[10px] border border-[#ebe8e8] bg-[#f3f3f3] px-4 py-2 text-[14px] text-[#1f2a37]"
+                      className="rounded-[6px] border border-[#ebe8e8] bg-[#f3f3f3] px-4 py-[2px] text-[14px] text-[#1f2a37]"
                     >
                       {tag}
                     </span>

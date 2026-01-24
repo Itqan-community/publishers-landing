@@ -97,7 +97,7 @@ export const MushafCard: React.FC<MushafCardProps> = ({ mushaf }) => {
   const { title, description, reciter, visuals, badges, href } = mushaf;
 
   const content = (
-    <div className="w-full h-full overflow-hidden bg-white rounded-[20px] border border-[#ebe8e8] shadow-none">
+    <div className="w-full h-full overflow-hidden bg-white rounded-[10px] border border-[#ebe8e8] shadow-none">
       {/* Top section (colored background) */}
       <div
         className="relative h-[226px] flex items-center justify-center"

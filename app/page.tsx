@@ -62,10 +62,6 @@ export default async function HomePage() {
 
   console.log('[HomePage] Resolved tenant ID:', tenantId);
 
-  if (!tenantId) {
-    notFound();
-  }
-
   // Load tenant configuration
   const tenant = await loadTenantConfig(tenantId);
 

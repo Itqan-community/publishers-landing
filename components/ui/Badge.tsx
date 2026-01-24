@@ -15,14 +15,14 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 const toneClass: Record<BadgeTone, string> = {
-  gold: 'bg-[#faaf41]/15 text-[#a46b00] ring-1 ring-[#faaf41]/30',
-  gray: 'bg-black/5 text-black/70 ring-1 ring-black/10',
-  green: 'bg-[#193624]/10 text-[#193624] ring-1 ring-[#193624]/20',
+  gold: 'bg-[#faaf41]/15 text-[#a46b00]',
+  gray: 'bg-black/5 text-black/70',
+  green: 'bg-[#193624]/10 text-[#193624]',
 };
 
 const sizeClass: Record<BadgeSize, string> = {
-  sm: 'px-3 py-1 text-[13px]',
-  md: 'px-3.5 py-1.5 text-[14px]',
+  sm: 'px-3 py-[2px] text-[13px]',
+  md: 'px-3.5 py-[2px] text-[14px]',
 };
 
 const shapeClass: Record<BadgeShape, string> = {
