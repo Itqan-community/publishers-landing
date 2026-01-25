@@ -86,21 +86,33 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
     return Math.min(1, Math.max(0, currentTimeSeconds / durationSeconds));
   }, [currentTimeSeconds, durationSeconds]);
 
+  // Reset time when recitation changes
   useEffect(() => {
     if (!isFeaturedVariant) return;
     setCurrentTimeSeconds(0);
     setDurationSeconds(0);
   }, [selectedRecitation.id, isFeaturedVariant]);
 
+  // Handle audio source change and playback
   useEffect(() => {
     if (!isFeaturedVariant) return;
     const audio = audioRef.current;
-    if (!audio) return;
+    if (!audio || !selectedRecitation.audioUrl) return;
 
+    // Update audio source when recitation changes
+    if (audio.src !== selectedRecitation.audioUrl) {
+      audio.src = selectedRecitation.audioUrl;
+      audio.load();
+      setCurrentTimeSeconds(0);
+      setDurationSeconds(0);
+    }
+
+    // Handle play/pause
     if (isPlaying) {
       const playPromise = audio.play();
       if (playPromise && typeof playPromise.catch === 'function') {
-        playPromise.catch(() => {
+        playPromise.catch((error) => {
+          console.error('[AudioPlayer] Play failed:', error);
           // Autoplay can be blocked; keep UI consistent with actual playback state.
           setIsPlaying(false);
         });
@@ -343,16 +355,53 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                 </div>
               </div>
 
-              <audio
-                ref={audioRef}
-                src={selectedRecitation.audioUrl}
-                onTimeUpdate={(e) => setCurrentTimeSeconds((e.currentTarget as HTMLAudioElement).currentTime)}
-                onLoadedMetadata={(e) => setDurationSeconds((e.currentTarget as HTMLAudioElement).duration || 0)}
-                onPlay={() => setIsPlaying(true)}
-                onPause={() => setIsPlaying(false)}
-                onEnded={() => setIsPlaying(false)}
-                preload="metadata"
-              />
+              {selectedRecitation.audioUrl && (
+                <audio
+                  ref={audioRef}
+                  src={selectedRecitation.audioUrl}
+                  onTimeUpdate={(e) => {
+                    const audio = e.currentTarget as HTMLAudioElement;
+                    setCurrentTimeSeconds(audio.currentTime);
+                  }}
+                  onLoadedMetadata={(e) => {
+                    const audio = e.currentTarget as HTMLAudioElement;
+                    const duration = audio.duration || 0;
+                    setDurationSeconds(duration);
+                    console.log('[AudioPlayer] Metadata loaded, duration:', duration);
+                  }}
+                  onPlay={() => {
+                    setIsPlaying(true);
+                    console.log('[AudioPlayer] Playing:', selectedRecitation.audioUrl);
+                  }}
+                  onPause={() => {
+                    setIsPlaying(false);
+                    console.log('[AudioPlayer] Paused');
+                  }}
+                  onEnded={() => {
+                    setIsPlaying(false);
+                    setCurrentTimeSeconds(0);
+                    console.log('[AudioPlayer] Ended');
+                  }}
+                  onError={(e) => {
+                    const audio = e.currentTarget as HTMLAudioElement;
+                    console.error('[AudioPlayer] Audio error:', {
+                      error: audio.error,
+                      code: audio.error?.code,
+                      message: audio.error?.message,
+                      src: selectedRecitation.audioUrl,
+                    });
+                    setIsPlaying(false);
+                  }}
+                  onCanPlay={() => {
+                    console.log('[AudioPlayer] Audio can play:', selectedRecitation.audioUrl);
+                  }}
+                  onLoadStart={() => {
+                    console.log('[AudioPlayer] Loading started:', selectedRecitation.audioUrl);
+                  }}
+                  preload="metadata"
+                  crossOrigin="anonymous"
+                />
+              )}
             </div>
           </div>
         </div>

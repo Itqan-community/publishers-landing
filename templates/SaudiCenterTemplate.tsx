@@ -19,96 +19,20 @@ import { ReciterCardProps } from '@/components/cards/ReciterCard';
 import { RecitationItem } from '@/components/audio/AudioPlayer';
 import { SponsorItem } from '@/components/sections/SponsorsSection';
 import { getRecordedMushafs } from '@/lib/recorded-mushafs';
+import { getReciters } from '@/lib/reciters';
+import { getFeaturedRecitationTracks } from '@/lib/recitation-tracks';
 
 interface SaudiCenterTemplateProps {
   tenant: TenantConfig;
 }
 
 export async function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) {
-  // Mock data - in production, this would come from the tenant config or API
-  const reciters: ReciterCardProps[] = [
-    {
-      id: '1',
-      name: 'الشيخ أحمد العبيدي',
-      title: 'قارئ وإمام',
-      image: '/images/reciters/reciter-1.jpg',
-      publisher: 'موقع دار الإسلام',
-      publisherUrl: 'https://example.com',
-      href: `/saudi-center/reciters/1`,
-    },
-    {
-      id: '2',
-      name: 'الشيخ سامي السلمي',
-      title: 'قارئ وإمام',
-      image: '/images/reciters/reciter-2.jpg',
-      publisher: 'موقع دار الإسلام',
-      publisherUrl: 'https://example.com',
-      href: `/saudi-center/reciters/2`,
-    },
-    {
-      id: '3',
-      name: 'الشيخ يوسف الدوسري',
-      title: 'قارئ وإمام',
-      image: '/images/reciters/reciter-3.jpg',
-      publisher: 'موقع دار الإسلام',
-      publisherUrl: 'https://example.com',
-      href: `/saudi-center/reciters/3`,
-    },
-    {
-      id: '4',
-      name: 'الشيخ ياسر الدوسري',
-      title: 'قارئ وإمام',
-      image: '/images/reciters/reciter-4.jpg',
-      publisher: 'موقع دار الإسلام',
-      publisherUrl: 'https://example.com',
-      href: `/saudi-center/reciters/4`,
-    },
-  ];
-
-  const mushafs = await getRecordedMushafs(tenant.id);
-
-  const recitations: RecitationItem[] = [
-    {
-      id: '1',
-      title: 'سورة الكهف',
-      reciterName: 'الشيخ أحمد العبيدي',
-      duration: '12:32',
-      audioUrl: 'https://example.com/audio/surah-kahf.mp3',
-      image: '/images/reciters/reciter-1.jpg',
-    },
-    {
-      id: '2',
-      title: 'سورة الكهف',
-      reciterName: 'الشيخ سامي السلمي',
-      duration: '12:32',
-      audioUrl: 'https://example.com/audio/surah-kahf-2.mp3',
-      image: '/images/reciters/reciter-2.jpg',
-    },
-    {
-      id: '3',
-      title: 'سورة الكهف',
-      reciterName: 'الشيخ يوسف الدوسري',
-      duration: '12:32',
-      audioUrl: 'https://example.com/audio/surah-kahf-3.mp3',
-      image: '/images/reciters/reciter-3.jpg',
-    },
-    {
-      id: '4',
-      title: 'سورة الكهف',
-      reciterName: 'الشيخ أحمد العبيدي',
-      duration: '12:32',
-      audioUrl: 'https://example.com/audio/surah-kahf-4.mp3',
-      image: '/images/reciters/reciter-1.jpg',
-    },
-    {
-      id: '5',
-      title: 'سورة الكهف',
-      reciterName: 'الشيخ يوسف الدوسري',
-      duration: '12:32',
-      audioUrl: 'https://example.com/audio/surah-kahf-5.mp3',
-      image: '/images/reciters/reciter-3.jpg',
-    },
-  ];
+  // Fetch data from APIs
+  const [reciters, mushafs, recitations] = await Promise.all([
+    getReciters(tenant.id),
+    getRecordedMushafs(tenant.id),
+    getFeaturedRecitationTracks(tenant.id, 5),
+  ]);
 
   const sponsors: SponsorItem[] = [
     {
