@@ -74,7 +74,7 @@ export const getFeaturedRecitationTracks = cache(async (tenantId: string, limit:
         return {
           id: track.id,
           title,
-          reciterName: track.reciter?.name || track.recitation?.reciter?.name || 'غير معروف',
+          reciterName: track.reciter?.name || 'غير معروف',
           duration: track.duration || '0:00',
           audioUrl: track.audio_url || '',
           image: track.thumbnail_url || `/images/reciters/reciter-${track.reciter?.id || 'default'}.jpg`,
