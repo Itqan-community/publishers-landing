@@ -126,7 +126,12 @@ export interface RecordedMushaf {
    */
   visuals: {
     topBackgroundColor: string;
+    /** Outline color for the mushaf/book graphic; varies per card (e.g. blue, green, purple). */
+    outlineColor?: string;
   };
+
+  /** Optional year (e.g. 1970) for metadata line. */
+  year?: number;
 
   /**
    * Optional badges/icons shown on the card (shape/color should match design).

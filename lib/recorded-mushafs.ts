@@ -59,26 +59,29 @@ export const getRecordedMushafs = cache(async (tenantId: string): Promise<Record
     const data: RecitationApiResponse[] = await response.json();
     console.log(`[getRecordedMushafs] API response:`, data);
 
+    // Outline colors per Figma: blue, green, purple, red, pink
+    const OUTLINE_PALETTE = ['#2563eb', '#059669', '#7c3aed', '#dc2626', '#db2777'];
+
     // Map API response to RecordedMushaf model
-    return data.map((recitation): RecordedMushaf => {
+    return data.map((recitation, i): RecordedMushaf => {
       // Build badges from riwayah, madd_level, and meem_behaviour
       const badges: RecordedMushaf['badges'] = [];
 
-      // Add riwayah badge
+      // Add riwayah badge (design uses "رواية X" in metadata)
       if (recitation.riwayah?.name) {
         badges.push({
           id: `riwayah-${recitation.riwayah.id}`,
-          label: recitation.riwayah.name,
+          label: `رواية ${recitation.riwayah.name}`,
           icon: 'book',
           tone: 'green',
         });
       }
 
-      // Add madd_level badge if present
+      // Add madd_level badge if present (e.g. التوسط)
       if (recitation.madd_level) {
         const maddLabels: Record<string, string> = {
           qasr: 'قصر',
-          tawassut: 'توسط',
+          tawassut: 'التوسط',
         };
         badges.push({
           id: `madd-${recitation.id}`,
@@ -88,29 +91,30 @@ export const getRecordedMushafs = cache(async (tenantId: string): Promise<Record
         });
       }
 
-      // Build description from reciter name
+      // Mushaf details line (e.g. المصحف المرتل للشيخ يوسف الدوسري)
       const description = recitation.reciter?.name
-        ? `استمع للقرآن الكريم بصوت ${recitation.reciter.name}`
-        : 'استمع للقرآن الكريم';
+        ? `المصحف المرتل ل${recitation.reciter.name}`
+        : 'المصحف المرتل';
 
       // Use reciter ID to determine avatar image (fallback to default)
-      // In production, this might come from the API or a CDN
       const avatarImage = `/images/mushafs/mushaf-reciter-${recitation.reciter?.id || 'default'}.png`;
 
       return {
         id: recitation.id,
         title: recitation.name || 'مصحف',
         description,
-        riwayaLabel: recitation.riwayah?.name ? `برواية ${recitation.riwayah.name}` : undefined,
+        riwayaLabel: recitation.riwayah?.name ? `رواية ${recitation.riwayah.name}` : undefined,
         reciter: {
           id: recitation.reciter?.id || '',
           name: recitation.reciter?.name || 'غير معروف',
           avatarImage,
         },
         visuals: {
-          topBackgroundColor: '#EEF9F2', // Default color, could come from API later
+          topBackgroundColor: '#EEF9F2',
+          outlineColor: OUTLINE_PALETTE[i % OUTLINE_PALETTE.length],
         },
         badges: badges.length > 0 ? badges : undefined,
+        year: recitation.year ?? undefined,
         href: `/${tenantId}/recitations/${recitation.id}`,
       };
     });
@@ -144,6 +148,8 @@ export const getRecordedMushafs = cache(async (tenantId: string): Promise<Record
   }
 });
 
+const MOCK_OUTLINE_PALETTE = ['#2563eb', '#059669', '#7c3aed', '#dc2626', '#db2777'];
+
 /**
  * Mock data fallback for development when API is unavailable
  */
@@ -152,7 +158,7 @@ function getMockMushafs(tenantId: string): RecordedMushaf[] {
     {
       id: 'mushaf-1',
       title: 'مصحف الحرم المكي',
-      description: 'استمع للقرآن الكريم بصوت الشيخ أحمد العبيدي',
+      description: 'المصحف المرتل لالشيخ أحمد العبيدي',
       reciter: {
         id: 'reciter-1',
         name: 'الشيخ أحمد العبيدي',
@@ -160,17 +166,19 @@ function getMockMushafs(tenantId: string): RecordedMushaf[] {
       },
       visuals: {
         topBackgroundColor: '#EEF9F2',
+        outlineColor: MOCK_OUTLINE_PALETTE[0],
       },
       badges: [
-        { id: 'b1', label: 'حفص', icon: 'book', tone: 'green' },
-        { id: 'b2', label: 'جودة عالية', icon: 'sparkle', tone: 'gold' },
+        { id: 'b1', label: 'رواية حفص عن عاصم', icon: 'book', tone: 'green' },
+        { id: 'b2', label: 'التوسط', icon: 'sparkle', tone: 'gold' },
       ],
+      year: 1970,
       href: `/${tenantId}/recitations/1`,
     },
     {
       id: 'mushaf-2',
       title: 'مصحف الحرم المدني',
-      description: 'استمع للقرآن الكريم بصوت الشيخ سامي السلمي',
+      description: 'المصحف المرتل لالشيخ سامي السلمي',
       reciter: {
         id: 'reciter-2',
         name: 'الشيخ سامي السلمي',
@@ -178,14 +186,19 @@ function getMockMushafs(tenantId: string): RecordedMushaf[] {
       },
       visuals: {
         topBackgroundColor: '#EEF9F2',
+        outlineColor: MOCK_OUTLINE_PALETTE[1],
       },
-      badges: [{ id: 'b1', label: 'حفص', icon: 'book', tone: 'green' }],
+      badges: [
+        { id: 'b1', label: 'رواية حفص عن عاصم', icon: 'book', tone: 'green' },
+        { id: 'b2', label: 'التوسط', icon: 'sparkle', tone: 'gold' },
+      ],
+      year: 1970,
       href: `/${tenantId}/recitations/2`,
     },
     {
       id: 'mushaf-3',
       title: 'مصحف برواية حفص',
-      description: 'استمع للقرآن الكريم بصوت الشيخ يوسف الدوسري',
+      description: 'المصحف المرتل لالشيخ يوسف الدوسري',
       reciter: {
         id: 'reciter-3',
         name: 'الشيخ يوسف الدوسري',
@@ -193,14 +206,19 @@ function getMockMushafs(tenantId: string): RecordedMushaf[] {
       },
       visuals: {
         topBackgroundColor: '#EEF9F2',
+        outlineColor: MOCK_OUTLINE_PALETTE[2],
       },
-      badges: [{ id: 'b1', label: 'حفص', icon: 'book', tone: 'green' }],
+      badges: [
+        { id: 'b1', label: 'رواية حفص عن عاصم', icon: 'book', tone: 'green' },
+        { id: 'b2', label: 'التوسط', icon: 'sparkle', tone: 'gold' },
+      ],
+      year: 1970,
       href: `/${tenantId}/recitations/3`,
     },
     {
       id: 'mushaf-4',
       title: 'مصحف برواية ورش',
-      description: 'استمع للقرآن الكريم بصوت الشيخ ياسر الدوسري',
+      description: 'المصحف المرتل لالشيخ ياسر الدوسري',
       reciter: {
         id: 'reciter-4',
         name: 'الشيخ ياسر الدوسري',
@@ -208,8 +226,13 @@ function getMockMushafs(tenantId: string): RecordedMushaf[] {
       },
       visuals: {
         topBackgroundColor: '#EEF9F2',
+        outlineColor: MOCK_OUTLINE_PALETTE[3],
       },
-      badges: [{ id: 'b1', label: 'ورش', icon: 'book', tone: 'green' }],
+      badges: [
+        { id: 'b1', label: 'رواية ورش', icon: 'book', tone: 'green' },
+        { id: 'b2', label: 'التوسط', icon: 'sparkle', tone: 'gold' },
+      ],
+      year: 1970,
       href: `/${tenantId}/recitations/4`,
     },
   ];
