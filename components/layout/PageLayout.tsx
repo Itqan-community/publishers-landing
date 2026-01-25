@@ -18,9 +18,9 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
 }) => {
   const navItems = [
     { label: 'الرئيسية', href: `/${tenant.id}` },
-    { label: 'عن المركز', href: `/${tenant.id}/about` },
-    { label: 'المصاحف المسجلة', href: `/${tenant.id}/mushafs` },
-    { label: 'القراء', href: `/${tenant.id}/reciters` },
+    { label: 'عن المركز', href: `/${tenant.id}#about` },
+    { label: 'المصاحف المسجلة', href: `/${tenant.id}#recorded-mushafs` },
+    { label: 'القراء', href: `/${tenant.id}#reciters` },
   ];
 
   return (
@@ -35,20 +35,7 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
       <main className="flex-grow">
         {children}
       </main>
-      {showFooter && (
-        <Footer
-          logo={tenant.branding.logo}
-          tenantName={tenant.name}
-          description={tenant.content.footer.description}
-          socialLinks={{
-            twitter: tenant.content.footer.social?.find(s => s.platform.toLowerCase() === 'twitter')?.url,
-            instagram: tenant.content.footer.social?.find(s => s.platform.toLowerCase() === 'instagram')?.url,
-            tiktok: tenant.content.footer.social?.find(s => s.platform.toLowerCase() === 'tiktok')?.url,
-          }}
-          footerLinks={tenant.content.footer.links}
-          copyright={tenant.content.footer.copyright}
-        />
-      )}
+      {showFooter && <Footer tenant={tenant} />}
     </div>
   );
 };

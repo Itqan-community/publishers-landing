@@ -19,6 +19,7 @@ export interface TenantConfig {
 
 export interface TenantBranding {
   logo: string;
+  logoFull?: string;
   favicon?: string;
   primaryColor: string;
   secondaryColor: string;
@@ -151,6 +152,8 @@ export interface MediaContent {
 
 export interface FooterContent {
   description: string;
+  tagline?: string;
+  contact?: { email?: string; phone?: string };
   links: {
     label: string;
     items: { text: string; href: string }[];

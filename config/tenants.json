@@ -361,6 +361,7 @@
     "template": "saudi-center",
     "branding": {
       "logo": "/logos/center-logo.png",
+      "logoFull": "/logos/center-logo-full.png",
       "favicon": "/favicon.ico",
       "primaryColor": "#0F4C81",
       "secondaryColor": "#F4B400",
@@ -410,22 +411,22 @@
       ],
       "footer": {
         "description": "المركز السعودي للتلاوات القرآنية هو منصة إسلامية رائدة تهدف إلى نشر كتاب الله الكريم بأفضل التسجيلات الصوتية",
+        "tagline": "للتلاوات القرآنية والأحاديث النبوية",
+        "contact": { "email": "hello@Saudi.sa", "phone": "05632222222" },
         "links": [
           {
-            "label": "روابط سريعة",
+            "label": "عنا",
             "items": [
-              { "text": "التلاوات", "href": "/saudi-center/recitations" },
-              { "text": "القراء", "href": "/saudi-center/reciters" },
-              { "text": "المصاحف المسجلة", "href": "/saudi-center/mushafs" },
-              { "text": "عن المركز", "href": "/saudi-center/about" }
+              { "text": "من نحن", "href": "/saudi-center/about" },
+              { "text": "تواصل معنا", "href": "/saudi-center/contact" }
             ]
           },
           {
-            "label": "معلومات",
+            "label": "المصادر",
             "items": [
-              { "text": "سياسة الخصوصية", "href": "/privacy" },
-              { "text": "شروط الخدمة", "href": "/terms" },
-              { "text": "اتصل بنا", "href": "/contact" }
+              { "text": "الأسئلة الشائعة", "href": "/saudi-center/faq" },
+              { "text": "الشروط", "href": "/terms" },
+              { "text": "الخصوصية", "href": "/privacy" }
             ]
           }
         ],
@@ -434,7 +435,7 @@
           { "platform": "instagram", "url": "https://instagram.com/saudicenter", "icon": "instagram" },
           { "platform": "tiktok", "url": "https://tiktok.com/@saudicenter", "icon": "tiktok" }
         ],
-        "copyright": "© 2025 المركز السعودي للتلاوات القرآنية. جميع الحقوق محفوظة."
+        "copyright": "© 2024 جميع الحقوق محفوظة."
       }
     },
     "cmsLinks": {

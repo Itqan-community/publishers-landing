@@ -25,21 +25,16 @@ export const FeaturedRecitationsSection: React.FC<FeaturedRecitationsSectionProp
         {/* Header */}
         <div className="mb-12 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div className="flex flex-col gap-2 lg:flex-row lg:items-start lg:gap-10">
-            <h2 className="text-end font-primary text-[34px] font-semibold leading-[1.4] text-black sm:text-[39px]">
+            <h2 className="font-primary text-[32px] font-semibold leading-[1.4] text-black md:text-[39px]">
               {title}
             </h2>
-            <p className="max-w-[320px] text-end font-primary text-[16px] font-light leading-[1.4] text-black/90 sm:text-[19px]">
+            <p className="max-w-[320px] font-primary text-[18px] leading-[30.4px] text-[#343434] md:text-[20px]">
               {description}
             </p>
           </div>
           {viewAllHref && (
-            <Button variant="surface" size="sm" asChild>
-              <a
-                href={viewAllHref}
-                className="h-auto rounded-[12px] border border-black/10 bg-white px-10 py-[18px] text-[16px] font-semibold leading-[22px] text-black shadow-sm hover:bg-gray-50"
-              >
-                جميع التلاوات
-              </a>
+            <Button variant="surface" size="md" asChild>
+              <a href={viewAllHref}>جميع التلاوات</a>
             </Button>
           )}
         </div>

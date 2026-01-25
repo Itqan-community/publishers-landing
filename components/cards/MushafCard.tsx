@@ -130,7 +130,7 @@ export const MushafCard: React.FC<MushafCardProps> = ({ mushaf }) => {
       </div>
 
       {/* Bottom section (plain white) */}
-      <div className="p-4 text-right">
+      <div className="p-4">
         {/* Row 1: name */}
         <h3 className="text-[20px] font-semibold text-black leading-[1.4]">
           {title}

@@ -9,25 +9,27 @@ export interface FeatureItem {
 }
 
 interface AboutSectionProps {
+  id?: string;
   title: string;
   description: string;
   features: FeatureItem[];
 }
 
 export const AboutSection: React.FC<AboutSectionProps> = ({
+  id,
   title,
   description,
   features,
 }) => {
   return (
-    <section className="py-20 bg-white">
+    <section id={id} className={`py-20 bg-white ${id ? 'scroll-mt-20' : ''}`}>
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Row 1: heading (start side) + description (other side) */}
         <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-          <h2 className="text-[32px] md:text-[39px] font-semibold text-black leading-[1.4] text-right lg:mb-0 lg:max-w-[520px] shrink-0">
+          <h2 className="text-[32px] md:text-[39px] font-semibold text-black leading-[1.4] lg:mb-0 lg:max-w-[520px] shrink-0">
             {title}
           </h2>
-          <p className="text-[18px] md:text-[20px] text-[#343434] leading-[30.4px] text-right lg:text-left lg:max-w-[640px]">
+          <p className="text-[18px] md:text-[20px] text-[#343434] leading-[30.4px] lg:text-end lg:max-w-[640px]">
             {description}
           </p>
         </div>
@@ -50,11 +52,11 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
                   />
                 )}
               </div>
-              <h3 className="text-[20px] font-semibold text-black text-right mt-[58px]">
+              <h3 className="text-[20px] font-semibold text-black mt-[58px]">
                 {feature.title}
               </h3>
               {feature.description && (
-                <p className="text-[19px] leading-[30.4px] text-[#343434] text-right mt-3 whitespace-pre-line">
+                <p className="text-[19px] leading-[30.4px] text-[#343434] mt-3 whitespace-pre-line">
                   {feature.description}
                 </p>
               )}

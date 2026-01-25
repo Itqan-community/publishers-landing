@@ -31,7 +31,7 @@ export function HeroSection({ content, statsCard }: HeroSectionProps) {
         {/* Figma: Image is 469px wide, text area is wider - adjust grid ratio */}
         <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-12 items-center">
           {/* Text Column - Right side (start in RTL) */}
-          <div className="order-1 lg:order-1 space-y-6 text-right">
+          <div className="order-1 lg:order-1 space-y-6">
             <h1 className="text-[39px] font-semibold text-black leading-[1.4]">
               {title}
             </h1>

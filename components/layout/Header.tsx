@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/Button';
 import { FiMenu, FiX } from 'react-icons/fi';
@@ -13,8 +14,19 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems }) => {
+  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, item: { label: string; href: string }) => {
+    const [path, hash] = item.href.split('#');
+    const onHome = hash && pathname === path;
+    if (onHome) {
+      e.preventDefault();
+      document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth' });
+    }
+    setMobileMenuOpen(false);
+  };
 
   useEffect(() => {
     const thresholdPx = 50;
@@ -56,6 +68,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems }) =>
               <Link
                 key={item.href}
                 href={item.href}
+                onClick={(e) => handleNavClick(e, item)}
                 className={`transition-colors ${
                   item.label === 'الرئيسية'
                     ? 'text-black font-semibold' // Active: black, SemiBold
@@ -95,8 +108,8 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems }) =>
                 <Link
                   key={item.href}
                   href={item.href}
+                  onClick={(e) => handleNavClick(e, item)}
                   className="text-gray-800 hover:text-primary font-semibold transition-colors py-2"
-                  onClick={() => setMobileMenuOpen(false)}
                 >
                   {item.label}
                 </Link>

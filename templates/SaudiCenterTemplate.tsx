@@ -102,8 +102,9 @@ export async function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) 
       {/* Partners Section - separate solid background (no hero pattern) */}
       <PartnersSection />
 
-      {/* About Section */}
+      {/* About Section — scroll target #about */}
       <AboutSection
+        id="about"
         title="عن المركز السعودي للتلاوات"
         description="المركز السعودي للتلاوات القرآنية هو منصة إسلامية رائدة تهدف إلى نشر كتاب الله الكريم بأفضل التسجيلات الصوتية، حيث نجمع تلاوات نخبة من أشهر القراء في العالم الإسلامي لتكون في متناول الجميع"
         features={aboutFeatures}
@@ -116,8 +117,9 @@ export async function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) 
         </div>
       </div>
 
-      {/* Recorded Mushafs Section */}
+      {/* Recorded Mushafs Section — scroll target #recorded-mushafs */}
       <RecordedMushafsSection
+        id="recorded-mushafs"
         title="المصاحف المسجلة"
         description="استمع إلى القرآن الكريم بأصوات نخبة من أشهر القراء في العالم الإسلامي"
         mushafs={mushafs}
@@ -133,8 +135,9 @@ export async function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) 
         detailsHrefBase={`/${tenant.id}/recitations`}
       />
 
-      {/* Reciters Section */}
+      {/* Reciters Section — scroll target #reciters */}
       <RecitersSection
+        id="reciters"
         title="قراء المركز"
         description="نخبة من أفضل القراء والأئمة في المملكة العربية السعودية والعالم العربي والإسلامي"
         reciters={reciters}

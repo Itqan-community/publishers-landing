@@ -40,6 +40,7 @@ description: Mandatory Cursor rules for this codebase
 
 ## Mobile & RTL Rules
 - Layouts must be fully responsive; test at mobile breakpoints.
+- **RTL is the default**: The website is RTL. All designs (e.g. Figma) are in RTL. "Start" = right, "end" = left. If we later switch to LTR, layouts should look the opposite (start = left, end = right) via logical properties—no design change.
 - Maintain RTL correctness for Arabic UI; align text and controls appropriately.
 - Avoid `left`/`right` CSS and Tailwind utilities; use logical properties (`start`/`end`, `ms`/`me`, `inset-inline-*`) so LTR works when English is added.
 

@@ -138,7 +138,7 @@ export default async function RecitationDetailsPage({
   }
 
   return (
-    <PageLayout tenant={tenant} showFooter={false}>
+    <PageLayout tenant={tenant}>
       <div dir="rtl" className="bg-white">
         <div className="mx-auto max-w-[1200px] px-4 pb-16 pt-10 sm:px-6 lg:px-8">
           <section className="rounded-[18px] border border-[#ebe8e8] bg-white px-6 py-6 shadow-sm">
@@ -155,7 +155,7 @@ export default async function RecitationDetailsPage({
                     />
                   </div>
                 </div>
-                <div className="text-end">
+                <div>
                   <h1 className="text-[28px] font-semibold text-black">الشيخ بدر التركي</h1>
                   <p className="mt-2 text-[18px] text-[#6a6a6a]">إمام الحرم المكي</p>
                 </div>
@@ -218,7 +218,7 @@ export default async function RecitationDetailsPage({
           </section>
 
           <section className="mt-16">
-            <div className="flex flex-col gap-4 text-end">
+            <div className="flex flex-col gap-4">
               <h2 className="text-[32px] font-semibold text-black">المصاحف الأخرى</h2>
               <p className="text-[18px] text-black">
                 استمع إلى القرآن الكريم بأصوات نخبة من أشهر القراء في العالم الإسلامي
@@ -256,7 +256,7 @@ export default async function RecitationDetailsPage({
                         </div>
                       </div>
                     </div>
-                    <div className="px-4 py-4 text-end">
+                    <div className="px-4 py-4">
                       <h3 className="text-[20px] font-semibold text-black">{item.title}</h3>
                       <p className="mt-2 text-[12px] text-[#343434]">{item.description}</p>
                       <div className="mt-4 flex flex-wrap items-center gap-2 text-[10px] text-[#343434]">
@@ -282,87 +282,7 @@ export default async function RecitationDetailsPage({
             </div>
           </section>
         </div>
-
-        <FooterSection />
       </div>
     </PageLayout>
   );
 }
-
-function FooterSection() {
-  return (
-    <footer className="bg-[#f6f4f1] border-t border-[#ebe8e8]">
-      <div className="mx-auto max-w-[1200px] px-4 py-10 sm:px-6 lg:px-8" dir="rtl">
-        <div className="flex flex-col gap-8 lg:flex-row-reverse lg:items-start lg:justify-between">
-          <div className="max-w-[387px] text-end">
-            <div className="flex items-center justify-end gap-3">
-              <div className="relative h-[44px] w-[77px]">
-                <Image src="/logos/center-logo.png" alt="شعار المركز السعودي" fill className="object-contain" />
-              </div>
-              <div className="flex flex-col items-end gap-1">
-                <div className="relative h-[18px] w-[182px]">
-                  <Image src="/logos/center-logo-full.png" alt="المركز السعودي" fill className="object-contain" />
-                </div>
-                <div className="text-[12px] text-black">للتلاوات القرآنية والأحاديث النبوية</div>
-              </div>
-            </div>
-            <p className="mt-6 text-[14px] leading-[1.5] text-black">
-              هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص
-              العربى.
-            </p>
-          </div>
-
-          <div className="flex flex-wrap justify-between gap-10 text-end lg:flex-row-reverse lg:gap-[53px]">
-            <div>
-              <p className="text-[16px] font-semibold text-black">عنا</p>
-              <div className="mt-4 flex flex-col gap-2 text-[12px] text-black">
-                <span>من نحن</span>
-                <span>تواصل معنا</span>
-              </div>
-            </div>
-            <div>
-              <p className="text-[16px] font-semibold text-black">المصادر</p>
-              <div className="mt-4 flex flex-col gap-2 text-[12px] text-black">
-                <span>الأسئلة الشائعة</span>
-                <span>الشروط</span>
-                <span>الخصوصية</span>
-              </div>
-            </div>
-            <div>
-              <p className="text-[16px] font-semibold text-black">تواصل معنا</p>
-              <div className="mt-4 flex flex-col gap-2 text-[12px] text-black">
-                <span>hello@Saudi.sa</span>
-                <span>05632222222</span>
-              </div>
-            </div>
-            <div>
-              <p className="text-[16px] font-semibold text-black">تابعنا</p>
-              <div className="mt-4 flex flex-col gap-3 text-[12px] text-black">
-                <div className="flex items-center justify-end gap-2">
-                  <span>تويتر</span>
-                  <Image src="/icons/footer/x.png" alt="تويتر" width={18} height={18} />
-                </div>
-                <div className="flex items-center justify-end gap-2">
-                  <span>انستجرام</span>
-                  <Image src="/icons/footer/instagram.png" alt="انستجرام" width={18} height={18} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-8 border-t border-[#ebe8e8] pt-6">
-          <div className="flex flex-col gap-4 text-[12px] text-[#6a6a6a] md:flex-row md:items-center md:justify-between">
-            <div className="flex flex-wrap items-center gap-6">
-              <span>سياسة الخصوصية</span>
-              <span>شروط الخدمة</span>
-              <span>إعدادات ملفات تعريف الارتباط</span>
-            </div>
-            <span>© 2024 جميع الحقوق محفوظة.</span>
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
-}
-

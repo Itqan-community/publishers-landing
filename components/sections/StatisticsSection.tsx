@@ -1,7 +1,8 @@
 /**
  * Statistics Section Component
- * 
- * Displays key metrics and statistics in an attractive grid
+ *
+ * Displays key metrics and statistics. Matches Figma: dark green bg, pattern
+ * (hero-bg.svg), gold values, typography and spacing. No vertical dividers.
  */
 
 import React from 'react';
@@ -16,58 +17,60 @@ interface StatisticsSectionProps {
 export function StatisticsSection({
   title,
   description,
-  statistics
+  statistics,
 }: StatisticsSectionProps) {
   if (!statistics || statistics.length === 0) {
     return null;
   }
 
   return (
-    <section className="py-20 bg-[#193624] text-white">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
+    <section className="relative bg-[#193624] text-white py-20 overflow-hidden">
+      {/* Background pattern (same as hero): diagonal fade top-start -> bottom-end */}
+      <div
+        className="pointer-events-none absolute inset-0 bg-[url('/images/hero-bg.svg')] bg-no-repeat bg-right-top bg-cover opacity-100 [mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)] [-webkit-mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)]"
+        aria-hidden="true"
+      />
+
+      <div className="relative z-[1] max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header: title and description in one row (stack on mobile) */}
         {(title || description) && (
-          <div className="mb-12 text-right">
+          <div className="mb-12 flex flex-col gap-6 lg:flex-row lg:items-center">
             {title && (
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 leading-tight">
+              <h2 className="text-[32px] md:text-[39px] font-semibold text-white leading-[1.4] lg:mb-0 lg:max-w-[520px] shrink-0">
                 {title}
               </h2>
             )}
             {description && (
-              <p className="text-lg text-white/80 max-w-2xl">
+              <p className="text-[18px] md:text-[20px] text-white/80 leading-[30.4px] lg:max-w-[290px]">
                 {description}
               </p>
             )}
           </div>
         )}
 
-        {/* Statistics Row */}
-        <div className="flex flex-col md:flex-row items-stretch justify-between gap-10">
+        {/* Statistics Row: value (gold) + label + optional description */}
+        <div className="flex flex-col md:flex-row items-stretch justify-start gap-4">
           {statistics.map((stat, index) => (
-            <React.Fragment key={index}>
-              <div className="relative h-[187px] w-full md:w-[240px] text-right">
-                <div className="text-[69px] leading-none text-[#faaf41] font-medium">
-                  {typeof stat.value === 'number'
-                    ? stat.value.toLocaleString()
-                    : stat.value}
-                </div>
-                <div className="text-[36px] font-light mt-4">
-                  {stat.label}
-                </div>
-                {stat.description && (
-                  <div className="text-[19px] font-light mt-2 text-white/90">
-                    {stat.description}
-                  </div>
-                )}
+            <div
+              key={index}
+              className="relative h-[187px] w-full md:w-[240px] flex-shrink-0"
+            >
+              <div className="text-[69px] leading-none text-[#faaf41] font-medium">
+                {typeof stat.value === 'number'
+                  ? stat.value.toLocaleString()
+                  : stat.value}
+                {stat.suffix ?? ''}
               </div>
-              {index < statistics.length - 1 && (
-                <div className="hidden md:block w-px bg-white/20 h-[152px]" />
+              <div className="text-[36px] font-light mt-4">{stat.label}</div>
+              {stat.description && (
+                <div className="text-[19px] font-light mt-2 text-white/90">
+                  {stat.description}
+                </div>
               )}
-            </React.Fragment>
+            </div>
           ))}
         </div>
       </div>
     </section>
   );
 }
-
