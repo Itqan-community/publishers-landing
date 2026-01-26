@@ -4,21 +4,37 @@ import { getBackendUrl } from '@/lib/utils';
 
 /**
  * API response model for recitations endpoint
+ * Based on API docs: GET /recitations/ returns paginated response
  */
 interface RecitationApiResponse {
-  id: string;
+  id: number;
   name: string;
+  description?: string;
+  publisher?: {
+    id: number;
+    name: string;
+  };
   reciter: {
-    id: string;
+    id: number;
     name: string;
   };
   riwayah: {
-    id: string;
+    id: number;
     name: string;
   };
-  madd_level: 'qasr' | 'tawassut' | null;
-  meem_behaviour: 'silah' | 'skoun' | null;
-  year: number | null;
+  surahs_count: number;
+  // Legacy fields that may still be present
+  madd_level?: 'qasr' | 'tawassut' | null;
+  meem_behaviour?: 'silah' | 'skoun' | null;
+  year?: number | null;
+}
+
+/**
+ * Paginated API response wrapper
+ */
+interface PaginatedResponse<T> {
+  results: T[];
+  count: number;
 }
 
 /**
@@ -28,8 +44,8 @@ interface RecitationApiResponse {
 export const getRecordedMushafs = cache(async (tenantId: string): Promise<RecordedMushaf[]> => {
   try {
     const backendUrl = getBackendUrl();
-    // Ensure URL is properly formatted (no trailing slash, then add endpoint)
-    const apiUrl = `${backendUrl.replace(/\/$/, '')}/recitations`;
+    // Ensure URL is properly formatted (no trailing slash, then add endpoint with trailing slash)
+    const apiUrl = `${backendUrl.replace(/\/$/, '')}/recitations/`;
     
     console.log(`[getRecordedMushafs] Fetching from: ${apiUrl}`);
     
@@ -56,14 +72,14 @@ export const getRecordedMushafs = cache(async (tenantId: string): Promise<Record
       return [];
     }
 
-    const data: RecitationApiResponse[] = await response.json();
+    const data: PaginatedResponse<RecitationApiResponse> = await response.json();
     console.log(`[getRecordedMushafs] API response:`, data);
 
     // Outline colors per Figma: blue, green, purple, red, pink
     const OUTLINE_PALETTE = ['#2563eb', '#059669', '#7c3aed', '#dc2626', '#db2777'];
 
     // Map API response to RecordedMushaf model
-    return data.map((recitation, i): RecordedMushaf => {
+    return data.results.map((recitation, i): RecordedMushaf => {
       // Build badges from riwayah, madd_level, and meem_behaviour
       const badges: RecordedMushaf['badges'] = [];
 
@@ -100,12 +116,12 @@ export const getRecordedMushafs = cache(async (tenantId: string): Promise<Record
       const avatarImage = `/images/mushafs/mushaf-reciter-${recitation.reciter?.id || 'default'}.png`;
 
       return {
-        id: recitation.id,
+        id: String(recitation.id),
         title: recitation.name || 'مصحف',
         description,
         riwayaLabel: recitation.riwayah?.name ? `رواية ${recitation.riwayah.name}` : undefined,
         reciter: {
-          id: recitation.reciter?.id || '',
+          id: String(recitation.reciter?.id || ''),
           name: recitation.reciter?.name || 'غير معروف',
           avatarImage,
         },
@@ -129,7 +145,7 @@ export const getRecordedMushafs = cache(async (tenantId: string): Promise<Record
     }
   } catch (error) {
     const backendUrl = getBackendUrl();
-    const apiUrl = `${backendUrl.replace(/\/$/, '')}/recitations`;
+    const apiUrl = `${backendUrl.replace(/\/$/, '')}/recitations/`;
     const isDevelopment = process.env.NODE_ENV === 'development';
     
     if (isDevelopment) {
@@ -145,6 +161,71 @@ export const getRecordedMushafs = cache(async (tenantId: string): Promise<Record
       }
       return [];
     }
+  }
+});
+
+/**
+ * Get a single recitation by ID
+ */
+export const getRecitationById = cache(async (recitationId: string | number): Promise<RecitationApiResponse | null> => {
+  try {
+    const backendUrl = getBackendUrl();
+    const apiUrl = `${backendUrl.replace(/\/$/, '')}/recitations/?id=${recitationId}`;
+    
+    console.log(`[getRecitationById] Fetching from: ${apiUrl}`);
+    
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
+    
+    try {
+      const response = await fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        signal: controller.signal,
+        next: { revalidate: 300 },
+      });
+      
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        console.error(`[getRecitationById] API error: ${response.status} ${response.statusText}`);
+        return null;
+      }
+
+      const data: PaginatedResponse<RecitationApiResponse> = await response.json();
+      
+      console.log('========================================');
+      console.log('[getRecitationById] API Response:');
+      console.log('  - Requested recitationId:', recitationId);
+      console.log('  - Results count:', data.results.length);
+      if (data.results.length > 0) {
+        console.log('  - Found recitation.id:', data.results[0].id);
+        console.log('  - Found recitation.name:', data.results[0].name);
+        console.log('  - IDs match:', String(data.results[0].id) === String(recitationId));
+      }
+      console.log('========================================');
+      
+      // Return the first result if found
+      return data.results.length > 0 ? data.results[0] : null;
+    } catch (fetchError) {
+      clearTimeout(timeoutId);
+      
+      if (fetchError instanceof Error && fetchError.name === 'AbortError') {
+        console.error(`[getRecitationById] Request timeout for ${apiUrl}`);
+        return null;
+      }
+      throw fetchError;
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(`[getRecitationById] Error:`, error.message);
+    } else {
+      console.error(`[getRecitationById] Unknown error:`, error);
+    }
+    return null;
   }
 });
 

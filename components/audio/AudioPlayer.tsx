@@ -58,13 +58,14 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
   variant = 'featured',
   listTitle,
 }) => {
-  const [selectedRecitation, setSelectedRecitation] = useState<RecitationItem>(
-    recitations.find((recitation) => recitation.id === defaultSelected) || recitations[0]
+  const [selectedRecitation, setSelectedRecitation] = useState<RecitationItem | null>(
+    recitations.length > 0
+      ? (recitations.find((recitation) => recitation.id === defaultSelected) || recitations[0])
+      : null
   );
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const isDetailsVariant = variant === 'details';
-  const isFeaturedVariant = variant === 'featured';
 
   const [currentTimeSeconds, setCurrentTimeSeconds] = useState(0);
   const [durationSeconds, setDurationSeconds] = useState<number>(0);
@@ -76,18 +77,35 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
   }, [selectedRecitation, onRecitationChange]);
 
   const handleRecitationClick = (recitation: RecitationItem) => {
+    console.log('[AudioPlayer] handleRecitationClick called:', {
+      recitationId: recitation.id,
+      recitationTitle: recitation.title,
+      audioUrl: recitation.audioUrl,
+      hasAudioUrl: !!recitation.audioUrl,
+    });
     setSelectedRecitation(recitation);
     setIsPlaying(true);
   };
 
   const listTitleText = listTitle || (isDetailsVariant ? 'قائمة السور' : 'قائمة التلاوات');
 
+  // Update selectedRecitation when recitations change
+  useEffect(() => {
+    if (recitations.length > 0 && (!selectedRecitation || !recitations.find(r => r.id === selectedRecitation.id))) {
+      const newSelected = recitations.find((recitation) => recitation.id === defaultSelected) || recitations[0];
+      if (newSelected) {
+        setSelectedRecitation(newSelected);
+      }
+    }
+  }, [recitations, defaultSelected, selectedRecitation]);
+
   const selectedIndex = useMemo(() => {
+    if (!selectedRecitation) return -1;
     return Math.max(
       0,
       recitations.findIndex((r) => r.id === selectedRecitation.id)
     );
-  }, [recitations, selectedRecitation.id]);
+  }, [recitations, selectedRecitation?.id]);
 
   const hasPrev = selectedIndex > 0;
   const hasNext = selectedIndex < recitations.length - 1;
@@ -104,22 +122,109 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
     return Math.min(1, Math.max(0, currentTimeSeconds / durationSeconds));
   }, [currentTimeSeconds, durationSeconds]);
 
+  // Helper function to validate and normalize audio URL
+  const getValidAudioUrl = (url: string | undefined): string | null => {
+    if (!url || url.trim() === '') {
+      return null;
+    }
+    
+    const trimmedUrl = url.trim();
+    
+    // If it's already an absolute URL, return it
+    try {
+      const urlObj = new URL(trimmedUrl);
+      if (urlObj.protocol === 'http:' || urlObj.protocol === 'https:') {
+        return trimmedUrl;
+      }
+    } catch {
+      // Not a valid absolute URL, might be relative
+    }
+    
+    // If it starts with /, it's a relative URL - convert to absolute
+    if (trimmedUrl.startsWith('/')) {
+      try {
+        return new URL(trimmedUrl, window.location.origin).href;
+      } catch {
+        console.warn('[AudioPlayer] Failed to convert relative URL:', trimmedUrl);
+        return null;
+      }
+    }
+    
+    // Try to construct a valid URL
+    try {
+      return new URL(trimmedUrl, window.location.origin).href;
+    } catch {
+      console.warn('[AudioPlayer] Invalid audio URL format:', trimmedUrl);
+      return null;
+    }
+  };
+
+  // Memoize the valid audio URL to avoid recalculating
+  const validAudioUrl = useMemo(() => {
+    if (!selectedRecitation) return null;
+    const url = getValidAudioUrl(selectedRecitation.audioUrl);
+    console.log('[AudioPlayer] validAudioUrl calculation:', {
+      selectedRecitationId: selectedRecitation.id,
+      selectedRecitationTitle: selectedRecitation.title,
+      originalAudioUrl: selectedRecitation.audioUrl,
+      validAudioUrl: url,
+      hasValidUrl: !!url,
+    });
+    return url;
+  }, [selectedRecitation?.audioUrl, selectedRecitation?.id, selectedRecitation?.title]);
+
   // Reset time when recitation changes
   useEffect(() => {
-    if (!isFeaturedVariant) return;
     setCurrentTimeSeconds(0);
     setDurationSeconds(0);
-  }, [selectedRecitation.id, isFeaturedVariant]);
+  }, [selectedRecitation?.id]);
 
-  // Handle audio source change and playback
+  // Handle audio source change and playback (featured and details)
   useEffect(() => {
-    if (!isFeaturedVariant) return;
     const audio = audioRef.current;
-    if (!audio || !selectedRecitation.audioUrl) return;
+    if (!audio) {
+      console.warn('[AudioPlayer] Audio ref is null');
+      return;
+    }
+
+    if (!selectedRecitation) {
+      console.warn('[AudioPlayer] No selected recitation');
+      return;
+    }
+
+    console.log('[AudioPlayer] Audio effect triggered:', {
+      selectedRecitationId: selectedRecitation.id,
+      selectedRecitationTitle: selectedRecitation.title,
+      audioUrl: selectedRecitation.audioUrl,
+      validAudioUrl,
+      isPlaying,
+      currentAudioSrc: audio.src,
+    });
+
+    if (!validAudioUrl) {
+      console.warn('[AudioPlayer] Invalid or missing audio URL:', {
+        selectedRecitationId: selectedRecitation.id,
+        selectedRecitationTitle: selectedRecitation.title,
+        audioUrl: selectedRecitation.audioUrl,
+      });
+      setIsPlaying(false);
+      // Clear the audio source to prevent errors
+      if (audio.src) {
+        audio.src = '';
+        audio.load();
+      }
+      return;
+    }
 
     // Update audio source when recitation changes
-    if (audio.src !== selectedRecitation.audioUrl) {
-      audio.src = selectedRecitation.audioUrl;
+    const currentSrc = audio.src;
+    
+    if (currentSrc !== validAudioUrl) {
+      console.log('[AudioPlayer] Updating audio source:', {
+        from: currentSrc,
+        to: validAudioUrl,
+      });
+      audio.src = validAudioUrl;
       audio.load();
       setCurrentTimeSeconds(0);
       setDurationSeconds(0);
@@ -130,15 +235,14 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
       const playPromise = audio.play();
       if (playPromise && typeof playPromise.catch === 'function') {
         playPromise.catch((error) => {
-          console.error('[AudioPlayer] Play failed:', error);
-          // Autoplay can be blocked; keep UI consistent with actual playback state.
+          console.error('[AudioPlayer] Play failed:', error, 'URL:', validAudioUrl);
           setIsPlaying(false);
         });
       }
     } else {
       audio.pause();
     }
-  }, [isPlaying, isFeaturedVariant, selectedRecitation.audioUrl]);
+  }, [isPlaying, validAudioUrl, selectedRecitation?.audioUrl, selectedRecitation]);
 
   const handlePrev = () => {
     if (!hasPrev) return;
@@ -177,7 +281,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
           <div className="min-w-0 flex-1 px-6 py-6 sm:px-8 sm:py-8">
             <div className="flex flex-col">
               {recitations.map((recitation, index) => {
-                const isSelected = selectedRecitation.id === recitation.id;
+                const isSelected = selectedRecitation?.id === recitation.id;
                 const isLast = index === recitations.length - 1;
 
                 return (
@@ -265,10 +369,10 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
               {/* Artwork */}
               <div className="relative mb-8 size-[214px] rounded-[30px] bg-white p-[7px] shadow-[0px_44px_84px_0px_rgba(0,0,0,0.07)]">
                 <div className="relative h-full w-full overflow-hidden rounded-[23px] bg-[#f3f3f3]">
-                  {selectedRecitation.image ? (
+                  {selectedRecitation?.image ? (
                     <Image
                       src={selectedRecitation.image}
-                      alt={selectedRecitation.title}
+                      alt={selectedRecitation.title || ''}
                       fill
                       className="object-cover"
                       priority={false}
@@ -292,7 +396,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                         style={{ insetInlineStart: `${progressPercent * 100}%` }}
                         aria-hidden="true"
                       >
-                        {durationSeconds ? formatTime(currentTimeSeconds) : selectedRecitation.duration}
+                        {durationSeconds ? formatTime(currentTimeSeconds) : selectedRecitation?.duration || '0:00'}
                       </div>
                       <div
                         className="absolute top-1/2 size-[12px] -translate-y-1/2 -translate-x-1/2 rounded-full bg-[#193624] shadow-sm"
@@ -319,10 +423,10 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                 <div className="mt-6 flex items-start justify-between gap-6">
                   <div className="min-w-0">
                     <p className="truncate font-primary text-[18px] font-semibold leading-[22px] text-black">
-                      {selectedRecitation.title}
+                      {selectedRecitation?.title || ''}
                     </p>
                     <p className="mt-1 truncate font-primary text-[16px] leading-[22px] text-[#6a6a6a]">
-                      {selectedRecitation.reciterName}
+                      {selectedRecitation?.reciterName || ''}
                     </p>
                   </div>
 
@@ -359,10 +463,9 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                 </div>
               </div>
 
-              {selectedRecitation.audioUrl && (
-                <audio
-                  ref={audioRef}
-                  src={selectedRecitation.audioUrl}
+              <audio
+                ref={audioRef}
+                src={validAudioUrl || undefined}
                   onTimeUpdate={(e) => {
                     const audio = e.currentTarget as HTMLAudioElement;
                     setCurrentTimeSeconds(audio.currentTime);
@@ -375,7 +478,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                   }}
                   onPlay={() => {
                     setIsPlaying(true);
-                    console.log('[AudioPlayer] Playing:', selectedRecitation.audioUrl);
+                    console.log('[AudioPlayer] Playing:', selectedRecitation?.audioUrl);
                   }}
                   onPause={() => {
                     setIsPlaying(false);
@@ -388,12 +491,21 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                   }}
                   onError={(e) => {
                     const audio = e.currentTarget as HTMLAudioElement;
-                    console.error('[AudioPlayer] Audio error:', {
-                      error: audio.error,
-                      code: audio.error?.code,
-                      message: audio.error?.message,
-                      src: selectedRecitation.audioUrl,
-                    });
+                    const errorCode = audio.error?.code;
+                    const errorMessage = audio.error?.message;
+                    
+                    // Only log errors that aren't just empty/invalid sources
+                    if (errorCode !== undefined && errorCode !== 4) { // 4 = MEDIA_ERR_SRC_NOT_SUPPORTED
+                      console.error('[AudioPlayer] Audio error:', {
+                        error: audio.error,
+                        code: errorCode,
+                        message: errorMessage,
+                        src: validAudioUrl,
+                        originalUrl: selectedRecitation?.audioUrl,
+                      });
+                    } else if (!validAudioUrl || validAudioUrl.trim() === '') {
+                      console.warn('[AudioPlayer] No valid audio URL provided');
+                    }
                     setIsPlaying(false);
                   }}
                   onCanPlay={() => {
@@ -403,9 +515,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                     console.log('[AudioPlayer] Loading started:', selectedRecitation.audioUrl);
                   }}
                   preload="metadata"
-                  crossOrigin="anonymous"
                 />
-              )}
             </div>
           </div>
         </div>
@@ -414,41 +524,124 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
       {isDetailsVariant && (
         <>
           <div>
-          <div className="rounded-[12px] border border-[#ebe8e8] bg-white px-6 py-6">
-            <div className="flex flex-col gap-6">
-              {selectedRecitation.image && (
-                <div className="relative h-[240px] w-full overflow-hidden rounded-[10px]">
-                  <Image
-                    src={selectedRecitation.image}
-                    alt={selectedRecitation.title}
-                    fill
-                    className="object-cover"
-                  />
+            <div className="rounded-[12px] border border-[#ebe8e8] bg-white px-6 py-6">
+              <div className="flex flex-col items-center gap-6">
+                {selectedRecitation.image && (
+                  <div className="relative size-[214px] shrink-0 overflow-hidden rounded-full bg-[#f3f3f3]">
+                    <Image
+                      src={selectedRecitation.image}
+                      alt={selectedRecitation.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                )}
+                {/* Progress: time above, orange seekable bar */}
+                <div className="w-full max-w-[343px]">
+                  <p className="mb-2 text-center font-primary text-[14px] text-[#6a6a6a]">
+                    {durationSeconds ? formatTime(currentTimeSeconds) : selectedRecitation?.duration || '0:00'}
+                  </p>
+                  <div className="relative h-[18px]">
+                    <div className="absolute inset-y-0 start-0 end-0 flex items-center">
+                      <div className="relative h-[4px] w-full rounded-full bg-[#e6e6e6]">
+                        <div
+                          className="absolute inset-y-0 rounded-full bg-[#f4b400]"
+                          style={{ width: `${progressPercent * 100}%`, insetInlineStart: 0 }}
+                          aria-hidden
+                        />
+                        <div
+                          className="absolute top-1/2 size-[12px] -translate-y-1/2 -translate-x-1/2 rounded-full bg-[#f4b400] shadow-sm"
+                          style={{ insetInlineStart: `${progressPercent * 100}%` }}
+                          aria-hidden
+                        />
+                      </div>
+                    </div>
+                    <input
+                      aria-label="شريط التقديم"
+                      type="range"
+                      min={0}
+                      max={durationSeconds || 0}
+                      step={0.1}
+                      value={Math.min(currentTimeSeconds, durationSeconds || currentTimeSeconds)}
+                      onChange={(e) => handleSeek(Number(e.target.value))}
+                      className="absolute inset-0 h-full w-full opacity-0"
+                      disabled={!durationSeconds}
+                    />
+                  </div>
                 </div>
-              )}
-              <div className="h-2 w-full rounded-full bg-[#e6e6e6]">
-                <div className="h-2 w-[55%] rounded-full bg-[#f4b400]" />
-              </div>
-              <div className="flex items-center justify-between gap-4">
-                <div>
-                  <p className="text-[18px] font-semibold text-black">{selectedRecitation.title}</p>
-                  <p className="mt-1 text-[14px] text-[#6a6a6a]">{selectedRecitation.reciterName}</p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <button className="flex h-[46px] w-[46px] items-center justify-center rounded-full border border-[#ebe8e8] text-[#161616]" aria-label="السابق">
+                {/* Controls: Prev, Play (#193624, 56px), Next */}
+                <div className="flex items-center justify-center gap-3">
+                  <button
+                    type="button"
+                    onClick={handlePrev}
+                    disabled={!hasPrev}
+                    aria-label="السابق"
+                    className="flex size-[46px] items-center justify-center rounded-full border border-[#ebe8e8] text-[#161616] disabled:opacity-40"
+                  >
                     <PrevIcon />
                   </button>
-                  <button className="flex h-[46px] w-[46px] items-center justify-center rounded-full bg-black text-white" aria-label="تشغيل">
-                    <PlayIcon />
+                  <button
+                    type="button"
+                    onClick={handleTogglePlay}
+                    aria-label={isPlaying ? 'إيقاف مؤقت' : 'تشغيل'}
+                    className="flex size-[56px] items-center justify-center rounded-full bg-[#193624] text-white"
+                  >
+                    {isPlaying ? (
+                      <img src="/icons/recitations/pause.png" alt="" width={24} height={24} className="h-6 w-6" />
+                    ) : (
+                      <PlayIcon />
+                    )}
                   </button>
-                  <button className="flex h-[46px] w-[46px] items-center justify-center rounded-full border border-[#ebe8e8] text-[#161616]" aria-label="التالي">
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    disabled={!hasNext}
+                    aria-label="التالي"
+                    className="flex size-[46px] items-center justify-center rounded-full border border-[#ebe8e8] text-[#161616] disabled:opacity-40"
+                  >
                     <NextIcon />
                   </button>
                 </div>
+                {/* Track title + reciter below controls, text-end for RTL */}
+                <div className="w-full text-end">
+                  <p className="truncate font-primary text-[18px] font-semibold text-black">{selectedRecitation?.title || ''}</p>
+                  <p className="mt-1 truncate font-primary text-[14px] text-[#6a6a6a]">{selectedRecitation?.reciterName || ''}</p>
+                </div>
               </div>
             </div>
-            </div>
-      </div>
+            <audio
+              ref={audioRef}
+              src={validAudioUrl || undefined}
+                onTimeUpdate={(e) => setCurrentTimeSeconds(e.currentTarget.currentTime)}
+                onLoadedMetadata={(e) => setDurationSeconds(e.currentTarget.duration || 0)}
+                onPlay={() => setIsPlaying(true)}
+                onPause={() => setIsPlaying(false)}
+                onEnded={() => {
+                  setIsPlaying(false);
+                  setCurrentTimeSeconds(0);
+                }}
+                onError={(e) => {
+                  const audio = e.currentTarget as HTMLAudioElement;
+                  const errorCode = audio.error?.code;
+                  const errorMessage = audio.error?.message;
+                  
+                  // Only log errors that aren't just empty/invalid sources
+                  if (errorCode !== undefined && errorCode !== 4) { // 4 = MEDIA_ERR_SRC_NOT_SUPPORTED
+                    console.error('[AudioPlayer] Audio error:', {
+                      error: audio.error,
+                      code: errorCode,
+                      message: errorMessage,
+                      src: validAudioUrl,
+                      originalUrl: selectedRecitation?.audioUrl,
+                    });
+                  } else if (!validAudioUrl || validAudioUrl.trim() === '') {
+                    console.warn('[AudioPlayer] No valid audio URL provided');
+                  }
+                  setIsPlaying(false);
+                }}
+                preload="metadata"
+              />
+          </div>
 
           <div>
         <div className="rounded-[12px] border border-[#ebe8e8] bg-white px-6 py-6">
@@ -467,7 +660,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
 
                 <div className="max-h-[620px] overflow-y-auto pe-2">
                   {recitations.map((recitation) => {
-                const isSelected = selectedRecitation.id === recitation.id;
+                const isSelected = selectedRecitation?.id === recitation.id;
                 const secondaryText = recitation.surahInfo || recitation.reciterName;
                     const itemClasses = `flex w-full items-center justify-between gap-4 rounded-[10px] px-4 py-4 transition-colors min-h-[72px] ${
                       isSelected ? 'bg-[#f3f3f3]' : 'border-b border-[#ebe8e8]'
@@ -486,10 +679,6 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                     </div>
 
                       <div className="flex items-center gap-2">
-                        <ActionIcon src="/icons/recitations/info.png" alt="معلومات" />
-                        <ActionIcon src="/icons/recitations/download.png" alt="تحميل" />
-                        <ActionIcon src="/icons/recitations/share.png" alt="مشاركة" />
-                        <ActionIcon src="/icons/recitations/heart.png" alt="إعجاب" />
                         <span className="flex h-[36px] w-[36px] items-center justify-center rounded-[11px] text-[#161616]" aria-label={isSelected && isPlaying ? 'إيقاف مؤقت' : 'تشغيل'}>
                           {isSelected && isPlaying ? (
                             <img src="/icons/recitations/pause.png" alt="" width={19} height={19} className="h-[19px] w-[19px] object-contain" />
@@ -497,6 +686,10 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                             <span className="[&_svg]:h-[19px] [&_svg]:w-[19px]"><PlayIcon /></span>
                           )}
                         </span>
+                        <ActionIcon src="/icons/recitations/download.png" alt="تحميل" />
+                        <ActionIcon src="/icons/recitations/share.png" alt="مشاركة" />
+                        <ActionIcon src="/icons/recitations/heart.png" alt="إعجاب" />
+                        <ActionIcon src="/icons/recitations/info.png" alt="معلومات" />
                       </div>
                   </button>
                 );

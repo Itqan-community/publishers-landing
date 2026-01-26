@@ -3,6 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/Button';
 
 export interface ReciterCardProps {
@@ -26,6 +27,9 @@ export const ReciterCard: React.FC<ReciterCardProps> = ({
   href,
   onViewMore,
 }) => {
+  const router = useRouter();
+  const isCardLink = href && !onViewMore;
+  
   const content = (
     <div className="relative h-full overflow-hidden rounded-[10px] bg-black">
       <div className="relative w-full h-[380px]">
@@ -52,9 +56,23 @@ export const ReciterCard: React.FC<ReciterCardProps> = ({
             >
               عرض المزيد
             </Button>
-          ) : href ? (
+          ) : href && !isCardLink ? (
             <Button asChild variant="surface" size="md">
               <Link href={href}>عرض المزيد</Link>
+            </Button>
+          ) : isCardLink ? (
+            <Button
+              variant="surface"
+              size="md"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (href) {
+                  router.push(href);
+                }
+              }}
+            >
+              عرض المزيد
             </Button>
           ) : null}
         </div>
@@ -62,7 +80,7 @@ export const ReciterCard: React.FC<ReciterCardProps> = ({
     </div>
   );
 
-  return href && !onViewMore ? (
+  return isCardLink ? (
     <Link href={href} className="block h-full">
       {content}
     </Link>

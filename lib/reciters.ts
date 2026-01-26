@@ -4,11 +4,20 @@ import type { ReciterCardProps } from '@/components/cards/ReciterCard';
 
 /**
  * API response model for reciters endpoint
+ * Based on API docs: GET /reciters/ returns paginated response
  */
 interface ReciterApiResponse {
-  id: string;
+  id: number;
   name: string;
-  // Add other fields as needed based on actual API response
+  recitations_count: number;
+}
+
+/**
+ * Paginated API response wrapper
+ */
+interface PaginatedResponse<T> {
+  results: T[];
+  count: number;
 }
 
 /**
@@ -43,12 +52,12 @@ export const getReciters = cache(async (tenantId: string): Promise<ReciterCardPr
         return getMockReciters(tenantId);
       }
 
-      const data: ReciterApiResponse[] = await response.json();
+      const data: PaginatedResponse<ReciterApiResponse> = await response.json();
 
       // Map API response to ReciterCardProps
-      return data.map((reciter): ReciterCardProps => {
+      return data.results.map((reciter): ReciterCardProps => {
         return {
-          id: reciter.id,
+          id: String(reciter.id),
           name: reciter.name,
           title: 'قارئ وإمام', // Default title, could come from API
           image: `/images/reciters/reciter-${reciter.id}.jpg`, // Fallback image path
@@ -68,7 +77,7 @@ export const getReciters = cache(async (tenantId: string): Promise<ReciterCardPr
     }
   } catch (error) {
     const backendUrl = getBackendUrl();
-    const apiUrl = `${backendUrl.replace(/\/$/, '')}/reciters`;
+    const apiUrl = `${backendUrl.replace(/\/$/, '')}/reciters/`;
     const isDevelopment = process.env.NODE_ENV === 'development';
     
     if (isDevelopment) {

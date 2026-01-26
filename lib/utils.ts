@@ -8,10 +8,10 @@ export function cn(...inputs: ClassValue[]) {
 /**
  * Get the backend API URL based on the current environment
  * 
- * Environment mapping:
- * - production: https://api.itqan.dev
- * - staging: https://staging.api.itqan.dev
- * - development: https://develop.api.itqan.dev
+ * Environment mapping (based on API docs):
+ * - production: https://api.cms.itqan.dev
+ * - staging: https://staging.api.cms.itqan.dev
+ * - development: https://develop.api.cms.itqan.dev
  * 
  * Can be overridden with NEXT_PUBLIC_API_URL environment variable
  * Environment is determined by NEXT_PUBLIC_ENV (or NODE_ENV for production/development)
@@ -25,7 +25,7 @@ export function getBackendUrl(): string {
   // Check for custom environment variable (for staging)
   const customEnv = process.env.NEXT_PUBLIC_ENV;
   if (customEnv === 'staging') {
-    return 'https://staging.api.itqan.dev';
+    return 'https://staging.api.cms.itqan.dev';
   }
 
   // Determine URL based on NODE_ENV (production or development)
@@ -33,9 +33,9 @@ export function getBackendUrl(): string {
   
   switch (nodeEnv) {
     case 'production':
-      return 'https://api.itqan.dev';
+      return 'https://api.cms.itqan.dev';
     case 'development':
     default:
-      return 'https://develop.api.itqan.dev';
+      return 'https://develop.api.cms.itqan.dev';
   }
 }
