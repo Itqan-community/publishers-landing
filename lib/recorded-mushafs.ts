@@ -170,9 +170,11 @@ export const getRecordedMushafs = cache(async (tenantId: string): Promise<Record
 export const getRecitationById = cache(async (recitationId: string | number): Promise<RecitationApiResponse | null> => {
   try {
     const backendUrl = getBackendUrl();
+    // Try query parameter format first (API might not support REST endpoint for single recitation)
     const apiUrl = `${backendUrl.replace(/\/$/, '')}/recitations/?id=${recitationId}`;
     
     console.log(`[getRecitationById] Fetching from: ${apiUrl}`);
+    console.log(`[getRecitationById] Requested recitationId: ${recitationId} (type: ${typeof recitationId})`);
     
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000);
@@ -195,21 +197,41 @@ export const getRecitationById = cache(async (recitationId: string | number): Pr
         return null;
       }
 
-      const data: PaginatedResponse<RecitationApiResponse> = await response.json();
+      const responseData = await response.json();
+      
+      // Handle both single object response and paginated response
+      let recitation: RecitationApiResponse | null = null;
+      
+      if (Array.isArray(responseData)) {
+        // If response is an array, find the matching ID
+        recitation = responseData.find((r: RecitationApiResponse) => String(r.id) === String(recitationId)) || null;
+      } else if (responseData.results && Array.isArray(responseData.results)) {
+        // If response is paginated, find the matching ID in results
+        recitation = responseData.results.find((r: RecitationApiResponse) => String(r.id) === String(recitationId)) || null;
+        // If not found by ID match, fall back to first result (for backward compatibility)
+        if (!recitation && responseData.results.length > 0) {
+          recitation = responseData.results[0];
+        }
+      } else if (responseData.id) {
+        // If response is a single object, verify ID matches
+        if (String(responseData.id) === String(recitationId)) {
+          recitation = responseData as RecitationApiResponse;
+        }
+      }
       
       console.log('========================================');
       console.log('[getRecitationById] API Response:');
       console.log('  - Requested recitationId:', recitationId);
-      console.log('  - Results count:', data.results.length);
-      if (data.results.length > 0) {
-        console.log('  - Found recitation.id:', data.results[0].id);
-        console.log('  - Found recitation.name:', data.results[0].name);
-        console.log('  - IDs match:', String(data.results[0].id) === String(recitationId));
+      if (recitation) {
+        console.log('  - Found recitation.id:', recitation.id);
+        console.log('  - Found recitation.name:', recitation.name);
+        console.log('  - IDs match:', String(recitation.id) === String(recitationId));
+      } else {
+        console.log('  - No recitation found matching ID:', recitationId);
       }
       console.log('========================================');
       
-      // Return the first result if found
-      return data.results.length > 0 ? data.results[0] : null;
+      return recitation;
     } catch (fetchError) {
       clearTimeout(timeoutId);
       
