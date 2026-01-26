@@ -71,7 +71,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
   const [durationSeconds, setDurationSeconds] = useState<number>(0);
 
   useEffect(() => {
-    if (onRecitationChange) {
+    if (onRecitationChange && selectedRecitation) {
       onRecitationChange(selectedRecitation);
     }
   }, [selectedRecitation, onRecitationChange]);
@@ -372,7 +372,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                   {selectedRecitation?.image ? (
                     <Image
                       src={selectedRecitation.image}
-                      alt={selectedRecitation.title || ''}
+                      alt={selectedRecitation?.title || ''}
                       fill
                       className="object-cover"
                       priority={false}
@@ -509,10 +509,10 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                     setIsPlaying(false);
                   }}
                   onCanPlay={() => {
-                    console.log('[AudioPlayer] Audio can play:', selectedRecitation.audioUrl);
+                    console.log('[AudioPlayer] Audio can play:', selectedRecitation?.audioUrl);
                   }}
                   onLoadStart={() => {
-                    console.log('[AudioPlayer] Loading started:', selectedRecitation.audioUrl);
+                    console.log('[AudioPlayer] Loading started:', selectedRecitation?.audioUrl);
                   }}
                   preload="metadata"
                 />
@@ -526,11 +526,11 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
           <div>
             <div className="rounded-[12px] border border-[#ebe8e8] bg-white px-6 py-6">
               <div className="flex flex-col items-center gap-6">
-                {selectedRecitation.image && (
+                {selectedRecitation?.image && (
                   <div className="relative size-[214px] shrink-0 overflow-hidden rounded-full bg-[#f3f3f3]">
                     <Image
                       src={selectedRecitation.image}
-                      alt={selectedRecitation.title}
+                      alt={selectedRecitation?.title || ''}
                       fill
                       className="object-cover"
                     />
