@@ -1,6 +1,7 @@
 import { cache } from 'react';
-import { getBackendUrl } from '@/lib/utils';
+import { getBackendUrl, getApiHeaders } from '@/lib/utils';
 import type { RecitationItem } from '@/components/audio/AudioPlayer';
+import { getRecitationById } from '@/lib/recorded-mushafs';
 
 /**
  * API response model for recitation tracks endpoint
@@ -102,16 +103,40 @@ function normalizeAudioUrl(audioUrl: string | undefined, baseUrl?: string): stri
 
 /**
  * Server-side data accessor for Featured Recitation Tracks.
- * 
- * NOTE: There is no dedicated endpoint for featured tracks in the API.
- * This function returns mock data for now. In the future, we could:
- * - Get the first recitation and use its tracks
- * - Or create a separate endpoint on the backend
+ * Fetches tracks for recitation with id 1 from the API.
  */
 export const getFeaturedRecitationTracks = cache(async (tenantId: string, limit: number = 5): Promise<RecitationItem[]> => {
-  // Since there's no /recitation_track_list endpoint, return mock data
-  console.warn('[getFeaturedRecitationTracks] No API endpoint available - using mock data');
-  return getMockRecitationTracks(tenantId);
+  try {
+    // First, fetch the recitation with id 5 to get reciter information
+    const recitation = await getRecitationById(5);
+    
+    if (!recitation) {
+      console.warn('[getFeaturedRecitationTracks] Recitation with id 5 not found - using mock data');
+      return getMockRecitationTracks(tenantId);
+    }
+
+    // Get reciter information
+    const reciterName = recitation.reciter?.name || 'غير معروف';
+    const reciterImage = `/images/mushafs/mushaf-reciter-${recitation.reciter?.id || 'default'}.png`;
+
+    // Fetch tracks for this recitation using its ID
+    const tracks = await getRecitationTracksByAssetId(
+      recitation.id,
+      reciterName,
+      reciterImage
+    );
+
+    // Limit the number of tracks if specified
+    if (limit > 0 && tracks.length > limit) {
+      return tracks.slice(0, limit);
+    }
+
+    return tracks;
+  } catch (error) {
+    console.error('[getFeaturedRecitationTracks] Error fetching tracks:', error);
+    // Fall back to mock data on error
+    return getMockRecitationTracks(tenantId);
+  }
 });
 
 /**
@@ -199,10 +224,7 @@ export const getRecitationTracksByAssetId = cache(async (
     try {
       const response = await fetch(apiUrl, {
         method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
+        headers: getApiHeaders(),
         signal: controller.signal,
         next: { revalidate: 300 },
       });

@@ -1,5 +1,5 @@
 import { cache } from 'react';
-import { getBackendUrl } from '@/lib/utils';
+import { getBackendUrl, getApiHeaders } from '@/lib/utils';
 import type { ReciterCardProps } from '@/components/cards/ReciterCard';
 
 /**
@@ -37,10 +37,7 @@ export const getReciters = cache(async (tenantId: string): Promise<ReciterCardPr
     try {
       const response = await fetch(apiUrl, {
         method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
+        headers: getApiHeaders(),
         signal: controller.signal,
         next: { revalidate: 300 },
       });

@@ -7,6 +7,7 @@ import { RecitationsPlayer, RecitationItem } from '@/components/audio/AudioPlaye
 import { FiCode, FiDownload, FiMessageCircle, FiHeart, FiShare2 } from 'react-icons/fi';
 import { getRecitationById } from '@/lib/recorded-mushafs';
 import { getRecitationTracksByAssetId } from '@/lib/recitation-tracks';
+import { AvatarImage } from '@/components/ui/AvatarImage';
 
 // Mock data fallback for development when API is unavailable
 const mockSurahItems: RecitationItem[] = [
@@ -229,12 +230,13 @@ export default async function RecitationDetailsPage({
               <div className="flex items-center gap-6 flex-row-reverse">
                 <div className="flex h-[179px] w-[179px] shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-[#f4b400] bg-white p-0">
                   <div className="relative h-full w-full overflow-hidden rounded-full">
-                    <Image
+                    <AvatarImage
                       src={reciterImage}
                       alt={`صورة ${reciterName}`}
                       fill
                       className="object-cover"
                       priority
+                      iconSize="h-24 w-24"
                     />
                   </div>
                 </div>

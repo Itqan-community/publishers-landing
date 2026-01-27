@@ -1,6 +1,6 @@
 import { cache } from 'react';
 import type { RecordedMushaf } from '@/types/tenant.types';
-import { getBackendUrl } from '@/lib/utils';
+import { getBackendUrl, getApiHeaders } from '@/lib/utils';
 
 /**
  * API response model for recitations endpoint
@@ -56,10 +56,7 @@ export const getRecordedMushafs = cache(async (tenantId: string): Promise<Record
     try {
       const response = await fetch(apiUrl, {
         method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
+        headers: getApiHeaders(),
         signal: controller.signal,
         // Cache for 5 minutes, revalidate on demand
         next: { revalidate: 300 },
@@ -182,10 +179,7 @@ export const getRecitationById = cache(async (recitationId: string | number): Pr
     try {
       const response = await fetch(apiUrl, {
         method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
+        headers: getApiHeaders(),
         signal: controller.signal,
         next: { revalidate: 300 },
       });

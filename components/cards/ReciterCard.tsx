@@ -2,9 +2,6 @@
 
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/Button';
 
 export interface ReciterCardProps {
   id: string;
@@ -27,11 +24,8 @@ export const ReciterCard: React.FC<ReciterCardProps> = ({
   href,
   onViewMore,
 }) => {
-  const router = useRouter();
-  const isCardLink = href && !onViewMore;
-  
-  const content = (
-    <div className="relative h-full overflow-hidden rounded-[10px] bg-black">
+  return (
+    <div className="relative h-full overflow-hidden rounded-[10px] bg-black cursor-default">
       <div className="relative w-full h-[380px]">
         <Image
           src={image}
@@ -44,47 +38,7 @@ export const ReciterCard: React.FC<ReciterCardProps> = ({
       <div className="absolute left-[13px] right-[13px] bottom-[16px] bg-white rounded-[10px] px-6 py-5">
         <h3 className="text-[24px] font-semibold text-black leading-tight">{name}</h3>
         <p className="text-[16px] text-[#343434] mt-2">{title}</p>
-        <div className="pt-4">
-          {onViewMore ? (
-            <Button
-              variant="surface"
-              size="md"
-              onClick={(e) => {
-                e.stopPropagation();
-                onViewMore();
-              }}
-            >
-              عرض المزيد
-            </Button>
-          ) : href && !isCardLink ? (
-            <Button asChild variant="surface" size="md">
-              <Link href={href}>عرض المزيد</Link>
-            </Button>
-          ) : isCardLink ? (
-            <Button
-              variant="surface"
-              size="md"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                if (href) {
-                  router.push(href);
-                }
-              }}
-            >
-              عرض المزيد
-            </Button>
-          ) : null}
-        </div>
       </div>
     </div>
-  );
-
-  return isCardLink ? (
-    <Link href={href} className="block h-full">
-      {content}
-    </Link>
-  ) : (
-    content
   );
 };

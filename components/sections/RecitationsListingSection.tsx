@@ -58,7 +58,7 @@ export const RecitationsListingSection: React.FC<RecitationsListingSectionProps>
   };
 
   return (
-    <section className="bg-[#f6f4f1] pt-10 pb-16 md:pt-12 md:pb-20" dir="rtl">
+    <section className="bg-white pt-10 pb-16 md:pt-12 md:pb-20" dir="rtl">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {visible.map((mushaf) => (

@@ -2,42 +2,37 @@
 
 import React from 'react';
 
-// Golden-yellow magnifying glass for the ابحث button — to the visual left of the text in RTL
+// Arrow down icon for filter dropdown
+function ArrowDown({ className }: { className?: string }) {
+  return (
+    <svg width={24} height={24} viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
+      <path d="M5.99975 8.99986L11.9998 14.9998L17.9997 8.99981" stroke="currentColor" strokeMiterlimit="16" strokeWidth="1.5" />
+    </svg>
+  );
+}
+
+// Grid view icon
+function GridView({ className }: { className?: string }) {
+  return (
+    <svg width={26} height={26} viewBox="0 0 26 26" fill="none" className={className} aria-hidden>
+      <path d="M10.8333 2.16667V10.8333H2.16667V2.16667H10.8333Z" stroke="currentColor" strokeLinejoin="round" strokeWidth="1.5" />
+      <path d="M23.8333 2.16667V10.8333H15.1667V2.16667H23.8333Z" stroke="currentColor" strokeLinejoin="round" strokeWidth="1.5" />
+      <path d="M23.8333 15.1667V23.8333H15.1667V15.1667H23.8333Z" stroke="currentColor" strokeLinejoin="round" strokeWidth="1.5" />
+      <path d="M10.8333 15.1667V23.8333H2.16667V15.1667H10.8333Z" stroke="currentColor" strokeLinejoin="round" strokeWidth="1.5" />
+    </svg>
+  );
+}
+
+// Search icon for button (orange, rotated and flipped)
 function SearchButtonIcon({ className }: { className?: string }) {
   return (
-    <svg width={20} height={20} viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
-      <path
-        d="M21 21l-5.2-5.2M11 19a8 8 0 100-16 8 8 0 000 16z"
-        stroke="currentColor"
-        strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-// Light gray magnifying glass inside the search input
-function SearchInputIcon({ className }: { className?: string }) {
-  return (
-    <svg width={20} height={20} viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
-      <path
-        d="M21 21l-5.2-5.2M11 19a8 8 0 100-16 8 8 0 000 16z"
-        stroke="currentColor"
-        strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-// Chevron down for dropdown — RTL: at inline-end
-function ChevronDown({ className }: { className?: string }) {
-  return (
-    <svg width={16} height={16} viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
-      <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
+    <div className={`flex-none rotate-[180deg] scale-y-[-100%] ${className}`}>
+      <svg width={24} height={24} viewBox="0 0 24 24" fill="none" className="size-full" aria-hidden>
+        <path d="M4 11C4 6.02944 8.02944 2 13 2C17.9706 2 22 6.02944 22 11C22 15.9706 17.9706 20 13 20C8.02944 20 4 15.9706 4 11Z" fill="#FAAF41" opacity="0.3" />
+        <path d="M6.5 17.5L2 22" stroke="#FAAF41" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
+        <path d="M4 11C4 6.02944 8.02944 2 13 2C17.9706 2 22 6.02944 22 11C22 15.9706 17.9706 20 13 20C8.02944 20 4 15.9706 4 11Z" stroke="#FAAF41" strokeLinejoin="round" strokeWidth="1.5" />
+      </svg>
+    </div>
   );
 }
 
@@ -54,9 +49,8 @@ interface RecitationsTopSectionProps {
 }
 
 /**
- * Top section — Figma 2154-9640. RTL by default.
- * - Search: one unit = [أبحث button inside same container] + [input with icon at inline-end]. Icon = “visual left” of placeholder in RTL.
- * - Filter: custom-styled select with appearance-none, chevron at inline-end (RTL = left).
+ * Top section with search bar matching the design from .temp/search bar
+ * Layout: [Filter dropdown] [Search input] [Search button]
  */
 export function RecitationsTopSection({
   title,
@@ -71,15 +65,10 @@ export function RecitationsTopSection({
 }: RecitationsTopSectionProps) {
   return (
     <section
-      className="relative overflow-hidden bg-[#f6f4f1] pt-12 pb-10 md:pt-16 md:pb-12"
+      className="relative overflow-hidden pt-12 pb-10 md:pt-16 md:pb-12"
       aria-labelledby="recitations-heading"
       dir="rtl"
     >
-      <div
-        className="pointer-events-none absolute inset-0 bg-[url('/images/hero-bg.svg')] bg-cover bg-right-top bg-no-repeat opacity-100 [mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)] [-webkit-mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)]"
-        aria-hidden
-      />
-
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
         <h1
           id="recitations-heading"
@@ -91,42 +80,15 @@ export function RecitationsTopSection({
           {description}
         </p>
 
-        {/* White bar: [Search unit: button+input] [Dropdown] [View toggle]. RTL: first = start = right. */}
-        <div className="mt-10 flex flex-row flex-wrap items-center gap-3 rounded-[12px] border border-[#ebe8e8] bg-white p-3 sm:gap-4 sm:p-4">
-          {/* Search unit: button inside the same bordered container as the input. RTL: button at start (right). */}
-          <div className="flex min-w-0 flex-1 flex-row overflow-hidden rounded-[10px] border border-[#ebe8e8] bg-white sm:min-w-[280px]">
-            {/* Button at start (right in RTL): ابحث + golden icon (icon to visual left = after text in DOM) */}
-            <button
-              type="button"
-              className="flex h-[44px] shrink-0 items-center justify-center gap-2 border-0 bg-[#193624] px-4 text-[16px] font-medium text-white hover:bg-[#102516] focus:outline-none focus:ring-2 focus:ring-[#193624] focus:ring-offset-0"
-              aria-label="ابحث"
-            >
-              <span>ابحث</span>
-              <SearchButtonIcon className="h-5 w-5 shrink-0 text-[#faaf41]" />
-            </button>
-            {/* 1px divider between button and input — use border-inline-start on input wrapper */}
-            <div className="relative min-w-0 flex-1 border-inline-start border-[#ebe8e8]">
-              <input
-                type="text"
-                value={search}
-                onChange={(e) => onSearchChange(e.target.value)}
-                placeholder={searchPlaceholder}
-                className="h-[44px] w-full border-0 bg-transparent py-2.5 ps-4 pe-11 text-[16px] text-[#1f2a37] placeholder:text-[#9ca3af] focus:outline-none focus:ring-0"
-                aria-label={searchPlaceholder}
-              />
-              {/* Icon at inline-end (left in RTL) = “visual left of placeholder”, flex-centered in fixed-width slot */}
-              <span className="pointer-events-none absolute top-0 flex h-[44px] w-11 items-center justify-center text-[#9ca3af] inset-inline-end-0">
-                <SearchInputIcon className="h-5 w-5" />
-              </span>
-            </div>
-          </div>
-
-          {/* Dropdown: custom-styled, chevron at inline-end (left in RTL). appearance-none + own chevron. */}
-          <div className="relative h-[44px] shrink-0">
+        {/* White bar: [Filter dropdown] [Search input] [Search button]. RTL: first = start = right. */}
+        <div className="mt-10 flex flex-row flex-wrap items-center gap-3 rounded-[6px] bg-white p-3 sm:gap-4 sm:p-4">
+          {/* Filter dropdown: gray background, contains grid icon, text, and chevron */}
+          <div className="flex h-[48px] shrink-0 items-center gap-[10px] rounded-[6px] bg-[#f3f3f3] px-5 py-3">
+            <GridView className="h-[26px] w-[26px] shrink-0 text-black" />
             <select
               value={filterRiwaya}
               onChange={(e) => onFilterRiwayaChange(e.target.value)}
-              className="h-full min-w-[140px] cursor-pointer appearance-none rounded-[10px] border border-[#ebe8e8] bg-white ps-4 pe-10 text-[14px] text-[#1f2a37] [-webkit-appearance:none] focus:outline-none focus:ring-2 focus:ring-[#193624]/30"
+              className="flex-1 cursor-pointer appearance-none bg-transparent text-[16px] font-semibold text-black text-start focus:outline-none [-webkit-appearance:none]"
               aria-label={filterAllLabel}
             >
               <option value="">{filterAllLabel}</option>
@@ -136,23 +98,29 @@ export function RecitationsTopSection({
                 </option>
               ))}
             </select>
-            <span className="pointer-events-none absolute inset-inline-end-3 top-1/2 -translate-y-1/2 text-[#6a6a6a]">
-              <ChevronDown className="h-4 w-4" />
-            </span>
+            <ArrowDown className="h-6 w-6 shrink-0 text-black" />
           </div>
 
-          {/* View toggle */}
+          {/* Search input: flex-1, takes remaining space */}
+          <div className="relative min-w-0 flex-1">
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => onSearchChange(e.target.value)}
+              placeholder={searchPlaceholder}
+              className="h-[48px] w-full border-0 bg-transparent py-3 px-4 text-[16px] text-[#343434] placeholder:text-[#343434] focus:outline-none"
+              aria-label={searchPlaceholder}
+            />
+          </div>
+
+          {/* Search button: green background with ابحث text and orange search icon */}
           <button
             type="button"
-            className="flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-[10px] border border-[#ebe8e8] bg-white text-[#6a6a6a] hover:bg-[#f3f3f3] focus:outline-none focus:ring-2 focus:ring-[#193624]/30"
-            aria-label="عرض الشبكة"
+            className="flex h-[48px] shrink-0 items-center justify-center gap-1 bg-[#193624] px-4 rounded-[4px] text-[16px] font-medium text-white hover:bg-[#102516] focus:outline-none focus:ring-2 focus:ring-[#193624] focus:ring-offset-0"
+            aria-label="ابحث"
           >
-            <svg width={20} height={20} viewBox="0 0 24 24" fill="none" aria-hidden>
-              <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="2" />
-              <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="2" />
-              <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="2" />
-              <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="2" />
-            </svg>
+            <span>ابحث</span>
+            <SearchButtonIcon className="size-6" />
           </button>
         </div>
       </div>

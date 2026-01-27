@@ -6,6 +6,19 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
+ * Get default headers for API requests
+ * Includes Accept-Language: ar for all requests
+ */
+export function getApiHeaders(additionalHeaders?: Record<string, string>): HeadersInit {
+  return {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Accept-Language': 'ar',
+    ...additionalHeaders,
+  };
+}
+
+/**
  * Get the backend API URL based on the current environment
  * 
  * Environment mapping (based on API docs):

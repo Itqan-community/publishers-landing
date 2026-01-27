@@ -25,9 +25,9 @@ interface RecitationsPlayerProps {
   listTitle?: string;
 }
 
-const ActionIcon = ({ src, alt }: { src: string; alt: string }) => (
-  <span className="flex h-[36px] w-[36px] items-center justify-center rounded-[11px]">
-    <img src={src} alt={alt} width={19} height={19} className="h-[19px] w-[19px] object-contain" />
+const ActionIcon = ({ icon, alt }: { icon: React.ReactNode; alt: string }) => (
+  <span className="flex h-[36px] w-[36px] items-center justify-center rounded-[11px]" aria-label={alt}>
+    {icon}
   </span>
 );
 
@@ -47,6 +47,49 @@ const NextIcon = () => (
   <svg width={24} height={24} viewBox="0 0 24 24" fill="none" className="h-6 w-6 scale-x-[-1]" aria-hidden>
     <path d="M15.9351 12.6258C15.6807 13.8374 14.327 14.7077 11.6198 16.4481C8.67528 18.3411 7.20303 19.2876 6.01052 18.9229C5.60662 18.7994 5.23463 18.5823 4.92227 18.2876C4 17.4178 4 15.6118 4 12C4 8.38816 4 6.58224 4.92227 5.71235C5.23463 5.41773 5.60662 5.20057 6.01052 5.07707C7.20304 4.71243 8.67528 5.6589 11.6198 7.55186C14.327 9.29233 15.6807 10.1626 15.9351 11.3742C16.0216 11.7865 16.0216 12.2135 15.9351 12.6258Z" stroke="currentColor" strokeWidth={1.5} strokeLinejoin="round" />
     <path d="M20 4L20 20" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" />
+  </svg>
+);
+
+const UserIcon = ({ className = "h-full w-full" }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+    <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M20.59 22C20.59 18.13 16.74 15 12 15C7.26 15 3.41 18.13 3.41 22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const PauseIcon = ({ className = "h-6 w-6" }: { className?: string }) => (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className={className} aria-hidden="true">
+    <path d="M13.4538 2.57953L13.4929 2.57953L13.5321 2.57953H13.5322C14.0599 2.5795 14.5145 2.57948 14.8786 2.62843C15.2688 2.68089 15.6429 2.7992 15.9462 3.10258C16.2496 3.40597 16.3679 3.78001 16.4204 4.17021C16.4694 4.53432 16.4693 4.98899 16.4693 5.51669V13.532C16.4693 14.0597 16.4694 14.5144 16.4204 14.8785C16.3679 15.2687 16.2496 15.6427 15.9462 15.9461C15.6429 16.2495 15.2688 16.3678 14.8786 16.4202C14.5145 16.4692 14.0598 16.4692 13.5321 16.4691H13.5321H13.4538H13.4538C12.9261 16.4692 12.4714 16.4692 12.1073 16.4202C11.7171 16.3678 11.343 16.2495 11.0397 15.9461C10.7363 15.6427 10.618 15.2687 10.5655 14.8785C10.5165 14.5144 10.5166 14.0597 10.5166 13.532V13.532V5.51669V5.51665C10.5166 4.98897 10.5165 4.53431 10.5655 4.17021C10.618 3.78001 10.7363 3.40597 11.0397 3.10258C11.343 2.7992 11.7171 2.68089 12.1073 2.62843C12.4714 2.57948 12.926 2.5795 13.4537 2.57953H13.4538Z" fill="currentColor"/>
+    <path d="M5.51675 2.57953L5.55594 2.57953L5.59512 2.57953H5.59517C6.12285 2.5795 6.57751 2.57948 6.9416 2.62843C7.33181 2.68089 7.70585 2.7992 8.00923 3.10258C8.31262 3.40597 8.43092 3.78001 8.48339 4.17021C8.53234 4.53432 8.53231 4.98899 8.53228 5.51669V13.532C8.53231 14.0597 8.53234 14.5144 8.48339 14.8785C8.43092 15.2687 8.31262 15.6427 8.00923 15.9461C7.70585 16.2495 7.33181 16.3678 6.9416 16.4202C6.5775 16.4692 6.12283 16.4692 5.59513 16.4691H5.59512H5.51675H5.51675C4.98905 16.4692 4.53438 16.4692 4.17028 16.4202C3.78007 16.3678 3.40603 16.2495 3.10264 15.9461C2.79926 15.6427 2.68095 15.2687 2.62849 14.8785C2.57954 14.5144 2.57956 14.0597 2.57959 13.532V13.532V5.51669V5.51665C2.57956 4.98897 2.57954 4.53431 2.62849 4.17021C2.68095 3.78001 2.79926 3.40597 3.10264 3.10258C3.40603 2.7992 3.78007 2.68089 4.17028 2.62843C4.53437 2.57948 4.98903 2.5795 5.51671 2.57953H5.51675Z" fill="currentColor"/>
+  </svg>
+);
+
+const DownloadIcon = ({ className = "h-[19px] w-[19px]" }: { className?: string }) => (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className={className} aria-hidden="true">
+    <path d="M4.76221 15.8738L14.2865 15.8738" stroke="currentColor" strokeWidth="1.19054" strokeLinecap="round"/>
+    <path d="M9.52441 12.6991V3.17479" stroke="currentColor" strokeWidth="1.19054" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M12.6991 9.52435C12.6991 9.52435 10.361 12.6991 9.52435 12.6991C8.68774 12.6991 6.34961 9.52433 6.34961 9.52433" stroke="currentColor" strokeWidth="1.19054" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+const ShareIcon = ({ className = "h-[19px] w-[19px]" }: { className?: string }) => (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className={className} aria-hidden="true">
+    <path d="M14.2862 5.55585C14.901 5.6833 15.3647 5.89601 15.7374 6.25103C16.6673 7.13673 16.6673 8.56225 16.6673 11.4133C16.6673 14.2643 16.6673 15.6898 15.7374 16.5755C14.8076 17.4612 13.311 17.4612 10.3178 17.4612H8.73039C5.7372 17.4612 4.2406 17.4612 3.31073 16.5755C2.38086 15.6898 2.38086 14.2643 2.38086 11.4133C2.38086 8.56225 2.38086 7.13673 3.31073 6.25103C3.68345 5.89601 4.14722 5.6833 4.76194 5.55585" stroke="currentColor" strokeWidth="1.19054" strokeLinecap="round"/>
+    <path d="M9.54422 1.58781L9.52414 11.1117M9.54422 1.58781C9.41514 1.58246 9.28529 1.62859 9.16963 1.72622C8.45017 2.33351 7.14307 3.912 7.14307 3.912M9.54422 1.58781C9.65996 1.5926 9.77507 1.63879 9.87877 1.72635C10.5981 2.33375 11.9052 3.912 11.9052 3.912" stroke="currentColor" strokeWidth="1.19054" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+const HeartIcon = ({ className = "h-[19px] w-[19px]" }: { className?: string }) => (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className={className} aria-hidden="true">
+    <path d="M15.4473 3.17015C13.3189 1.86459 11.4612 2.39072 10.3453 3.22878C9.88771 3.5724 9.65893 3.74421 9.52432 3.74421C9.38972 3.74421 9.16093 3.5724 8.70337 3.22878C7.58741 2.39072 5.72975 1.86459 3.60135 3.17015C0.808051 4.88356 0.175996 10.5362 6.61904 15.3051C7.84623 16.2134 8.45983 16.6676 9.52432 16.6676C10.5888 16.6676 11.2024 16.2134 12.4296 15.3051C18.8726 10.5362 18.2406 4.88356 15.4473 3.17015Z" stroke="currentColor" strokeWidth="1.19054" strokeLinecap="round"/>
+  </svg>
+);
+
+const InfoIcon = ({ className = "h-[19px] w-[19px]" }: { className?: string }) => (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className={className} aria-hidden="true">
+    <path d="M17.4612 9.52432C17.4612 5.14088 13.9078 1.5874 9.52432 1.5874C5.14088 1.5874 1.5874 5.14088 1.5874 9.52432C1.5874 13.9078 5.14088 17.4612 9.52432 17.4612C13.9078 17.4612 17.4612 13.9078 17.4612 9.52432Z" stroke="currentColor" strokeWidth="1.19054"/>
+    <path d="M10.5102 13.4927V9.52428C10.5102 9.15013 10.5102 8.96306 10.2778 8.84682C10.0453 8.73059 9.67115 8.73059 8.92285 8.73059" stroke="currentColor" strokeWidth="1.19054" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M9.51791 6.34955H9.52504" stroke="currentColor" strokeWidth="1.19054" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
 
@@ -302,15 +345,28 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                       {/* Content + avatar: at start. Order: avatar then text so in RTL [Avatar|Title] from start. */}
                       <div className="flex min-w-0 flex-1 items-center justify-start gap-4">
                         <div className="relative shrink-0">
-                          <div className="relative size-[56px] overflow-hidden rounded-full bg-[#d9d9d9]">
+                          <div className="relative size-[56px] overflow-hidden rounded-full bg-[#d9d9d9] flex items-center justify-center">
                             {recitation.image ? (
                               <Image
                                 src={recitation.image}
                                 alt={recitation.reciterName}
                                 fill
                                 className="object-cover"
+                                onError={(e) => {
+                                  e.currentTarget.style.display = 'none';
+                                  const parent = e.currentTarget.parentElement;
+                                  if (parent) {
+                                    const userIcon = parent.querySelector('.user-icon-fallback');
+                                    if (userIcon) {
+                                      (userIcon as HTMLElement).style.display = 'flex';
+                                    }
+                                  }
+                                }}
                               />
                             ) : null}
+                            <div className={`user-icon-fallback absolute inset-0 flex items-center justify-center text-[#6a6a6a] ${recitation.image ? 'hidden' : 'flex'}`}>
+                              <UserIcon className="h-8 w-8" />
+                            </div>
                           </div>
                           {isSelected && isPlaying && (
                             <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/35">
@@ -368,7 +424,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
             <div className="flex flex-col items-center">
               {/* Artwork */}
               <div className="relative mb-8 size-[214px] rounded-[30px] bg-white p-[7px] shadow-[0px_44px_84px_0px_rgba(0,0,0,0.07)]">
-                <div className="relative h-full w-full overflow-hidden rounded-[23px] bg-[#f3f3f3]">
+                <div className="relative h-full w-full overflow-hidden rounded-[23px] bg-[#f3f3f3] flex items-center justify-center">
                   {selectedRecitation?.image ? (
                     <Image
                       src={selectedRecitation.image}
@@ -376,8 +432,21 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                       fill
                       className="object-cover"
                       priority={false}
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                        const parent = e.currentTarget.parentElement;
+                        if (parent) {
+                          const userIcon = parent.querySelector('.user-icon-fallback');
+                          if (userIcon) {
+                            (userIcon as HTMLElement).style.display = 'flex';
+                          }
+                        }
+                      }}
                     />
                   ) : null}
+                  <div className={`user-icon-fallback absolute inset-0 flex items-center justify-center text-[#6a6a6a] ${selectedRecitation?.image ? 'hidden' : 'flex'}`}>
+                    <UserIcon className="h-20 w-20" />
+                  </div>
                 </div>
               </div>
 
@@ -399,8 +468,14 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                         {durationSeconds ? formatTime(currentTimeSeconds) : selectedRecitation?.duration || '0:00'}
                       </div>
                       <div
-                        className="absolute top-1/2 size-[12px] -translate-y-1/2 -translate-x-1/2 rounded-full bg-[#193624] shadow-sm"
-                        style={{ insetInlineStart: `${progressPercent * 100}%` }}
+                        className="absolute top-1/2 size-[12px] -translate-y-1/2 rounded-full bg-[#193624] shadow-sm"
+                        style={{ 
+                          insetInlineStart: progressPercent === 0 
+                            ? '0px' 
+                            : progressPercent === 1 
+                            ? 'calc(100% - 12px)' 
+                            : `calc(${progressPercent * 100}% - 6px)` 
+                        }}
                         aria-hidden="true"
                       />
                     </div>
@@ -447,7 +522,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                       aria-label={isPlaying ? 'إيقاف مؤقت' : 'تشغيل'}
                       className="flex size-[46px] items-center justify-center rounded-[14px] bg-[#f3f3f3] text-[#161616]"
                     >
-                      {isPlaying ? <img src="/icons/recitations/pause.png" alt="" width={24} height={24} className="h-6 w-6" /> : <PlayIcon />}
+                      {isPlaying ? <PauseIcon className="h-6 w-6" /> : <PlayIcon />}
                     </button>
 
                     <button
@@ -526,16 +601,29 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
           <div>
             <div className="rounded-[12px] border border-[#ebe8e8] bg-white px-6 py-6">
               <div className="flex flex-col items-center gap-6">
-                {selectedRecitation?.image && (
-                  <div className="relative size-[214px] shrink-0 overflow-hidden rounded-full bg-[#f3f3f3]">
+                <div className="relative size-[214px] shrink-0 overflow-hidden rounded-full bg-[#f3f3f3] flex items-center justify-center">
+                  {selectedRecitation?.image ? (
                     <Image
                       src={selectedRecitation.image}
                       alt={selectedRecitation?.title || ''}
                       fill
                       className="object-cover"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                        const parent = e.currentTarget.parentElement;
+                        if (parent) {
+                          const userIcon = parent.querySelector('.user-icon-fallback');
+                          if (userIcon) {
+                            (userIcon as HTMLElement).style.display = 'flex';
+                          }
+                        }
+                      }}
                     />
+                  ) : null}
+                  <div className={`user-icon-fallback absolute inset-0 flex items-center justify-center text-[#6a6a6a] ${selectedRecitation?.image ? 'hidden' : 'flex'}`}>
+                    <UserIcon className="h-20 w-20" />
                   </div>
-                )}
+                </div>
                 {/* Progress: time above, orange seekable bar */}
                 <div className="w-full max-w-[343px]">
                   <p className="mb-2 text-center font-primary text-[14px] text-[#6a6a6a]">
@@ -550,8 +638,14 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                           aria-hidden
                         />
                         <div
-                          className="absolute top-1/2 size-[12px] -translate-y-1/2 -translate-x-1/2 rounded-full bg-[#f4b400] shadow-sm"
-                          style={{ insetInlineStart: `${progressPercent * 100}%` }}
+                          className="absolute top-1/2 size-[12px] -translate-y-1/2 rounded-full bg-[#f4b400] shadow-sm"
+                          style={{ 
+                            insetInlineStart: progressPercent === 0 
+                              ? '0px' 
+                              : progressPercent === 1 
+                              ? 'calc(100% - 12px)' 
+                              : `calc(${progressPercent * 100}% - 6px)` 
+                          }}
                           aria-hidden
                         />
                       </div>
@@ -587,7 +681,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                     className="flex size-[56px] items-center justify-center rounded-full bg-[#193624] text-white"
                   >
                     {isPlaying ? (
-                      <img src="/icons/recitations/pause.png" alt="" width={24} height={24} className="h-6 w-6" />
+                      <PauseIcon className="h-6 w-6" />
                     ) : (
                       <PlayIcon />
                     )}
@@ -681,15 +775,15 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                       <div className="flex items-center gap-2">
                         <span className="flex h-[36px] w-[36px] items-center justify-center rounded-[11px] text-[#161616]" aria-label={isSelected && isPlaying ? 'إيقاف مؤقت' : 'تشغيل'}>
                           {isSelected && isPlaying ? (
-                            <img src="/icons/recitations/pause.png" alt="" width={19} height={19} className="h-[19px] w-[19px] object-contain" />
+                            <PauseIcon className="h-[19px] w-[19px]" />
                           ) : (
                             <span className="[&_svg]:h-[19px] [&_svg]:w-[19px]"><PlayIcon /></span>
                           )}
                         </span>
-                        <ActionIcon src="/icons/recitations/download.png" alt="تحميل" />
-                        <ActionIcon src="/icons/recitations/share.png" alt="مشاركة" />
-                        <ActionIcon src="/icons/recitations/heart.png" alt="إعجاب" />
-                        <ActionIcon src="/icons/recitations/info.png" alt="معلومات" />
+                        <ActionIcon icon={<DownloadIcon />} alt="تحميل" />
+                        <ActionIcon icon={<ShareIcon />} alt="مشاركة" />
+                        <ActionIcon icon={<HeartIcon />} alt="إعجاب" />
+                        <ActionIcon icon={<InfoIcon />} alt="معلومات" />
                       </div>
                   </button>
                 );
