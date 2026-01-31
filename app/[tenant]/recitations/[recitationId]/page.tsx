@@ -7,127 +7,8 @@ import { RecitationsPlayer, RecitationItem } from '@/components/audio/AudioPlaye
 import { FiCode, FiDownload, FiMessageCircle, FiHeart, FiShare2 } from 'react-icons/fi';
 import { getRecitationById } from '@/lib/recorded-mushafs';
 import { getRecitationTracksByAssetId } from '@/lib/recitation-tracks';
+import { getBackendUrl, resolveImageUrl } from '@/lib/utils';
 import { AvatarImage } from '@/components/ui/AvatarImage';
-
-// Mock data fallback for development when API is unavailable
-const mockSurahItems: RecitationItem[] = [
-  {
-    id: '1',
-    title: '1. الفاتحة (Al-Fatihah)',
-    reciterName: 'الشيخ ياسر الدوسري',
-    duration: '01:23',
-    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
-    surahInfo: '7 آيات • مكية',
-    image: '/images/recitations/reciter-badr-turki.png',
-  },
-  {
-    id: '2',
-    title: '2. البقرة',
-    reciterName: 'الشيخ ياسر الدوسري',
-    duration: '20:00',
-    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3',
-    surahInfo: '286 آية • مدنية',
-    image: '/images/recitations/reciter-badr-turki.png',
-  },
-  {
-    id: '3',
-    title: '3. آل عمران',
-    reciterName: 'الشيخ ياسر الدوسري',
-    duration: '15:30',
-    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
-    surahInfo: '200 آية • مدنية',
-    image: '/images/recitations/reciter-badr-turki.png',
-  },
-  {
-    id: '4',
-    title: '4. النساء',
-    reciterName: 'الشيخ ياسر الدوسري',
-    duration: '18:45',
-    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3',
-    surahInfo: '176 آية • مدنية',
-    image: '/images/recitations/reciter-badr-turki.png',
-  },
-  {
-    id: '5',
-    title: '5. المائدة',
-    reciterName: 'الشيخ ياسر الدوسري',
-    duration: '10:10',
-    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3',
-    surahInfo: '120 آية • مدنية',
-    image: '/images/recitations/reciter-badr-turki.png',
-  },
-  {
-    id: '6',
-    title: '6. الأنعام',
-    reciterName: 'الشيخ ياسر الدوسري',
-    duration: '14:20',
-    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3',
-    surahInfo: '206 آية • مكية',
-    image: '/images/recitations/reciter-badr-turki.png',
-  },
-  {
-    id: '7',
-    title: '7. الأعراف',
-    reciterName: 'الشيخ ياسر الدوسري',
-    duration: '11:55',
-    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3',
-    surahInfo: '75 آية • مدنية',
-    image: '/images/recitations/reciter-badr-turki.png',
-  },
-  {
-    id: '8',
-    title: '8. الأنفال',
-    reciterName: 'الشيخ ياسر الدوسري',
-    duration: '09:00',
-    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3',
-    surahInfo: '129 آية • مدنية',
-    image: '/images/recitations/reciter-badr-turki.png',
-  },
-  {
-    id: '9',
-    title: '9. التوبة',
-    reciterName: 'الشيخ ياسر الدوسري',
-    duration: '16:15',
-    audioUrl: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3',
-    surahInfo: '109 آية • مكية',
-    image: '/images/recitations/reciter-badr-turki.png',
-  },
-];
-
-const otherMushafs = [
-  {
-    id: 'm-1',
-    title: 'الشيخ سامي السلمي',
-    description: 'المصحف المرتل للشيخ سامي السلمي',
-    bg: '/images/mushafs/mushaf-bg-1.png',
-    book: '/images/mushafs/mushaf-book-1.png',
-    avatar: '/images/mushafs/mushaf-reciter-1.png',
-  },
-  {
-    id: 'm-2',
-    title: 'الشيخ يوسف الدوسري',
-    description: 'المصحف المرتل للشيخ يوسف الدوسري',
-    bg: '/images/mushafs/mushaf-bg-2.png',
-    book: '/images/mushafs/mushaf-book-2.png',
-    avatar: '/images/mushafs/mushaf-reciter-2.png',
-  },
-  {
-    id: 'm-3',
-    title: 'الشيخ بريد القرني',
-    description: 'المصحف المرتل المعلم للشيخ بريد القرني',
-    bg: '/images/mushafs/mushaf-bg-3.png',
-    book: '/images/mushafs/mushaf-book-3.png',
-    avatar: '/images/mushafs/mushaf-reciter-3.png',
-  },
-  {
-    id: 'm-4',
-    title: 'الشيخ أحمد العبيدي',
-    description: 'المصحف المرتل للشيخ أحمد العبيدي',
-    bg: '/images/mushafs/mushaf-bg-4.png',
-    book: '/images/mushafs/mushaf-book-4.png',
-    avatar: '/images/mushafs/mushaf-reciter-4.png',
-  },
-];
 
 export default async function RecitationDetailsPage({
   params,
@@ -165,9 +46,13 @@ export default async function RecitationDetailsPage({
   console.log('  - IDs match:', String(recitation.id) === String(recitationId));
   console.log('========================================');
 
-  // Extract reciter information
+  // Extract reciter information; use image from API only (no mock paths)
   const reciterName = recitation.reciter?.name || 'غير معروف';
-  const reciterImage = `/images/mushafs/mushaf-reciter-${recitation.reciter?.id || 'default'}.png`;
+  const reciterImage =
+    resolveImageUrl(
+      recitation.reciter?.image ?? recitation.reciter?.avatar,
+      getBackendUrl()
+    ) ?? '';
 
   // IMPORTANT: Use recitation.id (from API response) as asset_id for tracks API
   // The API endpoint /recitation-tracks/{asset_id}/ expects the recitation's ID
@@ -309,70 +194,6 @@ export default async function RecitationDetailsPage({
             />
           </section>
 
-          <section className="mt-16">
-            <div className="flex flex-col gap-4">
-              <h2 className="text-[32px] font-semibold text-black">المصاحف الأخرى</h2>
-              <p className="text-[18px] text-black">
-                استمع إلى القرآن الكريم بأصوات نخبة من أشهر القراء في العالم الإسلامي
-              </p>
-            </div>
-
-            <div className="mt-8 flex items-center gap-4">
-              <button className="relative flex h-[56px] w-[56px] items-center justify-center rounded-full bg-[#f3f3f3]">
-                <Image src="/icons/recitations/arrow-circle.png" alt="السابق" width={56} height={56} />
-                <Image
-                  src="/icons/recitations/arrow-right.png"
-                  alt="السابق"
-                  width={27}
-                  height={27}
-                  className="absolute rotate-180"
-                />
-              </button>
-
-              <div className="flex flex-1 gap-6 overflow-x-auto pb-4 scrollbar-hide">
-                {otherMushafs.map((item) => (
-                  <div
-                    key={item.id}
-                    className="relative h-[348px] w-[284px] flex-shrink-0 rounded-[10px] border border-[#ebe8e8] bg-white"
-                  >
-                    <div className="relative h-[226px] w-full overflow-hidden rounded-t-[10px]">
-                      <Image src={item.bg} alt="" fill className="object-cover" />
-                      <div className="absolute inset-x-0 top-[35px] flex items-center justify-center">
-                        <div className="relative h-[156px] w-[156px]">
-                          <Image src={item.book} alt="المصحف" fill className="object-contain" />
-                        </div>
-                      </div>
-                      <div className="absolute top-[18px] flex w-full items-start justify-center">
-                        <div className="relative h-[67px] w-[67px] overflow-hidden rounded-full border-2 border-white">
-                          <Image src={item.avatar} alt={item.title} fill className="object-cover" />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="px-4 py-4 text-end">
-                      <h3 className="text-[20px] font-semibold text-black">{item.title}</h3>
-                      <p className="mt-2 text-[12px] text-[#343434]">{item.description}</p>
-                      <div className="mt-4 flex flex-wrap items-center justify-end gap-2 text-[10px] text-[#343434]">
-                        <span className="rounded-[6px] bg-[#f3f3f3] px-2 py-1">سنة 1970</span>
-                        <span className="rounded-[6px] bg-[#f3f3f3] px-2 py-1">التوسط</span>
-                        <span className="rounded-[6px] bg-[#f3f3f3] px-2 py-1">رواية حفص عن عاصم</span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <button className="relative flex h-[56px] w-[56px] items-center justify-center rounded-full bg-[#f3f3f3]">
-                <Image src="/icons/recitations/arrow-circle.png" alt="التالي" width={56} height={56} />
-                <Image
-                  src="/icons/recitations/arrow-right.png"
-                  alt="التالي"
-                  width={27}
-                  height={27}
-                  className="absolute"
-                />
-              </button>
-            </div>
-          </section>
         </div>
       </div>
     </PageLayout>

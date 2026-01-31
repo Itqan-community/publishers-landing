@@ -1,8 +1,8 @@
 import React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import type { RecordedMushaf } from '@/types/tenant.types';
 import { AvatarImage } from '@/components/ui/AvatarImage';
+import { MushafIcon } from '@/components/ui/MushafIcon';
 
 export interface MushafCardProps {
   mushaf: RecordedMushaf;
@@ -20,13 +20,7 @@ export const MushafCard: React.FC<MushafCardProps> = ({ mushaf }) => {
       >
         {/* Big mushaf icon + overlapping avatar */}
         <div className="relative z-10 w-[136px] h-[150px]" aria-hidden="true">
-          <Image
-            src="/icons/big-mushaf.svg"
-            alt=""
-            fill
-            className="object-contain"
-            sizes="136px"
-          />
+          <MushafIcon sizes="136px" />
 
           {/* Avatar overlaps top-start (RTL start = right) by 50% */}
           <div className="absolute top-0 right-0 translate-x-[30%] -translate-y-[30%]">

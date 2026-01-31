@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 
 const UserIcon = ({ className = "h-full w-full" }: { className?: string }) => (
@@ -32,6 +32,12 @@ export const AvatarImage: React.FC<AvatarImageProps> = ({
   const [hasError, setHasError] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
 
+  // Reset state when src changes so we don't show wrong/cached image or stale error
+  useEffect(() => {
+    setHasError(false);
+    setImageLoaded(false);
+  }, [src]);
+
   if (!src || hasError) {
     return (
       <div className={`absolute inset-0 flex items-center justify-center text-[#6a6a6a] ${className}`}>
@@ -48,6 +54,7 @@ export const AvatarImage: React.FC<AvatarImageProps> = ({
         </div>
       )}
       <Image
+        key={src}
         src={src}
         alt={alt}
         fill={fill}

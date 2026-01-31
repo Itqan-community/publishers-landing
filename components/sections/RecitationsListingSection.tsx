@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MushafCard } from '@/components/cards/MushafCard';
 import type { RecordedMushaf } from '@/types/tenant.types';
 
@@ -20,41 +20,24 @@ function SparkleIcon({ className }: { className?: string }) {
 }
 
 interface RecitationsListingSectionProps {
+  /** Mushafs already filtered by backend (search + riwayah_id). */
   mushafs: RecordedMushaf[];
-  search: string;
-  filterRiwaya: string;
 }
 
 export const RecitationsListingSection: React.FC<RecitationsListingSectionProps> = ({
   mushafs,
-  search,
-  filterRiwaya,
 }) => {
   const [displayCount, setDisplayCount] = useState(PAGE_SIZE);
 
   useEffect(() => {
     setDisplayCount(PAGE_SIZE);
-  }, [search, filterRiwaya]);
+  }, [mushafs]);
 
-  const filtered = useMemo(() => {
-    const q = search.trim().toLowerCase();
-    return mushafs.filter((m) => {
-      const matchSearch =
-        !q ||
-        m.title.toLowerCase().includes(q) ||
-        m.description.toLowerCase().includes(q) ||
-        m.reciter.name.toLowerCase().includes(q);
-      const matchRiwaya =
-        !filterRiwaya || m.badges?.some((b) => b.label === filterRiwaya);
-      return matchSearch && matchRiwaya;
-    });
-  }, [mushafs, search, filterRiwaya]);
-
-  const visible = filtered.slice(0, displayCount);
-  const hasMore = displayCount < filtered.length;
+  const visible = mushafs.slice(0, displayCount);
+  const hasMore = displayCount < mushafs.length;
 
   const loadMore = () => {
-    setDisplayCount((c) => Math.min(c + PAGE_SIZE, filtered.length));
+    setDisplayCount((c) => Math.min(c + PAGE_SIZE, mushafs.length));
   };
 
   return (
@@ -66,13 +49,13 @@ export const RecitationsListingSection: React.FC<RecitationsListingSectionProps>
           ))}
         </div>
 
-        {filtered.length === 0 && (
+        {mushafs.length === 0 && (
           <p className="py-12 text-center text-[18px] text-[#6a6a6a]">
             لم يتم العثور على مصاحف تطابق البحث.
           </p>
         )}
 
-        {hasMore && filtered.length > 0 && (
+        {hasMore && mushafs.length > 0 && (
           <div className="mt-12 flex justify-center">
             <button
               type="button"

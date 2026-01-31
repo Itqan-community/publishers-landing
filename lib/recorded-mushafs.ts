@@ -1,6 +1,6 @@
 import { cache } from 'react';
 import type { RecordedMushaf } from '@/types/tenant.types';
-import { getBackendUrl, getApiHeaders } from '@/lib/utils';
+import { getBackendUrl, getApiHeaders, resolveImageUrl } from '@/lib/utils';
 
 /**
  * API response model for recitations endpoint
@@ -17,6 +17,9 @@ interface RecitationApiResponse {
   reciter: {
     id: number;
     name: string;
+    /** Reciter avatar/image URL from API (absolute or relative to backend). */
+    image?: string;
+    avatar?: string;
   };
   riwayah: {
     id: number;
@@ -38,27 +41,47 @@ interface PaginatedResponse<T> {
 }
 
 /**
+ * Query params for listing recitations (backend filtering).
+ * Mirrors API: search, riwayah_id (array), optional pagination.
+ */
+export interface GetRecordedMushafsParams {
+  search?: string;
+  riwayah_id?: number[];
+  page?: number;
+  page_size?: number;
+}
+
+/**
  * Server-side data accessor for Recorded Mushafs.
  * Fetches from the backend API and maps to the UI model.
+ * Pass search and riwayah_id for backend filtering (synced from URL).
  */
-export const getRecordedMushafs = cache(async (tenantId: string): Promise<RecordedMushaf[]> => {
+export const getRecordedMushafs = cache(async (
+  tenantId: string,
+  params?: GetRecordedMushafsParams
+): Promise<RecordedMushaf[]> => {
   try {
     const backendUrl = getBackendUrl();
-    // Ensure URL is properly formatted (no trailing slash, then add endpoint with trailing slash)
-    const apiUrl = `${backendUrl.replace(/\/$/, '')}/recitations/`;
-    
-    console.log(`[getRecordedMushafs] Fetching from: ${apiUrl}`);
-    
-    // Add timeout and better error handling for server-side fetch
+    const baseUrl = `${backendUrl.replace(/\/$/, '')}/recitations/`;
+    const searchParams = new URLSearchParams();
+    if (params?.search?.trim()) searchParams.set('search', params.search.trim());
+    if (params?.riwayah_id?.length) {
+      params.riwayah_id.forEach((id) => searchParams.append('riwayah_id', String(id)));
+    }
+    const page = params?.page ?? 1;
+    const pageSize = params?.page_size ?? 100;
+    searchParams.set('page', String(page));
+    searchParams.set('page_size', String(pageSize));
+    const apiUrl = `${baseUrl}?${searchParams.toString()}`;
+
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-    
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
+
     try {
       const response = await fetch(apiUrl, {
         method: 'GET',
         headers: getApiHeaders(),
         signal: controller.signal,
-        // Cache for 5 minutes, revalidate on demand
         next: { revalidate: 300 },
       });
       
@@ -109,8 +132,13 @@ export const getRecordedMushafs = cache(async (tenantId: string): Promise<Record
         ? `المصحف المرتل ل${recitation.reciter.name}`
         : 'المصحف المرتل';
 
-      // Use reciter ID to determine avatar image (fallback to default)
-      const avatarImage = `/images/mushafs/mushaf-reciter-${recitation.reciter?.id || 'default'}.png`;
+      // Use image/avatar from API only; no mock paths (empty = show person icon)
+      const backendUrl = getBackendUrl();
+      const avatarImage =
+        resolveImageUrl(
+          recitation.reciter?.image ?? recitation.reciter?.avatar,
+          backendUrl
+        ) ?? '';
 
       return {
         id: String(recitation.id),
@@ -147,8 +175,7 @@ export const getRecordedMushafs = cache(async (tenantId: string): Promise<Record
     
     if (isDevelopment) {
       // In development, use warn instead of error to reduce noise
-      console.warn(`[getRecordedMushafs] API unavailable (${apiUrl}), using mock data as fallback`);
-      return getMockMushafs(tenantId);
+      console.warn(`[getRecordedMushafs] API unavailable (${apiUrl}), returning empty array`);
     } else {
       // In production/staging, log as error and return empty array
       if (error instanceof Error) {
@@ -156,8 +183,8 @@ export const getRecordedMushafs = cache(async (tenantId: string): Promise<Record
       } else {
         console.error(`[getRecordedMushafs] Unknown error fetching from ${apiUrl}:`, error);
       }
-      return [];
     }
+    return [];
   }
 });
 
@@ -245,94 +272,5 @@ export const getRecitationById = cache(async (recitationId: string | number): Pr
   }
 });
 
-const MOCK_OUTLINE_PALETTE = ['#2563eb', '#059669', '#7c3aed', '#dc2626', '#db2777'];
-
-/**
- * Mock data fallback for development when API is unavailable
- */
-function getMockMushafs(tenantId: string): RecordedMushaf[] {
-  return [
-    {
-      id: 'mushaf-1',
-      title: 'مصحف الحرم المكي',
-      description: 'المصحف المرتل لالشيخ أحمد العبيدي',
-      reciter: {
-        id: 'reciter-1',
-        name: 'الشيخ أحمد العبيدي',
-        avatarImage: '/images/mushafs/mushaf-reciter-1.png',
-      },
-      visuals: {
-        topBackgroundColor: '#EEF9F2',
-        outlineColor: MOCK_OUTLINE_PALETTE[0],
-      },
-      badges: [
-        { id: 'b1', label: 'رواية حفص عن عاصم', icon: 'book', tone: 'green' },
-        { id: 'b2', label: 'التوسط', icon: 'sparkle', tone: 'gold' },
-      ],
-      year: 1970,
-      href: `/${tenantId}/recitations/1`,
-    },
-    {
-      id: 'mushaf-2',
-      title: 'مصحف الحرم المدني',
-      description: 'المصحف المرتل لالشيخ سامي السلمي',
-      reciter: {
-        id: 'reciter-2',
-        name: 'الشيخ سامي السلمي',
-        avatarImage: '/images/mushafs/mushaf-reciter-2.png',
-      },
-      visuals: {
-        topBackgroundColor: '#EEF9F2',
-        outlineColor: MOCK_OUTLINE_PALETTE[1],
-      },
-      badges: [
-        { id: 'b1', label: 'رواية حفص عن عاصم', icon: 'book', tone: 'green' },
-        { id: 'b2', label: 'التوسط', icon: 'sparkle', tone: 'gold' },
-      ],
-      year: 1970,
-      href: `/${tenantId}/recitations/2`,
-    },
-    {
-      id: 'mushaf-3',
-      title: 'مصحف برواية حفص',
-      description: 'المصحف المرتل لالشيخ يوسف الدوسري',
-      reciter: {
-        id: 'reciter-3',
-        name: 'الشيخ يوسف الدوسري',
-        avatarImage: '/images/mushafs/mushaf-reciter-3.png',
-      },
-      visuals: {
-        topBackgroundColor: '#EEF9F2',
-        outlineColor: MOCK_OUTLINE_PALETTE[2],
-      },
-      badges: [
-        { id: 'b1', label: 'رواية حفص عن عاصم', icon: 'book', tone: 'green' },
-        { id: 'b2', label: 'التوسط', icon: 'sparkle', tone: 'gold' },
-      ],
-      year: 1970,
-      href: `/${tenantId}/recitations/3`,
-    },
-    {
-      id: 'mushaf-4',
-      title: 'مصحف برواية ورش',
-      description: 'المصحف المرتل لالشيخ ياسر الدوسري',
-      reciter: {
-        id: 'reciter-4',
-        name: 'الشيخ ياسر الدوسري',
-        avatarImage: '/images/mushafs/mushaf-reciter-4.png',
-      },
-      visuals: {
-        topBackgroundColor: '#EEF9F2',
-        outlineColor: MOCK_OUTLINE_PALETTE[3],
-      },
-      badges: [
-        { id: 'b1', label: 'رواية ورش', icon: 'book', tone: 'green' },
-        { id: 'b2', label: 'التوسط', icon: 'sparkle', tone: 'gold' },
-      ],
-      year: 1970,
-      href: `/${tenantId}/recitations/4`,
-    },
-  ];
-}
 
 

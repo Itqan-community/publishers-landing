@@ -340,68 +340,70 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                       !isSelected && !isLast ? 'border-b border-[#ebe8e8]' : '',
                     ].join(' ')}
                   >
-                    {/* RTL-first: [Avatar + Title] at start (right in RTL), [Duration] at end (left). Flips in LTR. */}
+                    {/* RTL-first: [Title] at start (featured: no avatar); [Duration] at end. Details variant keeps avatar. */}
                     <div className="flex items-center justify-between gap-4 px-4 py-4 sm:px-6">
-                      {/* Content + avatar: at start. Order: avatar then text so in RTL [Avatar|Title] from start. */}
                       <div className="flex min-w-0 flex-1 items-center justify-start gap-4">
-                        <div className="relative shrink-0">
-                          <div className="relative size-[56px] overflow-hidden rounded-full bg-[#d9d9d9] flex items-center justify-center">
-                            {recitation.image ? (
-                              <Image
-                                src={recitation.image}
-                                alt={recitation.reciterName}
-                                fill
-                                className="object-cover"
-                                onError={(e) => {
-                                  e.currentTarget.style.display = 'none';
-                                  const parent = e.currentTarget.parentElement;
-                                  if (parent) {
-                                    const userIcon = parent.querySelector('.user-icon-fallback');
-                                    if (userIcon) {
-                                      (userIcon as HTMLElement).style.display = 'flex';
+                        {isDetailsVariant && (
+                          <div className="relative shrink-0">
+                            <div className="relative size-[56px] overflow-hidden rounded-full bg-[#d9d9d9] flex items-center justify-center">
+                              {recitation.image?.trim() ? (
+                                <Image
+                                  key={recitation.image}
+                                  src={recitation.image}
+                                  alt={recitation.reciterName}
+                                  fill
+                                  className="object-cover"
+                                  onError={(e) => {
+                                    e.currentTarget.style.display = 'none';
+                                    const parent = e.currentTarget.parentElement;
+                                    if (parent) {
+                                      const userIcon = parent.querySelector('.user-icon-fallback');
+                                      if (userIcon) {
+                                        (userIcon as HTMLElement).style.display = 'flex';
+                                      }
                                     }
-                                  }
-                                }}
-                              />
-                            ) : null}
-                            <div className={`user-icon-fallback absolute inset-0 flex items-center justify-center text-[#6a6a6a] ${recitation.image ? 'hidden' : 'flex'}`}>
-                              <UserIcon className="h-8 w-8" />
+                                  }}
+                                />
+                              ) : null}
+                              <div className={`user-icon-fallback absolute inset-0 flex items-center justify-center text-[#6a6a6a] ${recitation.image?.trim() ? 'hidden' : 'flex'}`}>
+                                <UserIcon className="h-8 w-8" />
+                              </div>
                             </div>
+                            {isSelected && isPlaying && (
+                              <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/35">
+                                <svg
+                                  width="24"
+                                  height="24"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  aria-hidden="true"
+                                >
+                                  <path
+                                    d="M11 5L7 9H4C3.44772 9 3 9.44772 3 10V14C3 14.5523 3.44772 15 4 15H7L11 19V5Z"
+                                    fill="white"
+                                  />
+                                  <path
+                                    d="M14.5 8.3C15.7 9.2 16.5 10.5 16.5 12C16.5 13.5 15.7 14.8 14.5 15.7"
+                                    stroke="white"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                  />
+                                  <path
+                                    d="M16.8 5.9C18.9 7.5 20.3 9.6 20.3 12C20.3 14.4 18.9 16.5 16.8 18.1"
+                                    stroke="white"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    opacity="0.8"
+                                  />
+                                </svg>
+                              </div>
+                            )}
                           </div>
-                          {isSelected && isPlaying && (
-                            <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/35">
-                              <svg
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                aria-hidden="true"
-                              >
-                                <path
-                                  d="M11 5L7 9H4C3.44772 9 3 9.44772 3 10V14C3 14.5523 3.44772 15 4 15H7L11 19V5Z"
-                                  fill="white"
-                                />
-                                <path
-                                  d="M14.5 8.3C15.7 9.2 16.5 10.5 16.5 12C16.5 13.5 15.7 14.8 14.5 15.7"
-                                  stroke="white"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                />
-                                <path
-                                  d="M16.8 5.9C18.9 7.5 20.3 9.6 20.3 12C20.3 14.4 18.9 16.5 16.8 18.1"
-                                  stroke="white"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  opacity="0.8"
-                                />
-                              </svg>
-                            </div>
-                          )}
-                        </div>
-                        <div className="min-w-0">
+                        )}
+                        <div className="min-w-0 text-start">
                           <p className="truncate font-primary text-[18px] font-semibold leading-[22px] text-black">
-                            {recitation.title}
+                            {(recitation.title || '').replace(/^\d+\.\s*/, '')}
                           </p>
                           <p className="mt-1 truncate font-primary text-[16px] leading-[22px] text-[#6a6a6a]">
                             {recitation.reciterName}
@@ -422,31 +424,40 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
           {/* Player at end (left in RTL, right in LTR). Border: block-start on mobile, inline-start on lg. */}
           <div className="min-w-0 flex-1 border-t border-[#ebe8e8] px-6 py-6 sm:px-8 sm:py-8 lg:border-t-0 lg:border-s">
             <div className="flex flex-col items-center">
-              {/* Artwork */}
+              {/* Artwork: featured = track name text only; details = image or user icon */}
               <div className="relative mb-8 size-[214px] rounded-[30px] bg-white p-[7px] shadow-[0px_44px_84px_0px_rgba(0,0,0,0.07)]">
-                <div className="relative h-full w-full overflow-hidden rounded-[23px] bg-[#f3f3f3] flex items-center justify-center">
-                  {selectedRecitation?.image ? (
-                    <Image
-                      src={selectedRecitation.image}
-                      alt={selectedRecitation?.title || ''}
-                      fill
-                      className="object-cover"
-                      priority={false}
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                        const parent = e.currentTarget.parentElement;
-                        if (parent) {
-                          const userIcon = parent.querySelector('.user-icon-fallback');
-                          if (userIcon) {
-                            (userIcon as HTMLElement).style.display = 'flex';
-                          }
-                        }
-                      }}
-                    />
-                  ) : null}
-                  <div className={`user-icon-fallback absolute inset-0 flex items-center justify-center text-[#6a6a6a] ${selectedRecitation?.image ? 'hidden' : 'flex'}`}>
-                    <UserIcon className="h-20 w-20" />
-                  </div>
+                <div className="relative h-full w-full overflow-hidden rounded-[23px] bg-[#f3f3f3] flex items-center justify-center px-4">
+                  {isDetailsVariant ? (
+                    <>
+                      {selectedRecitation?.image?.trim() ? (
+                        <Image
+                          key={selectedRecitation.image}
+                          src={selectedRecitation.image}
+                          alt={selectedRecitation?.title || ''}
+                          fill
+                          className="object-cover"
+                          priority={false}
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                            const parent = e.currentTarget.parentElement;
+                            if (parent) {
+                              const userIcon = parent.querySelector('.user-icon-fallback');
+                              if (userIcon) {
+                                (userIcon as HTMLElement).style.display = 'flex';
+                              }
+                            }
+                          }}
+                        />
+                      ) : null}
+                      <div className={`user-icon-fallback absolute inset-0 flex items-center justify-center text-[#6a6a6a] ${selectedRecitation?.image?.trim() ? 'hidden' : 'flex'}`}>
+                        <UserIcon className="h-20 w-20" />
+                      </div>
+                    </>
+                  ) : (
+                    <p className="text-center font-primary text-[20px] font-semibold leading-[1.4] text-[#343434]">
+                      {(selectedRecitation?.title || '').replace(/^\d+\.\s*/, '')}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -496,9 +507,9 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
 
                 {/* Controls + text */}
                 <div className="mt-6 flex items-start justify-between gap-6">
-                  <div className="min-w-0">
+                  <div className="min-w-0 text-start">
                     <p className="truncate font-primary text-[18px] font-semibold leading-[22px] text-black">
-                      {selectedRecitation?.title || ''}
+                      {(selectedRecitation?.title || '').replace(/^\d+\.\s*/, '')}
                     </p>
                     <p className="mt-1 truncate font-primary text-[16px] leading-[22px] text-[#6a6a6a]">
                       {selectedRecitation?.reciterName || ''}
@@ -602,8 +613,9 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
             <div className="rounded-[12px] border border-[#ebe8e8] bg-white px-6 py-6">
               <div className="flex flex-col items-center gap-6">
                 <div className="relative size-[214px] shrink-0 overflow-hidden rounded-full bg-[#f3f3f3] flex items-center justify-center">
-                  {selectedRecitation?.image ? (
+                  {selectedRecitation?.image?.trim() ? (
                     <Image
+                      key={selectedRecitation.image}
                       src={selectedRecitation.image}
                       alt={selectedRecitation?.title || ''}
                       fill
@@ -620,7 +632,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                       }}
                     />
                   ) : null}
-                  <div className={`user-icon-fallback absolute inset-0 flex items-center justify-center text-[#6a6a6a] ${selectedRecitation?.image ? 'hidden' : 'flex'}`}>
+                  <div className={`user-icon-fallback absolute inset-0 flex items-center justify-center text-[#6a6a6a] ${selectedRecitation?.image?.trim() ? 'hidden' : 'flex'}`}>
                     <UserIcon className="h-20 w-20" />
                   </div>
                 </div>
@@ -696,9 +708,9 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                     <NextIcon />
                   </button>
                 </div>
-                {/* Track title + reciter below controls, text-end for RTL */}
-                <div className="w-full text-end">
-                  <p className="truncate font-primary text-[18px] font-semibold text-black">{selectedRecitation?.title || ''}</p>
+                {/* Track title + reciter below controls */}
+                <div className="w-full text-start">
+                  <p className="truncate font-primary text-[18px] font-semibold text-black">{(selectedRecitation?.title || '').replace(/^\d+\.\s*/, '')}</p>
                   <p className="mt-1 truncate font-primary text-[14px] text-[#6a6a6a]">{selectedRecitation?.reciterName || ''}</p>
                 </div>
               </div>
@@ -767,8 +779,8 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                         onClick={() => handleRecitationClick(recitation)}
                         className={itemClasses}
                       >
-                    <div className="flex-1">
-                          <p className="text-[16px] font-medium text-[#1f2a37]">{recitation.title}</p>
+                    <div className="flex-1 text-start">
+                          <p className="text-[16px] font-medium text-[#1f2a37]">{(recitation.title || '').replace(/^\d+\.\s*/, '')}</p>
                       <p className="mt-1 text-[14px] text-[#6a6a6a]">{secondaryText}</p>
                     </div>
 

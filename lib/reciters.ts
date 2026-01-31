@@ -1,5 +1,5 @@
 import { cache } from 'react';
-import { getBackendUrl, getApiHeaders } from '@/lib/utils';
+import { getBackendUrl, getApiHeaders, resolveImageUrl } from '@/lib/utils';
 import type { ReciterCardProps } from '@/components/cards/ReciterCard';
 
 /**
@@ -10,6 +10,9 @@ interface ReciterApiResponse {
   id: number;
   name: string;
   recitations_count: number;
+  /** Reciter image URL from API (absolute or relative to backend). */
+  image?: string;
+  avatar?: string;
 }
 
 /**
@@ -46,18 +49,21 @@ export const getReciters = cache(async (tenantId: string): Promise<ReciterCardPr
 
       if (!response.ok) {
         console.error(`[getReciters] API error: ${response.status} ${response.statusText}`);
-        return getMockReciters(tenantId);
+        return [];
       }
 
       const data: PaginatedResponse<ReciterApiResponse> = await response.json();
+      const backendUrl = getBackendUrl();
 
-      // Map API response to ReciterCardProps
+      // Map API response to ReciterCardProps; use image from API only (no mock paths)
       return data.results.map((reciter): ReciterCardProps => {
+        const image =
+          resolveImageUrl(reciter.image ?? reciter.avatar, backendUrl) ?? '';
         return {
           id: String(reciter.id),
           name: reciter.name,
           title: 'قارئ وإمام', // Default title, could come from API
-          image: `/images/reciters/reciter-${reciter.id}.jpg`, // Fallback image path
+          image,
           publisher: 'موقع دار الإسلام', // Default, could come from API
           publisherUrl: 'https://example.com', // Default, could come from API
           href: `/${tenantId}/reciters/${reciter.id}`,
@@ -79,7 +85,7 @@ export const getReciters = cache(async (tenantId: string): Promise<ReciterCardPr
     
     if (isDevelopment) {
       // In development, use warn instead of error to reduce noise
-      console.warn(`[getReciters] API unavailable (${apiUrl}), using mock data as fallback`);
+      console.warn(`[getReciters] API unavailable (${apiUrl}), returning empty array`);
     } else {
       // In production, log as error
       if (error instanceof Error) {
@@ -89,52 +95,7 @@ export const getReciters = cache(async (tenantId: string): Promise<ReciterCardPr
       }
     }
     
-    // Return mock data as fallback
-    return getMockReciters(tenantId);
+    return [];
   }
 });
-
-/**
- * Mock data fallback when API is unavailable
- */
-function getMockReciters(tenantId: string): ReciterCardProps[] {
-  return [
-    {
-      id: '1',
-      name: 'الشيخ أحمد العبيدي',
-      title: 'قارئ وإمام',
-      image: '/images/reciters/reciter-1.jpg',
-      publisher: 'موقع دار الإسلام',
-      publisherUrl: 'https://example.com',
-      href: `/${tenantId}/reciters/1`,
-    },
-    {
-      id: '2',
-      name: 'الشيخ سامي السلمي',
-      title: 'قارئ وإمام',
-      image: '/images/reciters/reciter-2.jpg',
-      publisher: 'موقع دار الإسلام',
-      publisherUrl: 'https://example.com',
-      href: `/${tenantId}/reciters/2`,
-    },
-    {
-      id: '3',
-      name: 'الشيخ يوسف الدوسري',
-      title: 'قارئ وإمام',
-      image: '/images/reciters/reciter-3.jpg',
-      publisher: 'موقع دار الإسلام',
-      publisherUrl: 'https://example.com',
-      href: `/${tenantId}/reciters/3`,
-    },
-    {
-      id: '4',
-      name: 'الشيخ ياسر الدوسري',
-      title: 'قارئ وإمام',
-      image: '/images/reciters/reciter-4.jpg',
-      publisher: 'موقع دار الإسلام',
-      publisherUrl: 'https://example.com',
-      href: `/${tenantId}/reciters/4`,
-    },
-  ];
-}
 

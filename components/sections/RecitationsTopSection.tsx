@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import type { RiwayahOption } from '@/lib/riwayahs';
 
 // Arrow down icon for filter dropdown
 function ArrowDown({ className }: { className?: string }) {
@@ -43,14 +44,16 @@ interface RecitationsTopSectionProps {
   filterAllLabel?: string;
   search: string;
   onSearchChange: (v: string) => void;
-  filterRiwaya: string;
-  onFilterRiwayaChange: (v: string) => void;
-  riwayaOptions: string[];
+  onSearchSubmit: () => void;
+  riwayahId: string;
+  onRiwayahChange: (riwayahId: string) => void;
+  riwayaOptions: RiwayahOption[];
 }
 
 /**
  * Top section with search bar matching the design from .temp/search bar
  * Layout: [Filter dropdown] [Search input] [Search button]
+ * Filters are synced to URL; search applies on submit (ابحث).
  */
 export function RecitationsTopSection({
   title,
@@ -59,8 +62,9 @@ export function RecitationsTopSection({
   filterAllLabel = 'كل الروايات',
   search,
   onSearchChange,
-  filterRiwaya,
-  onFilterRiwayaChange,
+  onSearchSubmit,
+  riwayahId,
+  onRiwayahChange,
   riwayaOptions,
 }: RecitationsTopSectionProps) {
   return (
@@ -82,40 +86,39 @@ export function RecitationsTopSection({
 
         {/* White bar: [Filter dropdown] [Search input] [Search button]. RTL: first = start = right. */}
         <div className="mt-10 flex flex-row flex-wrap items-center gap-3 rounded-[6px] bg-white p-3 sm:gap-4 sm:p-4">
-          {/* Filter dropdown: gray background, contains grid icon, text, and chevron */}
           <div className="flex h-[48px] shrink-0 items-center gap-[10px] rounded-[6px] bg-[#f3f3f3] px-5 py-3">
             <GridView className="h-[26px] w-[26px] shrink-0 text-black" />
             <select
-              value={filterRiwaya}
-              onChange={(e) => onFilterRiwayaChange(e.target.value)}
+              value={riwayahId}
+              onChange={(e) => onRiwayahChange(e.target.value)}
               className="flex-1 cursor-pointer appearance-none bg-transparent text-[16px] font-semibold text-black text-start focus:outline-none [-webkit-appearance:none]"
               aria-label={filterAllLabel}
             >
               <option value="">{filterAllLabel}</option>
               {riwayaOptions.map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt}
+                <option key={opt.id} value={String(opt.id)}>
+                  {opt.label}
                 </option>
               ))}
             </select>
             <ArrowDown className="h-6 w-6 shrink-0 text-black" />
           </div>
 
-          {/* Search input: flex-1, takes remaining space */}
           <div className="relative min-w-0 flex-1">
             <input
               type="text"
               value={search}
               onChange={(e) => onSearchChange(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && onSearchSubmit()}
               placeholder={searchPlaceholder}
               className="h-[48px] w-full border-0 bg-transparent py-3 px-4 text-[16px] text-[#343434] placeholder:text-[#343434] focus:outline-none"
               aria-label={searchPlaceholder}
             />
           </div>
 
-          {/* Search button: green background with ابحث text and orange search icon */}
           <button
             type="button"
+            onClick={onSearchSubmit}
             className="flex h-[48px] shrink-0 items-center justify-center gap-1 bg-[#193624] px-4 rounded-[4px] text-[16px] font-medium text-white hover:bg-[#102516] focus:outline-none focus:ring-2 focus:ring-[#193624] focus:ring-offset-0"
             aria-label="ابحث"
           >

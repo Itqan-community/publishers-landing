@@ -1,5 +1,5 @@
 import { cache } from 'react';
-import { getBackendUrl, getApiHeaders } from '@/lib/utils';
+import { getBackendUrl, getApiHeaders, resolveImageUrl } from '@/lib/utils';
 import type { RecitationItem } from '@/components/audio/AudioPlayer';
 import { getRecitationById } from '@/lib/recorded-mushafs';
 
@@ -111,13 +111,17 @@ export const getFeaturedRecitationTracks = cache(async (tenantId: string, limit:
     const recitation = await getRecitationById(5);
     
     if (!recitation) {
-      console.warn('[getFeaturedRecitationTracks] Recitation with id 5 not found - using mock data');
-      return getMockRecitationTracks(tenantId);
+      console.warn('[getFeaturedRecitationTracks] Recitation with id 5 not found - returning empty array');
+      return [];
     }
 
     // Get reciter information
     const reciterName = recitation.reciter?.name || 'غير معروف';
-    const reciterImage = `/images/mushafs/mushaf-reciter-${recitation.reciter?.id || 'default'}.png`;
+    const reciterImage =
+      resolveImageUrl(
+        recitation.reciter?.image ?? recitation.reciter?.avatar,
+        getBackendUrl()
+      ) ?? '';
 
     // Fetch tracks for this recitation using its ID
     const tracks = await getRecitationTracksByAssetId(
@@ -134,58 +138,9 @@ export const getFeaturedRecitationTracks = cache(async (tenantId: string, limit:
     return tracks;
   } catch (error) {
     console.error('[getFeaturedRecitationTracks] Error fetching tracks:', error);
-    // Fall back to mock data on error
-    return getMockRecitationTracks(tenantId);
+    return [];
   }
 });
-
-/**
- * Mock data fallback when API is unavailable
- */
-function getMockRecitationTracks(tenantId: string): RecitationItem[] {
-  return [
-    {
-      id: '1',
-      title: 'سورة الكهف',
-      reciterName: 'الشيخ أحمد العبيدي',
-      duration: '12:32',
-      audioUrl: 'https://example.com/audio/surah-kahf.mp3',
-      image: '/images/reciters/reciter-1.jpg',
-    },
-    {
-      id: '2',
-      title: 'سورة الكهف',
-      reciterName: 'الشيخ سامي السلمي',
-      duration: '12:32',
-      audioUrl: 'https://example.com/audio/surah-kahf-2.mp3',
-      image: '/images/reciters/reciter-2.jpg',
-    },
-    {
-      id: '3',
-      title: 'سورة الكهف',
-      reciterName: 'الشيخ يوسف الدوسري',
-      duration: '12:32',
-      audioUrl: 'https://example.com/audio/surah-kahf-3.mp3',
-      image: '/images/reciters/reciter-3.jpg',
-    },
-    {
-      id: '4',
-      title: 'سورة الكهف',
-      reciterName: 'الشيخ أحمد العبيدي',
-      duration: '12:32',
-      audioUrl: 'https://example.com/audio/surah-kahf-4.mp3',
-      image: '/images/reciters/reciter-1.jpg',
-    },
-    {
-      id: '5',
-      title: 'سورة الكهف',
-      reciterName: 'الشيخ يوسف الدوسري',
-      duration: '12:32',
-      audioUrl: 'https://example.com/audio/surah-kahf-5.mp3',
-      image: '/images/reciters/reciter-3.jpg',
-    },
-  ];
-}
 
 /**
  * Server-side data accessor for Recitation Tracks by Asset ID.
@@ -295,7 +250,7 @@ export const getRecitationTracksByAssetId = cache(async (
           reciterName: reciterName || 'غير معروف',
           duration: formatDuration(track.duration_ms),
           audioUrl: audioUrl, // Use the absolute URL directly from API
-          image: reciterImage || '/images/reciters/reciter-default.jpg',
+          image: reciterImage || '',
           surahInfo,
         };
         

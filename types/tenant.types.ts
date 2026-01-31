@@ -117,7 +117,8 @@ export interface RecordedMushaf {
   reciter: {
     id: string;
     name: string;
-    avatarImage: string; // /images/... (from BE)
+    /** Avatar URL from API; empty string when API does not provide image (show person icon). */
+    avatarImage: string;
   };
 
   /**
