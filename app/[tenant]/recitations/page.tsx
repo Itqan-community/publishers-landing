@@ -51,7 +51,7 @@ export default async function RecitationsListingPage({
       search: search || undefined,
       riwayah_id: riwayahId != null ? [riwayahId] : undefined,
     }, basePath),
-    getRiwayahs(),
+    getRiwayahs(tenantId),
   ]);
 
   return (

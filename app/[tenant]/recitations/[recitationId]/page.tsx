@@ -28,7 +28,7 @@ export default async function RecitationDetailsPage({
   console.log('========================================');
 
   // First, fetch recitation details to get the asset ID
-  const recitation = await getRecitationById(recitationId);
+  const recitation = await getRecitationById(recitationId, tenantId);
 
   // If recitation not found, show 404
   if (!recitation) {
@@ -50,7 +50,7 @@ export default async function RecitationDetailsPage({
   const reciterImage =
     resolveImageUrl(
       recitation.reciter?.image ?? recitation.reciter?.avatar,
-      getBackendUrl()
+      getBackendUrl(tenantId)
     ) ?? '';
 
   // IMPORTANT: Use recitation.id (from API response) as asset_id for tracks API
@@ -78,7 +78,8 @@ export default async function RecitationDetailsPage({
   const tracks = await getRecitationTracksByAssetId(
     assetIdForTracks, // Use recitation.id (number) as asset_id
     reciterName,
-    reciterImage
+    reciterImage,
+    tenantId
   );
 
   console.log('========================================');

@@ -64,7 +64,7 @@ export const getRecordedMushafs = cache(async (
 ): Promise<RecordedMushaf[]> => {
   const pathPrefix = basePath !== undefined ? basePath : `/${tenantId}`;
   try {
-    const backendUrl = getBackendUrl();
+    const backendUrl = getBackendUrl(tenantId);
     const baseUrl = `${backendUrl.replace(/\/$/, '')}/recitations/`;
     const searchParams = new URLSearchParams();
     if (params?.search?.trim()) searchParams.set('search', params.search.trim());
@@ -136,11 +136,11 @@ export const getRecordedMushafs = cache(async (
         : 'المصحف المرتل';
 
       // Use image/avatar from API only; no mock paths (empty = show person icon)
-      const backendUrl = getBackendUrl();
+      const backendUrlForImage = getBackendUrl(tenantId);
       const avatarImage =
         resolveImageUrl(
           recitation.reciter?.image ?? recitation.reciter?.avatar,
-          backendUrl
+          backendUrlForImage
         ) ?? '';
 
       return {
@@ -192,11 +192,15 @@ export const getRecordedMushafs = cache(async (
 });
 
 /**
- * Get a single recitation by ID
+ * Get a single recitation by ID.
+ * @param tenantId - Tenant ID for backend URL (uses default tenant if omitted).
  */
-export const getRecitationById = cache(async (recitationId: string | number): Promise<RecitationApiResponse | null> => {
+export const getRecitationById = cache(async (
+  recitationId: string | number,
+  tenantId?: string
+): Promise<RecitationApiResponse | null> => {
   try {
-    const backendUrl = getBackendUrl();
+    const backendUrl = getBackendUrl(tenantId);
     // Try query parameter format first (API might not support REST endpoint for single recitation)
     const apiUrl = `${backendUrl.replace(/\/$/, '')}/recitations/?id=${recitationId}`;
     

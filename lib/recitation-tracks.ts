@@ -108,7 +108,7 @@ function normalizeAudioUrl(audioUrl: string | undefined, baseUrl?: string): stri
 export const getFeaturedRecitationTracks = cache(async (tenantId: string, limit: number = 5): Promise<RecitationItem[]> => {
   try {
     // First, fetch the recitation with id 5 to get reciter information
-    const recitation = await getRecitationById(5);
+    const recitation = await getRecitationById(5, tenantId);
     
     if (!recitation) {
       console.warn('[getFeaturedRecitationTracks] Recitation with id 5 not found - returning empty array');
@@ -120,14 +120,15 @@ export const getFeaturedRecitationTracks = cache(async (tenantId: string, limit:
     const reciterImage =
       resolveImageUrl(
         recitation.reciter?.image ?? recitation.reciter?.avatar,
-        getBackendUrl()
+        getBackendUrl(tenantId)
       ) ?? '';
 
     // Fetch tracks for this recitation using its ID
     const tracks = await getRecitationTracksByAssetId(
       recitation.id,
       reciterName,
-      reciterImage
+      reciterImage,
+      tenantId
     );
 
     // Limit the number of tracks if specified
@@ -149,15 +150,17 @@ export const getFeaturedRecitationTracks = cache(async (tenantId: string, limit:
  * @param assetId - The recitation asset ID
  * @param reciterName - Optional reciter name to include in the response (for display)
  * @param reciterImage - Optional reciter image URL to include in the response
+ * @param tenantId - Tenant ID for backend URL (uses default tenant if omitted)
  * @returns Array of RecitationItem objects representing the tracks
  */
 export const getRecitationTracksByAssetId = cache(async (
   assetId: string | number,
   reciterName?: string,
-  reciterImage?: string
+  reciterImage?: string,
+  tenantId?: string
 ): Promise<RecitationItem[]> => {
   try {
-    const backendUrl = getBackendUrl();
+    const backendUrl = getBackendUrl(tenantId);
     
     // Ensure assetId is properly converted to string for URL
     const assetIdStr = String(assetId);
@@ -276,7 +279,7 @@ export const getRecitationTracksByAssetId = cache(async (
       throw fetchError;
     }
   } catch (error) {
-    const backendUrl = getBackendUrl();
+    const backendUrl = getBackendUrl(tenantId);
     const apiUrl = `${backendUrl.replace(/\/$/, '')}/recitation-tracks/${assetId}/`;
     const isDevelopment = process.env.NODE_ENV === 'development';
     

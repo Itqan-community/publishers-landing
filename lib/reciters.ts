@@ -34,7 +34,7 @@ export const getReciters = cache(async (
 ): Promise<ReciterCardProps[]> => {
   const pathPrefix = basePath !== undefined ? basePath : `/${tenantId}`;
   try {
-    const backendUrl = getBackendUrl();
+    const backendUrl = getBackendUrl(tenantId);
     const apiUrl = `${backendUrl.replace(/\/$/, '')}/reciters`;
     
     console.log(`[getReciters] Fetching from: ${apiUrl}`);
@@ -58,12 +58,12 @@ export const getReciters = cache(async (
       }
 
       const data: PaginatedResponse<ReciterApiResponse> = await response.json();
-      const backendUrl = getBackendUrl();
+      const backendUrlForImages = getBackendUrl(tenantId);
 
       // Map API response to ReciterCardProps; use image from API only (no mock paths)
       return data.results.map((reciter): ReciterCardProps => {
         const image =
-          resolveImageUrl(reciter.image ?? reciter.avatar, backendUrl) ?? '';
+          resolveImageUrl(reciter.image ?? reciter.avatar, backendUrlForImages) ?? '';
         return {
           id: String(reciter.id),
           name: reciter.name,
@@ -84,7 +84,7 @@ export const getReciters = cache(async (
       throw fetchError;
     }
   } catch (error) {
-    const backendUrl = getBackendUrl();
+    const backendUrl = getBackendUrl(tenantId);
     const apiUrl = `${backendUrl.replace(/\/$/, '')}/reciters/`;
     const isDevelopment = process.env.NODE_ENV === 'development';
     

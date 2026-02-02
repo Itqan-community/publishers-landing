@@ -1,5 +1,8 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import tenantConfigs from "@/config/tenants.json";
+import { getDefaultTenantId } from "@/lib/tenant-config";
+import type { TenantConfig } from "@/types/tenant.types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -19,43 +22,32 @@ export function getApiHeaders(additionalHeaders?: Record<string, string>): Heade
 }
 
 /**
- * Get the backend API URL based on the current environment
- * 
- * Environment mapping (based on API docs):
- * - production: https://api.cms.itqan.dev
- * - staging: https://staging.api.cms.itqan.dev
- * - development: https://develop.api.cms.itqan.dev
- * 
- * Can be overridden with NEXT_PUBLIC_API_URL environment variable
- * Environment is determined by NEXT_PUBLIC_ENV (or NODE_ENV for production/development)
- * 
- * TEMPORARY: Always returns development URL for testing purposes
+ * Get the backend API URL for a tenant based on the current environment.
+ *
+ * - Uses tenant's `api.development` / `api.staging` / `api.production` from config/tenants.json when set.
+ * - Environment: NODE_ENV=development (localhost) → development; NEXT_PUBLIC_ENV=staging → staging; else → production.
+ * - If no tenant api config: falls back to NEXT_PUBLIC_API_URL, then default (develop URL for local).
+ *
+ * @param tenantId - Tenant ID (e.g. "saudi-center"). Uses default tenant if omitted.
  */
-export function getBackendUrl(): string {
-  // TEMPORARY: Always return development URL for testing
+export function getBackendUrl(tenantId?: string): string {
+  const id = tenantId ?? getDefaultTenantId();
+  const config = (tenantConfigs as Record<string, TenantConfig>)[id];
+
+  if (config?.api) {
+    const isDev = process.env.NODE_ENV === 'development';
+    const isStaging = process.env.NEXT_PUBLIC_ENV === 'staging';
+    const env: keyof typeof config.api = isDev ? 'development' : isStaging ? 'staging' : 'production';
+    const url = config.api[env] ?? config.api.production;
+    return (url ?? '').replace(/\/$/, '');
+  }
+
+  if (process.env.NEXT_PUBLIC_API_URL) {
+    return process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, '');
+  }
+
+  // Default: development URL (localhost)
   return 'https://develop.api.cms.itqan.dev';
-  
-  // Allow manual override via environment variable
-  // if (process.env.NEXT_PUBLIC_API_URL) {
-  //   return process.env.NEXT_PUBLIC_API_URL;
-  // }
-
-  // Check for custom environment variable (for staging)
-  // const customEnv = process.env.NEXT_PUBLIC_ENV;
-  // if (customEnv === 'staging') {
-  //   return 'https://staging.api.cms.itqan.dev';
-  // }
-
-  // Determine URL based on NODE_ENV (production or development)
-  // const nodeEnv = process.env.NODE_ENV || 'development';
-  // 
-  // switch (nodeEnv) {
-  //   case 'production':
-  //     return 'https://api.cms.itqan.dev';
-  //   case 'development':
-  //   default:
-  //     return 'https://develop.api.cms.itqan.dev';
-  // }
 }
 
 /**

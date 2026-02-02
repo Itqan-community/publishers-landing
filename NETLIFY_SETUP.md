@@ -165,17 +165,22 @@ After DNS and SSL are ready, that staging domain will serve the **staging** bran
 
 ## Part 4: Environment variables (if you use them)
 
-If your app uses env vars (e.g. API URL):
+**Backend API per environment (required for Saudi Center):**
 
-1. **Site configuration** → **Environment variables** → **Add a variable** (or **Add from .env**).
-2. Add the same vars for **Production** (and optionally **Staging** if you use different API URLs).
-3. **Redeploy** after changing env vars (Netlify doesn’t auto-redeploy on env change).
+Per-tenant API URLs are in `config/tenants.json` (Saudi Center: **development** `https://develop.api.cms.itqan.dev`, **staging** `https://staging.api.cms.itqan.dev`, **production** `https://api.cms.itqan.dev`). The app picks which URL to use:
 
-Example:
+- **Localhost** (NODE_ENV=development): uses `api.development`.
+- **Netlify staging branch**: set **`NEXT_PUBLIC_ENV=staging`** → uses `api.staging`.
+- **Netlify production branch**: uses `api.production` (no env needed, or set `NEXT_PUBLIC_ENV=production`).
 
-- Key: `NEXT_PUBLIC_API_URL`  
-- Value (production): `https://api.yourdomain.com`  
-- Scope: Production, or “All” if same for staging.
+1. **Site configuration** → **Environment variables** → **Add a variable**.
+2. Add **`NEXT_PUBLIC_ENV`** with **scope**:
+   - **Production** (main branch): leave unset or value **`production`** → app uses `api.production`.
+   - **Staging** (staging branch): value **`staging`** → app uses `api.staging`.
+3. In Netlify set different values per branch (Scopes / Deploy contexts) so the staging branch gets `staging`.
+4. **Redeploy** after changing env vars.
+
+Optional fallback (if a tenant has no `api` in config): **`NEXT_PUBLIC_API_URL`** (e.g. `https://api.cms.itqan.dev`).
 
 ---
 

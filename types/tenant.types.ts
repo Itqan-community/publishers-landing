@@ -7,11 +7,23 @@
 
 // ==================== TENANT CONFIGURATION ====================
 
+/** Backend API URLs per environment (development / localhost, staging, production). */
+export interface TenantApiConfig {
+  /** Development / localhost API base URL (e.g. https://develop.api.cms.itqan.dev) */
+  development: string;
+  /** Staging API base URL (e.g. https://staging.api.cms.itqan.dev) */
+  staging: string;
+  /** Production API base URL (e.g. https://api.cms.itqan.dev) */
+  production: string;
+}
+
 export interface TenantConfig {
   id: string;
   name: string;
   /** Custom domain for this tenant (e.g. saudi-recitations-center.com). Staging uses staging--<domain>. */
   domain?: string;
+  /** Backend API base URLs per environment. Used when NEXT_PUBLIC_ENV is set (e.g. in Netlify). */
+  api?: TenantApiConfig;
   branding: TenantBranding;
   features: TenantFeatures;
   content: TenantContent;

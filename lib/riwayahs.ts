@@ -33,10 +33,11 @@ export interface RiwayahOption {
  * Fetches riwayahs from the backend (GET /riwayahs/) and returns
  * dropdown options with id (for URL/API) and label (for display).
  * Cached and revalidated like other API data.
+ * @param tenantId - Tenant ID for backend URL (uses default tenant if omitted).
  */
-export const getRiwayahs = cache(async (): Promise<RiwayahOption[]> => {
+export const getRiwayahs = cache(async (tenantId?: string): Promise<RiwayahOption[]> => {
   try {
-    const backendUrl = getBackendUrl();
+    const backendUrl = getBackendUrl(tenantId);
     const apiUrl = `${backendUrl.replace(/\/$/, '')}/riwayahs/`;
 
     const controller = new AbortController();
