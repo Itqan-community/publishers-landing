@@ -1,5 +1,6 @@
 import { cache } from 'react';
-import { getBackendUrl, getApiHeaders, resolveImageUrl } from '@/lib/utils';
+import { getBackendUrl } from '@/lib/backend-url';
+import { getApiHeaders, resolveImageUrl } from '@/lib/utils';
 import type { RecitationItem } from '@/components/audio/AudioPlayer';
 import { getRecitationById } from '@/lib/recorded-mushafs';
 
@@ -120,7 +121,7 @@ export const getFeaturedRecitationTracks = cache(async (tenantId: string, limit:
     const reciterImage =
       resolveImageUrl(
         recitation.reciter?.image ?? recitation.reciter?.avatar,
-        getBackendUrl(tenantId)
+        await getBackendUrl(tenantId)
       ) ?? '';
 
     // Fetch tracks for this recitation using its ID
@@ -160,7 +161,7 @@ export const getRecitationTracksByAssetId = cache(async (
   tenantId?: string
 ): Promise<RecitationItem[]> => {
   try {
-    const backendUrl = getBackendUrl(tenantId);
+    const backendUrl = await getBackendUrl(tenantId);
     
     // Ensure assetId is properly converted to string for URL
     const assetIdStr = String(assetId);
@@ -279,7 +280,7 @@ export const getRecitationTracksByAssetId = cache(async (
       throw fetchError;
     }
   } catch (error) {
-    const backendUrl = getBackendUrl(tenantId);
+    const backendUrl = await getBackendUrl(tenantId);
     const apiUrl = `${backendUrl.replace(/\/$/, '')}/recitation-tracks/${assetId}/`;
     const isDevelopment = process.env.NODE_ENV === 'development';
     

@@ -1,6 +1,7 @@
 import { cache } from 'react';
 import type { RecordedMushaf } from '@/types/tenant.types';
-import { getBackendUrl, getApiHeaders, resolveImageUrl } from '@/lib/utils';
+import { getBackendUrl } from '@/lib/backend-url';
+import { getApiHeaders, resolveImageUrl } from '@/lib/utils';
 
 /**
  * API response model for recitations endpoint
@@ -64,7 +65,7 @@ export const getRecordedMushafs = cache(async (
 ): Promise<RecordedMushaf[]> => {
   const pathPrefix = basePath !== undefined ? basePath : `/${tenantId}`;
   try {
-    const backendUrl = getBackendUrl(tenantId);
+    const backendUrl = await getBackendUrl(tenantId);
     const baseUrl = `${backendUrl.replace(/\/$/, '')}/recitations/`;
     const searchParams = new URLSearchParams();
     if (params?.search?.trim()) searchParams.set('search', params.search.trim());
@@ -136,11 +137,10 @@ export const getRecordedMushafs = cache(async (
         : 'المصحف المرتل';
 
       // Use image/avatar from API only; no mock paths (empty = show person icon)
-      const backendUrlForImage = getBackendUrl(tenantId);
       const avatarImage =
         resolveImageUrl(
           recitation.reciter?.image ?? recitation.reciter?.avatar,
-          backendUrlForImage
+          backendUrl
         ) ?? '';
 
       return {
@@ -172,7 +172,7 @@ export const getRecordedMushafs = cache(async (
       throw fetchError;
     }
   } catch (error) {
-    const backendUrl = getBackendUrl();
+    const backendUrl = await getBackendUrl(tenantId);
     const apiUrl = `${backendUrl.replace(/\/$/, '')}/recitations/`;
     const isDevelopment = process.env.NODE_ENV === 'development';
     
@@ -200,7 +200,7 @@ export const getRecitationById = cache(async (
   tenantId?: string
 ): Promise<RecitationApiResponse | null> => {
   try {
-    const backendUrl = getBackendUrl(tenantId);
+    const backendUrl = await getBackendUrl(tenantId);
     // Try query parameter format first (API might not support REST endpoint for single recitation)
     const apiUrl = `${backendUrl.replace(/\/$/, '')}/recitations/?id=${recitationId}`;
     

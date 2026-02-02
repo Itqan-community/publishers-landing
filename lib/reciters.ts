@@ -1,5 +1,6 @@
 import { cache } from 'react';
-import { getBackendUrl, getApiHeaders, resolveImageUrl } from '@/lib/utils';
+import { getBackendUrl } from '@/lib/backend-url';
+import { getApiHeaders, resolveImageUrl } from '@/lib/utils';
 import type { ReciterCardProps } from '@/components/cards/ReciterCard';
 
 /**
@@ -34,7 +35,7 @@ export const getReciters = cache(async (
 ): Promise<ReciterCardProps[]> => {
   const pathPrefix = basePath !== undefined ? basePath : `/${tenantId}`;
   try {
-    const backendUrl = getBackendUrl(tenantId);
+    const backendUrl = await getBackendUrl(tenantId);
     const apiUrl = `${backendUrl.replace(/\/$/, '')}/reciters`;
     
     console.log(`[getReciters] Fetching from: ${apiUrl}`);
@@ -58,7 +59,7 @@ export const getReciters = cache(async (
       }
 
       const data: PaginatedResponse<ReciterApiResponse> = await response.json();
-      const backendUrlForImages = getBackendUrl(tenantId);
+      const backendUrlForImages = await getBackendUrl(tenantId);
 
       // Map API response to ReciterCardProps; use image from API only (no mock paths)
       return data.results.map((reciter): ReciterCardProps => {
@@ -84,7 +85,7 @@ export const getReciters = cache(async (
       throw fetchError;
     }
   } catch (error) {
-    const backendUrl = getBackendUrl(tenantId);
+    const backendUrl = await getBackendUrl(tenantId);
     const apiUrl = `${backendUrl.replace(/\/$/, '')}/reciters/`;
     const isDevelopment = process.env.NODE_ENV === 'development';
     

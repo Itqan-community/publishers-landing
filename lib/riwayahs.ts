@@ -1,5 +1,6 @@
 import { cache } from 'react';
-import { getBackendUrl, getApiHeaders } from '@/lib/utils';
+import { getBackendUrl } from '@/lib/backend-url';
+import { getApiHeaders } from '@/lib/utils';
 
 /**
  * API response item for GET /riwayahs/
@@ -37,7 +38,7 @@ export interface RiwayahOption {
  */
 export const getRiwayahs = cache(async (tenantId?: string): Promise<RiwayahOption[]> => {
   try {
-    const backendUrl = getBackendUrl(tenantId);
+    const backendUrl = await getBackendUrl(tenantId);
     const apiUrl = `${backendUrl.replace(/\/$/, '')}/riwayahs/`;
 
     const controller = new AbortController();

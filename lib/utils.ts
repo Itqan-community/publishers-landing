@@ -1,8 +1,5 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import tenantConfigs from "@/config/tenants.json";
-import { getDefaultTenantId } from "@/lib/tenant-config";
-import type { TenantConfig } from "@/types/tenant.types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -19,35 +16,6 @@ export function getApiHeaders(additionalHeaders?: Record<string, string>): Heade
     'Accept-Language': 'ar',
     ...additionalHeaders,
   };
-}
-
-/**
- * Get the backend API URL for a tenant based on the current environment.
- *
- * - Uses tenant's `api.development` / `api.staging` / `api.production` from config/tenants.json when set.
- * - Environment: NODE_ENV=development (localhost) → development; NEXT_PUBLIC_ENV=staging → staging; else → production.
- * - If no tenant api config: falls back to NEXT_PUBLIC_API_URL, then default (develop URL for local).
- *
- * @param tenantId - Tenant ID (e.g. "saudi-center"). Uses default tenant if omitted.
- */
-export function getBackendUrl(tenantId?: string): string {
-  const id = tenantId ?? getDefaultTenantId();
-  const config = (tenantConfigs as Record<string, TenantConfig>)[id];
-
-  if (config?.api) {
-    const isDev = process.env.NODE_ENV === 'development';
-    const isStaging = process.env.NEXT_PUBLIC_ENV === 'staging';
-    const env: keyof typeof config.api = isDev ? 'development' : isStaging ? 'staging' : 'production';
-    const url = config.api[env] ?? config.api.production;
-    return (url ?? '').replace(/\/$/, '');
-  }
-
-  if (process.env.NEXT_PUBLIC_API_URL) {
-    return process.env.NEXT_PUBLIC_API_URL.replace(/\/$/, '');
-  }
-
-  // Default: development URL (localhost)
-  return 'https://develop.api.cms.itqan.dev';
 }
 
 /**

@@ -165,22 +165,17 @@ After DNS and SSL are ready, that staging domain will serve the **staging** bran
 
 ## Part 4: Environment variables (if you use them)
 
-**Backend API per environment (required for Saudi Center):**
+**Backend API per environment (Saudi Center):**
 
-Per-tenant API URLs are in `config/tenants.json` (Saudi Center: **development** `https://develop.api.cms.itqan.dev`, **staging** `https://staging.api.cms.itqan.dev`, **production** `https://api.cms.itqan.dev`). The app picks which URL to use:
+Per-tenant API URLs are in `config/tenants.json` (Saudi Center: **development** `https://develop.api.cms.itqan.dev`, **staging** `https://staging.api.cms.itqan.dev`, **production** `https://api.cms.itqan.dev`). The app picks which URL from the **request hostname** (no build-time env required):
 
 - **Localhost** (NODE_ENV=development): uses `api.development`.
-- **Netlify staging branch**: set **`NEXT_PUBLIC_ENV=staging`** → uses `api.staging`.
-- **Netlify production branch**: uses `api.production` (no env needed, or set `NEXT_PUBLIC_ENV=production`).
+- **Staging deploy** (hostname starts with `staging--`, e.g. `staging--saudi-recitation-center.netlify.app`): uses `api.staging`.
+- **Production deploy** (e.g. `saudi-recitation-center.netlify.app`): uses `api.production`.
 
-1. **Site configuration** → **Environment variables** → **Add a variable**.
-2. Add **`NEXT_PUBLIC_ENV`** with **scope**:
-   - **Production** (main branch): leave unset or value **`production`** → app uses `api.production`.
-   - **Staging** (staging branch): value **`staging`** → app uses `api.staging`.
-3. In Netlify set different values per branch (Scopes / Deploy contexts) so the staging branch gets `staging`.
-4. **Redeploy** after changing env vars.
+So as long as your staging branch deploys to `staging--<site-name>.netlify.app`, the app will call the staging backend automatically. You do **not** need to set `NEXT_PUBLIC_ENV` for this to work.
 
-Optional fallback (if a tenant has no `api` in config): **`NEXT_PUBLIC_API_URL`** (e.g. `https://api.cms.itqan.dev`).
+Optional: if you ever need to force staging/production when hostname doesn’t match (e.g. custom domain), you can set **`NEXT_PUBLIC_ENV`** (used only when hostname can’t be read, e.g. at build time). Fallback (no tenant api): **`NEXT_PUBLIC_API_URL`**.
 
 ---
 

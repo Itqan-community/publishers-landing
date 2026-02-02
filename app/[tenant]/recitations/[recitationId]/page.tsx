@@ -6,7 +6,8 @@ import { RecitationsPlayer, RecitationItem } from '@/components/audio/AudioPlaye
 import { FiCode, FiDownload, FiMessageCircle, FiHeart, FiShare2 } from 'react-icons/fi';
 import { getRecitationById } from '@/lib/recorded-mushafs';
 import { getRecitationTracksByAssetId } from '@/lib/recitation-tracks';
-import { getBackendUrl, resolveImageUrl } from '@/lib/utils';
+import { getBackendUrl } from '@/lib/backend-url';
+import { resolveImageUrl } from '@/lib/utils';
 import { AvatarImage } from '@/components/ui/AvatarImage';
 
 export default async function RecitationDetailsPage({
@@ -50,7 +51,7 @@ export default async function RecitationDetailsPage({
   const reciterImage =
     resolveImageUrl(
       recitation.reciter?.image ?? recitation.reciter?.avatar,
-      getBackendUrl(tenantId)
+      await getBackendUrl(tenantId)
     ) ?? '';
 
   // IMPORTANT: Use recitation.id (from API response) as asset_id for tracks API
