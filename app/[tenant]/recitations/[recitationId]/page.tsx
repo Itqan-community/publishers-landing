@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { loadTenantConfig } from '@/lib/tenant-config';
 import { PageLayout } from '@/components/layout/PageLayout';
@@ -110,44 +109,71 @@ export default async function RecitationDetailsPage({
     <PageLayout tenant={tenant}>
       <div dir="rtl" className="bg-white">
         <div className="mx-auto max-w-[1200px] px-4 pb-16 pt-10 sm:px-6 lg:px-8">
-          <section className="rounded-[18px] border border-[#ebe8e8] bg-white px-6 py-6 shadow-sm">
-            <div className="flex flex-col gap-6 lg:flex-row-reverse lg:items-start">
-              <div className="flex items-center gap-6 flex-row-reverse">
-                <div className="flex h-[179px] w-[179px] shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-[#f4b400] bg-white p-0">
-                  <div className="relative h-full w-full overflow-hidden rounded-full">
-                    <AvatarImage
-                      src={reciterImage}
-                      alt={`صورة ${reciterName}`}
-                      fill
-                      className="object-cover"
-                      priority
-                      iconSize="h-24 w-24"
-                    />
-                  </div>
+          {/* Head section: 2 parts. Part 1 (start): avatar column + info column (title/desc + tags row). Part 2: like/comment/share row + CTAs row. Same bg as hero. */}
+          <section className="relative overflow-hidden rounded-[14px] border border-[#ebe8e8] bg-[#f6f6f4] px-6 py-6 shadow-sm">
+            {/* Same bg pattern as hero section (home + recitations head) */}
+            <div
+              className="pointer-events-none absolute inset-0 bg-[url('/images/hero-bg.svg')] bg-no-repeat bg-right-top bg-cover opacity-100 [mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)] [-webkit-mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)]"
+              aria-hidden
+            />
+            <div className="relative flex flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-12">
+              {/* Part 1 (RTL start): column 1 = avatar, column 2 = info (row1: title+description, row2: tags) */}
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:gap-6">
+                <div className="relative h-[179px] w-[179px] shrink-0 overflow-hidden rounded-[24px] bg-white">
+                  <AvatarImage
+                    src={reciterImage}
+                    alt={`صورة ${reciterName}`}
+                    fill
+                    className="object-cover"
+                    priority
+                    iconSize="h-24 w-24"
+                  />
                 </div>
-                <div>
-                  <h1 className="text-[28px] font-semibold text-black">{reciterName}</h1>
-                  <p className="mt-2 text-[18px] text-[#6a6a6a]">{recitation.name || 'مصحف مرتل'}</p>
+                <div className="flex min-w-0 flex-1 flex-col items-start gap-6 justify-between h-full">
+                  <div className="text-start">
+                    <h1 className="text-[28px] font-semibold leading-tight text-black">
+                      {reciterName}
+                    </h1>
+                    <p className="mt-2 text-[18px] leading-snug text-[#6a6a6a]">
+                      {recitation.name || 'مصحف مرتل'}
+                    </p>
+                  </div>
+                  {/* Tags: second row, start side */}
+                  <div className="flex flex-wrap items-center gap-3">
+                    <span className="rounded-[4px] bg-white px-[12px] py-[8px] text-[12px] font-[500] text-[#1f2a37]">
+                      مصحف مجود
+                    </span>
+                    {recitation.riwayah?.name && (
+                      <span className="rounded-[4px] bg-white px-[12px] py-[8px] text-[12px] font-[500] text-[#1f2a37]">
+                        رواية {recitation.riwayah.name}
+                      </span>
+                    )}
+                    {recitation.madd_level && (
+                      <span className="rounded-[4px] bg-white px-[12px] py-[8px] text-[12px] font-[500] text-[#1f2a37]">
+                        {recitation.madd_level === 'tawassut' ? 'التوسط' : recitation.madd_level === 'qasr' ? 'قصر' : recitation.madd_level}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
 
-              <div className="flex-1">
+              {/* Part 2: row 1 = like, comment, share (4px radius); row 2 = 2 CTAs — aligned to end side */}
+              <div className="flex flex-1 flex-col items-end justify-between gap-6">
                 <div className="flex flex-wrap items-center gap-4 text-[14px] text-[#6a6a6a]">
-                  <div className="flex items-center gap-2 rounded-full border border-[#ebe8e8] px-3 py-1">
-                    <FiHeart className="h-4 w-4" />
+                  <div className="flex items-center gap-2 rounded-[4px] border border-[#ebe8e8] bg-white px-3 py-2">
+                    <FiHeart className="h-4 w-4 shrink-0" />
                     <span>1,456 إعجاب</span>
                   </div>
-                  <div className="flex items-center gap-2 rounded-full border border-[#ebe8e8] px-3 py-1">
-                    <FiMessageCircle className="h-4 w-4" />
+                  <div className="flex items-center gap-2 rounded-[4px] border border-[#ebe8e8] bg-white px-3 py-2">
+                    <FiMessageCircle className="h-4 w-4 shrink-0" />
                     <span>400 تعليق</span>
                   </div>
-                  <div className="flex items-center gap-2 rounded-full border border-[#ebe8e8] px-3 py-1">
-                    <FiShare2 className="h-4 w-4" />
+                  <div className="flex items-center gap-2 rounded-[4px] border border-[#ebe8e8] bg-white px-3 py-2">
+                    <FiShare2 className="h-4 w-4 shrink-0" />
                     <span>133 مشاركة</span>
                   </div>
                 </div>
-
-                <div className="mt-6 flex flex-wrap items-center gap-3">
+                <div className="flex flex-wrap items-center gap-3">
                   <Button
                     variant="secondary"
                     className="gap-2 bg-[#0d121c] text-white hover:bg-[#0a0f17]"
@@ -160,26 +186,8 @@ export default async function RecitationDetailsPage({
                     className="gap-2 bg-[#1b3f2d] text-white hover:bg-[#152f22]"
                   >
                     <FiDownload className="h-4 w-4" />
-                    تحميل للمصحف كاملًا
+                    تحميل المصحف كاملا
                   </Button>
-                </div>
-
-                <div className="mt-6 flex flex-wrap items-center gap-3">
-                  {recitation.riwayah?.name && (
-                    <span className="rounded-[6px] bg-[#f3f3f3] px-4 py-[2px] text-[14px] text-[#1f2a37]">
-                      رواية {recitation.riwayah.name}
-                    </span>
-                  )}
-                  {recitation.madd_level && (
-                    <span className="rounded-[6px] bg-[#f3f3f3] px-4 py-[2px] text-[14px] text-[#1f2a37]">
-                      {recitation.madd_level === 'tawassut' ? 'التوسط' : recitation.madd_level === 'qasr' ? 'قصر' : recitation.madd_level}
-                    </span>
-                  )}
-                  {recitation.year && (
-                    <span className="rounded-[6px] bg-[#f3f3f3] px-4 py-[2px] text-[14px] text-[#1f2a37]">
-                      سنة {recitation.year}
-                    </span>
-                  )}
                 </div>
               </div>
             </div>

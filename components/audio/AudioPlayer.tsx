@@ -93,6 +93,12 @@ const InfoIcon = ({ className = "h-[19px] w-[19px]" }: { className?: string }) =
   </svg>
 );
 
+const SearchIcon = ({ className = "h-5 w-5" }: { className?: string }) => (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className={className} aria-hidden="true">
+    <path fillRule="evenodd" clipRule="evenodd" d="M9.1665 1.04166C4.67919 1.04166 1.0415 4.67934 1.0415 9.16666C1.0415 13.654 4.67919 17.2917 9.1665 17.2917C11.1852 17.2917 13.0319 16.5555 14.4529 15.3369L17.8912 18.7753C18.1353 19.0193 18.531 19.0193 18.7751 18.7753C19.0192 18.5312 19.0192 18.1355 18.7751 17.8914L15.3368 14.453C16.5553 13.0321 17.2915 11.1853 17.2915 9.16666C17.2915 4.67934 13.6538 1.04166 9.1665 1.04166ZM2.2915 9.16666C2.2915 5.3697 5.36955 2.29166 9.1665 2.29166C12.9635 2.29166 16.0415 5.3697 16.0415 9.16666C16.0415 12.9636 12.9635 16.0417 9.1665 16.0417C5.36955 16.0417 2.2915 12.9636 2.2915 9.16666Z" fill="currentColor"/>
+  </svg>
+);
+
 export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
   recitations,
   defaultSelected,
@@ -312,9 +318,10 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
 
   return (
     <div
+      dir="rtl"
       className={
         isDetailsVariant
-          ? 'grid gap-6 lg:grid-cols-[1fr_1.4fr]'
+          ? 'grid gap-6 lg:grid-cols-[1.4fr_1fr]'
           : 'overflow-hidden rounded-[18px] bg-white shadow-[0px_44px_84px_0px_rgba(0,0,0,0.07)]'
       }
     >
@@ -609,6 +616,64 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
 
       {isDetailsVariant && (
         <>
+          {/* List first (start side in RTL = right) */}
+          <div>
+            <div className="rounded-[12px] border border-[#ebe8e8] bg-white px-6 py-6">
+              <div className="flex flex-col gap-4">
+                <div className="flex flex-wrap items-center justify-between gap-4">
+                  <h3 className="text-[33.5px] font-bold text-black">{listTitleText}</h3>
+                  <label className="flex w-full items-center gap-2 rounded-[10px] bg-[#f3f3f3] px-3 py-2 sm:w-[240px] flex-row-reverse">
+                    <input
+                      type="text"
+                      placeholder="ابحث عن السورة"
+                      className="w-full bg-transparent text-[16px] text-[#6c737f] placeholder:text-[#6c737f] focus:outline-none"
+                    />
+                    <SearchIcon className="h-5 w-5 shrink-0 text-[#161616]" />
+                  </label>
+                </div>
+
+                <div className="max-h-[620px] overflow-y-auto pe-2">
+                  {recitations.map((recitation) => {
+                    const isSelected = selectedRecitation?.id === recitation.id;
+                    const secondaryText = recitation.surahInfo || recitation.reciterName;
+                    const itemClasses = `flex w-full items-center justify-between gap-4 rounded-[10px] px-4 py-4 transition-colors min-h-[72px] ${
+                      isSelected ? 'bg-[#f3f3f3]' : 'border-b border-[#ebe8e8]'
+                    }`;
+
+                    return (
+                      <button
+                        key={recitation.id}
+                        type="button"
+                        onClick={() => handleRecitationClick(recitation)}
+                        className={itemClasses}
+                      >
+                        <div className="flex-1 text-start">
+                          <p className="text-[16px] font-medium text-[#1f2a37]">{(recitation.title || '').replace(/^\d+\.\s*/, '')}</p>
+                          <p className="mt-1 text-[14px] text-[#6a6a6a]">{secondaryText}</p>
+                        </div>
+
+                        <div className="flex items-center gap-2">
+                          <span className="flex h-[36px] w-[36px] items-center justify-center rounded-[11px] text-[#161616]" aria-label={isSelected && isPlaying ? 'إيقاف مؤقت' : 'تشغيل'}>
+                            {isSelected && isPlaying ? (
+                              <PauseIcon className="h-[19px] w-[19px]" />
+                            ) : (
+                              <span className="[&_svg]:h-[19px] [&_svg]:w-[19px]"><PlayIcon /></span>
+                            )}
+                          </span>
+                          <ActionIcon icon={<DownloadIcon />} alt="تحميل" />
+                          <ActionIcon icon={<ShareIcon />} alt="مشاركة" />
+                          <ActionIcon icon={<HeartIcon />} alt="إعجاب" />
+                          <ActionIcon icon={<InfoIcon />} alt="معلومات" />
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Player second (end side in RTL = left) */}
           <div>
             <div className="rounded-[12px] border border-[#ebe8e8] bg-white px-6 py-6">
               <div className="flex flex-col items-center gap-6">
@@ -651,12 +716,12 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                         />
                         <div
                           className="absolute top-1/2 size-[12px] -translate-y-1/2 rounded-full bg-[#f4b400] shadow-sm"
-                          style={{ 
-                            insetInlineStart: progressPercent === 0 
-                              ? '0px' 
-                              : progressPercent === 1 
-                              ? 'calc(100% - 12px)' 
-                              : `calc(${progressPercent * 100}% - 6px)` 
+                          style={{
+                            insetInlineStart: progressPercent === 0
+                              ? '0px'
+                              : progressPercent === 1
+                              ? 'calc(100% - 12px)'
+                              : `calc(${progressPercent * 100}% - 6px)`
                           }}
                           aria-hidden
                         />
@@ -718,92 +783,35 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
             <audio
               ref={audioRef}
               src={validAudioUrl || undefined}
-                onTimeUpdate={(e) => setCurrentTimeSeconds(e.currentTarget.currentTime)}
-                onLoadedMetadata={(e) => setDurationSeconds(e.currentTarget.duration || 0)}
-                onPlay={() => setIsPlaying(true)}
-                onPause={() => setIsPlaying(false)}
-                onEnded={() => {
-                  setIsPlaying(false);
-                  setCurrentTimeSeconds(0);
-                }}
-                onError={(e) => {
-                  const audio = e.currentTarget as HTMLAudioElement;
-                  const errorCode = audio.error?.code;
-                  const errorMessage = audio.error?.message;
-                  
-                  // Only log errors that aren't just empty/invalid sources
-                  if (errorCode !== undefined && errorCode !== 4) { // 4 = MEDIA_ERR_SRC_NOT_SUPPORTED
-                    console.error('[AudioPlayer] Audio error:', {
-                      error: audio.error,
-                      code: errorCode,
-                      message: errorMessage,
-                      src: validAudioUrl,
-                      originalUrl: selectedRecitation?.audioUrl,
-                    });
-                  } else if (!validAudioUrl || validAudioUrl.trim() === '') {
-                    console.warn('[AudioPlayer] No valid audio URL provided');
-                  }
-                  setIsPlaying(false);
-                }}
-                preload="metadata"
-              />
+              onTimeUpdate={(e) => setCurrentTimeSeconds(e.currentTarget.currentTime)}
+              onLoadedMetadata={(e) => setDurationSeconds(e.currentTarget.duration || 0)}
+              onPlay={() => setIsPlaying(true)}
+              onPause={() => setIsPlaying(false)}
+              onEnded={() => {
+                setIsPlaying(false);
+                setCurrentTimeSeconds(0);
+              }}
+              onError={(e) => {
+                const audio = e.currentTarget as HTMLAudioElement;
+                const errorCode = audio.error?.code;
+                const errorMessage = audio.error?.message;
+
+                if (errorCode !== undefined && errorCode !== 4) {
+                  console.error('[AudioPlayer] Audio error:', {
+                    error: audio.error,
+                    code: errorCode,
+                    message: errorMessage,
+                    src: validAudioUrl,
+                    originalUrl: selectedRecitation?.audioUrl,
+                  });
+                } else if (!validAudioUrl || validAudioUrl.trim() === '') {
+                  console.warn('[AudioPlayer] No valid audio URL provided');
+                }
+                setIsPlaying(false);
+              }}
+              preload="metadata"
+            />
           </div>
-
-          <div>
-        <div className="rounded-[12px] border border-[#ebe8e8] bg-white px-6 py-6">
-          <div className="flex flex-col gap-4">
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                  <h3 className="text-[33.5px] font-bold text-black">{listTitleText}</h3>
-                <label className="flex w-full items-center gap-2 rounded-[10px] bg-[#f3f3f3] px-3 py-2 sm:w-[240px] flex-row-reverse">
-                  <input
-                    type="text"
-                    placeholder="ابحث عن السورة"
-                    className="w-full bg-transparent text-[16px] text-[#6c737f] placeholder:text-[#6c737f] focus:outline-none"
-                  />
-                    <img src="/icons/recitations/search.png" alt="بحث" width={20} height={20} className="h-5 w-5" />
-                </label>
-            </div>
-
-                <div className="max-h-[620px] overflow-y-auto pe-2">
-                  {recitations.map((recitation) => {
-                const isSelected = selectedRecitation?.id === recitation.id;
-                const secondaryText = recitation.surahInfo || recitation.reciterName;
-                    const itemClasses = `flex w-full items-center justify-between gap-4 rounded-[10px] px-4 py-4 transition-colors min-h-[72px] ${
-                      isSelected ? 'bg-[#f3f3f3]' : 'border-b border-[#ebe8e8]'
-                    }`;
-
-                    return (
-                      <button
-                        key={recitation.id}
-                        type="button"
-                        onClick={() => handleRecitationClick(recitation)}
-                        className={itemClasses}
-                      >
-                    <div className="flex-1 text-start">
-                          <p className="text-[16px] font-medium text-[#1f2a37]">{(recitation.title || '').replace(/^\d+\.\s*/, '')}</p>
-                      <p className="mt-1 text-[14px] text-[#6a6a6a]">{secondaryText}</p>
-                    </div>
-
-                      <div className="flex items-center gap-2">
-                        <span className="flex h-[36px] w-[36px] items-center justify-center rounded-[11px] text-[#161616]" aria-label={isSelected && isPlaying ? 'إيقاف مؤقت' : 'تشغيل'}>
-                          {isSelected && isPlaying ? (
-                            <PauseIcon className="h-[19px] w-[19px]" />
-                          ) : (
-                            <span className="[&_svg]:h-[19px] [&_svg]:w-[19px]"><PlayIcon /></span>
-                          )}
-                        </span>
-                        <ActionIcon icon={<DownloadIcon />} alt="تحميل" />
-                        <ActionIcon icon={<ShareIcon />} alt="مشاركة" />
-                        <ActionIcon icon={<HeartIcon />} alt="إعجاب" />
-                        <ActionIcon icon={<InfoIcon />} alt="معلومات" />
-                      </div>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </div>
         </>
       )}
     </div>
