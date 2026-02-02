@@ -2,34 +2,49 @@
 
 ## Overview
 
-This guide explains how to configure custom domains and subdomains for your multi-tenant landing page platform in production.
+This guide explains how to configure **domain-based multi-tenancy**: each tenant has its own domain (e.g. `saudi-recitations-center.com`). URLs are clean (no `/tenant-id` in the path). Staging uses the `staging--<domain>` pattern (e.g. `staging--saudi-recitations-center.com`).
 
 ---
 
-## Tenant Resolution Strategies (Priority Order)
+## Tenant Resolution (Priority Order)
 
-The system checks these strategies in order:
-
-1. **Custom Domain** (e.g., `tenant1.com`)
-2. **Subdomain** (e.g., `publisher-1.yourdomain.com`)
-3. **Path-based** (e.g., `localhost:3000/publisher-1` - for local development only)
+1. **Custom domain** – hostname in `config/tenants.json` → `domain` field per tenant
+2. **Subdomain** – e.g. `publisher-1.yourdomain.com`
+3. **Path-based** – e.g. `localhost:3000/saudi-center` (for local dev only)
 
 ---
 
-## Option 1: Custom Domains (tenant1.com, tenant2.com)
+## Custom Domains (One Domain Per Tenant)
 
-### Step 1: Configure Domain Mapping
+### Step 1: Configure Domain in `config/tenants.json`
 
-Edit `lib/tenant-resolver.ts` and update the `domainMap` object:
+Add a `domain` field to each tenant that has a custom domain:
 
-```typescript
-const domainMap: Record<string, string> = {
-  'tenant1.com': 'publisher-1',
-  'tenant2.com': 'publisher-2',
-  'www.tenant1.com': 'publisher-1',
-  'www.tenant2.com': 'publisher-2',
-};
+```json
+"saudi-center": {
+  "id": "saudi-center",
+  "name": "المركز السعودي للتلاوات القرآنية",
+  "domain": "saudi-recitations-center.com",
+  "template": "saudi-center",
+  ...
+}
 ```
+
+Domain mapping is built from this config (see `lib/domains.ts`). No need to edit `tenant-resolver.ts`.
+
+### Staging (Option B: branch subdomain)
+
+Staging uses the **staging--** prefix on the same domain:
+
+- Production: `saudi-recitations-center.com`
+- Staging: `staging--saudi-recitations-center.com`
+
+Both map to the same tenant. Configure your host (e.g. Netlify) so the staging branch deploys to `staging--<your-site>.netlify.app` or your custom staging domain.
+
+### URL behaviour on custom domain
+
+- **Clean URLs:** `/`, `/recitations`, `/recitations/123` (no tenant ID in path)
+- **404:** Visiting `saudi-recitations-center.com/saudi-center` (or any `/<tenantId>`) returns 404 so tenant IDs are not exposed
 
 ### Step 2: DNS Configuration
 

@@ -12,6 +12,7 @@ import { TenantConfig, TenantContext } from '@/types/tenant.types';
 
 const TenantContextObj = createContext<TenantContext>({
   tenant: null,
+  basePath: '',
   loading: true,
   error: null,
 });
@@ -22,13 +23,24 @@ export function useTenant() {
 
 interface TenantProviderProps {
   initialTenant: TenantConfig | null;
+  /** Base path for links: '' on custom domain, '/<tenantId>' on path-based */
+  initialBasePath?: string;
   children: ReactNode;
 }
 
-export function TenantProvider({ initialTenant, children }: TenantProviderProps) {
+export function TenantProvider({
+  initialTenant,
+  initialBasePath = '',
+  children,
+}: TenantProviderProps) {
   const [tenant, setTenant] = useState<TenantConfig | null>(initialTenant);
+  const [basePath, setBasePath] = useState(initialBasePath);
   const [loading, setLoading] = useState(!initialTenant);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setBasePath(initialBasePath);
+  }, [initialBasePath]);
 
   useEffect(() => {
     if (initialTenant) {
@@ -41,7 +53,7 @@ export function TenantProvider({ initialTenant, children }: TenantProviderProps)
   }, [initialTenant]);
 
   return (
-    <TenantContextObj.Provider value={{ tenant, loading, error }}>
+    <TenantContextObj.Provider value={{ tenant, basePath, loading, error }}>
       {children}
     </TenantContextObj.Provider>
   );

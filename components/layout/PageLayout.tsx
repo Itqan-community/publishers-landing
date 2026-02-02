@@ -1,6 +1,9 @@
+'use client';
+
 import React from 'react';
 import { Header } from './Header';
 import { Footer } from './Footer';
+import { useTenant } from '@/components/providers/TenantProvider';
 import { TenantConfig } from '@/types/tenant.types';
 
 interface PageLayoutProps {
@@ -16,11 +19,14 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
   showHeader = true,
   showFooter = true,
 }) => {
+  const { basePath } = useTenant();
+  const prefix = basePath || '';
+
   const navItems = [
-    { label: 'الرئيسية', href: `/${tenant.id}` },
-    { label: 'عن المركز', href: `/${tenant.id}#about` },
-    { label: 'المصاحف المسجلة', href: `/${tenant.id}/recitations` },
-    { label: 'القراء', href: `/${tenant.id}#reciters` },
+    { label: 'الرئيسية', href: prefix ? prefix : '/' },
+    { label: 'عن المركز', href: `${prefix}#about` },
+    { label: 'المصاحف المسجلة', href: `${prefix}/recitations` },
+    { label: 'القراء', href: `${prefix}#reciters` },
   ];
 
   return (
@@ -30,12 +36,13 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
           logo={tenant.branding.logo}
           tenantName={tenant.name}
           navItems={navItems}
+          homeHref={prefix || '/'}
         />
       )}
       <main className="flex-grow">
         {children}
       </main>
-      {showFooter && <Footer tenant={tenant} />}
+      {showFooter && <Footer tenant={tenant} basePath={basePath} />}
     </div>
   );
 };

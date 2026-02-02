@@ -18,9 +18,10 @@ import { FooterSection } from '@/components/sections/FooterSection';
 
 interface DefaultTemplateProps {
   tenant: TenantConfig;
+  basePath?: string;
 }
 
-export function DefaultTemplate({ tenant }: DefaultTemplateProps) {
+export function DefaultTemplate({ tenant, basePath: _basePath }: DefaultTemplateProps) {
   const { content, branding, name } = tenant;
 
   return (

@@ -17,9 +17,10 @@ import { FooterSection } from '@/components/sections/FooterSection';
 
 interface MagazineTemplateProps {
   tenant: TenantConfig;
+  basePath?: string;
 }
 
-export function MagazineTemplate({ tenant }: MagazineTemplateProps) {
+export function MagazineTemplate({ tenant, basePath: _basePath }: MagazineTemplateProps) {
   const { content, branding, name } = tenant;
 
   return (

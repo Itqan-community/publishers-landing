@@ -11,9 +11,11 @@ interface HeaderProps {
   logo: string;
   tenantName: string;
   navItems: Array<{ label: string; href: string }>;
+  /** Home/logo link (e.g. '/' or '/saudi-center') */
+  homeHref?: string;
 }
 
-export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems }) => {
+export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, homeHref = '/' }) => {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -50,7 +52,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems }) =>
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-[72px] gap-6">
           {/* Logo (start side in RTL) - Figma logo lockup */}
-          <Link href="/" className="flex-shrink-0 order-1 flex items-center">
+          <Link href={homeHref} className="flex-shrink-0 order-1 flex items-center">
             <div className="relative w-[180px] h-[32px] sm:w-[220px] sm:h-[40px] lg:w-[266px] lg:h-[44px]">
               <Image
                 src="/logos/full-logo.png"

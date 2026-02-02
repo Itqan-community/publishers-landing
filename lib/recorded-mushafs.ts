@@ -55,11 +55,14 @@ export interface GetRecordedMushafsParams {
  * Server-side data accessor for Recorded Mushafs.
  * Fetches from the backend API and maps to the UI model.
  * Pass search and riwayah_id for backend filtering (synced from URL).
+ * @param basePath '' on custom domain, '/<tenantId>' on path-based; used for href.
  */
 export const getRecordedMushafs = cache(async (
   tenantId: string,
-  params?: GetRecordedMushafsParams
+  params?: GetRecordedMushafsParams,
+  basePath?: string
 ): Promise<RecordedMushaf[]> => {
+  const pathPrefix = basePath !== undefined ? basePath : `/${tenantId}`;
   try {
     const backendUrl = getBackendUrl();
     const baseUrl = `${backendUrl.replace(/\/$/, '')}/recitations/`;
@@ -156,7 +159,7 @@ export const getRecordedMushafs = cache(async (
         },
         badges: badges.length > 0 ? badges : undefined,
         year: recitation.year ?? undefined,
-        href: `/${tenantId}/recitations/${recitation.id}`,
+        href: `${pathPrefix}/recitations/${recitation.id}`,
       };
     });
     } catch (fetchError) {

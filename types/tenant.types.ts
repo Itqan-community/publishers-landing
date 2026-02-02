@@ -10,6 +10,8 @@
 export interface TenantConfig {
   id: string;
   name: string;
+  /** Custom domain for this tenant (e.g. saudi-recitations-center.com). Staging uses staging--<domain>. */
+  domain?: string;
   branding: TenantBranding;
   features: TenantFeatures;
   content: TenantContent;
@@ -208,6 +210,8 @@ export interface TenantRequest {
 
 export interface TenantContext {
   tenant: TenantConfig | null;
+  /** Base path for links: '' on custom domain, '/<tenantId>' on path-based (e.g. localhost/saudi-center) */
+  basePath: string;
   loading: boolean;
   error: string | null;
 }

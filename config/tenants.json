@@ -358,6 +358,7 @@
   "saudi-center": {
     "id": "saudi-center",
     "name": "المركز السعودي للتلاوات القرآنية",
+    "domain": "saudi-recitations-center.com",
     "template": "saudi-center",
     "branding": {
       "logo": "/logos/center-logo.png",
@@ -381,7 +382,7 @@
         "description": "نسعى لنشر كلام الله المبارك بأجمل الأصوات وأعذبها، من خلال نخبة من أفضل القراء في المملكة العربية السعودية والعالم الإسلامي",
         "image": "/images/hero-image.jpg",
         "ctaText": "استمع الان",
-        "ctaLink": "/saudi-center/recitations"
+        "ctaLink": "/recitations"
       },
       "statistics": [
         {
@@ -417,14 +418,14 @@
           {
             "label": "عنا",
             "items": [
-              { "text": "من نحن", "href": "/saudi-center/about" },
-              { "text": "تواصل معنا", "href": "/saudi-center/contact" }
+              { "text": "من نحن", "href": "/about" },
+              { "text": "تواصل معنا", "href": "/contact" }
             ]
           },
           {
             "label": "المصادر",
             "items": [
-              { "text": "الأسئلة الشائعة", "href": "/saudi-center/faq" },
+              { "text": "الأسئلة الشائعة", "href": "/faq" },
               { "text": "الشروط", "href": "/terms" },
               { "text": "الخصوصية", "href": "/privacy" }
             ]

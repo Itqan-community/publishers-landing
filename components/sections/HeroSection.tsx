@@ -14,6 +14,8 @@ import { CheckmarkBadgeIcon, TwitterIcon, InstagramIcon, TikTokIcon } from '@/co
 
 interface HeroSectionProps {
   content: HeroContent;
+  /** Base path for links: '' on custom domain, '/<tenantId>' on path-based */
+  basePath?: string;
   statsCard?: {
     value: string;
     label: string;
@@ -21,8 +23,9 @@ interface HeroSectionProps {
   };
 }
 
-export function HeroSection({ content, statsCard }: HeroSectionProps) {
+export function HeroSection({ content, basePath = '', statsCard }: HeroSectionProps) {
   const { title, description, image, ctaText, ctaLink } = content;
+  const prefix = basePath || '';
 
   return (
     <section className="relative w-full" style={{ minHeight: '772px', overflow: 'visible' }}>
@@ -43,10 +46,10 @@ export function HeroSection({ content, statsCard }: HeroSectionProps) {
             {/* RTL: align to start side (right) */}
             <div className="flex flex-wrap gap-4 pt-2 justify-start">
               <Button variant="secondary" size="md" asChild>
-                <Link href="/saudi-center/reciters">تصفح القراء</Link>
+                <Link href={`${prefix}/reciters`}>تصفح القراء</Link>
               </Button>
               <Button variant="primary" size="md" asChild>
-                <Link href={ctaLink || '/saudi-center/recitations'}>استمع الان</Link>
+                <Link href={ctaLink ? `${prefix}${ctaLink}` : `${prefix}/recitations`}>استمع الان</Link>
               </Button>
             </div>
 

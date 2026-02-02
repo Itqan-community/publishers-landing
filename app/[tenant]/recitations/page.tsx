@@ -1,5 +1,7 @@
+import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { loadTenantConfig } from '@/lib/tenant-config';
+import { getBasePathFromHeaders } from '@/lib/tenant-resolver';
 import { PageLayout } from '@/components/layout/PageLayout';
 import { RecitationsPageContent } from '@/components/sections/RecitationsPageContent';
 import { getRecordedMushafs } from '@/lib/recorded-mushafs';
@@ -32,6 +34,8 @@ export default async function RecitationsListingPage({
 }) {
   const { tenant: tenantId } = await params;
   const sp = await searchParams;
+  const headersList = await headers();
+  const basePath = getBasePathFromHeaders(headersList);
   const tenant = await loadTenantConfig(tenantId);
 
   if (!tenant) {
@@ -46,7 +50,7 @@ export default async function RecitationsListingPage({
     getRecordedMushafs(tenantId, {
       search: search || undefined,
       riwayah_id: riwayahId != null ? [riwayahId] : undefined,
-    }),
+    }, basePath),
     getRiwayahs(),
   ]);
 

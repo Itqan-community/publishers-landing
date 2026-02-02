@@ -6,6 +6,8 @@ import { TenantConfig } from '@/types/tenant.types';
 
 interface FooterProps {
   tenant: TenantConfig;
+  /** Base path for links: '' on custom domain, '/<tenantId>' on path-based */
+  basePath?: string;
 }
 
 const PLATFORM_LABEL: Record<string, string> = {
@@ -21,7 +23,12 @@ function getSocialIconSrc(platform: string): string | null {
   return null;
 }
 
-export const Footer: React.FC<FooterProps> = ({ tenant }) => {
+function withBasePath(href: string, basePath: string): string {
+  if (!basePath || !href.startsWith('/')) return href;
+  return basePath + href;
+}
+
+export const Footer: React.FC<FooterProps> = ({ tenant, basePath = '' }) => {
   const { template, branding, content } = tenant;
   const footer = content.footer;
 
@@ -59,7 +66,7 @@ export const Footer: React.FC<FooterProps> = ({ tenant }) => {
                   <p className="text-[16px] font-semibold text-black">{footer.links[0].label}</p>
                   <div className="mt-4 flex flex-col items-start gap-2 text-[12px] text-black">
                     {footer.links[0].items.map((item, i) => (
-                      <Link key={i} href={item.href} className="hover:underline">
+                      <Link key={i} href={withBasePath(item.href, basePath)} className="hover:underline">
                         {item.text}
                       </Link>
                     ))}
@@ -73,7 +80,7 @@ export const Footer: React.FC<FooterProps> = ({ tenant }) => {
                   <p className="text-[16px] font-semibold text-black">{footer.links[1].label}</p>
                   <div className="mt-4 flex flex-col items-start gap-2 text-[12px] text-black">
                     {footer.links[1].items.map((item, i) => (
-                      <Link key={i} href={item.href} className="hover:underline">
+                      <Link key={i} href={withBasePath(item.href, basePath)} className="hover:underline">
                         {item.text}
                       </Link>
                     ))}

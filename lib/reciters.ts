@@ -26,8 +26,13 @@ interface PaginatedResponse<T> {
 /**
  * Server-side data accessor for Reciters.
  * Fetches from the backend API and maps to the UI model.
+ * @param basePath '' on custom domain, '/<tenantId>' on path-based; used for href.
  */
-export const getReciters = cache(async (tenantId: string): Promise<ReciterCardProps[]> => {
+export const getReciters = cache(async (
+  tenantId: string,
+  basePath?: string
+): Promise<ReciterCardProps[]> => {
+  const pathPrefix = basePath !== undefined ? basePath : `/${tenantId}`;
   try {
     const backendUrl = getBackendUrl();
     const apiUrl = `${backendUrl.replace(/\/$/, '')}/reciters`;
@@ -66,7 +71,7 @@ export const getReciters = cache(async (tenantId: string): Promise<ReciterCardPr
           image,
           publisher: 'موقع دار الإسلام', // Default, could come from API
           publisherUrl: 'https://example.com', // Default, could come from API
-          href: `/${tenantId}/reciters/${reciter.id}`,
+          href: `${pathPrefix}/reciters/${reciter.id}`,
         };
       });
     } catch (fetchError) {

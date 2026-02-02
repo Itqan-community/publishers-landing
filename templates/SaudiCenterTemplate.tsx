@@ -24,13 +24,17 @@ import { getFeaturedRecitationTracks } from '@/lib/recitation-tracks';
 
 interface SaudiCenterTemplateProps {
   tenant: TenantConfig;
+  /** Base path for links: '' on custom domain, '/<tenantId>' on path-based */
+  basePath?: string;
 }
 
-export async function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) {
-  // Fetch data from APIs
+export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenterTemplateProps) {
+  const prefix = basePath || '';
+
+  // Fetch data from APIs (pass prefix for href generation)
   const [reciters, mushafs, recitations] = await Promise.all([
-    getReciters(tenant.id),
-    getRecordedMushafs(tenant.id),
+    getReciters(tenant.id, prefix),
+    getRecordedMushafs(tenant.id, {}, prefix),
     getFeaturedRecitationTracks(tenant.id, 5),
   ]);
 
@@ -91,6 +95,7 @@ export async function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) 
         {/* Hero Section */}
         <HeroSection
           content={tenant.content.hero}
+          basePath={basePath}
           statsCard={{
             value: '2.5M',
             label: 'استماع على جميع المنصات',
@@ -123,7 +128,7 @@ export async function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) 
         title="المصاحف المسجلة"
         description="استمع إلى القرآن الكريم بأصوات نخبة من أشهر القراء في العالم الإسلامي"
         mushafs={mushafs}
-        viewAllHref={`/${tenant.id}/recitations`}
+        viewAllHref={`${prefix}/recitations`}
       />
 
       {/* Featured Recitations Section */}
@@ -131,8 +136,8 @@ export async function SaudiCenterTemplate({ tenant }: SaudiCenterTemplateProps) 
         title="التلاوات المميزة"
         description="استمع لمجموعة مختارة من أجمل التلاوات القرآنية"
         recitations={recitations}
-        viewAllHref="/saudi-center/recitations"
-        detailsHrefBase={`/${tenant.id}/recitations`}
+        viewAllHref={`${prefix}/recitations`}
+        detailsHrefBase={`${prefix}/recitations`}
       />
 
       {/* Reciters Section — scroll target #reciters */}
