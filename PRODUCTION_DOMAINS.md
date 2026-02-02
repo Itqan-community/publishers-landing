@@ -2,51 +2,60 @@
 
 ## Overview
 
-This guide explains how to configure **domain-based multi-tenancy**: each tenant has its own domain (e.g. `saudi-recitations-center.com`). URLs are clean (no `/tenant-id` in the path). Staging uses the `staging--<domain>` pattern (e.g. `staging--saudi-recitations-center.com`).
+This guide explains **domain-based multi-tenancy**: each tenant is identified by hostname. URLs are clean (no `/tenant-id` in the path). Staging uses the `staging--<domain>` pattern.
+
+**Current setup (for now):** Saudi Center uses Netlify’s default subdomain:
+- **Production:** `saudi-recitation-center.netlify.app`
+- **Staging:** `staging--saudi-recitation-center.netlify.app`
+
+You can switch to a custom domain (e.g. `saudi-recitations-center.com`) later by updating `config/tenants.json` and adding the domain in Netlify.
 
 ---
 
 ## Tenant Resolution (Priority Order)
 
-1. **Custom domain** – hostname in `config/tenants.json` → `domain` field per tenant
+1. **Domain** – hostname in `config/tenants.json` → `domain` field per tenant (Netlify subdomain or custom domain)
 2. **Subdomain** – e.g. `publisher-1.yourdomain.com`
 3. **Path-based** – e.g. `localhost:3000/saudi-center` (for local dev only)
 
 ---
 
-## Custom Domains (One Domain Per Tenant)
+## Domain per Tenant (`config/tenants.json`)
 
-### Step 1: Configure Domain in `config/tenants.json`
+### Current: Netlify subdomain
 
-Add a `domain` field to each tenant that has a custom domain:
+Saudi Center is configured with the Netlify site subdomain:
 
 ```json
 "saudi-center": {
   "id": "saudi-center",
-  "name": "المركز السعودي للتلاوات القرآنية",
-  "domain": "saudi-recitations-center.com",
+  "domain": "saudi-recitation-center.netlify.app",
   "template": "saudi-center",
   ...
 }
 ```
 
-Domain mapping is built from this config (see `lib/domains.ts`). No need to edit `tenant-resolver.ts`.
+- **Production:** `https://saudi-recitation-center.netlify.app` → Saudi Center (clean URLs: `/`, `/recitations`, etc.)
+- **Staging:** `https://staging--saudi-recitation-center.netlify.app` → same tenant (staging branch deploy)
 
-### Staging (Option B: branch subdomain)
+Domain mapping is built from this config (see `lib/domains.ts`). Staging hostname `staging--saudi-recitation-center.netlify.app` is mapped automatically.
 
-Staging uses the **staging--** prefix on the same domain:
-
-- Production: `saudi-recitations-center.com`
-- Staging: `staging--saudi-recitations-center.com`
-
-Both map to the same tenant. Configure your host (e.g. Netlify) so the staging branch deploys to `staging--<your-site>.netlify.app` or your custom staging domain.
-
-### URL behaviour on custom domain
+### URL behaviour on domain (Netlify or custom)
 
 - **Clean URLs:** `/`, `/recitations`, `/recitations/123` (no tenant ID in path)
-- **404:** Visiting `saudi-recitations-center.com/saudi-center` (or any `/<tenantId>`) returns 404 so tenant IDs are not exposed
+- **404:** Visiting `saudi-recitation-center.netlify.app/saudi-center` (or any `/<tenantId>`) returns 404 so tenant IDs are not exposed
 
-### Step 2: DNS Configuration
+### Later: Custom domain
+
+When you add a custom domain (e.g. `saudi-recitations-center.com`), update the tenant in `config/tenants.json`:
+
+```json
+"domain": "saudi-recitations-center.com"
+```
+
+Then add the domain in Netlify (Domain management) and point DNS to Netlify. Staging can stay `staging--saudi-recitation-center.netlify.app` or use `staging--saudi-recitations-center.com` if you add and assign that domain to the staging branch.
+
+### DNS for custom domains (when you add one)
 
 Each custom domain needs to point to your hosting provider:
 

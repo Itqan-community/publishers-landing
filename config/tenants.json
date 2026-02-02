@@ -358,7 +358,7 @@
   "saudi-center": {
     "id": "saudi-center",
     "name": "المركز السعودي للتلاوات القرآنية",
-    "domain": "saudi-recitations-center.com",
+    "domain": "saudi-recitation-center.netlify.app",
     "template": "saudi-center",
     "branding": {
       "logo": "/logos/center-logo.png",
