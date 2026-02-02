@@ -9,6 +9,8 @@
  * The resolver checks all strategies and returns the first match.
  */
 
+import { getTenantIdByHostname } from '@/lib/domains';
+import { getDefaultTenantId } from '@/lib/tenant-config';
 import { TenantRequest, TenantResolutionStrategy } from '@/types/tenant.types';
 
 /**
@@ -72,50 +74,56 @@ export const pathStrategy: TenantResolutionStrategy = {
 
 /**
  * Custom domain tenant resolution
- * Example: customdomain.com -> lookup in domain mapping
- * 
- * Configure your custom domains here for production
+ * Example: customdomain.com -> lookup in domain mapping (from config/tenants.json).
+ * Staging: staging--<domain> (e.g. staging--saudi-recitations-center.com) maps to same tenant.
  */
 export const domainStrategy: TenantResolutionStrategy = {
   type: 'domain',
   resolve: (request: TenantRequest): string | null => {
-    const { hostname } = request;
-    
-    // Custom domain mapping for production
-    // Map each custom domain to its tenant ID
-    const domainMap: Record<string, string> = {
-      // Example mappings - replace with your actual domains:
-      // 'tenant1.com': 'publisher-1',
-      // 'tenant2.com': 'publisher-2',
-      // 'academicpress.org': 'publisher-1',
-      // 'globalmagazine.com': 'publisher-2',
-    };
-    
-    return domainMap[hostname] || null;
+    return getTenantIdByHostname(request.hostname);
   },
 };
+
+export type TenantResolutionStrategyType = 'domain' | 'subdomain' | 'path';
+
+export interface TenantResolutionResult {
+  tenantId: string;
+  strategy: TenantResolutionStrategyType;
+}
+
+/**
+ * Resolve tenant from request and return which strategy matched.
+ * Priority order: custom domain → subdomain → path-based.
+ */
+export function resolveTenantWithStrategy(request: TenantRequest): TenantResolutionResult {
+  const strategies = [
+    { strategy: 'domain' as const, resolve: domainStrategy.resolve },
+    { strategy: 'subdomain' as const, resolve: subdomainStrategy.resolve },
+    { strategy: 'path' as const, resolve: pathStrategy.resolve },
+  ];
+
+  for (const { strategy, resolve } of strategies) {
+    const tenantId = resolve(request);
+    if (tenantId) {
+      return { tenantId, strategy };
+    }
+  }
+
+  const fallbackTenantId = getDefaultTenantId();
+  return { tenantId: fallbackTenantId, strategy: 'path' };
+}
 
 /**
  * Resolve tenant from request using all available strategies
  * Priority order: custom domain → subdomain → path-based
+ * Always returns a string (either resolved tenant or default)
  */
-export function resolveTenant(request: TenantRequest): string | null {
-  // Check strategies in priority order
-  // 1. Custom domain (highest priority for production)
-  // 2. Subdomain (e.g., publisher-1.yourdomain.com)
-  // 3. Path-based (e.g., localhost/publisher-1 - mainly for local development)
-  const strategies = [domainStrategy, subdomainStrategy, pathStrategy];
-  
-  for (const strategy of strategies) {
-    const tenantId = strategy.resolve(request);
-    if (tenantId) {
-      console.log(`[TenantResolver] Resolved tenant "${tenantId}" using ${strategy.type} strategy`);
-      return tenantId;
-    }
+export function resolveTenant(request: TenantRequest): string {
+  const { tenantId, strategy } = resolveTenantWithStrategy(request);
+  if (strategy !== 'path' || tenantId !== getDefaultTenantId()) {
+    console.log(`[TenantResolver] Resolved tenant "${tenantId}" using ${strategy} strategy`);
   }
-  
-  console.log('[TenantResolver] No tenant resolved, using default');
-  return 'default';
+  return tenantId;
 }
 
 /**
@@ -135,13 +143,24 @@ export function createTenantRequest(
 
 /**
  * Get tenant from server-side headers (Next.js)
+ * Always returns a string (either resolved tenant or default)
  */
-export function getTenantFromHeaders(headers: Headers): string | null {
+export function getTenantFromHeaders(headers: Headers): string {
   const hostname = headers.get('host') || 'localhost';
   const pathname = headers.get('x-pathname') || '/';
   
   const request = createTenantRequest(hostname, pathname);
   return resolveTenant(request);
+}
+
+/**
+ * Base path for links: '' on custom domain, '/<tenantId>' on path-based (e.g. localhost/saudi-center).
+ * Set by middleware (x-base-path, x-custom-domain). Use for building hrefs so custom domains see clean URLs.
+ */
+export function getBasePathFromHeaders(headers: Headers): string {
+  const isCustomDomain = headers.get('x-custom-domain') === 'true';
+  if (isCustomDomain) return '';
+  return headers.get('x-base-path') ?? '';
 }
 
 /**

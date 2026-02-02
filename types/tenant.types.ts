@@ -10,6 +10,8 @@
 export interface TenantConfig {
   id: string;
   name: string;
+  /** Custom domain for this tenant (e.g. saudi-recitations-center.com). Staging uses staging--<domain>. */
+  domain?: string;
   branding: TenantBranding;
   features: TenantFeatures;
   content: TenantContent;
@@ -19,6 +21,7 @@ export interface TenantConfig {
 
 export interface TenantBranding {
   logo: string;
+  logoFull?: string;
   favicon?: string;
   primaryColor: string;
   secondaryColor: string;
@@ -65,6 +68,7 @@ export interface StatisticsContent {
   value: string | number;
   icon?: string;
   suffix?: string;
+  description?: string;
 }
 
 export interface AssetCategoryContent {
@@ -100,6 +104,51 @@ export interface ReadingContent {
   link: string;
 }
 
+// ==================== SAUDI CENTER: RECORDED MUSHAFS ====================
+
+/**
+ * BE-ready model for "Recorded Mushafs" cards.
+ * Keep this independent from UI so we can swap the data source (mock → API) without refactors.
+ */
+export interface RecordedMushaf {
+  id: string;
+  title: string;
+  description: string;
+  riwayaLabel?: string; // e.g. "برواية حفص"
+
+  reciter: {
+    id: string;
+    name: string;
+    /** Avatar URL from API; empty string when API does not provide image (show person icon). */
+    avatarImage: string;
+  };
+
+  /**
+   * Card visuals (from BE / CMS)
+   * For this card, the top area is a solid color (no image).
+   */
+  visuals: {
+    topBackgroundColor: string;
+    /** Outline color for the mushaf/book graphic; varies per card (e.g. blue, green, purple). */
+    outlineColor?: string;
+  };
+
+  /** Optional year (e.g. 1970) for metadata line. */
+  year?: number;
+
+  /**
+   * Optional badges/icons shown on the card (shape/color should match design).
+   */
+  badges?: Array<{
+    id: string;
+    label: string;
+    icon?: 'headphones' | 'book' | 'mic' | 'sparkle';
+    tone?: 'green' | 'gold' | 'gray';
+  }>;
+
+  href: string;
+}
+
 export interface MediaContent {
   id: string;
   title: string;
@@ -111,6 +160,8 @@ export interface MediaContent {
 
 export interface FooterContent {
   description: string;
+  tagline?: string;
+  contact?: { email?: string; phone?: string };
   links: {
     label: string;
     items: { text: string; href: string }[];
@@ -125,7 +176,7 @@ export interface FooterContent {
 
 // ==================== TEMPLATE TYPES ====================
 
-export type TemplateType = 'default' | 'magazine' | 'minimal';
+export type TemplateType = 'default' | 'magazine' | 'minimal' | 'saudi-center';
 
 export interface TemplateConfig {
   id: TemplateType;
@@ -159,6 +210,8 @@ export interface TenantRequest {
 
 export interface TenantContext {
   tenant: TenantConfig | null;
+  /** Base path for links: '' on custom domain, '/<tenantId>' on path-based (e.g. localhost/saudi-center) */
+  basePath: string;
   loading: boolean;
   error: string | null;
 }

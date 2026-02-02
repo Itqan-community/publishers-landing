@@ -6,6 +6,10 @@ const nextConfig: NextConfig = {
   
   // Image optimization
   images: {
+    // Many of our "png" assets in /public are actually inline SVG content (exported from Figma).
+    // Allow SVGs so Next/Image doesn't throw at runtime (which can cause 500s in dev).
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
       {
         protocol: "https",

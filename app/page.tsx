@@ -8,7 +8,7 @@
 import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { loadTenantConfig } from '@/lib/tenant-config';
-import { getTenantFromHeaders } from '@/lib/tenant-resolver';
+import { getBasePathFromHeaders, getTenantFromHeaders } from '@/lib/tenant-resolver';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { TenantProvider } from '@/components/providers/TenantProvider';
 import { getTemplate } from '@/templates';
@@ -56,15 +56,12 @@ export async function generateMetadata(): Promise<Metadata> {
  * Main Page Component (Server Component)
  */
 export default async function HomePage() {
-  // Resolve tenant from request headers
+  // Resolve tenant and base path from request headers
   const headersList = await headers();
   const tenantId = getTenantFromHeaders(headersList);
+  const basePath = getBasePathFromHeaders(headersList);
 
   console.log('[HomePage] Resolved tenant ID:', tenantId);
-
-  if (!tenantId) {
-    notFound();
-  }
 
   // Load tenant configuration
   const tenant = await loadTenantConfig(tenantId);
@@ -86,9 +83,9 @@ export default async function HomePage() {
 
       {/* Apply theme variables inline for SSR */}
       <div style={getThemeStyles(tenant.branding)}>
-        <TenantProvider initialTenant={tenant}>
+        <TenantProvider initialTenant={tenant} initialBasePath={basePath}>
           <ThemeProvider branding={tenant.branding}>
-            <TemplateComponent tenant={tenant} />
+            <TemplateComponent tenant={tenant} basePath={basePath} />
           </ThemeProvider>
         </TenantProvider>
       </div>

@@ -1,17 +1,13 @@
 /**
- * Catch-all Tenant Page
- * 
- * This page handles path-based tenant routing
- * Example: /publisher-1 -> loads publisher-1 tenant
+ * Tenant Home Page
+ * Renders the tenant template. Layout provides TenantProvider/ThemeProvider.
  */
 
 import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { loadTenantConfig, getAllTenantIds } from '@/lib/tenant-config';
-import { ThemeProvider } from '@/components/providers/ThemeProvider';
-import { TenantProvider } from '@/components/providers/TenantProvider';
+import { getBasePathFromHeaders } from '@/lib/tenant-resolver';
 import { getTemplate } from '@/templates';
-import { getThemeStyles, getFontLink } from '@/lib/theme';
 import type { Metadata } from 'next';
 
 /**
@@ -72,42 +68,27 @@ export default async function TenantPage({
 }: {
   params: Promise<{ tenant: string }>;
 }) {
-  // Get tenant ID from URL path
   const { tenant: tenantId } = await params;
-
-  console.log('[TenantPage] Path-based tenant ID:', tenantId);
 
   if (!tenantId) {
     notFound();
   }
 
-  // Load tenant configuration
+  const headersList = await headers();
+  const basePath = getBasePathFromHeaders(headersList);
   const tenant = await loadTenantConfig(tenantId);
 
   if (!tenant) {
-    console.error('[TenantPage] Tenant configuration not found:', tenantId);
     notFound();
   }
 
-  // Get the template component for this tenant
   const TemplateComponent = getTemplate(tenant.template);
 
   return (
-    <>
-      {/* Inject custom font */}
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      <link href={getFontLink(tenant.branding.font)} rel="stylesheet" />
-
-      {/* Apply theme variables inline for SSR */}
-      <div style={getThemeStyles(tenant.branding)}>
-        <TenantProvider initialTenant={tenant}>
-          <ThemeProvider branding={tenant.branding}>
-            <TemplateComponent tenant={tenant} />
-          </ThemeProvider>
-        </TenantProvider>
-      </div>
-    </>
+    <TemplateComponent
+      tenant={tenant}
+      basePath={basePath}
+    />
   );
 }
 
