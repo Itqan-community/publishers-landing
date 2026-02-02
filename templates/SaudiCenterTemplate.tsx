@@ -31,12 +31,15 @@ interface SaudiCenterTemplateProps {
 export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenterTemplateProps) {
   const prefix = basePath || '';
 
-  // Fetch data from APIs (pass prefix for href generation)
-  const [reciters, mushafs, recitations] = await Promise.all([
+  // Fetch reciters and recorded mushafs first; use first mushaf for featured section (env-agnostic)
+  const [reciters, mushafs] = await Promise.all([
     getReciters(tenant.id, prefix),
     getRecordedMushafs(tenant.id, {}, prefix),
-    getFeaturedRecitationTracks(tenant.id, 5),
   ]);
+  const firstRecitationId = mushafs[0]?.id;
+  const recitations = firstRecitationId
+    ? await getFeaturedRecitationTracks(tenant.id, 5, firstRecitationId)
+    : [];
 
   const sponsors: SponsorItem[] = [
     {

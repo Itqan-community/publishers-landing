@@ -104,15 +104,25 @@ function normalizeAudioUrl(audioUrl: string | undefined, baseUrl?: string): stri
 
 /**
  * Server-side data accessor for Featured Recitation Tracks.
- * Fetches tracks for recitation with id 1 from the API.
+ * Fetches tracks for a given recitation (e.g. first from recorded mushafs list so it works across envs).
+ *
+ * @param tenantId - Tenant ID
+ * @param limit - Max number of tracks to return (default 5)
+ * @param recitationId - Recitation/mushaf ID to feature (e.g. first from getRecordedMushafs). If omitted, returns [].
  */
-export const getFeaturedRecitationTracks = cache(async (tenantId: string, limit: number = 5): Promise<RecitationItem[]> => {
+export const getFeaturedRecitationTracks = cache(async (
+  tenantId: string,
+  limit: number = 5,
+  recitationId?: string | number
+): Promise<RecitationItem[]> => {
+  if (recitationId == null || recitationId === '') {
+    return [];
+  }
   try {
-    // First, fetch the recitation with id 5 to get reciter information
-    const recitation = await getRecitationById(5, tenantId);
+    const recitation = await getRecitationById(recitationId, tenantId);
     
     if (!recitation) {
-      console.warn('[getFeaturedRecitationTracks] Recitation with id 5 not found - returning empty array');
+      console.warn('[getFeaturedRecitationTracks] Recitation not found for id:', recitationId);
       return [];
     }
 
