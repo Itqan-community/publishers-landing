@@ -134,6 +134,11 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
       audioUrl: recitation.audioUrl,
       hasAudioUrl: !!recitation.audioUrl,
     });
+    // If clicking the already-selected track, toggle play/pause (so pause icon on card works)
+    if (selectedRecitation?.id === recitation.id) {
+      handleTogglePlay();
+      return;
+    }
     setSelectedRecitation(recitation);
     setIsPlaying(true);
   };
