@@ -114,6 +114,8 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
   );
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  /** Ignore onPause/onPlay from previous source when switching tracks to avoid UI flicker. */
+  const isSwitchingTrackRef = useRef(false);
   const isDetailsVariant = variant === 'details';
 
   const [currentTimeSeconds, setCurrentTimeSeconds] = useState(0);
@@ -267,12 +269,14 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
 
     // Update audio source when recitation changes
     const currentSrc = audio.src;
-    
+
     if (currentSrc !== validAudioUrl) {
       console.log('[AudioPlayer] Updating audio source:', {
         from: currentSrc,
         to: validAudioUrl,
       });
+      isSwitchingTrackRef.current = true;
+      audio.pause(); // Stop current playback so a new load() doesn't interrupt an in-flight play()
       audio.src = validAudioUrl;
       audio.load();
       setCurrentTimeSeconds(0);
@@ -284,11 +288,17 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
       const playPromise = audio.play();
       if (playPromise && typeof playPromise.catch === 'function') {
         playPromise.catch((error) => {
+          // Interrupted by a new load() when user switched track — ignore, don't update state
+          if (error?.name === 'AbortError' || error?.message?.includes('interrupted')) {
+            return;
+          }
           console.error('[AudioPlayer] Play failed:', error, 'URL:', validAudioUrl);
+          isSwitchingTrackRef.current = false;
           setIsPlaying(false);
         });
       }
     } else {
+      isSwitchingTrackRef.current = false;
       audio.pause();
     }
   }, [isPlaying, validAudioUrl, selectedRecitation?.audioUrl, selectedRecitation]);
@@ -570,14 +580,17 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                     console.log('[AudioPlayer] Metadata loaded, duration:', duration);
                   }}
                   onPlay={() => {
+                    isSwitchingTrackRef.current = false;
                     setIsPlaying(true);
                     console.log('[AudioPlayer] Playing:', selectedRecitation?.audioUrl);
                   }}
                   onPause={() => {
+                    if (isSwitchingTrackRef.current) return;
                     setIsPlaying(false);
                     console.log('[AudioPlayer] Paused');
                   }}
                   onEnded={() => {
+                    if (isSwitchingTrackRef.current) return;
                     setIsPlaying(false);
                     setCurrentTimeSeconds(0);
                     console.log('[AudioPlayer] Ended');
@@ -599,7 +612,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                     } else if (!validAudioUrl || validAudioUrl.trim() === '') {
                       console.warn('[AudioPlayer] No valid audio URL provided');
                     }
-                    setIsPlaying(false);
+                    if (!isSwitchingTrackRef.current) setIsPlaying(false);
                   }}
                   onCanPlay={() => {
                     console.log('[AudioPlayer] Audio can play:', selectedRecitation?.audioUrl);
@@ -785,9 +798,16 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
               src={validAudioUrl || undefined}
               onTimeUpdate={(e) => setCurrentTimeSeconds(e.currentTarget.currentTime)}
               onLoadedMetadata={(e) => setDurationSeconds(e.currentTarget.duration || 0)}
-              onPlay={() => setIsPlaying(true)}
-              onPause={() => setIsPlaying(false)}
+              onPlay={() => {
+                isSwitchingTrackRef.current = false;
+                setIsPlaying(true);
+              }}
+              onPause={() => {
+                if (isSwitchingTrackRef.current) return;
+                setIsPlaying(false);
+              }}
               onEnded={() => {
+                if (isSwitchingTrackRef.current) return;
                 setIsPlaying(false);
                 setCurrentTimeSeconds(0);
               }}
@@ -807,7 +827,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                 } else if (!validAudioUrl || validAudioUrl.trim() === '') {
                   console.warn('[AudioPlayer] No valid audio URL provided');
                 }
-                setIsPlaying(false);
+                if (!isSwitchingTrackRef.current) setIsPlaying(false);
               }}
               preload="metadata"
             />
