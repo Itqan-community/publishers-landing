@@ -21,7 +21,7 @@ import type { Metadata } from 'next';
 export async function generateMetadata(): Promise<Metadata> {
   const headersList = await headers();
   const tenantId = getTenantFromHeaders(headersList);
-  
+
   if (!tenantId) {
     return {
       title: 'Welcome',
@@ -61,7 +61,7 @@ export default async function HomePage() {
   const tenantId = getTenantFromHeaders(headersList);
   const basePath = getBasePathFromHeaders(headersList);
 
-  console.log('[HomePage] Resolved tenant ID:', tenantId);
+  // console.log('[HomePage] Resolved tenant ID:', tenantId);
 
   // Load tenant configuration
   const tenant = await loadTenantConfig(tenantId);

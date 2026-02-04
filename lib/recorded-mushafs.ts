@@ -58,11 +58,12 @@ export interface GetRecordedMushafsParams {
  * Pass search and riwayah_id for backend filtering (synced from URL).
  * @param basePath '' on custom domain, '/<tenantId>' on path-based; used for href.
  */
-export const getRecordedMushafs = cache(async (
+/** No cache wrapper — listing must always reflect current API response. */
+export async function getRecordedMushafs(
   tenantId: string,
   params?: GetRecordedMushafsParams,
   basePath?: string
-): Promise<RecordedMushaf[]> => {
+): Promise<RecordedMushaf[]> {
   const pathPrefix = basePath !== undefined ? basePath : `/${tenantId}`;
   try {
     const backendUrl = await getBackendUrl(tenantId);
@@ -81,12 +82,32 @@ export const getRecordedMushafs = cache(async (
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
+    // Resolve tenant domain for Origin spoofing
+    // We import tenantsConfig dynamically to avoid circular deps if any, though here it's safe to use standard imports if we had them.
+    // For now, we'll assume we can get it or fallback.
+    // Ideally we should move getTenantDomain to a helper, but to keep changes localized:
+    const { default: tenantsConfig } = await import('@/config/tenants.json');
+    const config = (tenantsConfig as any)[tenantId];
+    
+    // In development (localhost), the backend expects a local origin or specifically allows localhost to access the default tenant (saudi).
+    // In production, we must send the actual tenant domain.
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    const tenantDomain = isDevelopment 
+      ? 'http://localhost:3000' 
+      : `https://${config?.domain || 'saudi-recitation-center.netlify.app'}`;
+
     try {
+      const headers = getApiHeaders({
+        'X-Tenant-Id': tenantId,
+        'Origin': tenantDomain,
+        'Referer': isDevelopment ? `${tenantDomain}/` : `${tenantDomain}/`,
+      });
+
       const response = await fetch(apiUrl, {
         method: 'GET',
-        headers: getApiHeaders(),
+        headers,
         signal: controller.signal,
-        next: { revalidate: 300 },
+        cache: 'no-store', // never cache — listing count must match API
       });
       
       clearTimeout(timeoutId);
@@ -99,11 +120,11 @@ export const getRecordedMushafs = cache(async (
     const data: PaginatedResponse<RecitationApiResponse> = await response.json();
     console.log(`[getRecordedMushafs] API response:`, data);
 
-    // Outline colors per Figma: blue, green, purple, red, pink
+    // One card per API result — no padding, no mock items, no duplication
+    const results = Array.isArray(data.results) ? data.results : [];
     const OUTLINE_PALETTE = ['#2563eb', '#059669', '#7c3aed', '#dc2626', '#db2777'];
 
-    // Map API response to RecordedMushaf model
-    return data.results.map((recitation, i): RecordedMushaf => {
+    return results.map((recitation, i): RecordedMushaf => {
       // Build badges from riwayah, madd_level, and meem_behaviour
       const badges: RecordedMushaf['badges'] = [];
 
@@ -189,7 +210,7 @@ export const getRecordedMushafs = cache(async (
     }
     return [];
   }
-});
+}
 
 /**
  * Get a single recitation by ID.
@@ -204,18 +225,36 @@ export const getRecitationById = cache(async (
     // Try query parameter format first (API might not support REST endpoint for single recitation)
     const apiUrl = `${backendUrl.replace(/\/$/, '')}/recitations/?id=${recitationId}`;
     
-    console.log(`[getRecitationById] Fetching from: ${apiUrl}`);
-    console.log(`[getRecitationById] Requested recitationId: ${recitationId} (type: ${typeof recitationId})`);
+    // console.log(`[getRecitationById] Fetching from: ${apiUrl}`);
+    // console.log(`[getRecitationById] Requested recitationId: ${recitationId} (type: ${typeof recitationId})`);
     
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+    // Resolve tenant domain for Origin spoofing
+    const { default: tenantsConfig } = await import('@/config/tenants.json');
+    const tid = tenantId || 'default'; // Use provided tenantId or default
+    const config = (tenantsConfig as any)[tid];
+    
+    // In development (localhost), the backend expects a local origin or specifically allows localhost to access the default tenant (saudi).
+    // In production, we must send the actual tenant domain.
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    const tenantDomain = isDevelopment 
+      ? 'http://localhost:3000' 
+      : `https://${config?.domain || 'saudi-recitation-center.netlify.app'}`;
     
     try {
+      const headers = getApiHeaders({
+        'X-Tenant-Id': tid,
+        'Origin': tenantDomain,
+        'Referer': isDevelopment ? `${tenantDomain}/` : `${tenantDomain}/`,
+      });
+
       const response = await fetch(apiUrl, {
         method: 'GET',
-        headers: getApiHeaders(),
+        headers,
         signal: controller.signal,
-        next: { revalidate: 300 },
+        cache: 'no-store',
       });
       
       clearTimeout(timeoutId);
@@ -247,6 +286,7 @@ export const getRecitationById = cache(async (
         }
       }
       
+      /*
       console.log('========================================');
       console.log('[getRecitationById] API Response:');
       console.log('  - Requested recitationId:', recitationId);
@@ -258,6 +298,7 @@ export const getRecitationById = cache(async (
         console.log('  - No recitation found matching ID:', recitationId);
       }
       console.log('========================================');
+      */
       
       return recitation;
     } catch (fetchError) {

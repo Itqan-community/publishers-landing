@@ -49,7 +49,7 @@ export const getRiwayahs = cache(async (tenantId?: string): Promise<RiwayahOptio
         method: 'GET',
         headers: getApiHeaders(),
         signal: controller.signal,
-        next: { revalidate: 300 },
+        cache: 'no-store',
       });
 
       clearTimeout(timeoutId);

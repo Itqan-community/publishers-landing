@@ -14,6 +14,7 @@ export function getApiHeaders(additionalHeaders?: Record<string, string>): Heade
     'Content-Type': 'application/json',
     'Accept': 'application/json',
     'Accept-Language': 'ar',
+    // 'X-Tenant': 'http://localhost:3000',
     ...additionalHeaders,
   };
 }

@@ -53,22 +53,22 @@ const UserIcon = ({ className = "h-full w-full" }: { className?: string }) => (
 
 const PauseIcon = ({ className = "h-6 w-6" }: { className?: string }) => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className={className} aria-hidden="true">
-    <path d="M13.4538 2.57953L13.4929 2.57953L13.5321 2.57953H13.5322C14.0599 2.5795 14.5145 2.57948 14.8786 2.62843C15.2688 2.68089 15.6429 2.7992 15.9462 3.10258C16.2496 3.40597 16.3679 3.78001 16.4204 4.17021C16.4694 4.53432 16.4693 4.98899 16.4693 5.51669V13.532C16.4693 14.0597 16.4694 14.5144 16.4204 14.8785C16.3679 15.2687 16.2496 15.6427 15.9462 15.9461C15.6429 16.2495 15.2688 16.3678 14.8786 16.4202C14.5145 16.4692 14.0598 16.4692 13.5321 16.4691H13.5321H13.4538H13.4538C12.9261 16.4692 12.4714 16.4692 12.1073 16.4202C11.7171 16.3678 11.343 16.2495 11.0397 15.9461C10.7363 15.6427 10.618 15.2687 10.5655 14.8785C10.5165 14.5144 10.5166 14.0597 10.5166 13.532V13.532V5.51669V5.51665C10.5166 4.98897 10.5165 4.53431 10.5655 4.17021C10.618 3.78001 10.7363 3.40597 11.0397 3.10258C11.343 2.7992 11.7171 2.68089 12.1073 2.62843C12.4714 2.57948 12.926 2.5795 13.4537 2.57953H13.4538Z" fill="currentColor"/>
-    <path d="M5.51675 2.57953L5.55594 2.57953L5.59512 2.57953H5.59517C6.12285 2.5795 6.57751 2.57948 6.9416 2.62843C7.33181 2.68089 7.70585 2.7992 8.00923 3.10258C8.31262 3.40597 8.43092 3.78001 8.48339 4.17021C8.53234 4.53432 8.53231 4.98899 8.53228 5.51669V13.532C8.53231 14.0597 8.53234 14.5144 8.48339 14.8785C8.43092 15.2687 8.31262 15.6427 8.00923 15.9461C7.70585 16.2495 7.33181 16.3678 6.9416 16.4202C6.5775 16.4692 6.12283 16.4692 5.59513 16.4691H5.59512H5.51675H5.51675C4.98905 16.4692 4.53438 16.4692 4.17028 16.4202C3.78007 16.3678 3.40603 16.2495 3.10264 15.9461C2.79926 15.6427 2.68095 15.2687 2.62849 14.8785C2.57954 14.5144 2.57956 14.0597 2.57959 13.532V13.532V5.51669V5.51665C2.57956 4.98897 2.57954 4.53431 2.62849 4.17021C2.68095 3.78001 2.79926 3.40597 3.10264 3.10258C3.40603 2.7992 3.78007 2.68089 4.17028 2.62843C4.53437 2.57948 4.98903 2.5795 5.51671 2.57953H5.51675Z" fill="currentColor"/>
+    <path d="M13.4538 2.57953L13.4929 2.57953L13.5321 2.57953H13.5322C14.0599 2.5795 14.5145 2.57948 14.8786 2.62843C15.2688 2.68089 15.6429 2.7992 15.9462 3.10258C16.2496 3.40597 16.3679 3.78001 16.4204 4.17021C16.4694 4.53432 16.4693 4.98899 16.4693 5.51669V13.532C16.4693 14.0597 16.4694 14.5144 16.4204 14.8785C16.3679 15.2687 16.2496 15.6427 15.9462 15.9461C15.6429 16.2495 15.2688 16.3678 14.8786 16.4202C14.5145 16.4692 14.0598 16.4692 13.5321 16.4691H13.5321H13.4538H13.4538C12.9261 16.4692 12.4714 16.4692 12.1073 16.4202C11.7171 16.3678 11.343 16.2495 11.0397 15.9461C10.7363 15.6427 10.618 15.2687 10.5655 14.8785C10.5165 14.5144 10.5166 14.0597 10.5166 13.532V13.532V5.51669V5.51665C10.5166 4.98897 10.5165 4.53431 10.5655 4.17021C10.618 3.78001 10.7363 3.40597 11.0397 3.10258C11.343 2.7992 11.7171 2.68089 12.1073 2.62843C12.4714 2.57948 12.926 2.5795 13.4537 2.57953H13.4538Z" fill="currentColor" />
+    <path d="M5.51675 2.57953L5.55594 2.57953L5.59512 2.57953H5.59517C6.12285 2.5795 6.57751 2.57948 6.9416 2.62843C7.33181 2.68089 7.70585 2.7992 8.00923 3.10258C8.31262 3.40597 8.43092 3.78001 8.48339 4.17021C8.53234 4.53432 8.53231 4.98899 8.53228 5.51669V13.532C8.53231 14.0597 8.53234 14.5144 8.48339 14.8785C8.43092 15.2687 8.31262 15.6427 8.00923 15.9461C7.70585 16.2495 7.33181 16.3678 6.9416 16.4202C6.5775 16.4692 6.12283 16.4692 5.59513 16.4691H5.59512H5.51675H5.51675C4.98905 16.4692 4.53438 16.4692 4.17028 16.4202C3.78007 16.3678 3.40603 16.2495 3.10264 15.9461C2.79926 15.6427 2.68095 15.2687 2.62849 14.8785C2.57954 14.5144 2.57956 14.0597 2.57959 13.532V13.532V5.51669V5.51665C2.57956 4.98897 2.57954 4.53431 2.62849 4.17021C2.68095 3.78001 2.79926 3.40597 3.10264 3.10258C3.40603 2.7992 3.78007 2.68089 4.17028 2.62843C4.53437 2.57948 4.98903 2.5795 5.51671 2.57953H5.51675Z" fill="currentColor" />
   </svg>
 );
 
 const DownloadIcon = ({ className = "h-[19px] w-[19px]" }: { className?: string }) => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className={className} aria-hidden="true">
-    <path d="M4.76221 15.8738L14.2865 15.8738" stroke="currentColor" strokeWidth="1.19054" strokeLinecap="round"/>
-    <path d="M9.52441 12.6991V3.17479" stroke="currentColor" strokeWidth="1.19054" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M12.6991 9.52435C12.6991 9.52435 10.361 12.6991 9.52435 12.6991C8.68774 12.6991 6.34961 9.52433 6.34961 9.52433" stroke="currentColor" strokeWidth="1.19054" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M4.76221 15.8738L14.2865 15.8738" stroke="currentColor" strokeWidth="1.19054" strokeLinecap="round" />
+    <path d="M9.52441 12.6991V3.17479" stroke="currentColor" strokeWidth="1.19054" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M12.6991 9.52435C12.6991 9.52435 10.361 12.6991 9.52435 12.6991C8.68774 12.6991 6.34961 9.52433 6.34961 9.52433" stroke="currentColor" strokeWidth="1.19054" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
 const SearchIcon = ({ className = "h-5 w-5" }: { className?: string }) => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className={className} aria-hidden="true">
-    <path fillRule="evenodd" clipRule="evenodd" d="M9.1665 1.04166C4.67919 1.04166 1.0415 4.67934 1.0415 9.16666C1.0415 13.654 4.67919 17.2917 9.1665 17.2917C11.1852 17.2917 13.0319 16.5555 14.4529 15.3369L17.8912 18.7753C18.1353 19.0193 18.531 19.0193 18.7751 18.7753C19.0192 18.5312 19.0192 18.1355 18.7751 17.8914L15.3368 14.453C16.5553 13.0321 17.2915 11.1853 17.2915 9.16666C17.2915 4.67934 13.6538 1.04166 9.1665 1.04166ZM2.2915 9.16666C2.2915 5.3697 5.36955 2.29166 9.1665 2.29166C12.9635 2.29166 16.0415 5.3697 16.0415 9.16666C16.0415 12.9636 12.9635 16.0417 9.1665 16.0417C5.36955 16.0417 2.2915 12.9636 2.2915 9.16666Z" fill="currentColor"/>
+    <path fillRule="evenodd" clipRule="evenodd" d="M9.1665 1.04166C4.67919 1.04166 1.0415 4.67934 1.0415 9.16666C1.0415 13.654 4.67919 17.2917 9.1665 17.2917C11.1852 17.2917 13.0319 16.5555 14.4529 15.3369L17.8912 18.7753C18.1353 19.0193 18.531 19.0193 18.7751 18.7753C19.0192 18.5312 19.0192 18.1355 18.7751 17.8914L15.3368 14.453C16.5553 13.0321 17.2915 11.1853 17.2915 9.16666C17.2915 4.67934 13.6538 1.04166 9.1665 1.04166ZM2.2915 9.16666C2.2915 5.3697 5.36955 2.29166 9.1665 2.29166C12.9635 2.29166 16.0415 5.3697 16.0415 9.16666C16.0415 12.9636 12.9635 16.0417 9.1665 16.0417C5.36955 16.0417 2.2915 12.9636 2.2915 9.16666Z" fill="currentColor" />
   </svg>
 );
 
@@ -103,12 +103,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
   }, [selectedRecitation, onRecitationChange]);
 
   const handleRecitationClick = (recitation: RecitationItem) => {
-    console.log('[AudioPlayer] handleRecitationClick called:', {
-      recitationId: recitation.id,
-      recitationTitle: recitation.title,
-      audioUrl: recitation.audioUrl,
-      hasAudioUrl: !!recitation.audioUrl,
-    });
+
     // If clicking the already-selected track, toggle play/pause (so pause icon on card works)
     if (selectedRecitation?.id === recitation.id) {
       handleTogglePlay();
@@ -171,9 +166,9 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
     if (!url || url.trim() === '') {
       return null;
     }
-    
+
     const trimmedUrl = url.trim();
-    
+
     // If it's already an absolute URL, return it
     try {
       const urlObj = new URL(trimmedUrl);
@@ -183,7 +178,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
     } catch {
       // Not a valid absolute URL, might be relative
     }
-    
+
     // If it starts with /, it's a relative URL - convert to absolute
     if (trimmedUrl.startsWith('/')) {
       try {
@@ -193,7 +188,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
         return null;
       }
     }
-    
+
     // Try to construct a valid URL
     try {
       return new URL(trimmedUrl, window.location.origin).href;
@@ -207,13 +202,6 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
   const validAudioUrl = useMemo(() => {
     if (!selectedRecitation) return null;
     const url = getValidAudioUrl(selectedRecitation.audioUrl);
-    console.log('[AudioPlayer] validAudioUrl calculation:', {
-      selectedRecitationId: selectedRecitation.id,
-      selectedRecitationTitle: selectedRecitation.title,
-      originalAudioUrl: selectedRecitation.audioUrl,
-      validAudioUrl: url,
-      hasValidUrl: !!url,
-    });
     return url;
   }, [selectedRecitation?.audioUrl, selectedRecitation?.id, selectedRecitation?.title]);
 
@@ -236,14 +224,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
       return;
     }
 
-    console.log('[AudioPlayer] Audio effect triggered:', {
-      selectedRecitationId: selectedRecitation.id,
-      selectedRecitationTitle: selectedRecitation.title,
-      audioUrl: selectedRecitation.audioUrl,
-      validAudioUrl,
-      isPlaying,
-      currentAudioSrc: audio.src,
-    });
+
 
     if (!validAudioUrl) {
       console.warn('[AudioPlayer] Invalid or missing audio URL:', {
@@ -264,10 +245,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
     const currentSrc = audio.src;
 
     if (currentSrc !== validAudioUrl) {
-      console.log('[AudioPlayer] Updating audio source:', {
-        from: currentSrc,
-        to: validAudioUrl,
-      });
+
       isSwitchingTrackRef.current = true;
       audio.pause(); // Stop current playback so a new load() doesn't interrupt an in-flight play()
       audio.src = validAudioUrl;
@@ -490,12 +468,12 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                       </div>
                       <div
                         className="absolute top-1/2 size-[12px] -translate-y-1/2 rounded-full bg-[#193624] shadow-sm"
-                        style={{ 
-                          insetInlineStart: progressPercent === 0 
-                            ? '0px' 
-                            : progressPercent === 1 
-                            ? 'calc(100% - 12px)' 
-                            : `calc(${progressPercent * 100}% - 6px)` 
+                        style={{
+                          insetInlineStart: progressPercent === 0
+                            ? '0px'
+                            : progressPercent === 1
+                              ? 'calc(100% - 12px)'
+                              : `calc(${progressPercent * 100}% - 6px)`
                         }}
                         aria-hidden="true"
                       />
@@ -562,59 +540,53 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
               <audio
                 ref={audioRef}
                 src={validAudioUrl || undefined}
-                  onTimeUpdate={(e) => {
-                    const audio = e.currentTarget as HTMLAudioElement;
-                    setCurrentTimeSeconds(audio.currentTime);
-                  }}
-                  onLoadedMetadata={(e) => {
-                    const audio = e.currentTarget as HTMLAudioElement;
-                    const duration = audio.duration || 0;
-                    setDurationSeconds(duration);
-                    console.log('[AudioPlayer] Metadata loaded, duration:', duration);
-                  }}
-                  onPlay={() => {
-                    isSwitchingTrackRef.current = false;
-                    setIsPlaying(true);
-                    console.log('[AudioPlayer] Playing:', selectedRecitation?.audioUrl);
-                  }}
-                  onPause={() => {
-                    if (isSwitchingTrackRef.current) return;
-                    setIsPlaying(false);
-                    console.log('[AudioPlayer] Paused');
-                  }}
-                  onEnded={() => {
-                    if (isSwitchingTrackRef.current) return;
-                    setIsPlaying(false);
-                    setCurrentTimeSeconds(0);
-                    console.log('[AudioPlayer] Ended');
-                  }}
-                  onError={(e) => {
-                    const audio = e.currentTarget as HTMLAudioElement;
-                    const errorCode = audio.error?.code;
-                    const errorMessage = audio.error?.message;
-                    
-                    // Only log errors that aren't just empty/invalid sources
-                    if (errorCode !== undefined && errorCode !== 4) { // 4 = MEDIA_ERR_SRC_NOT_SUPPORTED
-                      console.error('[AudioPlayer] Audio error:', {
-                        error: audio.error,
-                        code: errorCode,
-                        message: errorMessage,
-                        src: validAudioUrl,
-                        originalUrl: selectedRecitation?.audioUrl,
-                      });
-                    } else if (!validAudioUrl || validAudioUrl.trim() === '') {
-                      console.warn('[AudioPlayer] No valid audio URL provided');
-                    }
-                    if (!isSwitchingTrackRef.current) setIsPlaying(false);
-                  }}
-                  onCanPlay={() => {
-                    console.log('[AudioPlayer] Audio can play:', selectedRecitation?.audioUrl);
-                  }}
-                  onLoadStart={() => {
-                    console.log('[AudioPlayer] Loading started:', selectedRecitation?.audioUrl);
-                  }}
-                  preload="metadata"
-                />
+                onTimeUpdate={(e) => {
+                  const audio = e.currentTarget as HTMLAudioElement;
+                  setCurrentTimeSeconds(audio.currentTime);
+                }}
+                onLoadedMetadata={(e) => {
+                  const audio = e.currentTarget as HTMLAudioElement;
+                  const duration = audio.duration || 0;
+                  setDurationSeconds(duration);
+                  console.log('[AudioPlayer] Metadata loaded, duration:', duration);
+                }}
+                onPlay={() => {
+                  isSwitchingTrackRef.current = false;
+                  setIsPlaying(true);
+                  console.log('[AudioPlayer] Playing:', selectedRecitation?.audioUrl);
+                }}
+                onPause={() => {
+                  if (isSwitchingTrackRef.current) return;
+                  setIsPlaying(false);
+                  console.log('[AudioPlayer] Paused');
+                }}
+                onEnded={() => {
+                  if (isSwitchingTrackRef.current) return;
+                  setIsPlaying(false);
+                  setCurrentTimeSeconds(0);
+                  console.log('[AudioPlayer] Ended');
+                }}
+                onError={(e) => {
+                  const audio = e.currentTarget as HTMLAudioElement;
+                  const errorCode = audio.error?.code;
+                  const errorMessage = audio.error?.message;
+
+                  // Only log errors that aren't just empty/invalid sources
+                  if (errorCode !== undefined && errorCode !== 4) { // 4 = MEDIA_ERR_SRC_NOT_SUPPORTED
+                    // Debug log removed
+                  } else if (!validAudioUrl || validAudioUrl.trim() === '') {
+                    console.warn('[AudioPlayer] No valid audio URL provided');
+                  }
+                  if (!isSwitchingTrackRef.current) setIsPlaying(false);
+                }}
+                onCanPlay={() => {
+                  console.log('[AudioPlayer] Audio can play:', selectedRecitation?.audioUrl);
+                }}
+                onLoadStart={() => {
+                  console.log('[AudioPlayer] Loading started:', selectedRecitation?.audioUrl);
+                }}
+                preload="metadata"
+              />
             </div>
           </div>
         </div>
@@ -645,9 +617,8 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                   {filteredRecitations.map((recitation) => {
                     const isSelected = selectedRecitation?.id === recitation.id;
                     const secondaryText = recitation.surahInfo || recitation.reciterName;
-                    const itemClasses = `flex w-full items-center justify-between gap-4 rounded-[10px] px-4 py-4 transition-colors min-h-[72px] ${
-                      isSelected ? 'bg-[#f3f3f3]' : 'border-b border-[#ebe8e8]'
-                    }`;
+                    const itemClasses = `flex w-full items-center justify-between gap-4 rounded-[10px] px-4 py-4 transition-colors min-h-[72px] ${isSelected ? 'bg-[#f3f3f3]' : 'border-b border-[#ebe8e8]'
+                      }`;
                     const downloadUrl = getValidAudioUrl(recitation.audioUrl);
                     const downloadFilename = `${(recitation.title || 'track').replace(/^\d+\.\s*/, '').replace(/[<>:"/\\|?*]/g, '').trim() || 'audio'}.mp3`;
 
@@ -743,8 +714,8 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                             insetInlineStart: progressPercent === 0
                               ? '0px'
                               : progressPercent === 1
-                              ? 'calc(100% - 12px)'
-                              : `calc(${progressPercent * 100}% - 6px)`
+                                ? 'calc(100% - 12px)'
+                                : `calc(${progressPercent * 100}% - 6px)`
                           }}
                           aria-hidden
                         />

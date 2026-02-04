@@ -1,16 +1,15 @@
 import { notFound } from 'next/navigation';
 import { loadTenantConfig } from '@/lib/tenant-config';
+import { getDeployEnv } from '@/lib/backend-url';
 import { PageLayout } from '@/components/layout/PageLayout';
 import { Button } from '@/components/ui/Button';
 import { RecitationsPlayer, RecitationItem } from '@/components/audio/AudioPlayer';
-import { FiMessageCircle, FiHeart, FiShare2 } from 'react-icons/fi';
 import { getRecitationById } from '@/lib/recorded-mushafs';
 import { getRecitationTracksByAssetId } from '@/lib/recitation-tracks';
 import { getBackendUrl } from '@/lib/backend-url';
-import { getDeployEnv } from '@/lib/backend-url';
 import { resolveImageUrl } from '@/lib/utils';
 import { AvatarImage } from '@/components/ui/AvatarImage';
-import { DebugApiVisibility } from '@/components/debug/DebugApiVisibility';
+import { RecitationDetailClient } from '@/components/recitation/RecitationDetailClient';
 import Link from 'next/link';
 
 export default async function RecitationDetailsPage({
@@ -25,13 +24,19 @@ export default async function RecitationDetailsPage({
     notFound();
   }
 
-  // Log the recitationId from URL params
-  console.log('========================================');
-  console.log('[RecitationDetailsPage] URL params recitationId:', recitationId);
-  console.log('[RecitationDetailsPage] recitationId type:', typeof recitationId);
-  console.log('========================================');
+  const deployEnv = await getDeployEnv();
+  if (deployEnv !== 'production') {
+    const backendUrl = await getBackendUrl(tenantId);
+    return (
+      <RecitationDetailClient
+        tenant={tenant}
+        tenantId={tenantId}
+        backendUrl={backendUrl}
+        recitationId={recitationId}
+      />
+    );
+  }
 
-  // First, fetch recitation details to get the asset ID
   const recitation = await getRecitationById(recitationId, tenantId);
 
   // If recitation not found, show 404
@@ -40,6 +45,8 @@ export default async function RecitationDetailsPage({
   }
 
   // Log the recitation object to verify the ID
+  // Log the recitation object to verify the ID
+  /*
   console.log('========================================');
   console.log('[RecitationDetailsPage] Fetched recitation object:');
   console.log('  - recitation.id:', recitation.id);
@@ -48,6 +55,7 @@ export default async function RecitationDetailsPage({
   console.log('  - URL recitationId:', recitationId);
   console.log('  - IDs match:', String(recitation.id) === String(recitationId));
   console.log('========================================');
+  */
 
   // Extract reciter information; use image from API only (no mock paths)
   const reciterName = recitation.reciter?.name || 'غير معروف';
@@ -61,7 +69,7 @@ export default async function RecitationDetailsPage({
   // The API endpoint /recitation-tracks/{asset_id}/ expects the recitation's ID
   // However, if there's a mismatch, fall back to the URL param (converted to number if possible)
   let assetIdForTracks: string | number = recitation.id;
-  
+
   // Verify the ID matches - if not, log a warning but still use recitation.id
   if (String(recitation.id) !== String(recitationId)) {
     console.warn('[RecitationDetailsPage] WARNING: recitation.id does not match URL recitationId!', {
@@ -70,12 +78,14 @@ export default async function RecitationDetailsPage({
     });
     // Still use recitation.id from API response as it's the authoritative source
   }
-  
+
+  /*
   console.log('========================================');
   console.log('[RecitationDetailsPage] About to fetch tracks with assetId:', assetIdForTracks);
   console.log('[RecitationDetailsPage] assetId type:', typeof assetIdForTracks);
   console.log('[RecitationDetailsPage] URL recitationId (for reference):', recitationId);
   console.log('========================================');
+  */
 
   // Fetch tracks using the recitation ID as asset_id
   // The API endpoint /recitation-tracks/{asset_id}/ uses the recitation ID
@@ -86,6 +96,7 @@ export default async function RecitationDetailsPage({
     tenantId
   );
 
+  /*
   console.log('========================================');
   console.log('[RecitationDetailsPage] Fetched tracks count:', tracks.length);
   if (tracks.length > 0) {
@@ -93,6 +104,7 @@ export default async function RecitationDetailsPage({
     console.log('[RecitationDetailsPage] First track title:', tracks[0].title);
   }
   console.log('========================================');
+  */
 
   // Update tracks with reciter information (already set, but ensure consistency)
   const tracksWithReciterInfo = tracks.map(track => ({
@@ -105,23 +117,15 @@ export default async function RecitationDetailsPage({
   // If no tracks found, show empty array (the component will handle it)
   const surahItems: RecitationItem[] = tracksWithReciterInfo;
 
-  const deployEnv = await getDeployEnv();
-  const debugApiCalls =
-    deployEnv !== 'production' && tenantId
-      ? [
-          { path: `recitations/?id=${recitationId}`, tenantId },
-          { path: `recitation-tracks/${assetIdForTracks}/`, tenantId },
-        ]
-      : [];
-  
+  /*
   console.log('========================================');
   console.log('[RecitationDetailsPage] Final surahItems count:', surahItems.length);
   console.log('[RecitationDetailsPage] Using mock data?', surahItems.length === 0 && process.env.NODE_ENV === 'development' ? 'YES (empty, would use mock)' : 'NO (using API data)');
   console.log('========================================');
+  */
 
   return (
     <PageLayout tenant={tenant}>
-      {debugApiCalls.length > 0 && <DebugApiVisibility calls={debugApiCalls} />}
       <div dir="rtl" className="bg-white">
         <div className="mx-auto max-w-[1200px] px-4 pb-16 pt-10 sm:px-6 lg:px-8">
           {/* Head section: 2 parts. Part 1 (start): avatar column + info column (title/desc + tags row). Part 2: like/comment/share row + CTAs row. Same bg as hero. */}
@@ -196,13 +200,13 @@ export default async function RecitationDetailsPage({
                     >
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0" aria-hidden>
                         <g clipPath="url(#api-code-icon-clip)">
-                          <path d="M17 8L18.8398 9.85008C19.6133 10.6279 20 11.0168 20 11.5C20 11.9832 19.6133 12.3721 18.8398 13.1499L17 15" stroke="#FAAF41" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                          <path d="M7 8L5.16019 9.85008C4.38673 10.6279 4 11.0168 4 11.5C4 11.9832 4.38673 12.3721 5.16019 13.1499L7 15" stroke="#FAAF41" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                          <path d="M14.5 4L9.5 20" stroke="#FAAF41" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M17 8L18.8398 9.85008C19.6133 10.6279 20 11.0168 20 11.5C20 11.9832 19.6133 12.3721 18.8398 13.1499L17 15" stroke="#FAAF41" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M7 8L5.16019 9.85008C4.38673 10.6279 4 11.0168 4 11.5C4 11.9832 4.38673 12.3721 5.16019 13.1499L7 15" stroke="#FAAF41" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                          <path d="M14.5 4L9.5 20" stroke="#FAAF41" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                         </g>
                         <defs>
                           <clipPath id="api-code-icon-clip">
-                            <rect width="24" height="24" fill="white"/>
+                            <rect width="24" height="24" fill="white" />
                           </clipPath>
                         </defs>
                       </svg>

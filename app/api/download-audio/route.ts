@@ -28,8 +28,10 @@ export async function GET(req: NextRequest) {
     const response = await fetch(audioUrl, {
       headers: {
         Accept: 'audio/*,*/*',
+        'Accept-Language': 'ar',
         'User-Agent': req.headers.get('user-agent') || 'NextJS-Download',
       },
+      cache: 'no-store',
     });
 
     if (!response.ok) {
