@@ -175,7 +175,7 @@ export const getRecitationTracksByAssetId = cache(async (
     
     // Ensure assetId is properly converted to string for URL
     const assetIdStr = String(assetId);
-    const apiUrl = `${backendUrl.replace(/\/$/, '')}/recitation-tracks/${assetIdStr}/`;
+    const apiUrl = `${backendUrl}/recitation-tracks/${assetIdStr}/`;
     
     console.log('========================================');
     console.log('[getRecitationTracksByAssetId] INPUT PARAMETERS:');
@@ -291,7 +291,7 @@ export const getRecitationTracksByAssetId = cache(async (
     }
   } catch (error) {
     const backendUrl = await getBackendUrl(tenantId);
-    const apiUrl = `${backendUrl.replace(/\/$/, '')}/recitation-tracks/${assetId}/`;
+    const apiUrl = `${backendUrl}/recitation-tracks/${assetId}/`;
     const isDevelopment = process.env.NODE_ENV === 'development';
     
     if (isDevelopment) {

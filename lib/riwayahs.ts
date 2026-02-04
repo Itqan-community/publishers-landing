@@ -39,7 +39,8 @@ export interface RiwayahOption {
 export const getRiwayahs = cache(async (tenantId?: string): Promise<RiwayahOption[]> => {
   try {
     const backendUrl = await getBackendUrl(tenantId);
-    const apiUrl = `${backendUrl.replace(/\/$/, '')}/riwayahs/`;
+    const apiUrl = `${backendUrl}/riwayahs/`;
+
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000);

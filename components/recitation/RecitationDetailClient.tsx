@@ -40,9 +40,8 @@ export function RecitationDetailClient({
     let cancelled = false;
 
     async function load() {
-      const baseApi = backendUrl.replace(/\/$/, '');
-      const recitationsUrl = `${baseApi}/recitations/?id=${encodeURIComponent(recitationId)}`;
-      const headers: HeadersInit = { ...API_HEADERS, 'X-Tenant-Id': tenantId };
+      const recitationsUrl = `${backendUrl}/recitations/?id=${encodeURIComponent(recitationId)}`;
+      const headers: HeadersInit = { ...API_HEADERS };
 
       try {
         const recitationsRes = await fetch(recitationsUrl, { headers });
@@ -73,11 +72,11 @@ export function RecitationDetailClient({
 
         const reciterName = rec.reciter?.name || 'غير معروف';
         const resolvedImage =
-          resolveImageUrl(rec.reciter?.image ?? rec.reciter?.avatar, baseApi) ?? '';
+          resolveImageUrl(rec.reciter?.image ?? rec.reciter?.avatar, backendUrl) ?? '';
         setReciterImage(resolvedImage);
         const assetId = rec.id;
 
-        const tracksUrl = `${baseApi}/recitation-tracks/${assetId}/`;
+        const tracksUrl = `${backendUrl}/recitation-tracks/${assetId}/`;
         const tracksRes = await fetch(tracksUrl, { headers });
         if (cancelled) return;
         if (!tracksRes.ok) {

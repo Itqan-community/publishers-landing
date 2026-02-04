@@ -67,7 +67,6 @@ export async function getRecordedMushafs(
   const pathPrefix = basePath !== undefined ? basePath : `/${tenantId}`;
   try {
     const backendUrl = await getBackendUrl(tenantId);
-    const baseUrl = `${backendUrl.replace(/\/$/, '')}/recitations/`;
     const searchParams = new URLSearchParams();
     if (params?.search?.trim()) searchParams.set('search', params.search.trim());
     if (params?.riwayah_id?.length) {
@@ -77,35 +76,15 @@ export async function getRecordedMushafs(
     const pageSize = params?.page_size ?? 100;
     searchParams.set('page', String(page));
     searchParams.set('page_size', String(pageSize));
-    const apiUrl = `${baseUrl}?${searchParams.toString()}`;
+    const apiUrl = `${backendUrl}/recitations/?${searchParams.toString()}`;
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    // Resolve tenant domain for Origin spoofing
-    // We import tenantsConfig dynamically to avoid circular deps if any, though here it's safe to use standard imports if we had them.
-    // For now, we'll assume we can get it or fallback.
-    // Ideally we should move getTenantDomain to a helper, but to keep changes localized:
-    const { default: tenantsConfig } = await import('@/config/tenants.json');
-    const config = (tenantsConfig as any)[tenantId];
-    
-    // In development (localhost), the backend expects a local origin or specifically allows localhost to access the default tenant (saudi).
-    // In production, we must send the actual tenant domain.
-    const isDevelopment = process.env.NODE_ENV === 'development';
-    const tenantDomain = isDevelopment 
-      ? 'http://localhost:3000' 
-      : `https://${config?.domain || 'saudi-recitation-center.netlify.app'}`;
-
     try {
-      const headers = getApiHeaders({
-        'X-Tenant-Id': tenantId,
-        'Origin': tenantDomain,
-        'Referer': isDevelopment ? `${tenantDomain}/` : `${tenantDomain}/`,
-      });
-
       const response = await fetch(apiUrl, {
         method: 'GET',
-        headers,
+        headers: getApiHeaders(),
         signal: controller.signal,
         cache: 'no-store', // never cache — listing count must match API
       });
@@ -194,7 +173,7 @@ export async function getRecordedMushafs(
     }
   } catch (error) {
     const backendUrl = await getBackendUrl(tenantId);
-    const apiUrl = `${backendUrl.replace(/\/$/, '')}/recitations/`;
+    const apiUrl = `${backendUrl}/recitations/`;
     const isDevelopment = process.env.NODE_ENV === 'development';
     
     if (isDevelopment) {
@@ -223,36 +202,18 @@ export const getRecitationById = cache(async (
   try {
     const backendUrl = await getBackendUrl(tenantId);
     // Try query parameter format first (API might not support REST endpoint for single recitation)
-    const apiUrl = `${backendUrl.replace(/\/$/, '')}/recitations/?id=${recitationId}`;
+    const apiUrl = `${backendUrl}/recitations/?id=${recitationId}`;
     
     // console.log(`[getRecitationById] Fetching from: ${apiUrl}`);
     // console.log(`[getRecitationById] Requested recitationId: ${recitationId} (type: ${typeof recitationId})`);
     
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000);
-
-    // Resolve tenant domain for Origin spoofing
-    const { default: tenantsConfig } = await import('@/config/tenants.json');
-    const tid = tenantId || 'default'; // Use provided tenantId or default
-    const config = (tenantsConfig as any)[tid];
-    
-    // In development (localhost), the backend expects a local origin or specifically allows localhost to access the default tenant (saudi).
-    // In production, we must send the actual tenant domain.
-    const isDevelopment = process.env.NODE_ENV === 'development';
-    const tenantDomain = isDevelopment 
-      ? 'http://localhost:3000' 
-      : `https://${config?.domain || 'saudi-recitation-center.netlify.app'}`;
     
     try {
-      const headers = getApiHeaders({
-        'X-Tenant-Id': tid,
-        'Origin': tenantDomain,
-        'Referer': isDevelopment ? `${tenantDomain}/` : `${tenantDomain}/`,
-      });
-
       const response = await fetch(apiUrl, {
         method: 'GET',
-        headers,
+        headers: getApiHeaders(),
         signal: controller.signal,
         cache: 'no-store',
       });

@@ -12,12 +12,15 @@ import { PartnersSection } from '@/components/sections/PartnersSection';
 import { AboutSection } from '@/components/sections/AboutSection';
 import { StatisticsSection } from '@/components/sections/StatisticsSection';
 import { RecitersSection } from '@/components/sections/RecitersSection';
+import { RecitersSectionClient } from '@/components/sections/RecitersSectionClient';
 import { FeaturedRecitationsSection } from '@/components/sections/FeaturedRecitationsSection';
 import { RecordedMushafsSection } from '@/components/sections/RecordedMushafsSection';
+import { RecordedMushafsSectionClient } from '@/components/sections/RecordedMushafsSectionClient';
 import { SponsorsSection } from '@/components/sections/SponsorsSection';
 import { ReciterCardProps } from '@/components/cards/ReciterCard';
 import { RecitationItem } from '@/components/audio/AudioPlayer';
 import { SponsorItem } from '@/components/sections/SponsorsSection';
+import { getDeployEnv, getBackendUrl } from '@/lib/backend-url';
 import { getRecordedMushafs } from '@/lib/recorded-mushafs';
 import { getReciters } from '@/lib/reciters';
 import { getFeaturedRecitationTracks } from '@/lib/recitation-tracks';
@@ -30,16 +33,28 @@ interface SaudiCenterTemplateProps {
 
 export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenterTemplateProps) {
   const prefix = basePath || '';
+  const deployEnv = await getDeployEnv();
 
-  // Fetch reciters and recorded mushafs first; use first mushaf for featured section (env-agnostic)
-  const [reciters, mushafs] = await Promise.all([
-    getReciters(tenant.id, prefix),
-    getRecordedMushafs(tenant.id, {}, prefix),
-  ]);
-  const firstRecitationId = mushafs[0]?.id;
-  const recitations = firstRecitationId
-    ? await getFeaturedRecitationTracks(tenant.id, 5, firstRecitationId)
-    : [];
+  // On production: all data server fetch. On localhost/staging: client fetch so requests show in Network tab (Accept-Language: ar).
+  let reciters: Awaited<ReturnType<typeof getReciters>> = [];
+  let mushafs: Awaited<ReturnType<typeof getRecordedMushafs>> = [];
+  let recitations: RecitationItem[] = [];
+  let backendUrl = '';
+
+  if (deployEnv === 'production') {
+    const [recitersData, mushafsData] = await Promise.all([
+      getReciters(tenant.id, prefix),
+      getRecordedMushafs(tenant.id, {}, prefix),
+    ]);
+    reciters = recitersData;
+    mushafs = mushafsData;
+    const firstRecitationId = mushafs[0]?.id;
+    recitations = firstRecitationId
+      ? await getFeaturedRecitationTracks(tenant.id, 5, firstRecitationId)
+      : [];
+  } else {
+    backendUrl = await getBackendUrl(tenant.id);
+  }
 
   const sponsors: SponsorItem[] = [
     {
@@ -125,31 +140,55 @@ export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenter
         </div>
       </div>
 
-      {/* Recorded Mushafs Section — scroll target #recorded-mushafs */}
-      <RecordedMushafsSection
-        id="recorded-mushafs"
-        title="المصاحف المسجلة"
-        description="استمع إلى القرآن الكريم بأصوات نخبة من أشهر القراء في العالم الإسلامي"
-        mushafs={mushafs}
-        viewAllHref={`${prefix}/recitations`}
-      />
+      {/* Recorded Mushafs + Featured: client fetch on localhost/staging (visible in Network tab), server on production */}
+      {deployEnv !== 'production' ? (
+        <RecordedMushafsSectionClient
+          tenantId={tenant.id}
+          basePath={prefix}
+          backendUrl={backendUrl}
+          recordedTitle="المصاحف المسجلة"
+          recordedDescription="استمع إلى القرآن الكريم بأصوات نخبة من أشهر القراء في العالم الإسلامي"
+          viewAllHref={`${prefix}/recitations`}
+          featuredTitle="التلاوات المميزة"
+          featuredDescription="استمع لمجموعة مختارة من أجمل التلاوات القرآنية"
+        />
+      ) : (
+        <>
+          <RecordedMushafsSection
+            id="recorded-mushafs"
+            title="المصاحف المسجلة"
+            description="استمع إلى القرآن الكريم بأصوات نخبة من أشهر القراء في العالم الإسلامي"
+            mushafs={mushafs}
+            viewAllHref={`${prefix}/recitations`}
+          />
+          <FeaturedRecitationsSection
+            title="التلاوات المميزة"
+            description="استمع لمجموعة مختارة من أجمل التلاوات القرآنية"
+            recitations={recitations}
+            viewAllHref={`${prefix}/recitations`}
+            detailsHrefBase={`${prefix}/recitations`}
+          />
+        </>
+      )}
 
-      {/* Featured Recitations Section */}
-      <FeaturedRecitationsSection
-        title="التلاوات المميزة"
-        description="استمع لمجموعة مختارة من أجمل التلاوات القرآنية"
-        recitations={recitations}
-        viewAllHref={`${prefix}/recitations`}
-        detailsHrefBase={`${prefix}/recitations`}
-      />
-
-      {/* Reciters Section — scroll target #reciters */}
-      <RecitersSection
-        id="reciters"
-        title="قراء المركز"
-        description="نخبة من أفضل القراء والأئمة في المملكة العربية السعودية والعالم العربي والإسلامي"
-        reciters={reciters}
-      />
+      {/* Reciters Section — client fetch on localhost/staging, server on production */}
+      {deployEnv !== 'production' ? (
+        <RecitersSectionClient
+          tenantId={tenant.id}
+          basePath={prefix}
+          backendUrl={backendUrl}
+          id="reciters"
+          title="قراء المركز"
+          description="نخبة من أفضل القراء والأئمة في المملكة العربية السعودية والعالم العربي والإسلامي"
+        />
+      ) : (
+        <RecitersSection
+          id="reciters"
+          title="قراء المركز"
+          description="نخبة من أفضل القراء والأئمة في المملكة العربية السعودية والعالم العربي والإسلامي"
+          reciters={reciters}
+        />
+      )}
 
       {/* Sponsors Section */}
       <SponsorsSection

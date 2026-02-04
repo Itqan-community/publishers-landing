@@ -36,7 +36,7 @@ export const getReciters = cache(async (
   const pathPrefix = basePath !== undefined ? basePath : `/${tenantId}`;
   try {
     const backendUrl = await getBackendUrl(tenantId);
-    const apiUrl = `${backendUrl.replace(/\/$/, '')}/reciters`;
+    const apiUrl = `${backendUrl}/reciters`;
     
     console.log(`[getReciters] Fetching from: ${apiUrl}`);
     
@@ -86,7 +86,8 @@ export const getReciters = cache(async (
     }
   } catch (error) {
     const backendUrl = await getBackendUrl(tenantId);
-    const apiUrl = `${backendUrl.replace(/\/$/, '')}/reciters/`;
+    const apiUrl = `${backendUrl}/reciters/`;
+
     const isDevelopment = process.env.NODE_ENV === 'development';
     
     if (isDevelopment) {

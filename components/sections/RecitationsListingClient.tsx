@@ -57,13 +57,12 @@ export function RecitationsListingClient({
 
     async function load() {
       // Direct backend call
-      const baseApi = backendUrl.replace(/\/$/, '');
       const recitationsParams = new URLSearchParams({ page: '1', page_size: '100' });
       if (search) recitationsParams.set('search', search);
       if (riwayahId) recitationsParams.set('riwayah_id', riwayahId);
 
-      const recitationsUrl = `${baseApi}/recitations/?${recitationsParams.toString()}`;
-      const riwayahsUrl = `${baseApi}/riwayahs/`;
+      const recitationsUrl = `${backendUrl}/recitations/?${recitationsParams.toString()}`;
+      const riwayahsUrl = `${backendUrl}/riwayahs/`;
 
       const headers: HeadersInit = {
         ...API_HEADERS,
@@ -94,7 +93,7 @@ export function RecitationsListingClient({
           ? recitationsData.results
           : [];
 
-        const mappedMushafs = mapRecitationsApiToRecordedMushafs(results, baseApi, pathPrefix);
+        const mappedMushafs = mapRecitationsApiToRecordedMushafs(results, backendUrl, pathPrefix);
         const mappedRiwayahs = mapRiwayahs(riwayahsData.results ?? []);
 
         setMushafs(mappedMushafs);

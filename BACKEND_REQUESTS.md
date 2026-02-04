@@ -1,24 +1,26 @@
 # Backend API Requests
 
-Single source of truth for how and where we call the backend. No mock data; no duplicate client calls; all server-side fetches use `Accept-Language: ar` and `cache: 'no-store'`.
+Single source of truth for how and where we call the backend. **Same pattern everywhere**: on **localhost/staging** we fetch from the **client** (so requests show in the Network tab) with `backendUrl` + `Accept-Language: ar`; on **production** we fetch on the **server**. No mock data; no duplicate calls.
 
-## Where backend is called (server-side only)
+## Pattern per page
 
-| Call site | API | Used by | Times per page |
-|-----------|-----|---------|----------------|
-| `lib/recorded-mushafs.ts` → `getRecordedMushafs` | `GET /recitations/?page=&page_size=&search=&riwayah_id=` | Recitations listing page, Home (SaudiCenterTemplate) | 1 per page |
-| `lib/recorded-mushafs.ts` → `getRecitationById` | `GET /recitations/?id=` | Recitation detail page, getFeaturedRecitationTracks | 1 per usage (React cache dedupes within same request) |
-| `lib/reciters.ts` → `getReciters` | `GET /reciters` | Home (SaudiCenterTemplate) | 1 per page |
-| `lib/riwayahs.ts` → `getRiwayahs` | `GET /riwayahs/` | Recitations listing page | 1 per page |
-| `lib/recitation-tracks.ts` → `getRecitationTracksByAssetId` | `GET /recitation-tracks/{id}/` | Recitation detail page, getFeaturedRecitationTracks | 1 per usage (React cache dedupes) |
-| `lib/recitation-tracks.ts` → `getFeaturedRecitationTracks` | uses getRecitationById + getRecitationTracksByAssetId | Home (SaudiCenterTemplate) | 1 per page |
+| Page / section | APIs used | Localhost/staging | Production |
+|----------------|-----------|-------------------|------------|
+| **Recitations listing** (`/[tenant]/recitations`) | `GET /recitations/`, `GET /riwayahs/` | `RecitationsListingClient` (client fetch with `backendUrl`) | Server: `getRecordedMushafs`, `getRiwayahs` |
+| **Recitation detail** (`/[tenant]/recitations/[id]`) | `GET /recitations/?id=`, `GET /recitation-tracks/{id}/` | `RecitationDetailClient` (client fetch with `backendUrl`) | Server: `getRecitationById`, `getRecitationTracksByAssetId` |
+| **Home – Recorded Mushafs + Featured** | `GET /recitations/`, `GET /recitation-tracks/{firstId}/` | `RecordedMushafsSectionClient` (client fetch with `backendUrl`) | Server: `getRecordedMushafs`, `getFeaturedRecitationTracks` |
+| **Home – Reciters** | `GET /reciters` | `RecitersSectionClient` (client fetch with `backendUrl`) | Server: `getReciters` |
 
-All of the above use **`getApiHeaders()`** from `lib/utils.ts`, which sets:
-- `Content-Type: application/json`
-- `Accept: application/json`
-- **`Accept-Language: ar`**
+Client components receive **`backendUrl`** from the server (from `getBackendUrl(tenantId)` when `getDeployEnv() !== 'production'`) and call `fetch(backendUrl + path, { headers: { 'Accept': 'application/json', 'Accept-Language': 'ar' } })`. Each API is called **once** per page/section.
 
-All use **`cache: 'no-store'`** so Next.js does not cache the fetch.
+## Server-side libs (used only in production for these pages)
+
+| Lib | API | Headers |
+|-----|-----|---------|
+| `lib/recorded-mushafs.ts` | `GET /recitations/`, `GET /recitations/?id=` | `getApiHeaders()` (Accept-Language: ar), cache: no-store |
+| `lib/reciters.ts` | `GET /reciters` | same |
+| `lib/riwayahs.ts` | `GET /riwayahs/` | same |
+| `lib/recitation-tracks.ts` | `GET /recitation-tracks/{id}/` | same |
 
 ## API routes that call external URLs
 
