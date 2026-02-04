@@ -51,7 +51,9 @@ export function RecitationsListingClient({
 
   useEffect(() => {
     let cancelled = false;
-    const pathPrefix = basePath || `/${tenantId}`;
+    // basePath can be '' (custom domain) or '/tenant-id' (path-based)
+    // Only fallback to /tenantId if basePath is undefined
+    const pathPrefix = basePath !== undefined ? basePath : `/${tenantId}`;
 
     async function load() {
       // Direct backend call
