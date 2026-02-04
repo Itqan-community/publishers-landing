@@ -61,8 +61,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button ref={ref} className={`${classes} ${showPlayIcon ? 'gap-1' : ''}`} {...props}>
         {showPlayIcon ? (
           <span className="flex items-center gap-1">
-            {children}
             <PlayIcon className="w-6 h-6 flex-shrink-0" />
+            {children}
           </span>
         ) : (
           children

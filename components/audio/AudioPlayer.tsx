@@ -25,12 +25,6 @@ interface RecitationsPlayerProps {
   listTitle?: string;
 }
 
-const ActionIcon = ({ icon, alt }: { icon: React.ReactNode; alt: string }) => (
-  <span className="flex h-[36px] w-[36px] items-center justify-center rounded-[11px]" aria-label={alt}>
-    {icon}
-  </span>
-);
-
 // Design icons from Figma: play.svg, next-prev.svg, next-prev-reversed.svg. stroke=currentColor for theming.
 const PlayIcon = () => (
   <svg width={24} height={24} viewBox="0 0 24 24" fill="none" className="h-6 w-6" aria-hidden>
@@ -72,27 +66,6 @@ const DownloadIcon = ({ className = "h-[19px] w-[19px]" }: { className?: string 
   </svg>
 );
 
-const ShareIcon = ({ className = "h-[19px] w-[19px]" }: { className?: string }) => (
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className={className} aria-hidden="true">
-    <path d="M14.2862 5.55585C14.901 5.6833 15.3647 5.89601 15.7374 6.25103C16.6673 7.13673 16.6673 8.56225 16.6673 11.4133C16.6673 14.2643 16.6673 15.6898 15.7374 16.5755C14.8076 17.4612 13.311 17.4612 10.3178 17.4612H8.73039C5.7372 17.4612 4.2406 17.4612 3.31073 16.5755C2.38086 15.6898 2.38086 14.2643 2.38086 11.4133C2.38086 8.56225 2.38086 7.13673 3.31073 6.25103C3.68345 5.89601 4.14722 5.6833 4.76194 5.55585" stroke="currentColor" strokeWidth="1.19054" strokeLinecap="round"/>
-    <path d="M9.54422 1.58781L9.52414 11.1117M9.54422 1.58781C9.41514 1.58246 9.28529 1.62859 9.16963 1.72622C8.45017 2.33351 7.14307 3.912 7.14307 3.912M9.54422 1.58781C9.65996 1.5926 9.77507 1.63879 9.87877 1.72635C10.5981 2.33375 11.9052 3.912 11.9052 3.912" stroke="currentColor" strokeWidth="1.19054" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-);
-
-const HeartIcon = ({ className = "h-[19px] w-[19px]" }: { className?: string }) => (
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className={className} aria-hidden="true">
-    <path d="M15.4473 3.17015C13.3189 1.86459 11.4612 2.39072 10.3453 3.22878C9.88771 3.5724 9.65893 3.74421 9.52432 3.74421C9.38972 3.74421 9.16093 3.5724 8.70337 3.22878C7.58741 2.39072 5.72975 1.86459 3.60135 3.17015C0.808051 4.88356 0.175996 10.5362 6.61904 15.3051C7.84623 16.2134 8.45983 16.6676 9.52432 16.6676C10.5888 16.6676 11.2024 16.2134 12.4296 15.3051C18.8726 10.5362 18.2406 4.88356 15.4473 3.17015Z" stroke="currentColor" strokeWidth="1.19054" strokeLinecap="round"/>
-  </svg>
-);
-
-const InfoIcon = ({ className = "h-[19px] w-[19px]" }: { className?: string }) => (
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className={className} aria-hidden="true">
-    <path d="M17.4612 9.52432C17.4612 5.14088 13.9078 1.5874 9.52432 1.5874C5.14088 1.5874 1.5874 5.14088 1.5874 9.52432C1.5874 13.9078 5.14088 17.4612 9.52432 17.4612C13.9078 17.4612 17.4612 13.9078 17.4612 9.52432Z" stroke="currentColor" strokeWidth="1.19054"/>
-    <path d="M10.5102 13.4927V9.52428C10.5102 9.15013 10.5102 8.96306 10.2778 8.84682C10.0453 8.73059 9.67115 8.73059 8.92285 8.73059" stroke="currentColor" strokeWidth="1.19054" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M9.51791 6.34955H9.52504" stroke="currentColor" strokeWidth="1.19054" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-);
-
 const SearchIcon = ({ className = "h-5 w-5" }: { className?: string }) => (
   <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className={className} aria-hidden="true">
     <path fillRule="evenodd" clipRule="evenodd" d="M9.1665 1.04166C4.67919 1.04166 1.0415 4.67934 1.0415 9.16666C1.0415 13.654 4.67919 17.2917 9.1665 17.2917C11.1852 17.2917 13.0319 16.5555 14.4529 15.3369L17.8912 18.7753C18.1353 19.0193 18.531 19.0193 18.7751 18.7753C19.0192 18.5312 19.0192 18.1355 18.7751 17.8914L15.3368 14.453C16.5553 13.0321 17.2915 11.1853 17.2915 9.16666C17.2915 4.67934 13.6538 1.04166 9.1665 1.04166ZM2.2915 9.16666C2.2915 5.3697 5.36955 2.29166 9.1665 2.29166C12.9635 2.29166 16.0415 5.3697 16.0415 9.16666C16.0415 12.9636 12.9635 16.0417 9.1665 16.0417C5.36955 16.0417 2.2915 12.9636 2.2915 9.16666Z" fill="currentColor"/>
@@ -120,6 +93,8 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
 
   const [currentTimeSeconds, setCurrentTimeSeconds] = useState(0);
   const [durationSeconds, setDurationSeconds] = useState<number>(0);
+  /** Frontend search in details variant track list (backend search can be added later). */
+  const [trackSearchQuery, setTrackSearchQuery] = useState('');
 
   useEffect(() => {
     if (onRecitationChange && selectedRecitation) {
@@ -162,6 +137,19 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
       recitations.findIndex((r) => r.id === selectedRecitation.id)
     );
   }, [recitations, selectedRecitation?.id]);
+
+  /** Filtered track list for details variant (frontend search by title, reciter, surahInfo). */
+  const filteredRecitations = useMemo(() => {
+    if (!isDetailsVariant) return recitations;
+    const q = trackSearchQuery.trim().toLowerCase();
+    if (!q) return recitations;
+    return recitations.filter((r) => {
+      const title = (r.title ?? '').toLowerCase();
+      const reciter = (r.reciterName ?? '').toLowerCase();
+      const surahInfo = (r.surahInfo ?? '').toLowerCase();
+      return title.includes(q) || reciter.includes(q) || surahInfo.includes(q);
+    });
+  }, [recitations, trackSearchQuery, isDetailsVariant]);
 
   const hasPrev = selectedIndex > 0;
   const hasNext = selectedIndex < recitations.length - 1;
@@ -329,6 +317,11 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
     if (!audio) return;
     audio.currentTime = nextSeconds;
     setCurrentTimeSeconds(nextSeconds);
+  };
+
+  /** Build proxy download URL so the browser saves the file instead of opening it in a tab. */
+  const getDownloadProxyUrl = (audioUrl: string, filename: string) => {
+    return `/api/download-audio?url=${encodeURIComponent(audioUrl)}&filename=${encodeURIComponent(filename)}`;
   };
 
   return (
@@ -644,46 +637,62 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                     <input
                       type="text"
                       placeholder="ابحث عن السورة"
+                      value={trackSearchQuery}
+                      onChange={(e) => setTrackSearchQuery(e.target.value)}
                       className="w-full bg-transparent text-[16px] text-[#6c737f] placeholder:text-[#6c737f] focus:outline-none"
+                      aria-label="ابحث عن السورة"
                     />
                     <SearchIcon className="h-5 w-5 shrink-0 text-[#161616]" />
                   </label>
                 </div>
 
                 <div className="max-h-[620px] overflow-y-auto pe-2">
-                  {recitations.map((recitation) => {
+                  {filteredRecitations.map((recitation) => {
                     const isSelected = selectedRecitation?.id === recitation.id;
                     const secondaryText = recitation.surahInfo || recitation.reciterName;
                     const itemClasses = `flex w-full items-center justify-between gap-4 rounded-[10px] px-4 py-4 transition-colors min-h-[72px] ${
                       isSelected ? 'bg-[#f3f3f3]' : 'border-b border-[#ebe8e8]'
                     }`;
+                    const downloadUrl = getValidAudioUrl(recitation.audioUrl);
+                    const downloadFilename = `${(recitation.title || 'track').replace(/^\d+\.\s*/, '').replace(/[<>:"/\\|?*]/g, '').trim() || 'audio'}.mp3`;
 
                     return (
-                      <button
-                        key={recitation.id}
-                        type="button"
-                        onClick={() => handleRecitationClick(recitation)}
-                        className={itemClasses}
-                      >
-                        <div className="flex-1 text-start">
+                      <div key={recitation.id} className={itemClasses}>
+                        <button
+                          type="button"
+                          onClick={() => handleRecitationClick(recitation)}
+                          className="flex-1 min-w-0 text-start"
+                        >
                           <p className="text-[16px] font-medium text-[#1f2a37]">{(recitation.title || '').replace(/^\d+\.\s*/, '')}</p>
                           <p className="mt-1 text-[14px] text-[#6a6a6a]">{secondaryText}</p>
-                        </div>
+                        </button>
 
-                        <div className="flex items-center gap-2">
-                          <span className="flex h-[36px] w-[36px] items-center justify-center rounded-[11px] text-[#161616]" aria-label={isSelected && isPlaying ? 'إيقاف مؤقت' : 'تشغيل'}>
+                        <div className="flex items-center gap-2 shrink-0">
+                          <button
+                            type="button"
+                            onClick={() => handleRecitationClick(recitation)}
+                            className="flex h-[36px] w-[36px] items-center justify-center rounded-[11px] text-[#161616] hover:bg-black/5 transition-colors"
+                            aria-label={isSelected && isPlaying ? 'إيقاف مؤقت' : 'تشغيل'}
+                          >
                             {isSelected && isPlaying ? (
                               <PauseIcon className="h-[19px] w-[19px]" />
                             ) : (
                               <span className="[&_svg]:h-[19px] [&_svg]:w-[19px]"><PlayIcon /></span>
                             )}
-                          </span>
-                          <ActionIcon icon={<DownloadIcon />} alt="تحميل" />
-                          <ActionIcon icon={<ShareIcon />} alt="مشاركة" />
-                          <ActionIcon icon={<HeartIcon />} alt="إعجاب" />
-                          <ActionIcon icon={<InfoIcon />} alt="معلومات" />
+                          </button>
+                          {downloadUrl ? (
+                            <a
+                              href={getDownloadProxyUrl(downloadUrl, downloadFilename)}
+                              download={downloadFilename}
+                              onClick={(e) => e.stopPropagation()}
+                              className="flex h-[36px] w-[36px] items-center justify-center rounded-[11px] text-[#161616] hover:bg-black/5 transition-colors"
+                              aria-label="تحميل"
+                            >
+                              <DownloadIcon className="h-[19px] w-[19px]" />
+                            </a>
+                          ) : null}
                         </div>
-                      </button>
+                      </div>
                     );
                   })}
                 </div>

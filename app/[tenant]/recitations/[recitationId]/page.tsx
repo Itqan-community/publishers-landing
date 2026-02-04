@@ -3,12 +3,13 @@ import { loadTenantConfig } from '@/lib/tenant-config';
 import { PageLayout } from '@/components/layout/PageLayout';
 import { Button } from '@/components/ui/Button';
 import { RecitationsPlayer, RecitationItem } from '@/components/audio/AudioPlayer';
-import { FiCode, FiDownload, FiMessageCircle, FiHeart, FiShare2 } from 'react-icons/fi';
+import { FiMessageCircle, FiHeart, FiShare2 } from 'react-icons/fi';
 import { getRecitationById } from '@/lib/recorded-mushafs';
 import { getRecitationTracksByAssetId } from '@/lib/recitation-tracks';
 import { getBackendUrl } from '@/lib/backend-url';
 import { resolveImageUrl } from '@/lib/utils';
 import { AvatarImage } from '@/components/ui/AvatarImage';
+import Link from 'next/link';
 
 export default async function RecitationDetailsPage({
   params,
@@ -142,9 +143,9 @@ export default async function RecitationDetailsPage({
                   </div>
                   {/* Tags: second row, start side */}
                   <div className="flex flex-wrap items-center gap-3">
-                    <span className="rounded-[4px] bg-white px-[12px] py-[8px] text-[12px] font-[500] text-[#1f2a37]">
+                    {/* <span className="rounded-[4px] bg-white px-[12px] py-[8px] text-[12px] font-[500] text-[#1f2a37]">
                       مصحف مجود
-                    </span>
+                    </span> */}
                     {recitation.riwayah?.name && (
                       <span className="rounded-[4px] bg-white px-[12px] py-[8px] text-[12px] font-[500] text-[#1f2a37]">
                         رواية {recitation.riwayah.name}
@@ -160,8 +161,8 @@ export default async function RecitationDetailsPage({
               </div>
 
               {/* Part 2: row 1 = like, comment, share (4px radius); row 2 = 2 CTAs — aligned to end side */}
-              <div className="flex flex-1 flex-col items-end justify-between gap-6">
-                <div className="flex flex-wrap items-center gap-4 text-[14px] text-[#6a6a6a]">
+              <div className="flex flex-1 flex-col justify-between gap-6 mt-auto items-start lg:items-end">
+                {/* <div className="flex flex-wrap items-center gap-4 text-[14px] text-[#6a6a6a]">
                   <div className="flex items-center gap-2 rounded-[4px] border border-[#ebe8e8] bg-white px-3 py-2">
                     <FiHeart className="h-4 w-4 shrink-0" />
                     <span>1,456 إعجاب</span>
@@ -174,22 +175,39 @@ export default async function RecitationDetailsPage({
                     <FiShare2 className="h-4 w-4 shrink-0" />
                     <span>133 مشاركة</span>
                   </div>
-                </div>
+                </div> */}
                 <div className="flex flex-wrap items-center gap-3">
-                  <Button
-                    variant="secondary"
-                    className="gap-2 bg-[#0d121c] text-white hover:bg-[#0a0f17]"
-                  >
-                    <FiCode className="h-4 w-4" />
-                    API
-                  </Button>
-                  <Button
+                  <Link href="https://api.cms.itqan.dev/docs/" target="_blank">
+                    <Button
+                      variant="secondary"
+                      className="gap-2 bg-[#0d121c] text-white hover:bg-[#0a0f17]"
+                    >
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0" aria-hidden>
+                        <g clipPath="url(#api-code-icon-clip)">
+                          <path d="M17 8L18.8398 9.85008C19.6133 10.6279 20 11.0168 20 11.5C20 11.9832 19.6133 12.3721 18.8398 13.1499L17 15" stroke="#FAAF41" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M7 8L5.16019 9.85008C4.38673 10.6279 4 11.0168 4 11.5C4 11.9832 4.38673 12.3721 5.16019 13.1499L7 15" stroke="#FAAF41" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M14.5 4L9.5 20" stroke="#FAAF41" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </g>
+                        <defs>
+                          <clipPath id="api-code-icon-clip">
+                            <rect width="24" height="24" fill="white"/>
+                          </clipPath>
+                        </defs>
+                      </svg>
+                      API
+                    </Button>
+                  </Link>
+                  {/* <Button
                     variant="secondary"
                     className="gap-2 bg-[#1b3f2d] text-white hover:bg-[#152f22]"
                   >
-                    <FiDownload className="h-4 w-4" />
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0" aria-hidden>
+                      <path opacity="0.3" d="M2.5 12C2.5 7.52166 2.5 5.28249 3.89124 3.89124C5.28249 2.5 7.52166 2.5 12 2.5C16.4783 2.5 18.7175 2.5 20.1088 3.89124C21.5 5.28249 21.5 7.52166 21.5 12C21.5 16.4783 21.5 18.7175 20.1088 20.1088C18.7175 21.5 16.4783 21.5 12 21.5C7.52166 21.5 5.28249 21.5 3.89124 20.1088C2.5 18.7175 2.5 16.4783 2.5 12Z" fill="#FAAF41"/>
+                      <path d="M2.5 12C2.5 7.52166 2.5 5.28249 3.89124 3.89124C5.28249 2.5 7.52166 2.5 12 2.5C16.4783 2.5 18.7175 2.5 20.1088 3.89124C21.5 5.28249 21.5 7.52166 21.5 12C21.5 16.4783 21.5 18.7175 20.1088 20.1088C18.7175 21.5 16.4783 21.5 12 21.5C7.52166 21.5 5.28249 21.5 3.89124 20.1088C2.5 18.7175 2.5 16.4783 2.5 12Z" stroke="#FAAF41" strokeWidth="1.5"/>
+                      <path d="M12 16L12 8M12 16C11.2998 16 9.99153 14.0057 9.5 13.5M12 16C12.7002 16 14.0085 14.0057 14.5 13.5" stroke="#FAAF41" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
                     تحميل المصحف كاملا
-                  </Button>
+                  </Button> */}
                 </div>
               </div>
             </div>
