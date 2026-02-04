@@ -7,8 +7,10 @@ import { FiMessageCircle, FiHeart, FiShare2 } from 'react-icons/fi';
 import { getRecitationById } from '@/lib/recorded-mushafs';
 import { getRecitationTracksByAssetId } from '@/lib/recitation-tracks';
 import { getBackendUrl } from '@/lib/backend-url';
+import { getDeployEnv } from '@/lib/backend-url';
 import { resolveImageUrl } from '@/lib/utils';
 import { AvatarImage } from '@/components/ui/AvatarImage';
+import { DebugApiVisibility } from '@/components/debug/DebugApiVisibility';
 import Link from 'next/link';
 
 export default async function RecitationDetailsPage({
@@ -102,6 +104,15 @@ export default async function RecitationDetailsPage({
   // Use actual tracks from API - DO NOT fallback to mock data to avoid confusion
   // If no tracks found, show empty array (the component will handle it)
   const surahItems: RecitationItem[] = tracksWithReciterInfo;
+
+  const deployEnv = await getDeployEnv();
+  const debugApiCalls =
+    deployEnv !== 'production' && tenantId
+      ? [
+          { path: `recitations/?id=${recitationId}`, tenantId },
+          { path: `recitation-tracks/${assetIdForTracks}/`, tenantId },
+        ]
+      : [];
   
   console.log('========================================');
   console.log('[RecitationDetailsPage] Final surahItems count:', surahItems.length);
@@ -110,6 +121,7 @@ export default async function RecitationDetailsPage({
 
   return (
     <PageLayout tenant={tenant}>
+      {debugApiCalls.length > 0 && <DebugApiVisibility calls={debugApiCalls} />}
       <div dir="rtl" className="bg-white">
         <div className="mx-auto max-w-[1200px] px-4 pb-16 pt-10 sm:px-6 lg:px-8">
           {/* Head section: 2 parts. Part 1 (start): avatar column + info column (title/desc + tags row). Part 2: like/comment/share row + CTAs row. Same bg as hero. */}

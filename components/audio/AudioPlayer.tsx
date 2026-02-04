@@ -319,11 +319,6 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
     setCurrentTimeSeconds(nextSeconds);
   };
 
-  /** Build proxy download URL so the browser saves the file instead of opening it in a tab. */
-  const getDownloadProxyUrl = (audioUrl: string, filename: string) => {
-    return `/api/download-audio?url=${encodeURIComponent(audioUrl)}&filename=${encodeURIComponent(filename)}`;
-  };
-
   return (
     <div
       dir="rtl"
@@ -682,8 +677,9 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                           </button>
                           {downloadUrl ? (
                             <a
-                              href={getDownloadProxyUrl(downloadUrl, downloadFilename)}
+                              href={downloadUrl}
                               download={downloadFilename}
+                              target="_blank"
                               onClick={(e) => e.stopPropagation()}
                               className="flex h-[36px] w-[36px] items-center justify-center rounded-[11px] text-[#161616] hover:bg-black/5 transition-colors"
                               aria-label="تحميل"

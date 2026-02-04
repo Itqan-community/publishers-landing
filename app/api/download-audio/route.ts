@@ -1,57 +1,54 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 /**
- * Proxies audio download so the browser gets a file to save instead of opening in a new tab.
- * Use: GET /api/download-audio?url=<encoded-audio-url>&filename=<suggested-filename>
- * Server fetches the audio (no CORS) and streams it with Content-Disposition: attachment.
+ * Proxies audio download: fetches the audio URL and returns it with
+ * Content-Disposition: attachment so the browser saves the file.
+ * GET /api/download-audio?url=<encoded-audio-url>&filename=<optional-filename>
  */
-export async function GET(request: NextRequest) {
-  const url = request.nextUrl.searchParams.get('url');
-  const filename = request.nextUrl.searchParams.get('filename') || 'audio.mp3';
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const audioUrl = searchParams.get('url');
+  const filename = searchParams.get('filename') || 'track.mp3';
 
-  if (!url || typeof url !== 'string') {
-    return NextResponse.json({ error: 'Missing url' }, { status: 400 });
+  if (!audioUrl) {
+    return new Response('Missing url', { status: 400 });
   }
 
   let parsed: URL;
   try {
-    parsed = new URL(url);
+    parsed = new URL(audioUrl);
   } catch {
-    return NextResponse.json({ error: 'Invalid url' }, { status: 400 });
+    return new Response('Invalid url', { status: 400 });
   }
-
   if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') {
-    return NextResponse.json({ error: 'Only http(s) URLs allowed' }, { status: 400 });
+    return new Response('Only http(s) URLs allowed', { status: 400 });
   }
 
   try {
-    const res = await fetch(url, {
+    const response = await fetch(audioUrl, {
       headers: {
-        'Accept': 'audio/*,*/*',
-        'User-Agent': request.headers.get('user-agent') || 'NextJS-Download',
+        Accept: 'audio/*,*/*',
+        'User-Agent': req.headers.get('user-agent') || 'NextJS-Download',
       },
     });
 
-    if (!res.ok) {
-      return NextResponse.json(
-        { error: `Upstream returned ${res.status}` },
-        { status: res.status === 404 ? 404 : 502 }
-      );
+    if (!response.ok) {
+      return new Response(`Upstream returned ${response.status}`, {
+        status: response.status === 404 ? 404 : 502,
+      });
     }
 
-    const contentType = res.headers.get('content-type') || 'audio/mpeg';
-    const safeFilename = filename.replace(/[^\w\u0600-\u06FF\s.-]/gi, '_').trim() || 'audio.mp3';
+    const blob = await response.blob();
+    const safeFilename = filename.replace(/[^\w\u0600-\u06FF\s.-]/gi, '_').trim() || 'track.mp3';
 
-    return new NextResponse(res.body, {
-      status: 200,
+    return new Response(blob, {
       headers: {
-        'Content-Type': contentType,
+        'Content-Type': response.headers.get('content-type') || 'audio/mpeg',
         'Content-Disposition': `attachment; filename="${safeFilename}"`,
-        'Cache-Control': 'private, no-cache',
       },
     });
   } catch (err) {
     console.error('[download-audio]', err);
-    return NextResponse.json({ error: 'Download failed' }, { status: 502 });
+    return new Response('Download failed', { status: 502 });
   }
 }

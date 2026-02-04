@@ -167,7 +167,7 @@ After DNS and SSL are ready, that staging domain will serve the **staging** bran
 
 **Backend API per environment (Saudi Center):**
 
-Per-tenant API URLs are in `config/tenants.json` (Saudi Center: **development** `https://develop.api.cms.itqan.dev`, **staging** `https://staging.api.cms.itqan.dev`, **production** `https://api.cms.itqan.dev`). The app picks which URL from the **request hostname** (no build-time env required):
+Per-tenant API URLs are in `config/tenants.json` (Saudi Center: **development** `https://staging.api.cms.itqan.dev`, **staging** `https://staging.api.cms.itqan.dev`, **production** `https://api.cms.itqan.dev`). The app picks which URL from the **request hostname** (no build-time env required):
 
 - **Localhost** (NODE_ENV=development): uses `api.development`.
 - **Staging deploy** (hostname starts with `staging--`, e.g. `staging--saudi-recitation-center.netlify.app`): uses `api.staging`.

@@ -9,7 +9,7 @@
 
 /** Backend API URLs per environment (development / localhost, staging, production). */
 export interface TenantApiConfig {
-  /** Development / localhost API base URL (e.g. https://develop.api.cms.itqan.dev) */
+  /** Development / localhost API base URL (e.g. https://staging.api.cms.itqan.dev) */
   development: string;
   /** Staging API base URL (e.g. https://staging.api.cms.itqan.dev) */
   staging: string;

@@ -4,8 +4,10 @@ import { loadTenantConfig } from '@/lib/tenant-config';
 import { getBasePathFromHeaders } from '@/lib/tenant-resolver';
 import { PageLayout } from '@/components/layout/PageLayout';
 import { RecitationsPageContent } from '@/components/sections/RecitationsPageContent';
+import { DebugApiVisibility } from '@/components/debug/DebugApiVisibility';
 import { getRecordedMushafs } from '@/lib/recorded-mushafs';
 import { getRiwayahs } from '@/lib/riwayahs';
+import { getDeployEnv } from '@/lib/backend-url';
 
 const TITLE = 'المصاحف المسجلة';
 const DESCRIPTION =
@@ -54,8 +56,21 @@ export default async function RecitationsListingPage({
     getRiwayahs(tenantId),
   ]);
 
+  const deployEnv = await getDeployEnv();
+  const recitationsQuery = new URLSearchParams({ page: '1', page_size: '100' });
+  if (search) recitationsQuery.set('search', search);
+  if (riwayahIdParam) recitationsQuery.set('riwayah_id', riwayahIdParam);
+  const debugApiCalls =
+    deployEnv !== 'production'
+      ? [
+          { path: `recitations/?${recitationsQuery.toString()}`, tenantId },
+          { path: 'riwayahs/', tenantId },
+        ]
+      : [];
+
   return (
     <PageLayout tenant={tenant}>
+      {debugApiCalls.length > 0 && <DebugApiVisibility calls={debugApiCalls} />}
       <div dir="rtl" className="bg-[#f6f4f1]">
         <RecitationsPageContent
           tenantId={tenantId}

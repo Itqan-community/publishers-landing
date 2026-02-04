@@ -33,7 +33,7 @@ export async function getDeployEnv(): Promise<DeployEnv> {
  *
  * - Uses tenant's api.development / api.staging / api.production from config/tenants.json.
  * - Environment is derived from the request so it works on Netlify without build-time env:
- *   - localhost (NODE_ENV=development) → api.development (develop.api.cms.itqan.dev)
+ *   - localhost (NODE_ENV=development) → api.development (staging.api.cms.itqan.dev)
  *   - hostname starts with "staging--" (e.g. staging--saudi-recitation-center.netlify.app) → api.staging (staging.api.cms.itqan.dev)
  *   - else → api.production (api.cms.itqan.dev)
  *
@@ -54,7 +54,7 @@ export async function getBackendUrl(tenantId?: string): Promise<string> {
   }
 
   const defaults: Record<DeployEnv, string> = {
-    development: "https://develop.api.cms.itqan.dev",
+    development: "https://staging.api.cms.itqan.dev",
     staging: "https://staging.api.cms.itqan.dev",
     production: "https://api.cms.itqan.dev",
   };
