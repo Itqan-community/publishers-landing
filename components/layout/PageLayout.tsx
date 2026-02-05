@@ -25,7 +25,7 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
   const navItems = [
     { label: 'الرئيسية', href: prefix ? prefix : '/' },
     { label: 'عن المركز', href: `${prefix}#about` },
-    { label: 'المصاحف المسجلة', href: `${prefix}/recitations` },
+    { label: 'المصاحف المرتلة', href: `${prefix}/recitations` },
     { label: 'القراء', href: `${prefix}#reciters` },
   ];
 

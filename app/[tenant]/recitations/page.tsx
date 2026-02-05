@@ -12,9 +12,9 @@ import { getRiwayahs } from '@/lib/riwayahs';
 /** Always fetch fresh data — no static/cached page so listing count matches API. */
 export const dynamic = 'force-dynamic';
 
-const TITLE = 'المصاحف المسجلة';
+const TITLE = 'المصاحف المرتلة';
 const DESCRIPTION =
-  'استمع إلى القرآن الكريم بأصوات نخبة من أشهر القراء في العالم الإسلامي';
+  'استمع إلى القرآن الكريم بأصوات نخبة مختارة من القراء';
 
 function parseRiwayahId(value: string | string[] | undefined): number | undefined {
   if (value == null) return undefined;

@@ -10,7 +10,7 @@ export default function RecitationsLoading() {
       className="flex min-h-[60vh] items-center justify-center bg-[#f6f4f1]"
       dir="rtl"
     >
-      <BouncingDots className="scale-150" aria-label="جاري تحميل المصاحف المسجلة" />
+      <BouncingDots className="scale-150" aria-label="جاري تحميل المصاحف" />
     </div>
   );
 }

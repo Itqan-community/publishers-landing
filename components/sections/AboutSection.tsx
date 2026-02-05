@@ -29,19 +29,19 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
           <h2 className="text-[32px] md:text-[39px] font-semibold text-black leading-[1.4] lg:mb-0 lg:max-w-[520px] shrink-0">
             {title}
           </h2>
-          <p className="text-[18px] md:text-[20px] text-[#343434] leading-[30.4px] lg:text-end lg:max-w-[640px]">
+          <p className="text-[18px] md:text-[20px] text-[#343434] leading-[30.4px] lg:text-start lg:max-w-[640px]">
             {description}
           </p>
         </div>
 
         {/* Cards (row 2) - 4 in a row on desktop */}
-        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {features.map((feature) => (
             <div
               key={feature.id}
               className="relative h-[218px] rounded-[11px] border border-[#ebe8e8] bg-white overflow-hidden px-6 pt-6"
             >
-              <div className="absolute right-6 top-5 h-[59px] w-[59px] rounded-[12px] bg-[#eef9f2] flex items-center justify-center">
+              <div className="absolute start-6 top-5 h-[59px] w-[59px] rounded-[12px] bg-[#eef9f2] flex items-center justify-center">
                 {feature.iconSrc && (
                   <Image
                     src={feature.iconSrc}

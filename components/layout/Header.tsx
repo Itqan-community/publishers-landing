@@ -55,7 +55,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
           <Link href={homeHref} className="flex-shrink-0 order-1 flex items-center">
             <div className="relative w-[180px] h-[32px] sm:w-[220px] sm:h-[40px] lg:w-[266px] lg:h-[44px]">
               <Image
-                src="/logos/full-logo.png"
+                src="/logos/full-logo.svg"
                 alt={tenantName}
                 fill
                 className="object-contain"
@@ -74,7 +74,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
                 className={`transition-colors ${
                   item.label === 'الرئيسية'
                     ? 'text-black font-semibold' // Active: black, SemiBold
-                    : 'text-[#6a6a6a] hover:text-primary' // Inactive: gray #6a6a6a
+                    : 'text-[#6a6a6a] hover:text-black' // Inactive: gray #6a6a6a
                 }`}
               >
                 {item.label}
@@ -84,12 +84,14 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
 
           {/* CTA Buttons (end side in RTL) - Figma: gap 16px between buttons, "تسجيل الدخول" (black) and "استمع الان" (green) */}
           <div className="hidden md:flex items-center gap-4 order-3">
-            <Button variant="secondary" size="sm">
+            {/* <Button variant="secondary" size="sm">
               تسجيل الدخول
-            </Button>
-            <Button variant="primary" size="sm">
-              استمع الان
-            </Button>
+            </Button> */}
+            <Link href="/recitations">
+              <Button variant="primary" size="sm">
+                استمع الان
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -117,9 +119,9 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
                 </Link>
               ))}
               <div className="flex flex-col gap-3 pt-4 border-t border-gray-200">
-                <Button variant="secondary" size="sm" className="w-full">
+                {/* <Button variant="secondary" size="sm" className="w-full">
                   تسجيل الدخول
-                </Button>
+                </Button> */}
                 <Button variant="primary" size="sm" className="w-full">
                   استمع الان
                 </Button>

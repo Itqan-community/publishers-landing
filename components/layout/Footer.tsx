@@ -34,34 +34,34 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = '' }) => {
 
   if (template === 'saudi-center') {
     return (
-      <footer className="bg-[#f6f4f1] border-t border-[#ebe8e8]" dir="rtl">
-        <div className="mx-auto max-w-[1200px] px-4 py-10 sm:px-6 lg:px-8">
+      <footer className="bg-[#222222] " dir="rtl">
+        <div className="mx-auto max-w-[1200px]">
           {/* RTL: logo+description at start (right), columns at end (left). lg:flex-row = first at start, second at end. */}
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
+          {/* <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between"> */}
             {/* Logo block at start (right in RTL). Same logo as Header. */}
-            <div className="max-w-[387px]">
-              <div className="flex flex-col items-start gap-1">
-                <div className="relative h-[40px] w-[200px] sm:h-[44px] sm:w-[266px]">
+            {/* <div className="max-w-[387px]"> */}
+              {/* <div className="flex flex-col items-start gap-1"> */}
+                {/* <div className="relative h-[40px] w-[200px] sm:h-[44px] sm:w-[266px]">
                   <Image
-                    src="/logos/full-logo.png"
+                    src="/logos/full-logo.svg"
                     alt={tenant.name}
                     fill
                     className="object-contain"
                   />
-                </div>
-                {footer.tagline && (
+                </div> */}
+                {/* {footer.tagline && (
                   <div className="text-[12px] text-black">{footer.tagline}</div>
-                )}
-              </div>
-              <p className="mt-6 text-[14px] leading-[1.5] text-black">
+                )} */}
+              {/* </div> */}
+              {/* <p className="mt-6 text-[14px] leading-[1.5] text-black">
                 {footer.description}
-              </p>
-            </div>
+              </p> */}
+            {/* </div> */}
 
             {/* Four columns at end (left in RTL). Order: عنا (start/right), المصادر, تواصل معنا, تابعنا (end/left). */}
-            <div className="flex flex-wrap justify-between gap-10 lg:gap-[53px]">
+            {/* <div className="flex flex-wrap justify-between gap-10 lg:gap-[53px]"> */}
               {/* عنا — links aligned to start (right in RTL) */}
-              {footer.links[0] && (
+              {/* {footer.links[0] && (
                 <div className="text-start">
                   <p className="text-[16px] font-semibold text-black">{footer.links[0].label}</p>
                   <div className="mt-4 flex flex-col items-start gap-2 text-[12px] text-black">
@@ -72,10 +72,10 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = '' }) => {
                     ))}
                   </div>
                 </div>
-              )}
+              )} */}
 
               {/* المصادر — links aligned to start */}
-              {footer.links[1] && (
+              {/* {footer.links[1] && (
                 <div className="text-start">
                   <p className="text-[16px] font-semibold text-black">{footer.links[1].label}</p>
                   <div className="mt-4 flex flex-col items-start gap-2 text-[12px] text-black">
@@ -86,10 +86,10 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = '' }) => {
                     ))}
                   </div>
                 </div>
-              )}
+              )} */}
 
               {/* تواصل معنا — links aligned to start */}
-              {footer.contact && (footer.contact.email || footer.contact.phone) && (
+              {/* {footer.contact && (footer.contact.email || footer.contact.phone) && (
                 <div className="text-start">
                   <p className="text-[16px] font-semibold text-black">تواصل معنا</p>
                   <div className="mt-4 flex flex-col items-start gap-2 text-[12px] text-black">
@@ -105,10 +105,10 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = '' }) => {
                     )}
                   </div>
                 </div>
-              )}
+              )} */}
 
               {/* تابعنا — no TikTok; links aligned to start */}
-              {footer.social && (() => {
+              {/* {footer.social && (() => {
                 const social = footer.social.filter((s) => s.platform.toLowerCase() !== 'tiktok');
                 if (social.length === 0) return null;
                 return (
@@ -135,14 +135,14 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = '' }) => {
                     </div>
                   </div>
                 );
-              })()}
-            </div>
-          </div>
+              })()} */}
+            {/* </div> */}
+          {/* </div> */}
 
           {/* Bottom bar — policy links aligned to start (right in RTL) */}
-          <div className="mt-8 border-t border-[#ebe8e8] pt-6">
-            <div className="flex flex-col gap-4 text-[12px] text-[#6a6a6a] md:flex-row md:items-center md:justify-between">
-              <div className="flex flex-wrap items-center justify-start gap-6">
+          <div className="p-6 ">
+            <div className="flex flex-col gap-4 items-center justify-center text-[12px] text-[#6a6a6a]">
+              {/* <div className="flex flex-wrap items-center justify-start gap-6">
                 <Link href="/privacy" className="hover:underline">
                   سياسة الخصوصية
                 </Link>
@@ -152,8 +152,8 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = '' }) => {
                 <Link href="/cookies" className="hover:underline">
                   إعدادات ملفات تعريف الارتباط
                 </Link>
-              </div>
-              <span>{footer.copyright}</span>
+              </div> */}
+              <span className="text-[#bebebe]">{footer.copyright}</span>
             </div>
           </div>
         </div>

@@ -35,7 +35,7 @@ export function HeroSection({ content, basePath = '', statsCard }: HeroSectionPr
         <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-12 items-center">
           {/* Text Column - Right side (start in RTL) */}
           <div className="order-1 lg:order-1 space-y-6">
-            <h1 className="text-[39px] font-semibold text-black leading-[1.4]">
+            <h1 className="text-[39px] font-semibold text-black leading-[1.4] max-w-xl">
               {title}
             </h1>
             <p className="text-lg md:text-xl text-gray-700 leading-relaxed max-w-xl ml-auto">
@@ -45,9 +45,9 @@ export function HeroSection({ content, basePath = '', statsCard }: HeroSectionPr
             {/* CTA Buttons - Figma: "تصفح القراء" (secondary/black) and "استمع الان" (primary/green with icon), gap 16px */}
             {/* RTL: align to start side (right) */}
             <div className="flex flex-wrap gap-4 pt-2 justify-start">
-              <Button variant="secondary" size="md" asChild>
+              {/* <Button variant="secondary" size="md" asChild>
                 <Link href={`${prefix}/reciters`}>تصفح القراء</Link>
-              </Button>
+              </Button> */}
               <Button variant="primary" size="md" asChild>
                 <Link href={ctaLink ? `${prefix}${ctaLink}` : `${prefix}/recitations`}>استمع الان</Link>
               </Button>

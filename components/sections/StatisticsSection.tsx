@@ -36,12 +36,12 @@ export function StatisticsSection({
         {(title || description) && (
           <div className="mb-12 flex flex-col gap-6 lg:flex-row lg:items-center">
             {title && (
-              <h2 className="text-[32px] md:text-[39px] font-semibold text-white leading-[1.4] lg:mb-0 lg:max-w-[520px] shrink-0">
+              <h2 className="text-[26px] md:text-[32px] font-semibold text-white leading-[1.4] lg:mb-0 lg:max-w-[520px] shrink-0">
                 {title}
               </h2>
             )}
             {description && (
-              <p className="text-[18px] md:text-[20px] text-white/80 leading-[30.4px] lg:max-w-[290px]">
+              <p className="text-[15px] md:text-[17px] text-white/80 leading-[25px] lg:max-w-[290px]">
                 {description}
               </p>
             )}
@@ -55,15 +55,15 @@ export function StatisticsSection({
               key={index}
               className="relative h-[187px] w-full md:w-[240px] flex-shrink-0"
             >
-              <div className="text-[69px] leading-none text-[#faaf41] font-medium">
+              <div className="text-[56px] leading-none text-[#faaf41] font-medium">
                 {typeof stat.value === 'number'
                   ? stat.value.toLocaleString()
                   : stat.value}
                 {stat.suffix ?? ''}
               </div>
-              <div className="text-[36px] font-light mt-4">{stat.label}</div>
+              <div className="text-[29px] font-light mt-4">{stat.label}</div>
               {stat.description && (
-                <div className="text-[19px] font-light mt-2 text-white/90">
+                <div className="text-[15px] font-light mt-2 text-white/90">
                   {stat.description}
                 </div>
               )}

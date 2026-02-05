@@ -76,27 +76,27 @@ export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenter
   const aboutFeatures = [
     {
       id: '1',
-      title: 'محتوى موثوق',
-      description: 'تلاوات متنوعة بمختلف\nالأساليب.',
-      iconSrc: '/icons/feature-ramadhan.svg',
+      title: 'نخبة من القراء',
+      description: 'أفضل التلاوات وأعذب الأصوات لنخبة القراء',
+      iconSrc: '/icons/feature-muslim.svg',
     },
     {
       id: '2',
-      title: 'بث مباشر',
-      description: 'استمع للتلاوات مباشرة على\nمدار الساعة',
-      iconSrc: '/icons/feature-airdrop.svg',
-    },
-    {
-      id: '3',
       title: 'جودة عالية',
-      description: 'تسجيلات بجودة صوتية\nاستثنائية لأفضل تجربة استماع',
+      description: 'تسجيلات بجودة صوتية استثنائية لأفضل تجربة استماع',
       iconSrc: '/icons/feature-award.svg',
     },
     {
+      id: '3',
+      title: 'بث مباشر',
+      description: 'استمع للتلاوات مباشرة على مدار الساعة',
+      iconSrc: '/icons/feature-airdrop.svg',
+    },
+    {
       id: '4',
-      title: 'نخبة من القراء',
-      description: 'تسجيلات بجودة صوتية\nاستثنائية لأفضل تجربة استماع',
-      iconSrc: '/icons/feature-muslim.svg',
+      title: 'محتوى موثوق',
+      description: 'تلاوات متنوعة بمختلف الأساليب الأدائية',
+      iconSrc: '/icons/feature-ramadhan.svg',
     },
   ];
 
@@ -128,8 +128,8 @@ export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenter
       {/* About Section — scroll target #about */}
       <AboutSection
         id="about"
-        title="عن المركز السعودي للتلاوات"
-        description="المركز السعودي للتلاوات القرآنية هو منصة إسلامية رائدة تهدف إلى نشر كتاب الله الكريم بأفضل التسجيلات الصوتية، حيث نجمع تلاوات نخبة من أشهر القراء في العالم الإسلامي لتكون في متناول الجميع"
+        title="عن المركز"
+        description="المركز السعودي للتلاوات القرآنية هو منصة إسلامية رائدة تهدف إلى نشر كتاب الله الكريم بأفضل التسجيلات الصوتية، حيث نجمع تلاوات نخبة من أفضل القراء في العالم الإسلامي لتكون في متناول الجميع"
         features={aboutFeatures}
       />
 
@@ -146,8 +146,8 @@ export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenter
           tenantId={tenant.id}
           basePath={prefix}
           backendUrl={backendUrl}
-          recordedTitle="المصاحف المسجلة"
-          recordedDescription="استمع إلى القرآن الكريم بأصوات نخبة من أشهر القراء في العالم الإسلامي"
+          recordedTitle="المصاحف المرتلة"
+          recordedDescription="استمع إلى القرآن الكريم بأصوات نخبة من أفضل القراء في العالم الإسلامي"
           viewAllHref={`${prefix}/recitations`}
           featuredTitle="التلاوات المميزة"
           featuredDescription="استمع لمجموعة مختارة من أجمل التلاوات القرآنية"
@@ -156,8 +156,8 @@ export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenter
         <>
           <RecordedMushafsSection
             id="recorded-mushafs"
-            title="المصاحف المسجلة"
-            description="استمع إلى القرآن الكريم بأصوات نخبة من أشهر القراء في العالم الإسلامي"
+            title="المصاحف المرتلة"
+            description="استمع إلى القرآن الكريم بأصوات نخبة من أفضل القراء في العالم الإسلامي"
             mushafs={mushafs}
             viewAllHref={`${prefix}/recitations`}
           />
@@ -179,20 +179,20 @@ export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenter
           backendUrl={backendUrl}
           id="reciters"
           title="قراء المركز"
-          description="نخبة من أفضل القراء والأئمة في المملكة العربية السعودية والعالم العربي والإسلامي"
+          description="نخبة من أفضل القراء في المملكة العربية السعودية والعالم العربي والإسلامي"
         />
       ) : (
         <RecitersSection
           id="reciters"
           title="قراء المركز"
-          description="نخبة من أفضل القراء والأئمة في المملكة العربية السعودية والعالم العربي والإسلامي"
+          description="نخبة من أفضل القراء في المملكة العربية السعودية والعالم العربي والإسلامي"
           reciters={reciters}
         />
       )}
 
       {/* Sponsors Section */}
       <SponsorsSection
-        title="الرعاة"
+        title="شركاء النجاح"
         sponsors={sponsors}
       />
 
