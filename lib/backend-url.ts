@@ -1,6 +1,7 @@
 /**
- * Server-only: backend API URL per tenant and deploy environment.
- * Do not import this from client components (uses next/headers).
+ * Server-only: resolve backend API base URL per tenant and environment.
+ * Used only to pass backendUrl to client components; the browser calls the API
+ * directly (no proxy). Do not import from client components (uses next/headers).
  */
 
 import { headers } from "next/headers";
