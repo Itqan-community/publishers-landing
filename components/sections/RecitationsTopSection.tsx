@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import type { RiwayahOption } from '@/lib/riwayahs';
+import type { RiwayahOption } from '@/lib/listing-riwayah';
 
 // Arrow down icon for filter dropdown
 function ArrowDown({ className }: { className?: string }) {

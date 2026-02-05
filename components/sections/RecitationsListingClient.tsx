@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { RecitationsPageContent } from '@/components/sections/RecitationsPageContent';
 import { BouncingDots } from '@/components/ui/BouncingDots';
 import type { RecordedMushaf } from '@/types/tenant.types';
-import type { RiwayahOption } from '@/lib/riwayahs';
+import { LISTING_RIWAYAH_ID, type RiwayahOption } from '@/lib/listing-riwayah';
 import {
   mapRecitationsApiToRecordedMushafs,
   type RecitationApiResponse,
@@ -97,7 +97,9 @@ export function RecitationsListingClient({
           : [];
 
         const mappedMushafs = mapRecitationsApiToRecordedMushafs(results, backendUrl, pathPrefix);
-        const mappedRiwayahs = mapRiwayahs(riwayahsData.results ?? []);
+        const allRiwayahs = mapRiwayahs(riwayahsData.results ?? []);
+        // Forced for now: only show riwayah ID 1 in listing filter
+        const mappedRiwayahs = allRiwayahs.filter((o) => o.id === LISTING_RIWAYAH_ID);
 
         setMushafs(mappedMushafs);
         setRiwayaOptions(mappedRiwayahs);

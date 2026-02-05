@@ -6,7 +6,7 @@ import { RecitationsTopSection } from '@/components/sections/RecitationsTopSecti
 import { RecitationsListingSection } from '@/components/sections/RecitationsListingSection';
 import { BouncingDots } from '@/components/ui/BouncingDots';
 import type { RecordedMushaf } from '@/types/tenant.types';
-import type { RiwayahOption } from '@/lib/riwayahs';
+import type { RiwayahOption } from '@/lib/listing-riwayah';
 
 interface RecitationsPageContentProps {
   tenantId: string;

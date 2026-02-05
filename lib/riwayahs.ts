@@ -1,6 +1,9 @@
 import { cache } from 'react';
 import { getBackendUrl } from '@/lib/backend-url';
 import { getApiHeaders } from '@/lib/utils';
+import { LISTING_RIWAYAH_ID, type RiwayahOption } from '@/lib/listing-riwayah';
+
+export type { RiwayahOption } from '@/lib/listing-riwayah';
 
 /**
  * API response item for GET /riwayahs/
@@ -23,11 +26,6 @@ interface RiwayahsPaginatedResponse {
  */
 export function riwayahToLabel(name: string): string {
   return `رواية ${name}`;
-}
-
-export interface RiwayahOption {
-  id: number;
-  label: string;
 }
 
 /**
@@ -62,8 +60,9 @@ export const getRiwayahs = cache(async (tenantId?: string): Promise<RiwayahOptio
 
       const data: RiwayahsPaginatedResponse = await response.json();
       const results = data.results ?? [];
-      console.log('[getRiwayahs] Riwayahs from API:', results);
-      return results.map((r) => ({ id: r.id, label: riwayahToLabel(r.name) }));
+      const options = results.map((r) => ({ id: r.id, label: riwayahToLabel(r.name) }));
+      // Forced for now: only show riwayah ID 1 in listing filter
+      return options.filter((o) => o.id === LISTING_RIWAYAH_ID);
     } finally {
       clearTimeout(timeoutId);
     }
