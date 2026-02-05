@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getTenantIdsSync } from '@/lib/domains';
+import { getDefaultTenantId } from '@/lib/tenant-config';
 import {
   createTenantRequest,
   resolveTenantWithStrategy,
@@ -26,6 +27,38 @@ export function middleware(request: NextRequest) {
   requestHeaders.set('x-tenant-id', tenantId);
 
   const isCustomDomain = strategy === 'domain';
+  const isLocalhost = hostname === 'localhost';
+
+  // Non-localhost clean URLs (e.g. staging /recitations): rewrite to default tenant so links work without /tenant in path
+  if (!isLocalhost && !isCustomDomain) {
+    const base = request.nextUrl.origin;
+    if (pathname === '/' || pathname === '') {
+      const defaultTenant = getDefaultTenantId();
+      requestHeaders.set('x-custom-domain', 'true');
+      requestHeaders.set('x-base-path', '');
+      return NextResponse.rewrite(new URL(`/${defaultTenant}`, base), {
+        request: { headers: requestHeaders },
+      });
+    }
+    if (pathname === '/recitations') {
+      const defaultTenant = getDefaultTenantId();
+      requestHeaders.set('x-custom-domain', 'true');
+      requestHeaders.set('x-base-path', '');
+      return NextResponse.rewrite(new URL(`/${defaultTenant}/recitations`, base), {
+        request: { headers: requestHeaders },
+      });
+    }
+    const recitationMatch = pathname.match(/^\/recitations\/([^/]+)(?:\/)?$/);
+    if (recitationMatch) {
+      const defaultTenant = getDefaultTenantId();
+      requestHeaders.set('x-custom-domain', 'true');
+      requestHeaders.set('x-base-path', '');
+      return NextResponse.rewrite(
+        new URL(`/${defaultTenant}/recitations/${recitationMatch[1]}`, base),
+        { request: { headers: requestHeaders } }
+      );
+    }
+  }
 
   if (isCustomDomain) {
     // On custom domain: 404 if URL path starts with a tenant ID (e.g. /saudi-center or /saudi-center/...)
@@ -64,8 +97,14 @@ export function middleware(request: NextRequest) {
   }
 
   // Path-based or subdomain: set base path for link generation (no rewrite)
+  // Use tenant path prefix only on localhost; on staging/production use clean URLs (no /tenant in links)
   if (strategy === 'path' && pathname.startsWith(`/${tenantId}`)) {
-    requestHeaders.set('x-base-path', `/${tenantId}`);
+    if (isLocalhost) {
+      requestHeaders.set('x-base-path', `/${tenantId}`);
+    } else {
+      requestHeaders.set('x-custom-domain', 'true');
+      requestHeaders.set('x-base-path', '');
+    }
   } else {
     requestHeaders.set('x-base-path', '');
   }
