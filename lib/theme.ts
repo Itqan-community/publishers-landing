@@ -56,7 +56,8 @@ function darkenColor(hex: string, percent: number): string {
  * Generate CSS custom properties object from tenant branding
  */
 export function generateThemeVariables(branding: TenantBranding): Record<string, string> {
-  const { primaryColor, secondaryColor, accentColor, font } = branding;
+  const { primaryColor, secondaryColor, accentColor } = branding;
+  // Font is global (IBM Plex Sans Arabic) — not overridden per tenant
 
   return {
     '--color-primary': primaryColor,
@@ -68,7 +69,6 @@ export function generateThemeVariables(branding: TenantBranding): Record<string,
     '--color-accent': accentColor || secondaryColor,
     '--color-background': '#FFFFFF',
     '--color-foreground': '#1a1a1a',
-    '--font-primary': `'${font}', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`,
   };
 }
 

@@ -19,8 +19,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ar" dir="rtl">
-      <body className={ibmPlexSansArabic.className}>{children}</body>
+    <html lang="ar" dir="rtl" className={ibmPlexSansArabic.variable}>
+      <body>{children}</body>
     </html>
   );
 }

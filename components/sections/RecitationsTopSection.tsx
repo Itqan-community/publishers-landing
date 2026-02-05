@@ -76,11 +76,11 @@ export function RecitationsTopSection({
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
         <h1
           id="recitations-heading"
-          className="text-center font-primary text-[32px] font-semibold leading-[1.4] text-black md:text-[39px]"
+          className="text-center text-[32px] font-semibold leading-[1.4] text-black md:text-[39px]"
         >
           {title}
         </h1>
-        <p className="mx-auto mt-6 max-w-[640px] text-center font-primary text-[18px] leading-[1.6] text-[#343434] md:mt-8 md:text-[20px] md:leading-[30.4px]">
+        <p className="mx-auto mt-6 max-w-[640px] text-center text-[18px] leading-[1.6] text-[#343434] md:mt-8 md:text-[20px] md:leading-[30.4px]">
           {description}
         </p>
 

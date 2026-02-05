@@ -390,16 +390,16 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                           </div>
                         )}
                         <div className="min-w-0 text-start">
-                          <p className="truncate font-primary text-[18px] font-semibold leading-[22px] text-black">
+                          <p className="truncate text-[18px] font-semibold leading-[22px] text-black">
                             {(recitation.title || '').replace(/^\d+\.\s*/, '')}
                           </p>
-                          <p className="mt-1 truncate font-primary text-[16px] leading-[22px] text-[#6a6a6a]">
+                          <p className="mt-1 truncate text-[16px] leading-[22px] text-[#6a6a6a]">
                             {recitation.reciterName}
                           </p>
                         </div>
                       </div>
                       {/* Duration: at end (left in RTL, right in LTR) */}
-                      <span className="shrink-0 font-primary text-[16px] leading-[22px] text-[#6a6a6a]">
+                      <span className="shrink-0 text-[16px] leading-[22px] text-[#6a6a6a]">
                         {recitation.duration}
                       </span>
                     </div>
@@ -442,7 +442,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                       </div>
                     </>
                   ) : (
-                    <p className="text-center font-primary text-[20px] font-semibold leading-[1.4] text-[#343434]">
+                    <p className="text-center text-[20px] font-semibold leading-[1.4] text-[#343434]">
                       {(selectedRecitation?.title || '').replace(/^\d+\.\s*/, '')}
                     </p>
                   )}
@@ -460,7 +460,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                         aria-hidden="true"
                       />
                       <div
-                        className="absolute -top-6 -translate-x-1/2 rounded-[8px] bg-[#193624] px-2.5 py-1 font-primary text-[12px] leading-[1] text-white"
+                        className="absolute -top-6 -translate-x-1/2 rounded-[8px] bg-[#193624] px-2.5 py-1 text-[12px] leading-[1] text-white"
                         style={{ insetInlineStart: `${progressPercent * 100}%` }}
                         aria-hidden="true"
                       >
@@ -496,10 +496,10 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                 {/* Controls + text */}
                 <div className="mt-6 flex items-start justify-between gap-6">
                   <div className="min-w-0 text-start">
-                    <p className="truncate font-primary text-[18px] font-semibold leading-[22px] text-black">
+                    <p className="truncate text-[18px] font-semibold leading-[22px] text-black">
                       {(selectedRecitation?.title || '').replace(/^\d+\.\s*/, '')}
                     </p>
-                    <p className="mt-1 truncate font-primary text-[16px] leading-[22px] text-[#6a6a6a]">
+                    <p className="mt-1 truncate text-[16px] leading-[22px] text-[#6a6a6a]">
                       {selectedRecitation?.reciterName || ''}
                     </p>
                   </div>
@@ -697,7 +697,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                 </div>
                 {/* Progress: time above, orange seekable bar */}
                 <div className="w-full max-w-[343px]">
-                  <p className="mb-2 text-center font-primary text-[14px] text-[#6a6a6a]">
+                  <p className="mb-2 text-center text-[14px] text-[#6a6a6a]">
                     {durationSeconds ? formatTime(currentTimeSeconds) : selectedRecitation?.duration || '0:00'}
                   </p>
                   <div className="relative h-[18px]">
@@ -769,8 +769,8 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                 </div>
                 {/* Track title + reciter below controls */}
                 <div className="w-full text-start">
-                  <p className="truncate font-primary text-[18px] font-semibold text-black">{(selectedRecitation?.title || '').replace(/^\d+\.\s*/, '')}</p>
-                  <p className="mt-1 truncate font-primary text-[14px] text-[#6a6a6a]">{selectedRecitation?.reciterName || ''}</p>
+                  <p className="truncate text-[18px] font-semibold text-black">{(selectedRecitation?.title || '').replace(/^\d+\.\s*/, '')}</p>
+                  <p className="mt-1 truncate text-[14px] text-[#6a6a6a]">{selectedRecitation?.reciterName || ''}</p>
                 </div>
               </div>
             </div>

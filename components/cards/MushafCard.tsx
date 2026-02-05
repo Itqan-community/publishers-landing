@@ -37,13 +37,13 @@ export const MushafCard: React.FC<MushafCardProps> = ({ mushaf }) => {
           </div>
         </div>
       </div>
-      {/* Bottom section */}
-      <div className="px-4 py-4 text-end">
+      {/* Bottom section — aligned to start (right in RTL) */}
+      <div className="px-4 py-4 text-start">
         <h3 className="text-[20px] font-semibold text-black">{title}</h3>
         <p className="mt-2 text-[12px] text-[#343434]">{description}</p>
         {/* Badges */}
         {badges && badges.length > 0 && (
-          <div className="mt-4 flex flex-wrap items-center justify-end gap-2 text-[10px] text-[#343434]">
+          <div className="mt-4 flex flex-wrap items-center justify-start gap-2 text-[10px] text-[#343434]">
             {year && (
               <span className="rounded-[6px] bg-[#f3f3f3] px-2 py-1">سنة {year}</span>
             )}

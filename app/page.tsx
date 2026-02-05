@@ -12,7 +12,7 @@ import { getBasePathFromHeaders, getTenantFromHeaders } from '@/lib/tenant-resol
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { TenantProvider } from '@/components/providers/TenantProvider';
 import { getTemplate } from '@/templates';
-import { getThemeStyles, getFontLink } from '@/lib/theme';
+import { getThemeStyles } from '@/lib/theme';
 import type { Metadata } from 'next';
 
 /**
@@ -76,12 +76,7 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* Inject custom font */}
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      <link href={getFontLink(tenant.branding.font)} rel="stylesheet" />
-
-      {/* Apply theme variables inline for SSR */}
+      {/* Theme: colors only; font is global IBM Plex Sans Arabic (see app/layout.tsx + globals.css) */}
       <div style={getThemeStyles(tenant.branding)}>
         <TenantProvider initialTenant={tenant} initialBasePath={basePath}>
           <ThemeProvider branding={tenant.branding}>

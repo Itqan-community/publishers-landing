@@ -9,7 +9,7 @@ import { loadTenantConfig } from '@/lib/tenant-config';
 import { getBasePathFromHeaders, getTenantFromHeaders } from '@/lib/tenant-resolver';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { TenantProvider } from '@/components/providers/TenantProvider';
-import { getThemeStyles, getFontLink } from '@/lib/theme';
+import { getThemeStyles } from '@/lib/theme';
 
 export default async function TenantLayout({
   children,
@@ -36,9 +36,6 @@ export default async function TenantLayout({
 
   return (
     <>
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      <link href={getFontLink(tenant.branding.font)} rel="stylesheet" />
       <div style={getThemeStyles(tenant.branding)}>
         <TenantProvider initialTenant={tenant} initialBasePath={basePath}>
           <ThemeProvider branding={tenant.branding}>{children}</ThemeProvider>
