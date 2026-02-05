@@ -32,11 +32,12 @@ export function middleware(request: NextRequest) {
   // Non-localhost clean URLs (e.g. staging /recitations): rewrite to default tenant so links work without /tenant in path
   if (!isLocalhost && !isCustomDomain) {
     const base = request.nextUrl.origin;
+    const search = request.nextUrl.search ?? '';
     if (pathname === '/' || pathname === '') {
       const defaultTenant = getDefaultTenantId();
       requestHeaders.set('x-custom-domain', 'true');
       requestHeaders.set('x-base-path', '');
-      return NextResponse.rewrite(new URL(`/${defaultTenant}`, base), {
+      return NextResponse.rewrite(new URL(`/${defaultTenant}${search}`, base), {
         request: { headers: requestHeaders },
       });
     }
@@ -44,7 +45,8 @@ export function middleware(request: NextRequest) {
       const defaultTenant = getDefaultTenantId();
       requestHeaders.set('x-custom-domain', 'true');
       requestHeaders.set('x-base-path', '');
-      return NextResponse.rewrite(new URL(`/${defaultTenant}/recitations`, base), {
+      const rewriteUrl = new URL(`/${defaultTenant}/recitations${search}`, base);
+      return NextResponse.rewrite(rewriteUrl, {
         request: { headers: requestHeaders },
       });
     }
@@ -53,10 +55,10 @@ export function middleware(request: NextRequest) {
       const defaultTenant = getDefaultTenantId();
       requestHeaders.set('x-custom-domain', 'true');
       requestHeaders.set('x-base-path', '');
-      return NextResponse.rewrite(
-        new URL(`/${defaultTenant}/recitations/${recitationMatch[1]}`, base),
-        { request: { headers: requestHeaders } }
-      );
+      const rewriteUrl = new URL(`/${defaultTenant}/recitations/${recitationMatch[1]}${search}`, base);
+      return NextResponse.rewrite(rewriteUrl, {
+        request: { headers: requestHeaders },
+      });
     }
   }
 
@@ -69,19 +71,20 @@ export function middleware(request: NextRequest) {
       return NextResponse.rewrite(new URL('/__404__', request.url));
     }
 
-    // Rewrite clean URLs to internal [tenant] routes (browser URL stays clean)
+    // Rewrite clean URLs to internal [tenant] routes (browser URL stays clean); preserve query string
     const base = request.nextUrl.origin;
+    const search = request.nextUrl.search ?? '';
     if (pathname === '/' || pathname === '') {
       requestHeaders.set('x-custom-domain', 'true');
       requestHeaders.set('x-base-path', '');
-      return NextResponse.rewrite(new URL(`/${tenantId}`, base), {
+      return NextResponse.rewrite(new URL(`/${tenantId}${search}`, base), {
         request: { headers: requestHeaders },
       });
     }
     if (pathname === '/recitations') {
       requestHeaders.set('x-custom-domain', 'true');
       requestHeaders.set('x-base-path', '');
-      return NextResponse.rewrite(new URL(`/${tenantId}/recitations`, base), {
+      return NextResponse.rewrite(new URL(`/${tenantId}/recitations${search}`, base), {
         request: { headers: requestHeaders },
       });
     }
@@ -90,7 +93,7 @@ export function middleware(request: NextRequest) {
       requestHeaders.set('x-custom-domain', 'true');
       requestHeaders.set('x-base-path', '');
       return NextResponse.rewrite(
-        new URL(`/${tenantId}/recitations/${recitationMatch[1]}`, base),
+        new URL(`/${tenantId}/recitations/${recitationMatch[1]}${search}`, base),
         { request: { headers: requestHeaders } }
       );
     }
