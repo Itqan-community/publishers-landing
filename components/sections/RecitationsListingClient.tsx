@@ -51,6 +51,9 @@ export function RecitationsListingClient({
 
   useEffect(() => {
     let cancelled = false;
+    // Clear list immediately when search/filter change so we show loading instead of stale data
+    setMushafs(null);
+
     // basePath can be '' (custom domain) or '/tenant-id' (path-based)
     // Only fallback to /tenantId if basePath is undefined
     const pathPrefix = basePath !== undefined ? basePath : `/${tenantId}`;
