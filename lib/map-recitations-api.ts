@@ -135,7 +135,7 @@ export function mapRecitationsApiToRecordedMushafs(
       },
       badges: badges.length > 0 ? badges : undefined,
       year: recitation.year ?? undefined,
-      href: `${pathPrefix}/recitations/${recitation.id}`,
+      href: `recitations/${recitation.id}`,
     };
   });
 }
