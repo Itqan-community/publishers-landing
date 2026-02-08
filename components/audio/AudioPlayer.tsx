@@ -548,23 +548,19 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                   const audio = e.currentTarget as HTMLAudioElement;
                   const duration = audio.duration || 0;
                   setDurationSeconds(duration);
-                  console.log('[AudioPlayer] Metadata loaded, duration:', duration);
                 }}
                 onPlay={() => {
                   isSwitchingTrackRef.current = false;
                   setIsPlaying(true);
-                  console.log('[AudioPlayer] Playing:', selectedRecitation?.audioUrl);
                 }}
                 onPause={() => {
                   if (isSwitchingTrackRef.current) return;
                   setIsPlaying(false);
-                  console.log('[AudioPlayer] Paused');
                 }}
                 onEnded={() => {
                   if (isSwitchingTrackRef.current) return;
                   setIsPlaying(false);
                   setCurrentTimeSeconds(0);
-                  console.log('[AudioPlayer] Ended');
                 }}
                 onError={(e) => {
                   const audio = e.currentTarget as HTMLAudioElement;
@@ -580,10 +576,10 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                   if (!isSwitchingTrackRef.current) setIsPlaying(false);
                 }}
                 onCanPlay={() => {
-                  console.log('[AudioPlayer] Audio can play:', selectedRecitation?.audioUrl);
+                  // Audio ready to play
                 }}
                 onLoadStart={() => {
-                  console.log('[AudioPlayer] Loading started:', selectedRecitation?.audioUrl);
+                  // Audio loading started
                 }}
                 preload="metadata"
               />

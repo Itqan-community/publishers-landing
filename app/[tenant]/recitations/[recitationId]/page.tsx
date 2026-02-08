@@ -87,22 +87,10 @@ export default async function RecitationDetailsPage({
   // However, if there's a mismatch, fall back to the URL param (converted to number if possible)
   let assetIdForTracks: string | number = recitation.id;
 
-  // Verify the ID matches - if not, log a warning but still use recitation.id
+  // Verify the ID matches - if not, still use recitation.id as it's the authoritative source
   if (String(recitation.id) !== String(recitationId)) {
-    console.warn('[RecitationDetailsPage] WARNING: recitation.id does not match URL recitationId!', {
-      recitationId: recitation.id,
-      urlRecitationId: recitationId,
-    });
-    // Still use recitation.id from API response as it's the authoritative source
+    // ID mismatch - still use recitation.id from API response
   }
-
-  /*
-  console.log('========================================');
-  console.log('[RecitationDetailsPage] About to fetch tracks with assetId:', assetIdForTracks);
-  console.log('[RecitationDetailsPage] assetId type:', typeof assetIdForTracks);
-  console.log('[RecitationDetailsPage] URL recitationId (for reference):', recitationId);
-  console.log('========================================');
-  */
 
   // Fetch tracks for this recitation using its ID  
   const tracks = await getRecitationTracksByAssetId(
@@ -111,16 +99,6 @@ export default async function RecitationDetailsPage({
     reciterImage,
     tenantId
   );
-
-  /*
-  console.log('========================================');
-  console.log('[RecitationDetailsPage] Fetched tracks count:', tracks.length);
-  if (tracks.length > 0) {
-    console.log('[RecitationDetailsPage] First track audioUrl:', tracks[0].audioUrl);
-    console.log('[RecitationDetailsPage] First track title:', tracks[0].title);
-  }
-  console.log('========================================');
-  */
 
   // Build breadcrumb schema for SEO
   const baseUrl = tenant.domain

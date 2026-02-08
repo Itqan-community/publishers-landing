@@ -14,6 +14,7 @@ import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { TenantProvider } from '@/components/providers/TenantProvider';
 import { getThemeStyles } from '@/lib/theme';
 import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
+import { WebVitals } from '@/components/analytics/WebVitals';
 import { generateOrganizationSchema } from '@/lib/seo';
 
 /**
@@ -78,6 +79,9 @@ export default async function TenantLayout({
 
       {/* Google Analytics */}
       {gaId && <GoogleAnalytics gaId={gaId} />}
+
+      {/* Web Vitals Performance Tracking */}
+      <WebVitals />
 
       {/* Top Loading Bar for Route Transitions */}
       <NextTopLoader
