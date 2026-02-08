@@ -6,15 +6,41 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
- * Get default headers for API requests
- * Includes Accept-Language: ar for all requests
+ * Get default headers for API requests.
+ * Includes X-Tenant header for backend authentication.
+ * 
+ * The backend uses X-Tenant header to identify which tenant is requesting data.
+ * This is more reliable than Origin-based authentication and works with SSR.
+ * 
+ * @param tenantDomain - Full tenant domain for X-Tenant header (e.g., 'https://saudi-center.example.com' or 'http://localhost:3000')
+ * @param additionalHeaders - Any additional headers to include
+ * @returns Headers object with X-Tenant and standard API headers
+ * 
+ * @example
+ * // Server-side
+ * const tenantDomain = await getTenantDomain('saudi-center');
+ * const headers = getApiHeaders(tenantDomain);
+ * 
+ * // Client-side
+ * const headers = getApiHeaders(props.tenantDomain);
  */
-export function getApiHeaders(additionalHeaders?: Record<string, string>): HeadersInit {
-  return {
+export function getApiHeaders(
+  tenantDomain?: string,
+  additionalHeaders?: Record<string, string>
+): HeadersInit {
+  const headers: HeadersInit = {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
     'Accept-Language': 'ar',
-    // 'X-Tenant': 'http://localhost:3000',
+  };
+
+  // Add X-Tenant header for backend authentication
+  if (tenantDomain) {
+    headers['X-Tenant'] = tenantDomain;
+  }
+
+  return {
+    ...headers,
     ...additionalHeaders,
   };
 }

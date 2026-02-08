@@ -10,11 +10,6 @@ import {
   type RecitationApiResponse,
 } from '@/lib/map-recitations-api';
 
-const API_HEADERS = {
-  'Accept': 'application/json',
-  'Accept-Language': 'ar',
-};
-
 interface RiwayahApiItem {
   id: number;
   name: string;
@@ -30,6 +25,7 @@ interface RecitationsListingClientProps {
   tenantId: string;
   basePath: string;
   backendUrl: string;
+  tenantDomain: string; // NEW: For X-Tenant header authentication
   search: string;
   riwayahId: string;
   title: string;
@@ -40,6 +36,7 @@ export function RecitationsListingClient({
   tenantId,
   basePath,
   backendUrl,
+  tenantDomain,
   search,
   riwayahId,
   title,
@@ -67,8 +64,11 @@ export function RecitationsListingClient({
       const recitationsUrl = `${backendUrl}/recitations/?${recitationsParams.toString()}`;
       const riwayahsUrl = `${backendUrl}/riwayahs/`;
 
+      // Include X-Tenant header for backend authentication
       const headers: HeadersInit = {
-        ...API_HEADERS,
+        'Accept': 'application/json',
+        'Accept-Language': 'ar',
+        'X-Tenant': tenantDomain,
       };
 
       try {

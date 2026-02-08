@@ -9,15 +9,11 @@ import {
   type ReciterApiResponse,
 } from '@/lib/map-reciters-api';
 
-const API_HEADERS = {
-  'Accept': 'application/json',
-  'Accept-Language': 'ar',
-};
-
 interface RecitersSectionClientProps {
   tenantId: string;
   basePath: string;
   backendUrl: string;
+  tenantDomain: string; // NEW: For X-Tenant header authentication
   id?: string;
   title: string;
   description: string;
@@ -28,6 +24,7 @@ export function RecitersSectionClient({
   tenantId,
   basePath,
   backendUrl,
+  tenantDomain,
   id,
   title,
   description,
@@ -44,8 +41,15 @@ export function RecitersSectionClient({
     async function load() {
       const url = `${base}/reciters`;
 
+      // Include X-Tenant header for backend authentication
+      const headers: HeadersInit = {
+        'Accept': 'application/json',
+        'Accept-Language': 'ar',
+        'X-Tenant': tenantDomain,
+      };
+
       try {
-        const res = await fetch(url, { headers: API_HEADERS });
+        const res = await fetch(url, { headers });
         if (cancelled) return;
         if (!res.ok) {
           setError(`Reciters: ${res.status}`);
@@ -65,7 +69,7 @@ export function RecitersSectionClient({
 
     load();
     return () => { cancelled = true; };
-  }, [tenantId, basePath, backendUrl]);
+  }, [tenantId, basePath, backendUrl, tenantDomain]);
 
   if (error) {
     return (
