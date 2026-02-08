@@ -42,7 +42,7 @@ export default function TenantNotFound() {
           </p>
 
           <Link
-            href={`/${tenant.id}`}
+            href={`/`}
             className="inline-block px-8 py-3 rounded-lg font-semibold text-white transition-colors"
             style={{
               backgroundColor: tenant.branding.primaryColor,
