@@ -14,17 +14,13 @@ import {
   type TrackApiItem,
 } from '@/lib/map-recitations-api';
 
-const API_HEADERS = {
-  'Accept': 'application/json',
-  'Accept-Language': 'ar',
-};
-
 const FEATURED_LIMIT = 5;
 
 interface RecordedMushafsSectionClientProps {
   tenantId: string;
   basePath: string;
   backendUrl: string;
+  tenantDomain: string; // NEW: For X-Tenant header authentication
   recordedTitle: string;
   recordedDescription: string;
   viewAllHref: string;
@@ -36,6 +32,7 @@ export function RecordedMushafsSectionClient({
   tenantId,
   basePath,
   backendUrl,
+  tenantDomain,
   recordedTitle,
   recordedDescription,
   viewAllHref,
@@ -54,9 +51,16 @@ export function RecordedMushafsSectionClient({
     async function load() {
       const recitationsUrl = `${base}/recitations/?page=1&page_size=100`;
 
+      // Include X-Tenant header for backend authentication
+      const headers: HeadersInit = {
+        'Accept': 'application/json',
+        'Accept-Language': 'ar',
+        'X-Tenant': tenantDomain,
+      };
+
       try {
         const recitationsRes = await fetch(recitationsUrl, {
-          headers: API_HEADERS,
+          headers,
         });
 
         if (cancelled) return;
@@ -87,7 +91,7 @@ export function RecordedMushafsSectionClient({
           ) ?? '';
 
         const tracksUrl = `${base}/recitation-tracks/${firstId}/`;
-        const tracksRes = await fetch(tracksUrl, { headers: API_HEADERS });
+        const tracksRes = await fetch(tracksUrl, { headers });
         if (cancelled) return;
 
         if (!tracksRes.ok) {
@@ -112,7 +116,7 @@ export function RecordedMushafsSectionClient({
 
     load();
     return () => { cancelled = true; };
-  }, [tenantId, basePath, backendUrl]);
+  }, [tenantId, basePath, backendUrl, tenantDomain]);
 
   if (error) {
     return (

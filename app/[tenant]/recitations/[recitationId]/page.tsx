@@ -27,11 +27,15 @@ export default async function RecitationDetailsPage({
   const deployEnv = await getDeployEnv();
   if (deployEnv !== 'production') {
     const backendUrl = await getBackendUrl(tenantId);
+    const { getTenantDomain } = await import('@/lib/tenant-domain');
+    const tenantDomain = await getTenantDomain(tenantId);
+
     return (
       <RecitationDetailClient
         tenant={tenant}
         tenantId={tenantId}
         backendUrl={backendUrl}
+        tenantDomain={tenantDomain}
         recitationId={recitationId}
       />
     );

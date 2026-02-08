@@ -56,6 +56,9 @@ export default async function RecitationsListingPage({
   // On production: fetch on server.
   if (deployEnv !== 'production') {
     const backendUrl = await getBackendUrl(tenantId);
+    const { getTenantDomain } = await import('@/lib/tenant-domain');
+    const tenantDomain = await getTenantDomain(tenantId);
+
     return (
       <PageLayout tenant={tenant}>
         <div dir="rtl" className="bg-[#f6f4f1]">
@@ -63,6 +66,7 @@ export default async function RecitationsListingPage({
             tenantId={tenantId}
             basePath={basePath}
             backendUrl={backendUrl}
+            tenantDomain={tenantDomain}
             search={search}
             riwayahId={riwayahIdParam}
             title={TITLE}

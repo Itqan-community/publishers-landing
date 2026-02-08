@@ -40,6 +40,7 @@ export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenter
   let mushafs: Awaited<ReturnType<typeof getRecordedMushafs>> = [];
   let recitations: RecitationItem[] = [];
   let backendUrl = '';
+  let tenantDomain = '';
 
   if (deployEnv === 'production') {
     const [recitersData, mushafsData] = await Promise.all([
@@ -54,6 +55,8 @@ export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenter
       : [];
   } else {
     backendUrl = await getBackendUrl(tenant.id);
+    const { getTenantDomain } = await import('@/lib/tenant-domain');
+    tenantDomain = await getTenantDomain(tenant.id);
   }
 
   const sponsors: SponsorItem[] = [
@@ -146,6 +149,7 @@ export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenter
           tenantId={tenant.id}
           basePath={prefix}
           backendUrl={backendUrl}
+          tenantDomain={tenantDomain}
           recordedTitle="المصاحف المرتلة"
           recordedDescription="استمع إلى القرآن الكريم بأصوات نخبة من أفضل القراء في العالم الإسلامي"
           viewAllHref={`${prefix}/recitations`}
@@ -177,6 +181,7 @@ export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenter
           tenantId={tenant.id}
           basePath={prefix}
           backendUrl={backendUrl}
+          tenantDomain={tenantDomain}
           id="reciters"
           title="قراء المركز"
           description="نخبة من أفضل القراء في المملكة العربية السعودية والعالم العربي والإسلامي"

@@ -1,6 +1,7 @@
 import { cache } from 'react';
 import { getBackendUrl } from '@/lib/backend-url';
 import { getApiHeaders } from '@/lib/utils';
+import { getTenantDomain } from '@/lib/tenant-domain';
 import { LISTING_RIWAYAH_ID, type RiwayahOption } from '@/lib/listing-riwayah';
 
 export type { RiwayahOption } from '@/lib/listing-riwayah';
@@ -37,6 +38,7 @@ export function riwayahToLabel(name: string): string {
 export const getRiwayahs = cache(async (tenantId?: string): Promise<RiwayahOption[]> => {
   try {
     const backendUrl = await getBackendUrl(tenantId);
+    const tenantDomain = await getTenantDomain(tenantId || 'default');
     const apiUrl = `${backendUrl}/riwayahs/`;
 
 
@@ -46,7 +48,7 @@ export const getRiwayahs = cache(async (tenantId?: string): Promise<RiwayahOptio
     try {
       const response = await fetch(apiUrl, {
         method: 'GET',
-        headers: getApiHeaders(),
+        headers: getApiHeaders(tenantDomain),
         signal: controller.signal,
         cache: 'no-store',
       });

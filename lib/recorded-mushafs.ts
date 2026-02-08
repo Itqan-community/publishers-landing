@@ -2,6 +2,7 @@ import { cache } from 'react';
 import type { RecordedMushaf } from '@/types/tenant.types';
 import { getBackendUrl } from '@/lib/backend-url';
 import { getApiHeaders, resolveImageUrl } from '@/lib/utils';
+import { getTenantDomain } from '@/lib/tenant-domain';
 
 /**
  * API response model for recitations endpoint
@@ -67,6 +68,8 @@ export async function getRecordedMushafs(
   const pathPrefix = basePath !== undefined ? basePath : `/${tenantId}`;
   try {
     const backendUrl = await getBackendUrl(tenantId);
+    const tenantDomain = await getTenantDomain(tenantId);
+    
     const searchParams = new URLSearchParams();
     if (params?.search?.trim()) searchParams.set('search', params.search.trim());
     if (params?.riwayah_id?.length) {
@@ -84,7 +87,7 @@ export async function getRecordedMushafs(
     try {
       const response = await fetch(apiUrl, {
         method: 'GET',
-        headers: getApiHeaders(),
+        headers: getApiHeaders(tenantDomain),
         signal: controller.signal,
         cache: 'no-store', // never cache — listing count must match API
       });
@@ -201,6 +204,8 @@ export const getRecitationById = cache(async (
 ): Promise<RecitationApiResponse | null> => {
   try {
     const backendUrl = await getBackendUrl(tenantId);
+    const tenantDomain = await getTenantDomain(tenantId || 'default');
+    
     // Try query parameter format first (API might not support REST endpoint for single recitation)
     const apiUrl = `${backendUrl}/recitations/?id=${recitationId}`;
     
@@ -213,7 +218,7 @@ export const getRecitationById = cache(async (
     try {
       const response = await fetch(apiUrl, {
         method: 'GET',
-        headers: getApiHeaders(),
+        headers: getApiHeaders(tenantDomain),
         signal: controller.signal,
         cache: 'no-store',
       });

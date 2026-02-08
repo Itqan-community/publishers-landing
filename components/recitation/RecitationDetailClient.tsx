@@ -16,12 +16,11 @@ import {
 } from '@/lib/map-recitations-api';
 import type { TenantConfig } from '@/types/tenant.types';
 
-const API_HEADERS = { 'Accept': 'application/json', 'Accept-Language': 'ar' };
-
 interface RecitationDetailClientProps {
   tenant: TenantConfig;
   tenantId: string;
   backendUrl: string;
+  tenantDomain: string; // NEW: For X-Tenant header authentication
   recitationId: string;
 }
 
@@ -29,6 +28,7 @@ export function RecitationDetailClient({
   tenant,
   tenantId,
   backendUrl,
+  tenantDomain,
   recitationId,
 }: RecitationDetailClientProps) {
   const [recitation, setRecitation] = useState<RecitationApiResponse | null>(null);
@@ -41,7 +41,13 @@ export function RecitationDetailClient({
 
     async function load() {
       const recitationsUrl = `${backendUrl}/recitations/?id=${encodeURIComponent(recitationId)}`;
-      const headers: HeadersInit = { ...API_HEADERS };
+
+      // Include X-Tenant header for backend authentication
+      const headers: HeadersInit = {
+        'Accept': 'application/json',
+        'Accept-Language': 'ar',
+        'X-Tenant': tenantDomain,
+      };
 
       try {
         const recitationsRes = await fetch(recitationsUrl, { headers });
@@ -102,7 +108,7 @@ export function RecitationDetailClient({
 
     load();
     return () => { cancelled = true; };
-  }, [tenantId, recitationId]);
+  }, [tenantId, recitationId, backendUrl, tenantDomain]);
 
   if (error) {
     return (
