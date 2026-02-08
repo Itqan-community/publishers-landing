@@ -338,7 +338,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                                 <Image
                                   key={recitation.image}
                                   src={recitation.image}
-                                  alt={recitation.reciterName}
+                                  alt={`صورة القارئ ${recitation.reciterName}`}
                                   fill
                                   className="object-cover"
                                   onError={(e) => {
@@ -421,7 +421,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                         <Image
                           key={selectedRecitation.image}
                           src={selectedRecitation.image}
-                          alt={selectedRecitation?.title || ''}
+                          alt={`صورة القارئ ${selectedRecitation?.reciterName} - ${selectedRecitation?.title}`}
                           fill
                           className="object-cover"
                           priority={false}
@@ -548,23 +548,19 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                   const audio = e.currentTarget as HTMLAudioElement;
                   const duration = audio.duration || 0;
                   setDurationSeconds(duration);
-                  console.log('[AudioPlayer] Metadata loaded, duration:', duration);
                 }}
                 onPlay={() => {
                   isSwitchingTrackRef.current = false;
                   setIsPlaying(true);
-                  console.log('[AudioPlayer] Playing:', selectedRecitation?.audioUrl);
                 }}
                 onPause={() => {
                   if (isSwitchingTrackRef.current) return;
                   setIsPlaying(false);
-                  console.log('[AudioPlayer] Paused');
                 }}
                 onEnded={() => {
                   if (isSwitchingTrackRef.current) return;
                   setIsPlaying(false);
                   setCurrentTimeSeconds(0);
-                  console.log('[AudioPlayer] Ended');
                 }}
                 onError={(e) => {
                   const audio = e.currentTarget as HTMLAudioElement;
@@ -580,10 +576,10 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                   if (!isSwitchingTrackRef.current) setIsPlaying(false);
                 }}
                 onCanPlay={() => {
-                  console.log('[AudioPlayer] Audio can play:', selectedRecitation?.audioUrl);
+                  // Audio ready to play
                 }}
                 onLoadStart={() => {
-                  console.log('[AudioPlayer] Loading started:', selectedRecitation?.audioUrl);
+                  // Audio loading started
                 }}
                 preload="metadata"
               />
@@ -676,7 +672,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                     <Image
                       key={selectedRecitation.image}
                       src={selectedRecitation.image}
-                      alt={selectedRecitation?.title || ''}
+                      alt={`صورة القارئ ${selectedRecitation?.reciterName} - ${selectedRecitation?.title}`}
                       fill
                       className="object-cover"
                       onError={(e) => {
