@@ -1,13 +1,13 @@
 import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
 import { loadTenantConfig } from '@/lib/tenant-config';
 import { getBasePathFromHeaders } from '@/lib/tenant-resolver';
-import { getDeployEnv, getBackendUrl } from '@/lib/backend-url';
 import { PageLayout } from '@/components/layout/PageLayout';
 import { RecitationsPageContent } from '@/components/sections/RecitationsPageContent';
-import { RecitationsListingClient } from '@/components/sections/RecitationsListingClient';
 import { getRecordedMushafs } from '@/lib/recorded-mushafs';
 import { getRiwayahs } from '@/lib/riwayahs';
+import { generateTenantMetadata } from '@/lib/seo';
 
 /** Always fetch fresh data — no static/cached page so listing count matches API. */
 export const dynamic = 'force-dynamic';
@@ -15,6 +15,28 @@ export const dynamic = 'force-dynamic';
 const TITLE = 'المصاحف المرتلة';
 const DESCRIPTION =
   'استمع إلى القرآن الكريم بأصوات نخبة مختارة من القراء';
+
+/**
+ * Generate metadata for recitations listing page
+ */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ tenant: string }>;
+}): Promise<Metadata> {
+  const { tenant: tenantId } = await params;
+  const tenant = await loadTenantConfig(tenantId);
+
+  if (!tenant) {
+    return { title: 'Not Found' };
+  }
+
+  return generateTenantMetadata(tenant, {
+    title: TITLE,
+    description: DESCRIPTION,
+    path: `/${tenantId}/recitations`,
+  });
+}
 
 function parseRiwayahId(value: string | string[] | undefined): number | undefined {
   if (value == null) return undefined;
@@ -50,33 +72,8 @@ export default async function RecitationsListingPage({
   const search = parseSearch(sp.search);
   const riwayahId = parseRiwayahId(sp.riwayah_id);
   const riwayahIdParam = riwayahId != null ? String(riwayahId) : '';
-  const deployEnv = await getDeployEnv();
 
-  // On localhost/staging: fetch from client so requests show in Network tab (Accept-Language: ar).
-  // On production: fetch on server.
-  if (deployEnv !== 'production') {
-    const backendUrl = await getBackendUrl(tenantId);
-    const { getTenantDomain } = await import('@/lib/tenant-domain');
-    const tenantDomain = await getTenantDomain(tenantId);
-
-    return (
-      <PageLayout tenant={tenant}>
-        <div dir="rtl" className="bg-[#f6f4f1]">
-          <RecitationsListingClient
-            tenantId={tenantId}
-            basePath={basePath}
-            backendUrl={backendUrl}
-            tenantDomain={tenantDomain}
-            search={search}
-            riwayahId={riwayahIdParam}
-            title={TITLE}
-            description={DESCRIPTION}
-          />
-        </div>
-      </PageLayout>
-    );
-  }
-
+  // Always use SSR - X-Tenant authentication is now in place
   const [mushafs, riwayaOptions] = await Promise.all([
     getRecordedMushafs(tenantId, {
       search: search || undefined,

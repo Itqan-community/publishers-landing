@@ -40,8 +40,6 @@ export const getReciters = cache(async (
     const tenantDomain = await getTenantDomain(tenantId);
     const apiUrl = `${backendUrl}/reciters`;
     
-    console.log(`[getReciters] Fetching from: ${apiUrl}`);
-    
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000);
     

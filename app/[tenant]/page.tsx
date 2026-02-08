@@ -29,7 +29,7 @@ export async function generateMetadata({
   params: Promise<{ tenant: string }>;
 }): Promise<Metadata> {
   const { tenant: tenantId } = await params;
-  
+
   if (!tenantId) {
     return {
       title: 'Welcome',
@@ -47,7 +47,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${tenant.name} - Home`,
+    title: tenant.name, // Just tenant name, no suffix
     description: tenant.content.hero.description,
     openGraph: {
       title: tenant.name,
