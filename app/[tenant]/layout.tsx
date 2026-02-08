@@ -5,6 +5,7 @@
 
 import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
 import Script from 'next/script';
 import { loadTenantConfig } from '@/lib/tenant-config';
 import { getBasePathFromHeaders, getTenantFromHeaders } from '@/lib/tenant-resolver';
@@ -13,6 +14,30 @@ import { TenantProvider } from '@/components/providers/TenantProvider';
 import { getThemeStyles } from '@/lib/theme';
 import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
 import { generateOrganizationSchema } from '@/lib/seo';
+
+/**
+ * Generate metadata for tenant layout (favicon, etc.)
+ */
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ tenant: string }>;
+}): Promise<Metadata> {
+  const { tenant: tenantId } = await params;
+  const headersList = await headers();
+  const resolvedId = getTenantFromHeaders(headersList);
+  const tenant = await loadTenantConfig(resolvedId);
+
+  if (!tenant) {
+    return {};
+  }
+
+  return {
+    icons: {
+      icon: tenant.branding?.favicon || '/favicon.ico',
+    },
+  };
+}
 
 export default async function TenantLayout({
   children,
