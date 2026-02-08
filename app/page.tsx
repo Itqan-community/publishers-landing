@@ -38,11 +38,16 @@ export async function generateMetadata(): Promise<Metadata> {
     };
   }
 
+  const isSaudiCenter = tenantId === 'saudi-center';
+  const pageTitle = isSaudiCenter
+    ? 'المركز السعودي للتلاوات القرآنية والأحاديث النبوية'
+    : `${tenant.name} - Home`;
+
   return {
-    title: `${tenant.name} - Home`,
+    title: pageTitle,
     description: tenant.content.hero.description,
     openGraph: {
-      title: tenant.name,
+      title: pageTitle,
       description: tenant.content.hero.description,
       images: [tenant.content.hero.image],
     },
