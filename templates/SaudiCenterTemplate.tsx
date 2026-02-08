@@ -33,31 +33,17 @@ interface SaudiCenterTemplateProps {
 
 export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenterTemplateProps) {
   const prefix = basePath || '';
-  const deployEnv = await getDeployEnv();
 
-  // On production: all data server fetch. On localhost/staging: client fetch so requests show in Network tab (Accept-Language: ar).
-  let reciters: Awaited<ReturnType<typeof getReciters>> = [];
-  let mushafs: Awaited<ReturnType<typeof getRecordedMushafs>> = [];
-  let recitations: RecitationItem[] = [];
-  let backendUrl = '';
-  let tenantDomain = '';
+  // Always use SSR - X-Tenant authentication is now in place
+  const [reciters, mushafs] = await Promise.all([
+    getReciters(tenant.id, prefix),
+    getRecordedMushafs(tenant.id, {}, prefix),
+  ]);
 
-  if (deployEnv === 'production') {
-    const [recitersData, mushafsData] = await Promise.all([
-      getReciters(tenant.id, prefix),
-      getRecordedMushafs(tenant.id, {}, prefix),
-    ]);
-    reciters = recitersData;
-    mushafs = mushafsData;
-    const firstRecitationId = mushafs[0]?.id;
-    recitations = firstRecitationId
-      ? await getFeaturedRecitationTracks(tenant.id, 5, firstRecitationId)
-      : [];
-  } else {
-    backendUrl = await getBackendUrl(tenant.id);
-    const { getTenantDomain } = await import('@/lib/tenant-domain');
-    tenantDomain = await getTenantDomain(tenant.id);
-  }
+  const firstRecitationId = mushafs[0]?.id;
+  const recitations: RecitationItem[] = firstRecitationId
+    ? await getFeaturedRecitationTracks(tenant.id, 5, firstRecitationId)
+    : [];
 
   const sponsors: SponsorItem[] = [
     {
@@ -143,57 +129,30 @@ export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenter
         </div>
       </div>
 
-      {/* Recorded Mushafs + Featured: client fetch on localhost/staging (visible in Network tab), server on production */}
-      {deployEnv !== 'production' ? (
-        <RecordedMushafsSectionClient
-          tenantId={tenant.id}
-          basePath={prefix}
-          backendUrl={backendUrl}
-          tenantDomain={tenantDomain}
-          recordedTitle="المصاحف المرتلة"
-          recordedDescription="استمع إلى القرآن الكريم بأصوات نخبة من أفضل القراء في العالم الإسلامي"
-          viewAllHref={`${prefix}/recitations`}
-          featuredTitle="التلاوات المميزة"
-          featuredDescription="استمع لمجموعة مختارة من أجمل التلاوات القرآنية"
-        />
-      ) : (
-        <>
-          <RecordedMushafsSection
-            id="recorded-mushafs"
-            title="المصاحف المرتلة"
-            description="استمع إلى القرآن الكريم بأصوات نخبة من أفضل القراء في العالم الإسلامي"
-            mushafs={mushafs}
-            viewAllHref={`${prefix}/recitations`}
-          />
-          <FeaturedRecitationsSection
-            title="التلاوات المميزة"
-            description="استمع لمجموعة مختارة من أجمل التلاوات القرآنية"
-            recitations={recitations}
-            viewAllHref={`${prefix}/recitations`}
-            detailsHrefBase={`${prefix}/recitations`}
-          />
-        </>
-      )}
+      {/* Recorded Mushafs + Featured: Always server-side rendering */}
+      <RecordedMushafsSection
+        id="recorded-mushafs"
+        title="المصاحف المرتلة"
+        description="استمع إلى القرآن الكريم بأصوات نخبة من أفضل القراء في العالم الإسلامي"
+        mushafs={mushafs}
+        viewAllHref={`${prefix}/recitations`}
+      />
+      <FeaturedRecitationsSection
+        title="التلاوات المميزة"
+        description="استمع لمجموعة مختارة من أجمل التلاوات القرآنية"
+        recitations={recitations}
+        viewAllHref={`${prefix}/recitations`}
+        detailsHrefBase={`${prefix}/recitations`}
+      />
 
-      {/* Reciters Section — client fetch on localhost/staging, server on production */}
-      {deployEnv !== 'production' ? (
-        <RecitersSectionClient
-          tenantId={tenant.id}
-          basePath={prefix}
-          backendUrl={backendUrl}
-          tenantDomain={tenantDomain}
-          id="reciters"
-          title="قراء المركز"
-          description="نخبة من أفضل القراء في المملكة العربية السعودية والعالم العربي والإسلامي"
-        />
-      ) : (
-        <RecitersSection
-          id="reciters"
-          title="قراء المركز"
-          description="نخبة من أفضل القراء في المملكة العربية السعودية والعالم العربي والإسلامي"
-          reciters={reciters}
-        />
-      )}
+      {/* Reciters Section: Always server-side rendering */}
+      <RecitersSection
+        id="reciters"
+        title="قراء المركز"
+        description="نخبة من أفضل القراء في المملكة العربية السعودية والعالم العربي والإسلامي"
+        reciters={reciters}
+      />
+
 
       {/* Sponsors Section */}
       <SponsorsSection

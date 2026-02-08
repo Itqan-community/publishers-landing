@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation';
 import { loadTenantConfig } from '@/lib/tenant-config';
-import { getDeployEnv } from '@/lib/backend-url';
 import { PageLayout } from '@/components/layout/PageLayout';
 import { Button } from '@/components/ui/Button';
 import { RecitationsPlayer, RecitationItem } from '@/components/audio/AudioPlayer';
@@ -9,7 +8,6 @@ import { getRecitationTracksByAssetId } from '@/lib/recitation-tracks';
 import { getBackendUrl } from '@/lib/backend-url';
 import { resolveImageUrl } from '@/lib/utils';
 import { AvatarImage } from '@/components/ui/AvatarImage';
-import { RecitationDetailClient } from '@/components/recitation/RecitationDetailClient';
 import Link from 'next/link';
 
 export default async function RecitationDetailsPage({
@@ -24,23 +22,7 @@ export default async function RecitationDetailsPage({
     notFound();
   }
 
-  const deployEnv = await getDeployEnv();
-  if (deployEnv !== 'production') {
-    const backendUrl = await getBackendUrl(tenantId);
-    const { getTenantDomain } = await import('@/lib/tenant-domain');
-    const tenantDomain = await getTenantDomain(tenantId);
-
-    return (
-      <RecitationDetailClient
-        tenant={tenant}
-        tenantId={tenantId}
-        backendUrl={backendUrl}
-        tenantDomain={tenantDomain}
-        recitationId={recitationId}
-      />
-    );
-  }
-
+  // Always use SSR - X-Tenant authentication is now in place
   const recitation = await getRecitationById(recitationId, tenantId);
 
   // If recitation not found, show 404
@@ -63,10 +45,11 @@ export default async function RecitationDetailsPage({
 
   // Extract reciter information; use image from API only (no mock paths)
   const reciterName = recitation.reciter?.name || 'غير معروف';
+  const backendUrl = await getBackendUrl(tenantId);
   const reciterImage =
     resolveImageUrl(
       recitation.reciter?.image ?? recitation.reciter?.avatar,
-      await getBackendUrl(tenantId)
+      backendUrl
     ) ?? '';
 
   // IMPORTANT: Use recitation.id (from API response) as asset_id for tracks API

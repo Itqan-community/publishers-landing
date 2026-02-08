@@ -5,11 +5,14 @@
 
 import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
+import Script from 'next/script';
 import { loadTenantConfig } from '@/lib/tenant-config';
 import { getBasePathFromHeaders, getTenantFromHeaders } from '@/lib/tenant-resolver';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { TenantProvider } from '@/components/providers/TenantProvider';
 import { getThemeStyles } from '@/lib/theme';
+import { GoogleAnalytics } from '@/components/analytics/GoogleAnalytics';
+import { generateOrganizationSchema } from '@/lib/seo';
 
 export default async function TenantLayout({
   children,
@@ -34,8 +37,22 @@ export default async function TenantLayout({
     notFound();
   }
 
+  // Generate structured data
+  const organizationSchema = generateOrganizationSchema(tenant);
+  const gaId = tenant.analytics?.googleAnalyticsId;
+
   return (
     <>
+      {/* JSON-LD Structured Data */}
+      <Script
+        id="organization-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
+
+      {/* Google Analytics */}
+      {gaId && <GoogleAnalytics gaId={gaId} />}
+
       <div style={getThemeStyles(tenant.branding)}>
         <TenantProvider initialTenant={tenant} initialBasePath={basePath}>
           <ThemeProvider branding={tenant.branding}>{children}</ThemeProvider>
