@@ -7,6 +7,7 @@ import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Script from 'next/script';
+import NextTopLoader from 'nextjs-toploader';
 import { loadTenantConfig } from '@/lib/tenant-config';
 import { getBasePathFromHeaders, getTenantFromHeaders } from '@/lib/tenant-resolver';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
@@ -77,6 +78,13 @@ export default async function TenantLayout({
 
       {/* Google Analytics */}
       {gaId && <GoogleAnalytics gaId={gaId} />}
+
+      {/* Top Loading Bar for Route Transitions */}
+      <NextTopLoader
+        color={tenant.branding.primaryColor}
+        height={3}
+        showSpinner={false}
+      />
 
       <div style={getThemeStyles(tenant.branding)}>
         <TenantProvider initialTenant={tenant} initialBasePath={basePath}>

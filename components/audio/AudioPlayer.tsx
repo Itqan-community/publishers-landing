@@ -338,7 +338,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                                 <Image
                                   key={recitation.image}
                                   src={recitation.image}
-                                  alt={recitation.reciterName}
+                                  alt={`صورة القارئ ${recitation.reciterName}`}
                                   fill
                                   className="object-cover"
                                   onError={(e) => {
@@ -421,7 +421,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                         <Image
                           key={selectedRecitation.image}
                           src={selectedRecitation.image}
-                          alt={selectedRecitation?.title || ''}
+                          alt={`صورة القارئ ${selectedRecitation?.reciterName} - ${selectedRecitation?.title}`}
                           fill
                           className="object-cover"
                           priority={false}
@@ -676,7 +676,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                     <Image
                       key={selectedRecitation.image}
                       src={selectedRecitation.image}
-                      alt={selectedRecitation?.title || ''}
+                      alt={`صورة القارئ ${selectedRecitation?.reciterName} - ${selectedRecitation?.title}`}
                       fill
                       className="object-cover"
                       onError={(e) => {
