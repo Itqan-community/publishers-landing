@@ -177,7 +177,7 @@ export const getRecitationTracksByAssetId = cache(async (
     
     // Ensure assetId is properly converted to string for URL
     const assetIdStr = String(assetId);
-    const apiUrl = `${backendUrl}/recitation-tracks/${assetIdStr}/`;
+    const apiUrl = `${backendUrl}/recitation-tracks/${assetIdStr}/?page_size=120`;
     
     console.log('========================================');
     console.log('[getRecitationTracksByAssetId] INPUT PARAMETERS:');
