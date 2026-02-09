@@ -1,0 +1,9 @@
+# User-agent: *
+# Allow: /
+# Disallow: /api/
+# Disallow: /_next/static/
+# Disallow: /admin/
+
+# Sitemap
+Sitemap: https://saudi-recitation-center.netlify.app/sitemap.xml
+Sitemap: https:// tahbeer.netlify.app/sitemap.xml

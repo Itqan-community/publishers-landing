@@ -27,8 +27,12 @@ function buildDomainMap(): Record<string, string> {
     const domain = config?.domain;
     if (!domain || typeof domain !== 'string') continue;
 
-    map[domain] = id;
-    map[STAGING_PREFIX + domain] = id;
+    // Strip protocol (http://, https://) to get clean hostname
+    const cleanDomain = domain.replace(/^https?:\/\//, '');
+
+    // Map both production and staging domains
+    map[cleanDomain] = id;
+    map[STAGING_PREFIX + cleanDomain] = id;
   }
 
   domainMapCache = map;

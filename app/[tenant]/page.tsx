@@ -29,7 +29,7 @@ export async function generateMetadata({
   params: Promise<{ tenant: string }>;
 }): Promise<Metadata> {
   const { tenant: tenantId } = await params;
-  
+
   if (!tenantId) {
     return {
       title: 'Welcome',
@@ -46,16 +46,11 @@ export async function generateMetadata({
     };
   }
 
-  const isSaudiCenter = tenantId === 'saudi-center';
-  const pageTitle = isSaudiCenter
-    ? 'المركز السعودي للتلاوات القرآنية والأحاديث النبوية'
-    : `${tenant.name} - Home`;
-
   return {
-    title: pageTitle,
+    title: tenant.name, // Just tenant name, no suffix
     description: tenant.content.hero.description,
     openGraph: {
-      title: pageTitle,
+      title: tenant.name,
       description: tenant.content.hero.description,
       images: [tenant.content.hero.image],
     },

@@ -1,17 +1,24 @@
 import { headers } from 'next/headers';
 import { notFound } from 'next/navigation';
+import { Metadata } from 'next';
 import { loadTenantConfig } from '@/lib/tenant-config';
 import { getBasePathFromHeaders } from '@/lib/tenant-resolver';
-import { getBackendUrl } from '@/lib/backend-url';
 import { PageLayout } from '@/components/layout/PageLayout';
-import { RecitationsListingClient } from '@/components/sections/RecitationsListingClient';
-import type { Metadata } from 'next';
+import { RecitationsPageContent } from '@/components/sections/RecitationsPageContent';
+import { getRecordedMushafs } from '@/lib/recorded-mushafs';
+import { getRiwayahs } from '@/lib/riwayahs';
+import { generateTenantMetadata } from '@/lib/seo';
 
 /** Always fetch fresh data — no static/cached page so listing count matches API. */
 export const dynamic = 'force-dynamic';
 
 const TITLE = 'المصاحف المرتلة';
+const DESCRIPTION =
+  'استمع إلى القرآن الكريم بأصوات نخبة مختارة من القراء';
 
+/**
+ * Generate metadata for recitations listing page
+ */
 export async function generateMetadata({
   params,
 }: {
@@ -19,18 +26,17 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { tenant: tenantId } = await params;
   const tenant = await loadTenantConfig(tenantId);
+
   if (!tenant) {
-    return { title: 'Recitations' };
+    return { title: 'Not Found' };
   }
-  const isSaudiCenter = tenantId === 'saudi-center';
-  const pageTitle = isSaudiCenter ? TITLE : `${tenant.name} - ${TITLE}`;
-  return {
-    title: pageTitle,
-    description: 'استمع إلى القرآن الكريم بأصوات نخبة مختارة من القراء',
-  };
+
+  return generateTenantMetadata(tenant, {
+    title: TITLE,
+    description: DESCRIPTION,
+    path: `/${tenantId}/recitations`,
+  });
 }
-const DESCRIPTION =
-  'استمع إلى القرآن الكريم بأصوات نخبة مختارة من القراء';
 
 function parseRiwayahId(value: string | string[] | undefined): number | undefined {
   if (value == null) return undefined;
@@ -66,19 +72,27 @@ export default async function RecitationsListingPage({
   const search = parseSearch(sp.search);
   const riwayahId = parseRiwayahId(sp.riwayah_id);
   const riwayahIdParam = riwayahId != null ? String(riwayahId) : '';
-  const backendUrl = await getBackendUrl(tenantId);
+
+  // Always use SSR - X-Tenant authentication is now in place
+  const [mushafs, riwayaOptions] = await Promise.all([
+    getRecordedMushafs(tenantId, {
+      search: search || undefined,
+      riwayah_id: riwayahId != null ? [riwayahId] : undefined,
+    }, basePath),
+    getRiwayahs(tenantId),
+  ]);
 
   return (
     <PageLayout tenant={tenant}>
       <div dir="rtl" className="bg-[#f6f4f1]">
-        <RecitationsListingClient
+        <RecitationsPageContent
           tenantId={tenantId}
-          basePath={basePath}
-          backendUrl={backendUrl}
-          search={search}
-          riwayahId={riwayahIdParam}
+          mushafs={mushafs}
           title={TITLE}
           description={DESCRIPTION}
+          riwayaOptions={riwayaOptions}
+          search={search}
+          riwayahId={riwayahIdParam}
         />
       </div>
     </PageLayout>
