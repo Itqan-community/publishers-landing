@@ -54,7 +54,9 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
       } else {
         // On different page - navigate to home with hash
         e.preventDefault();
-        router.push(item.href);
+        // Construct full home path + hash (e.g., "/" + "#about" = "/#about")
+        const fullPath = homeHref.endsWith('/') ? `${homeHref}#${hash}` : `${homeHref}/#${hash}`;
+        router.push(fullPath);
         // After navigation, scroll to the section
         setTimeout(() => {
           document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth' });

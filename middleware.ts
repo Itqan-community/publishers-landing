@@ -60,6 +60,15 @@ export function middleware(request: NextRequest) {
         request: { headers: requestHeaders },
       });
     }
+    if (pathname === '/hadiths') {
+      const defaultTenant = getDefaultTenantId();
+      requestHeaders.set('x-custom-domain', 'true');
+      requestHeaders.set('x-base-path', '');
+      const rewriteUrl = new URL(`/${defaultTenant}/hadiths${search}`, base);
+      return NextResponse.rewrite(rewriteUrl, {
+        request: { headers: requestHeaders },
+      });
+    }
   }
 
   if (isCustomDomain) {
@@ -96,6 +105,13 @@ export function middleware(request: NextRequest) {
         new URL(`/${tenantId}/recitations/${recitationMatch[1]}${search}`, base),
         { request: { headers: requestHeaders } }
       );
+    }
+    if (pathname === '/hadiths') {
+      requestHeaders.set('x-custom-domain', 'true');
+      requestHeaders.set('x-base-path', '');
+      return NextResponse.rewrite(new URL(`/${tenantId}/hadiths${search}`, base), {
+        request: { headers: requestHeaders },
+      });
     }
   }
 
