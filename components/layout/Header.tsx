@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Button } from '@/components/ui/Button';
 import { FiMenu, FiX } from 'react-icons/fi';
@@ -17,16 +17,51 @@ interface HeaderProps {
 
 export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, homeHref = '/' }) => {
   const pathname = usePathname();
+  const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
+  // Determine if a nav item is active based on current route
+  const isActive = (item: { label: string; href: string }) => {
+    const [path, hash] = item.href.split('#');
+    const normalizedPath = path || homeHref;
+
+    if (hash) {
+      // Anchor links are never shown as active (they're just section scrolls)
+      return false;
+    }
+
+    // Home link: only active on exact match (not on sub-routes like /recitations)
+    if (normalizedPath === homeHref) {
+      return pathname === homeHref;
+    }
+
+    // Other regular links: exact match or starts with (for nested routes)
+    return pathname === normalizedPath || pathname.startsWith(normalizedPath + '/');
+  };
+
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, item: { label: string; href: string }) => {
     const [path, hash] = item.href.split('#');
-    const onHome = hash && pathname === path;
-    if (onHome) {
-      e.preventDefault();
-      document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth' });
+
+    if (hash) {
+      const normalizedPath = path || homeHref;
+      const isOnHomePage = pathname === normalizedPath || pathname === homeHref;
+
+      if (isOnHomePage) {
+        // Already on home - just scroll smoothly
+        e.preventDefault();
+        document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        // On different page - navigate to home with hash
+        e.preventDefault();
+        router.push(item.href);
+        // After navigation, scroll to the section
+        setTimeout(() => {
+          document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
     }
+
     setMobileMenuOpen(false);
   };
 
@@ -44,9 +79,8 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-colors bg-white/95 backdrop-blur border-b border-gray-200/70 ${
-        scrolled ? '' : 'md:bg-transparent md:backdrop-blur-0 md:border-transparent'
-      }`}
+      className={`sticky top-0 z-50 transition-colors bg-white/95 backdrop-blur border-b border-gray-200/70 ${scrolled ? '' : 'md:bg-transparent md:backdrop-blur-0 md:border-transparent'
+        }`}
       dir="rtl"
     >
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -71,11 +105,10 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
                 key={item.href}
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item)}
-                className={`transition-colors ${
-                  item.label === 'الرئيسية'
-                    ? 'text-black font-semibold' // Active: black, SemiBold
-                    : 'text-[#6a6a6a] hover:text-black' // Inactive: gray #6a6a6a
-                }`}
+                className={`transition-colors ${isActive(item)
+                  ? 'text-black font-semibold' // Active: black, SemiBold
+                  : 'text-[#6a6a6a] hover:text-black' // Inactive: gray #6a6a6a
+                  }`}
               >
                 {item.label}
               </Link>

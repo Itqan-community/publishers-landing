@@ -26,6 +26,7 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
     { label: 'الرئيسية', href: prefix ? prefix : '/' },
     { label: 'عن المركز', href: `${prefix}#about` },
     { label: 'المصاحف المرتلة', href: `${prefix}/recitations` },
+    { label: 'الأحاديث النبوية', href: `${prefix}/hadiths` },
     { label: 'القراء', href: `${prefix}#reciters` },
   ];
 
