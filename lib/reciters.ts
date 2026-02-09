@@ -1,6 +1,7 @@
 import { cache } from 'react';
 import { getBackendUrl } from '@/lib/backend-url';
 import { getApiHeaders, resolveImageUrl } from '@/lib/utils';
+import { getTenantDomain } from '@/lib/tenant-domain';
 import type { ReciterCardProps } from '@/components/cards/ReciterCard';
 
 /**
@@ -36,9 +37,8 @@ export const getReciters = cache(async (
   const pathPrefix = basePath !== undefined ? basePath : `/${tenantId}`;
   try {
     const backendUrl = await getBackendUrl(tenantId);
+    const tenantDomain = await getTenantDomain(tenantId);
     const apiUrl = `${backendUrl}/reciters`;
-    
-    console.log(`[getReciters] Fetching from: ${apiUrl}`);
     
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000);
@@ -46,7 +46,7 @@ export const getReciters = cache(async (
     try {
       const response = await fetch(apiUrl, {
         method: 'GET',
-        headers: getApiHeaders(),
+        headers: getApiHeaders(tenantDomain),
         signal: controller.signal,
         cache: 'no-store',
       });

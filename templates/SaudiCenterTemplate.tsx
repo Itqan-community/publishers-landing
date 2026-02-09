@@ -11,11 +11,17 @@ import { HeroSection } from '@/components/sections/HeroSection';
 import { PartnersSection } from '@/components/sections/PartnersSection';
 import { AboutSection } from '@/components/sections/AboutSection';
 import { StatisticsSection } from '@/components/sections/StatisticsSection';
-import { RecitersSectionClient } from '@/components/sections/RecitersSectionClient';
-import { RecordedMushafsSectionClient } from '@/components/sections/RecordedMushafsSectionClient';
+import { RecitersSection } from '@/components/sections/RecitersSection';
+import { FeaturedRecitationsSection } from '@/components/sections/FeaturedRecitationsSection';
+import { RecordedMushafsSection } from '@/components/sections/RecordedMushafsSection';
 import { SponsorsSection } from '@/components/sections/SponsorsSection';
+import { ReciterCardProps } from '@/components/cards/ReciterCard';
+import { RecitationItem } from '@/components/audio/AudioPlayer';
 import { SponsorItem } from '@/components/sections/SponsorsSection';
-import { getBackendUrl } from '@/lib/backend-url';
+import { getDeployEnv, getBackendUrl } from '@/lib/backend-url';
+import { getRecordedMushafs } from '@/lib/recorded-mushafs';
+import { getReciters } from '@/lib/reciters';
+import { getFeaturedRecitationTracks } from '@/lib/recitation-tracks';
 
 interface SaudiCenterTemplateProps {
   tenant: TenantConfig;
@@ -25,7 +31,17 @@ interface SaudiCenterTemplateProps {
 
 export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenterTemplateProps) {
   const prefix = basePath || '';
-  const backendUrl = await getBackendUrl(tenant.id);
+
+  // Always use SSR - X-Tenant authentication is now in place
+  const [reciters, mushafs] = await Promise.all([
+    getReciters(tenant.id, prefix),
+    getRecordedMushafs(tenant.id, {}, prefix),
+  ]);
+
+  const firstRecitationId = mushafs[0]?.id;
+  const recitations: RecitationItem[] = firstRecitationId
+    ? await getFeaturedRecitationTracks(tenant.id, 5, firstRecitationId)
+    : [];
 
   const sponsors: SponsorItem[] = [
     {
@@ -111,27 +127,30 @@ export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenter
         </div>
       </div>
 
-      {/* Recorded Mushafs + Featured: always client fetch (Network tab shows requests, same as staging) */}
-      <RecordedMushafsSectionClient
-        tenantId={tenant.id}
-        basePath={prefix}
-        backendUrl={backendUrl}
-        recordedTitle="المصاحف المرتلة"
-        recordedDescription="استمع إلى القرآن الكريم بأصوات نخبة من أفضل القراء في العالم الإسلامي"
+      {/* Recorded Mushafs + Featured: Always server-side rendering */}
+      <RecordedMushafsSection
+        id="recorded-mushafs"
+        title="المصاحف المرتلة"
+        description="استمع إلى القرآن الكريم بأصوات نخبة من أفضل القراء في العالم الإسلامي"
+        mushafs={mushafs}
         viewAllHref={`${prefix}/recitations`}
-        featuredTitle="التلاوات المميزة"
-        featuredDescription="استمع لمجموعة مختارة من أجمل التلاوات القرآنية"
+      />
+      <FeaturedRecitationsSection
+        title="التلاوات المميزة"
+        description="استمع لمجموعة مختارة من أجمل التلاوات القرآنية"
+        recitations={recitations}
+        viewAllHref={`${prefix}/recitations`}
+        detailsHrefBase={`${prefix}/recitations`}
       />
 
-      {/* Reciters Section: always client fetch */}
-      <RecitersSectionClient
-        tenantId={tenant.id}
-        basePath={prefix}
-        backendUrl={backendUrl}
+      {/* Reciters Section: Always server-side rendering */}
+      <RecitersSection
         id="reciters"
         title="قراء المركز"
         description="نخبة من أفضل القراء في المملكة العربية السعودية والعالم العربي والإسلامي"
+        reciters={reciters}
       />
+
 
       {/* Sponsors Section */}
       <SponsorsSection

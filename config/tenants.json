@@ -357,8 +357,8 @@
   },
   "saudi-center": {
     "id": "saudi-center",
-    "name": "المركز السعودي للتلاوات القرآنية القرآنية والأحاديث النبوية",
-    "domain": "saudi-recitation-center.netlify.app",
+    "name": "المركز السعودي للتلاوات القرآنية والأحاديث النبوية",
+    "domain": "https://saudi-recitation-center.netlify.app",
     "api": {
       "development": "https://staging.api.cms.itqan.dev/tenant",
       "staging": "https://staging.api.cms.itqan.dev/tenant",
@@ -368,11 +368,22 @@
     "branding": {
       "logo": "/logos/center-logo.png",
       "logoFull": "/logos/center-logo-full.png",
-      "favicon": "/favicon.ico",
-      "primaryColor": "#0F4C81",
-      "secondaryColor": "#F4B400",
-      "accentColor": "#FF6B35",
+      "favicon": "/favicons/saudi-center.ico",
+      "primaryColor": "#faaf41",
+      "secondaryColor": "#f6f6f4",
+      "accentColor": "#0d121c",
       "font": "inter"
+    },
+    "seo": {
+      "title": "المركز السعودي للتلاوات القرآنية والأحاديث النبوية",
+      "description": "مركز رسمي تابع لهيئة الإذاعة والتلفزيون، متخصص في تسجيل المصاحف القرآنية الصوتية والأحاديث النبوية بأعذب الأصوات من نخبة القراء في المملكة العربية السعودية والعالم الإسلامي",
+      "keywords": ["القرآن الكريم", "تلاوات قرآنية", "مصاحف مرتلة", "قراء القرآن", "تجويد", "رواية حفص", "المركز السعودي", "الأحاديث النبوية", "استماع القرآن", "تفسير القرآن", "تحفيظ القرآن"],
+      "ogImage": "/images/saudi-center/og-image.png",
+      "twitterImage": "/images/saudi-center/twitter-image.png",
+      "twitterCard": "summary_large_image"
+    },
+    "analytics": {
+      "googleAnalyticsId": "G-PLACEHOLDER-SC"
     },
     "features": {
       "speakers": true,
@@ -447,6 +458,113 @@
     "cmsLinks": {
       "store": "https://cms.domain.com/saudi-center",
       "admin": "https://admin.domain.com/saudi-center",
+      "support": "https://support.domain.com"
+    }
+  },
+  "tahbeer": {
+    "id": "tahbeer",
+    "name": "تهبير",
+    "nameEn": "Tahbeer",
+    "domain": "tahbeer.netlify.app",
+    "api": {
+      "development": "https://staging.api.cms.itqan.dev/tenant",
+      "staging": "https://staging.api.cms.itqan.dev/tenant",
+      "production": "https://api.cms.itqan.dev/tenant"
+    },
+    "template": "saudi-center",
+    "branding": {
+      "logo": "/logos/tahbeer-logo.png",
+      "logoFull": "/logos/tahbeer-logo-full.png",
+      "favicon": "/favicons/tahbeer.ico",
+      "primaryColor": "#6366f1",
+      "secondaryColor": "#f8fafc",
+      "accentColor": "#8b5cf6",
+      "font": "inter"
+    },
+    "seo": {
+      "title": "تهبير - منصة التلاوات القرآنية",
+      "description": "منصة إسلامية متخصصة في نشر التلاوات القرآنية والأحاديث النبوية بأصوات نخبة من القراء [PLACEHOLDER - UPDATE WITH REAL DESCRIPTION]",
+      "keywords": ["تهبير", "القرآن الكريم", "تلاوات قرآنية", "مصاحف مرتلة", "قراء", "PLACEHOLDER"],
+      "ogImage": "/images/tahbeer/og-image.png",
+      "twitterImage": "/images/tahbeer/twitter-image.png",
+      "twitterCard": "summary_large_image"
+    },
+    "analytics": {
+      "googleAnalyticsId": "G-PLACEHOLDER-TB"
+    },
+    "features": {
+      "speakers": true,
+      "statistics": true,
+      "readings": true,
+      "media": true,
+      "newsletter": false
+    },
+    "content": {
+      "hero": {
+        "title": "تهبير [PLACEHOLDER TITLE]",
+        "description": "وصف تهبير [PLACEHOLDER DESCRIPTION]",
+        "image": "/images/tahbeer/hero-image.jpg",
+        "ctaText": "استمع الان",
+        "ctaLink": "/recitations"
+      },
+      "statistics": [
+        {
+          "label": "مصحف مرتل",
+          "value": "0",
+          "suffix": "+",
+          "description": "[PLACEHOLDER]"
+        },
+        {
+          "label": "ساعة صوتية",
+          "value": "0",
+          "suffix": "+",
+          "description": "[PLACEHOLDER]"
+        },
+        {
+          "label": "قارئ",
+          "value": "0",
+          "suffix": "",
+          "description": "[PLACEHOLDER]"
+        },
+        {
+          "label": "شريك",
+          "value": "0",
+          "suffix": "+",
+          "description": "[PLACEHOLDER]"
+        }
+      ],
+      "footer": {
+        "description": "[PLACEHOLDER] منصة تهبير للتلاوات القرآنية",
+        "tagline": "للتلاوات القرآنية والأحاديث النبوية",
+        "contact": { "email": "placeholder@tahbeer.com", "phone": "+966XXXXXXXXX" },
+        "links": [
+          {
+            "label": "عنا",
+            "items": [
+              { "text": "من نحن", "href": "/about" },
+              { "text": "تواصل معنا", "href": "/contact" }
+            ]
+          },
+          {
+            "label": "المصادر",
+            "items": [
+              { "text": "الأسئلة الشائعة", "href": "/faq" },
+              { "text": "الشروط", "href": "/terms" },
+              { "text": "الخصوصية", "href": "/privacy" }
+            ]
+          }
+        ],
+        "social": [
+          { "platform": "twitter", "url": "https://twitter.com/tahbeer-PLACEHOLDER", "icon": "twitter" },
+          { "platform": "instagram", "url": "https://instagram.com/tahbeer-PLACEHOLDER", "icon": "instagram" },
+          { "platform": "tiktok", "url": "https://tiktok.com/@tahbeer-PLACEHOLDER", "icon": "tiktok" }
+        ],
+        "copyright": "© جميع الحقوق محفوظة ١٤٤٧."
+      }
+    },
+    "cmsLinks": {
+      "store": "https://cms.domain.com/tahbeer",
+      "admin": "https://admin.domain.com/tahbeer",
       "support": "https://support.domain.com"
     }
   }

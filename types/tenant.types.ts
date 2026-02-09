@@ -29,6 +29,23 @@ export interface TenantConfig {
   content: TenantContent;
   cmsLinks: CMSLinks;
   template: TemplateType;
+  /** SEO metadata for this tenant */
+  seo?: TenantSEO;
+  /** Analytics configuration */
+  analytics?: TenantAnalytics;
+}
+
+export interface TenantSEO {
+  title?: string;
+  description?: string;
+  keywords?: string[];
+  ogImage?: string;
+  twitterImage?: string;
+  twitterCard?: string;
+}
+
+export interface TenantAnalytics {
+  googleAnalyticsId?: string;
 }
 
 export interface TenantBranding {

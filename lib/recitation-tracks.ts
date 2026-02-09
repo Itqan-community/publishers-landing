@@ -1,6 +1,7 @@
 import { cache } from 'react';
 import { getBackendUrl } from '@/lib/backend-url';
 import { getApiHeaders, resolveImageUrl } from '@/lib/utils';
+import { getTenantDomain } from '@/lib/tenant-domain';
 import type { RecitationItem } from '@/components/audio/AudioPlayer';
 import { getRecitationById } from '@/lib/recorded-mushafs';
 
@@ -172,10 +173,11 @@ export const getRecitationTracksByAssetId = cache(async (
 ): Promise<RecitationItem[]> => {
   try {
     const backendUrl = await getBackendUrl(tenantId);
+    const tenantDomain = await getTenantDomain(tenantId || 'default');
     
     // Ensure assetId is properly converted to string for URL
     const assetIdStr = String(assetId);
-    const apiUrl = `${backendUrl}/recitation-tracks/${assetIdStr}/`;
+    const apiUrl = `${backendUrl}/recitation-tracks/${assetIdStr}/?page_size=120`;
     
     console.log('========================================');
     console.log('[getRecitationTracksByAssetId] INPUT PARAMETERS:');
@@ -193,7 +195,7 @@ export const getRecitationTracksByAssetId = cache(async (
     try {
       const response = await fetch(apiUrl, {
         method: 'GET',
-        headers: getApiHeaders(),
+        headers: getApiHeaders(tenantDomain),
         signal: controller.signal,
         cache: 'no-store',
       });
