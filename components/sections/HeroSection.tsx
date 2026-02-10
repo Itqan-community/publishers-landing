@@ -28,17 +28,17 @@ export function HeroSection({ content, basePath = '', statsCard }: HeroSectionPr
   const prefix = basePath || '';
 
   return (
-    <section className="relative w-full" style={{ minHeight: '772px', overflow: 'visible' }}>
-      <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20" style={{ overflow: 'visible' }}>
+    <section className="relative w-full min-h-[420px] sm:min-h-[550px] lg:min-h-[772px]" style={{ overflow: 'visible' }}>
+      <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 lg:py-20" style={{ overflow: 'visible' }}>
         {/* RTL: Text on right (start), Image on left (end) */}
         {/* Figma: Image is 469px wide, text area is wider - adjust grid ratio */}
-        <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-12 items-center">
+        <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-8 lg:gap-12 items-center">
           {/* Text Column - Right side (start in RTL) */}
-          <div className="order-1 lg:order-1 space-y-6">
-            <h1 className="text-[39px] font-semibold text-black leading-[1.4] max-w-xl">
+          <div className="order-1 lg:order-1 space-y-5 sm:space-y-6">
+            <h1 className="text-[28px] sm:text-[32px] md:text-[39px] font-semibold text-black leading-[1.4] max-w-xl">
               {title}
             </h1>
-            <p className="text-lg md:text-xl text-gray-700 leading-relaxed max-w-xl ml-auto">
+            <p className="text-base sm:text-lg md:text-xl text-gray-700 leading-relaxed max-w-xl">
               {description}
             </p>
 
@@ -73,9 +73,9 @@ export function HeroSection({ content, basePath = '', statsCard }: HeroSectionPr
             </div>
 
             {/* Social icons with line between text and icons - Figma: line between text and icons */}
-            <div className="flex items-center gap-4 text-[#193624] text-lg pt-1 justify-start">
+            <div className="flex items-center gap-4 text-[#193624] text-lg pt-1 justify-start flex-wrap sm:flex-nowrap">
               <span className="text-sm text-gray-700">تابعنا على منصات التواصل الاجتماعي</span>
-              <div className="h-[1px] w-[140px] bg-[#193624]" />
+              <div className="hidden sm:block h-[1px] w-[140px] bg-[#193624]" />
               <div className="flex items-center gap-[15px]">
                 {/* Figma: gap 15px, icons 24px */}
                 <a href="#" aria-label="X" className="hover:opacity-80 transition-opacity">
@@ -94,7 +94,7 @@ export function HeroSection({ content, basePath = '', statsCard }: HeroSectionPr
           {/* Image Column - Left side (end in RTL) */}
           <div className="order-2 lg:order-2 relative">
             {/* Container with overflow visible to show star and chips */}
-            <div className="relative w-full h-[560px]">
+            <div className="relative w-full h-[300px] sm:h-[400px] lg:h-[560px]">
               {/* Image container - overflow hidden only for image */}
               <div className="relative w-full h-full rounded-[32px] overflow-hidden shadow-xl ring-1 ring-black/5 bg-white">
                 <Image
@@ -110,12 +110,12 @@ export function HeroSection({ content, basePath = '', statsCard }: HeroSectionPr
               {/* Floating stats badge - Figma: star shape, center aligned to left edge of image (end side in RTL) */}
               {/* Positioned outside image container so it's visible */}
               {statsCard && (
-                <div className="absolute bottom-6 left-4 lg:bottom-10 lg:left-4 xl:left-[-32px] 2xl:left-[-95.5px]"> {/* Avoid viewport overflow on smaller desktops */}
-                  <div className="relative w-[191px] h-[191px]" style={{ filter: 'drop-shadow(0 14px 36px rgba(0,0,0,0.12))' }}>
+                <div className="absolute bottom-4 start-4 lg:bottom-10 lg:start-4 xl:start-[-32px] 2xl:start-[-95.5px]"> {/* Avoid viewport overflow on smaller desktops */}
+                  <div className="relative w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] lg:w-[191px] lg:h-[191px]" style={{ filter: 'drop-shadow(0 14px 36px rgba(0,0,0,0.12))' }}>
                     {/* Star SVG - inline for better control */}
                     <svg
-                      width="191"
-                      height="191"
+                      width="100%"
+                      height="100%"
                       viewBox="0 0 191 191"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -127,11 +127,11 @@ export function HeroSection({ content, basePath = '', statsCard }: HeroSectionPr
                       />
                     </svg>
                     {/* Content */}
-                    <div className="absolute inset-0 flex flex-col items-center justify-center text-white leading-none px-6 py-5 pointer-events-none">
-                      <div className="text-[44.332px] font-bold text-[#faaf41] leading-none mb-2">
+                    <div className="absolute inset-0 flex flex-col items-center justify-center text-white leading-none px-4 py-3 sm:px-6 sm:py-5 pointer-events-none">
+                      <div className="text-[24px] sm:text-[32px] lg:text-[44.332px] font-bold text-[#faaf41] leading-none mb-1 sm:mb-2">
                         {statsCard.value}
                       </div>
-                      <div className="text-[16px] font-medium text-white text-center leading-[1.5]">
+                      <div className="text-[10px] sm:text-[13px] lg:text-[16px] font-medium text-white text-center leading-[1.5]">
                         <p className="mb-0">استماع على جميع</p>
                         <p>المنصات</p>
                       </div>
@@ -142,19 +142,19 @@ export function HeroSection({ content, basePath = '', statsCard }: HeroSectionPr
 
               {/* Feature pills - Figma: 30% of chip should be outside image (70% inside) */}
               {/* Position at edge, then move 30% of chip width outside */}
-              <div className="absolute top-6 right-4 lg:right-0 flex flex-col gap-3 items-start">
+              <div className="absolute top-4 end-2 sm:top-6 sm:end-4 lg:end-0 flex flex-col gap-2 sm:gap-3 items-start">
                 {[
                   'مجموعة مختارة من أفضل القراء',
                   'تلاوات متنوعة بمختلف الروايات',
                 ].map((item, idx) => (
                   <div
                     key={item}
-                    className="flex items-center gap-2 bg-white px-4 py-1.5 rounded-[50px] shadow-sm ring-1 ring-gray-100 translate-x-0 xl:translate-x-[12%] 2xl:translate-x-[30%]"
+                    className="flex items-center gap-2 bg-white px-3 py-1 sm:px-4 sm:py-1.5 rounded-[50px] shadow-sm ring-1 ring-gray-100 translate-x-0 xl:translate-x-[12%] 2xl:translate-x-[30%]"
                     style={{ 
                       minHeight: '42px',
                     }}
                   >
-                    <span className="text-[16px] font-medium text-black">{item}</span>
+                    <span className="text-[13px] sm:text-[16px] font-medium text-black">{item}</span>
                     <CheckmarkBadgeIcon className="w-6 h-6 flex-shrink-0" />
                   </div>
                 ))}

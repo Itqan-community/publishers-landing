@@ -23,7 +23,7 @@ export default function TenantError({
     <PageLayout tenant={tenant!}>
       <div className="flex min-h-[60vh] flex-col items-center justify-center px-4" dir="rtl">
         <div className="max-w-md text-center">
-          <h2 className="text-3xl font-bold mb-4 text-[#343434]">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-[#343434]">
             حدث خطأ غير متوقع
           </h2>
 
@@ -32,11 +32,11 @@ export default function TenantError({
           </p>
 
           {process.env.NODE_ENV === 'development' && (
-            <details className="mb-6 text-right">
+            <details className="mb-6 text-end">
               <summary className="cursor-pointer text-sm text-[#6a6a6a]">
                 تفاصيل الخطأ (للمطورين فقط)
               </summary>
-              <pre className="mt-2 text-xs text-left bg-gray-100 p-4 rounded overflow-auto">
+              <pre className="mt-2 text-xs text-start bg-gray-100 p-4 rounded overflow-auto">
                 {error.message}
               </pre>
             </details>

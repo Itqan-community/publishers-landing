@@ -76,17 +76,18 @@ export function RecitationsTopSection({
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
         <h1
           id="recitations-heading"
-          className="text-center text-[32px] font-semibold leading-[1.4] text-black md:text-[39px]"
+          className="text-center text-[24px] sm:text-[28px] font-semibold leading-[1.4] text-black md:text-[32px] lg:text-[39px]"
         >
           {title}
         </h1>
-        <p className="mx-auto mt-6 max-w-[640px] text-center text-[18px] leading-[1.6] text-[#343434] md:mt-8 md:text-[20px] md:leading-[30.4px]">
+        <p className="mx-auto mt-4 max-w-[640px] text-center text-[16px] leading-[1.6] text-[#343434] sm:mt-6 sm:text-[18px] md:mt-8 md:text-[20px] md:leading-[30.4px]">
           {description}
         </p>
 
-        {/* White bar: [Filter dropdown] [Search input] [Search button]. RTL: first = start = right. */}
-        <div className="mt-10 flex flex-row flex-wrap items-center gap-3 rounded-[6px] bg-white p-3 sm:gap-4 sm:p-4">
-          <div className="flex h-[48px] shrink-0 items-center gap-[10px] rounded-[6px] bg-[#f3f3f3] px-5 py-3">
+        {/* White bar: Mobile = 2 rows (dropdown, then input+button). Desktop = single row. */}
+        <div className="mt-8 sm:mt-10 flex flex-col gap-3 rounded-[6px] bg-white p-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4 sm:p-4">
+          {/* Row 1 on mobile / inline on desktop: filter dropdown */}
+          <div className="flex h-[48px] w-full shrink-0 items-center gap-[10px] rounded-[6px] bg-[#f3f3f3] px-5 py-3 sm:w-auto">
             <GridView className="h-[26px] w-[26px] shrink-0 text-black" />
             <select
               value={riwayahId}
@@ -104,27 +105,30 @@ export function RecitationsTopSection({
             <ArrowDown className="h-6 w-6 shrink-0 text-black" />
           </div>
 
-          <div className="relative min-w-0 flex-1">
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => onSearchChange(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && onSearchSubmit()}
-              placeholder={searchPlaceholder}
-              className="h-[48px] w-full border-0 bg-transparent py-3 px-4 text-[16px] text-[#343434] placeholder:text-[#343434] focus:outline-none"
-              aria-label={searchPlaceholder}
-            />
-          </div>
+          {/* Row 2 on mobile / inline on desktop: search input + button side-by-side */}
+          <div className="flex w-full min-w-0 items-center gap-2 sm:w-auto sm:flex-1 sm:gap-3">
+            <div className="relative min-w-0 flex-1">
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => onSearchChange(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && onSearchSubmit()}
+                placeholder={searchPlaceholder}
+                className="h-[48px] w-full rounded-[6px] border border-[#ebe8e8] bg-transparent py-3 px-4 text-[16px] text-[#343434] placeholder:text-[#343434] focus:outline-none sm:rounded-none sm:border-0"
+                aria-label={searchPlaceholder}
+              />
+            </div>
 
-          <button
-            type="button"
-            onClick={onSearchSubmit}
-            className="flex h-[48px] shrink-0 items-center justify-center gap-1 bg-[#193624] px-4 rounded-[4px] text-[16px] font-medium text-white hover:bg-[#102516] focus:outline-none focus:ring-2 focus:ring-[#193624] focus:ring-offset-0"
-            aria-label="ابحث"
-          >
-            <span>ابحث</span>
-            <SearchButtonIcon className="size-6" />
-          </button>
+            <button
+              type="button"
+              onClick={onSearchSubmit}
+              className="flex h-[48px] shrink-0 items-center justify-center gap-1 bg-[#193624] px-3 sm:px-4 rounded-[4px] text-[16px] font-medium text-white hover:bg-[#102516] focus:outline-none focus:ring-2 focus:ring-[#193624] focus:ring-offset-0"
+              aria-label="ابحث"
+            >
+              <span className="hidden sm:inline">ابحث</span>
+              <SearchButtonIcon className="size-6" />
+            </button>
+          </div>
         </div>
       </div>
     </section>

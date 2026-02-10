@@ -22,15 +22,15 @@ export const RecordedMushafsSection: React.FC<RecordedMushafsSectionProps> = ({
   viewAllHref,
 }) => {
   return (
-    <section id={id} className={`py-20 bg-white ${id ? 'scroll-mt-20' : ''}`}>
+    <section id={id} className={`py-12 sm:py-16 md:py-20 bg-white ${id ? 'scroll-mt-20' : ''}`}>
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 sm:mb-12 gap-4">
           <div>
-            <h2 className="text-[32px] md:text-[39px] font-semibold text-black leading-[1.4] mb-3">
+            <h2 className="text-[24px] sm:text-[32px] md:text-[39px] font-semibold text-black leading-[1.4] mb-3">
               {title}
             </h2>
-            <p className="text-[18px] md:text-[20px] text-[#343434] leading-[30.4px] max-w-2xl">
+            <p className="text-[16px] sm:text-[18px] md:text-[20px] text-[#343434] leading-[30.4px] max-w-2xl">
               {description}
             </p>
           </div>

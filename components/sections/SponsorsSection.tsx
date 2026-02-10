@@ -24,15 +24,15 @@ export const SponsorsSection: React.FC<SponsorsSectionProps> = ({
   if (!sponsors || sponsors.length === 0) return null;
 
   return (
-    <section className="py-20 bg-white" dir="rtl">
+    <section className="py-12 sm:py-16 md:py-20 bg-white" dir="rtl">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header (match Saudi Center RTL style) */}
         <div className="mb-12">
-          <h2 className="text-[32px] md:text-[39px] font-semibold text-black leading-[1.4]">
+          <h2 className="text-[24px] sm:text-[32px] md:text-[39px] font-semibold text-black leading-[1.4]">
             {title}
           </h2>
           {description && (
-            <p className="mt-3 text-[18px] md:text-[20px] text-[#343434] leading-[30.4px] max-w-[720px]">
+            <p className="mt-3 text-[16px] sm:text-[18px] md:text-[20px] text-[#343434] leading-[30.4px] max-w-[720px]">
               {description}
             </p>
           )}
@@ -53,7 +53,7 @@ export const SponsorsSection: React.FC<SponsorsSectionProps> = ({
                     src={sponsor.logo}
                     alt={sponsor.name}
                     fill
-                    className="object-contain object-right"
+                    className="object-contain object-end"
                     sizes="(max-width: 640px) 100vw, 100%"
                   />
                 </div>

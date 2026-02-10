@@ -107,7 +107,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
                     {item.label}
                     {/* Bottom indicator: visible on active (solid green) and hover (lighter) */}
                     <span
-                      className={`absolute bottom-0 left-2 right-2 h-[6px] rounded-full transition-colors duration-200
+                      className={`absolute bottom-0 start-2 end-2 h-[6px] rounded-full transition-colors duration-200
                         ${active
                           ? 'bg-[#54C08A]'
                           : 'bg-transparent group-hover:bg-[#193624]/25'
@@ -169,7 +169,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
                   >
                     {item.label}
                     <span
-                      className={`absolute bottom-0 left-2 right-2 h-[4px] rounded-full transition-colors duration-200
+                      className={`absolute bottom-0 start-2 end-2 h-[4px] rounded-full transition-colors duration-200
                         ${active
                           ? 'bg-[#54C08A]'
                           : 'bg-transparent group-hover:bg-[#193624]/25'

@@ -27,17 +27,17 @@ export default function TenantNotFound() {
         <div className="text-center">
           {/* 404 in tenant's primary color */}
           <h1
-            className="text-9xl font-bold mb-4"
+            className="text-6xl sm:text-7xl lg:text-9xl font-bold mb-4"
             style={{ color: tenant.branding.primaryColor }}
           >
             404
           </h1>
 
-          <h2 className="text-3xl font-semibold mb-4 text-[#343434]">
+          <h2 className="text-2xl sm:text-3xl font-semibold mb-4 text-[#343434]">
             الصفحة غير موجودة
           </h2>
 
-          <p className="text-xl text-[#6a6a6a] mb-8 max-w-md mx-auto">
+          <p className="text-lg sm:text-xl text-[#6a6a6a] mb-8 max-w-md mx-auto">
             عذراً، الصفحة التي تبحث عنها غير موجودة أو تم نقلها
           </p>
 

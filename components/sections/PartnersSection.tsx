@@ -33,7 +33,7 @@ export function PartnersSection({ partners }: PartnersSectionProps) {
     <section className="relative w-full bg-[#f6f6f4] border-t border-[rgba(0,0,0,0.09)] overflow-hidden" dir="rtl">
       <div className="py-[19px]">
         <div className="w-full overflow-x-auto hide-scrollbar">
-          <div className="flex items-center justify-center gap-[61px] whitespace-nowrap px-4">
+          <div className="flex items-center justify-center gap-6 sm:gap-10 md:gap-[61px] whitespace-nowrap px-4">
             {partnerLogos.map((partner, idx) => {
               return (
                 <a

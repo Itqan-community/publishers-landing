@@ -413,7 +413,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
           <div className="min-w-0 flex-1 border-t border-[#ebe8e8] px-6 py-6 sm:px-8 sm:py-8 lg:border-t-0 lg:border-s">
             <div className="flex flex-col items-center">
               {/* Artwork: featured = track name text only; details = image or user icon */}
-              <div className="relative mb-8 size-[214px] rounded-[30px] bg-white p-[7px] shadow-[0px_44px_84px_0px_rgba(0,0,0,0.07)]">
+              <div className="relative mb-8 size-[160px] sm:size-[190px] lg:size-[214px] rounded-[30px] bg-white p-[7px] shadow-[0px_44px_84px_0px_rgba(0,0,0,0.07)]">
                 <div className="relative h-full w-full overflow-hidden rounded-[23px] bg-[#f3f3f3] flex items-center justify-center px-4">
                   {isDetailsVariant ? (
                     <>
@@ -450,7 +450,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
               </div>
 
               {/* Progress — track #ebe8e8, fill/thumb/chip #193624 (primary). Chip rounded-[8px]. */}
-              <div className="w-full max-w-[343px]">
+              <div className="w-full max-w-full sm:max-w-[343px]">
                 <div className="relative h-[18px]">
                   <div className="absolute inset-y-0 start-0 end-0 flex items-center">
                     <div className="relative h-[4px] w-full rounded-full bg-[#ebe8e8]">
@@ -609,7 +609,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                   </label>
                 </div>
 
-                <div className="max-h-[620px] overflow-y-auto pe-2">
+                <div className="max-h-[400px] sm:max-h-[620px] overflow-y-auto pe-2">
                   {filteredRecitations.map((recitation) => {
                     const isSelected = selectedRecitation?.id === recitation.id;
                     const secondaryText = recitation.surahInfo || recitation.reciterName;
@@ -633,7 +633,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                           <button
                             type="button"
                             onClick={() => handleRecitationClick(recitation)}
-                            className="flex h-[36px] w-[36px] items-center justify-center rounded-[11px] text-[#161616] hover:bg-black/5 transition-colors"
+                            className="flex h-[44px] w-[44px] items-center justify-center rounded-[11px] text-[#161616] hover:bg-black/5 transition-colors"
                             aria-label={isSelected && isPlaying ? 'إيقاف مؤقت' : 'تشغيل'}
                           >
                             {isSelected && isPlaying ? (
@@ -648,7 +648,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                               download={downloadFilename}
                               target="_blank"
                               onClick={(e) => e.stopPropagation()}
-                              className="flex h-[36px] w-[36px] items-center justify-center rounded-[11px] text-[#161616] hover:bg-black/5 transition-colors"
+                              className="flex h-[44px] w-[44px] items-center justify-center rounded-[11px] text-[#161616] hover:bg-black/5 transition-colors"
                               aria-label="تحميل"
                             >
                               <DownloadIcon className="h-[19px] w-[19px]" />
@@ -668,7 +668,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
             <div className="rounded-[12px] border border-[#ebe8e8] bg-white px-6 py-6">
               <div className="flex flex-col items-center gap-6">
                 {/* Preview: rounded rectangle like featured (not circle) */}
-                <div className="relative mb-2 size-[214px] shrink-0 rounded-[30px] bg-white p-[7px] shadow-[0px_44px_84px_0px_rgba(0,0,0,0.07)]">
+                <div className="relative mb-2 size-[160px] sm:size-[190px] lg:size-[214px] shrink-0 rounded-[30px] bg-white p-[7px] shadow-[0px_44px_84px_0px_rgba(0,0,0,0.07)]">
                   <div className="relative h-full w-full overflow-hidden rounded-[23px] bg-[#f3f3f3] flex items-center justify-center px-4">
                     {selectedRecitation?.image?.trim() ? (
                       <>
@@ -701,7 +701,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                   </div>
                 </div>
                 {/* Progress: time above, orange seekable bar */}
-                <div className="w-full max-w-[343px]">
+                <div className="w-full max-w-full sm:max-w-[343px]">
                   <p className="mb-2 text-center text-[14px] text-[#6a6a6a]">
                     {durationSeconds ? formatTime(currentTimeSeconds) : selectedRecitation?.duration || '0:00'}
                   </p>

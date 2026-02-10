@@ -72,7 +72,7 @@ export const Carousel: React.FC<CarouselProps> = ({
       {showArrows && (
         <>
           <button
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/90 border border-gray-200 rounded-full shadow-md flex items-center justify-center hover:bg-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="absolute end-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/90 border border-gray-200 rounded-full shadow-md flex items-center justify-center hover:bg-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={scrollPrev}
             disabled={!emblaApi?.canScrollPrev()}
             aria-label="Previous slide"
@@ -80,7 +80,7 @@ export const Carousel: React.FC<CarouselProps> = ({
             <FiChevronRight size={22} className="text-gray-700" />
           </button>
           <button
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/90 border border-gray-200 rounded-full shadow-md flex items-center justify-center hover:bg-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="absolute start-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 bg-white/90 border border-gray-200 rounded-full shadow-md flex items-center justify-center hover:bg-white transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={scrollNext}
             disabled={!emblaApi?.canScrollNext()}
             aria-label="Next slide"

@@ -140,18 +140,18 @@ export default async function RecitationDetailsPage({
 
       <PageLayout tenant={tenant}>
         <div dir="rtl" className="bg-white">
-          <div className="mx-auto max-w-[1200px] px-4 pb-16 pt-10 sm:px-6 lg:px-8">
-            {/* Head section: 2 parts. Part 1 (start): avatar column + info column (title/desc + tags row). Part 2: like/comment/share row + CTAs row. Same bg as hero. */}
-            <section className="relative overflow-hidden rounded-[14px] border border-[#ebe8e8] bg-[#f6f6f4] px-6 py-6 shadow-sm">
-              {/* Same bg pattern as hero section (home + recitations head) */}
-              <div
-                className="pointer-events-none absolute inset-0 bg-[url('/images/hero-bg.svg')] bg-no-repeat bg-right-top bg-cover opacity-100 [mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)] [-webkit-mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)]"
-                aria-hidden
-              />
-              <div className="relative flex flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-12">
-                {/* Part 1 (RTL start): column 1 = avatar, column 2 = info (row1: title+description, row2: tags) */}
-                <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:gap-6">
-                  <div className="relative h-[179px] w-[179px] shrink-0 overflow-hidden rounded-[24px] bg-white">
+          {/* Top section: full width bg + pattern (like hero & listing), content centered, extra block padding */}
+          <div className="relative bg-[#f6f6f4] -mt-16 pt-16 lg:-mt-[72px] lg:pt-[72px] pb-0">
+            <div
+              className="pointer-events-none absolute inset-0 bg-[url('/images/hero-bg.svg')] bg-no-repeat bg-right-top bg-cover opacity-100 [mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)] [-webkit-mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)]"
+              aria-hidden
+            />
+            <div className="relative mx-auto max-w-[1200px] px-4 pt-10 pb-10 sm:px-6 sm:pt-12 sm:pb-12 lg:px-8 lg:pt-16 lg:pb-16">
+              <section className="overflow-hidden">
+                <div className="flex flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-12">
+                {/* Part 1 (RTL start): column 1 = avatar, column 2 = info (row1: title+description, row2: tags). Mobile: centered; desktop: start-aligned. */}
+                <div className="flex flex-col gap-4 items-center lg:flex-row lg:items-start lg:gap-6">
+                  <div className="relative h-[120px] w-[120px] sm:h-[150px] sm:w-[150px] lg:h-[179px] lg:w-[179px] shrink-0 overflow-hidden rounded-[24px] bg-white">
                     <AvatarImage
                       src={reciterImage}
                       alt={`صورة ${reciterName}`}
@@ -161,8 +161,8 @@ export default async function RecitationDetailsPage({
                       iconSize="h-24 w-24"
                     />
                   </div>
-                  <div className="flex min-w-0 flex-1 flex-col items-start gap-6 justify-between h-full">
-                    <div className="text-start">
+                  <div className="flex min-w-0 w-full flex-1 flex-col items-center gap-2 justify-between h-full lg:w-auto lg:items-start lg:gap-6">
+                    <div className="text-center lg:text-start">
                       <h1 className="text-[28px] font-semibold leading-tight text-black">
                         {reciterName}
                       </h1>
@@ -170,8 +170,8 @@ export default async function RecitationDetailsPage({
                         {recitation.name || 'مصحف مرتل'}
                       </p>
                     </div>
-                    {/* Tags: second row, start side */}
-                    <div className="flex flex-wrap items-center gap-3">
+                    {/* Tags: second row; mobile: no gap above, centered; desktop: start side */}
+                    <div className="flex flex-wrap items-center justify-center gap-3 lg:justify-start">
                       {/* <span className="rounded-[4px] bg-white px-[12px] py-[8px] text-[12px] font-[500] text-[#1f2a37]">
                       مصحف مجود
                     </span> */}
@@ -189,8 +189,8 @@ export default async function RecitationDetailsPage({
                   </div>
                 </div>
 
-                {/* Part 2: row 1 = like, comment, share (4px radius); row 2 = 2 CTAs — aligned to end side */}
-                <div className="flex flex-1 flex-col justify-between gap-6 mt-auto items-start lg:items-end">
+                {/* Part 2: row 1 = like, comment, share (4px radius); row 2 = 2 CTAs. Mobile: full-width button; desktop: aligned to end. */}
+                <div className="flex w-full flex-1 flex-col justify-between gap-6 mt-auto items-stretch lg:w-auto lg:items-end">
                   {/* <div className="flex flex-wrap items-center gap-4 text-[14px] text-[#6a6a6a]">
                   <div className="flex items-center gap-2 rounded-[4px] border border-[#ebe8e8] bg-white px-3 py-2">
                     <FiHeart className="h-4 w-4 shrink-0" />
@@ -205,11 +205,11 @@ export default async function RecitationDetailsPage({
                     <span>133 مشاركة</span>
                   </div>
                 </div> */}
-                  <div className="flex flex-wrap items-center gap-3">
-                    <Link href="https://api.cms.itqan.dev/docs/" target="_blank">
+                  <div className="flex w-full flex-wrap items-center justify-center gap-3 lg:w-auto lg:justify-end">
+                    <Link href="https://api.cms.itqan.dev/docs/" target="_blank" className="w-full lg:w-auto">
                       <Button
                         variant="secondary"
-                        className="gap-2 bg-[#0d121c] text-white hover:bg-[#0a0f17]"
+                        className="w-full gap-2 bg-[#0d121c] text-white hover:bg-[#0a0f17] lg:w-auto"
                       >
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0" aria-hidden>
                           <g clipPath="url(#api-code-icon-clip)">
@@ -239,9 +239,12 @@ export default async function RecitationDetailsPage({
                   </Button> */}
                   </div>
                 </div>
-              </div>
-            </section>
+                </div>
+              </section>
+            </div>
+          </div>
 
+          <div className="mx-auto max-w-[1200px] px-4 pb-16 sm:px-6 lg:px-8">
             <section className="mt-10">
               <RecitationsPlayer
                 recitations={surahItems}
@@ -250,7 +253,6 @@ export default async function RecitationDetailsPage({
                 listTitle="قائمة السور"
               />
             </section>
-
           </div>
         </div>
       </PageLayout>
