@@ -663,32 +663,41 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
             </div>
           </div>
 
-          {/* Player second (end side in RTL = left) */}
+          {/* Player second (end side in RTL = left) — same preview shape & controls as featured */}
           <div>
             <div className="rounded-[12px] border border-[#ebe8e8] bg-white px-6 py-6">
               <div className="flex flex-col items-center gap-6">
-                <div className="relative size-[214px] shrink-0 overflow-hidden rounded-full bg-[#f3f3f3] flex items-center justify-center">
-                  {selectedRecitation?.image?.trim() ? (
-                    <Image
-                      key={selectedRecitation.image}
-                      src={selectedRecitation.image}
-                      alt={`صورة القارئ ${selectedRecitation?.reciterName} - ${selectedRecitation?.title}`}
-                      fill
-                      className="object-cover"
-                      onError={(e) => {
-                        e.currentTarget.style.display = 'none';
-                        const parent = e.currentTarget.parentElement;
-                        if (parent) {
-                          const userIcon = parent.querySelector('.user-icon-fallback');
-                          if (userIcon) {
-                            (userIcon as HTMLElement).style.display = 'flex';
-                          }
-                        }
-                      }}
-                    />
-                  ) : null}
-                  <div className={`user-icon-fallback absolute inset-0 flex items-center justify-center text-[#6a6a6a] ${selectedRecitation?.image?.trim() ? 'hidden' : 'flex'}`}>
-                    <UserIcon className="h-20 w-20" />
+                {/* Preview: rounded rectangle like featured (not circle) */}
+                <div className="relative mb-2 size-[214px] shrink-0 rounded-[30px] bg-white p-[7px] shadow-[0px_44px_84px_0px_rgba(0,0,0,0.07)]">
+                  <div className="relative h-full w-full overflow-hidden rounded-[23px] bg-[#f3f3f3] flex items-center justify-center px-4">
+                    {selectedRecitation?.image?.trim() ? (
+                      <>
+                        <Image
+                          key={selectedRecitation.image}
+                          src={selectedRecitation.image}
+                          alt={`صورة القارئ ${selectedRecitation?.reciterName} - ${selectedRecitation?.title}`}
+                          fill
+                          className="object-cover"
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                            const parent = e.currentTarget.parentElement;
+                            if (parent) {
+                              const userIcon = parent.querySelector('.user-icon-fallback');
+                              if (userIcon) {
+                                (userIcon as HTMLElement).style.display = 'flex';
+                              }
+                            }
+                          }}
+                        />
+                        <div className="user-icon-fallback absolute inset-0 hidden items-center justify-center text-[#6a6a6a]">
+                          <UserIcon className="h-20 w-20" />
+                        </div>
+                      </>
+                    ) : (
+                      <p className="text-center text-[20px] font-semibold leading-[1.4] text-[#343434]">
+                        {(selectedRecitation?.title || '').replace(/^\d+\.\s*/, '')}
+                      </p>
+                    )}
                   </div>
                 </div>
                 {/* Progress: time above, orange seekable bar */}
@@ -730,14 +739,14 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                     />
                   </div>
                 </div>
-                {/* Controls: Prev, Play (#193624, 56px), Next */}
-                <div className="flex items-center justify-center gap-3">
+                {/* Controls: same as featured — rounded-[14px], Prev/Next white, Play gray */}
+                <div className="flex items-center justify-center gap-2">
                   <button
                     type="button"
                     onClick={handlePrev}
                     disabled={!hasPrev}
                     aria-label="السابق"
-                    className="flex size-[46px] items-center justify-center rounded-full border border-[#ebe8e8] text-[#161616] disabled:opacity-40"
+                    className="flex size-[46px] items-center justify-center rounded-[14px] bg-white text-[#161616] disabled:opacity-40"
                   >
                     <PrevIcon />
                   </button>
@@ -745,20 +754,16 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                     type="button"
                     onClick={handleTogglePlay}
                     aria-label={isPlaying ? 'إيقاف مؤقت' : 'تشغيل'}
-                    className="flex size-[56px] items-center justify-center rounded-full bg-[#193624] text-white"
+                    className="flex size-[46px] items-center justify-center rounded-[14px] bg-[#f3f3f3] text-[#161616]"
                   >
-                    {isPlaying ? (
-                      <PauseIcon className="h-6 w-6" />
-                    ) : (
-                      <PlayIcon />
-                    )}
+                    {isPlaying ? <PauseIcon className="h-6 w-6" /> : <PlayIcon />}
                   </button>
                   <button
                     type="button"
                     onClick={handleNext}
                     disabled={!hasNext}
                     aria-label="التالي"
-                    className="flex size-[46px] items-center justify-center rounded-full border border-[#ebe8e8] text-[#161616] disabled:opacity-40"
+                    className="flex size-[46px] items-center justify-center rounded-[14px] bg-white text-[#161616] disabled:opacity-40"
                   >
                     <NextIcon />
                   </button>
