@@ -21,11 +21,24 @@ interface HeroSectionProps {
     label: string;
     description: string;
   };
+  /** Social links from tenant footer config */
+  socialLinks?: {
+    platform: string;
+    url: string;
+    icon: string;
+  }[];
 }
 
-export function HeroSection({ content, basePath = '', statsCard }: HeroSectionProps) {
+export function HeroSection({ content, basePath = '', statsCard, socialLinks = [] }: HeroSectionProps) {
   const { title, description, image, ctaText, ctaLink } = content;
   const prefix = basePath || '';
+
+  // Build social icon lookup
+  const socialIconMap: Record<string, React.ReactNode> = {
+    twitter: <TwitterIcon className="w-6 h-6" />,
+    instagram: <InstagramIcon className="w-6 h-6" />,
+    tiktok: <TikTokIcon className="w-6 h-6" />,
+  };
 
   return (
     <section className="relative w-full" style={{ minHeight: '772px', overflow: 'visible' }}>
@@ -72,21 +85,16 @@ export function HeroSection({ content, basePath = '', statsCard }: HeroSectionPr
               </div>
             </div>
 
-            {/* Social icons with line between text and icons - Figma: line between text and icons */}
+            {/* Social icons with line between text and icons */}
             <div className="flex items-center gap-4 text-[#193624] text-lg pt-1 justify-start">
               <span className="text-sm text-gray-700">تابعنا على منصات التواصل الاجتماعي</span>
               <div className="h-[1px] w-[140px] bg-[#193624]" />
               <div className="flex items-center gap-[15px]">
-                {/* Figma: gap 15px, icons 24px */}
-                <a href="#" aria-label="X" className="hover:opacity-80 transition-opacity">
-                  <TwitterIcon className="w-6 h-6" />
-                </a>
-                <a href="#" aria-label="Instagram" className="hover:opacity-80 transition-opacity">
-                  <InstagramIcon className="w-6 h-6" />
-                </a>
-                <a href="#" aria-label="TikTok" className="hover:opacity-80 transition-opacity">
-                  <TikTokIcon className="w-6 h-6" />
-                </a>
+                {socialLinks.map((link) => (
+                  <a key={link.platform} href={link.url} target="_blank" rel="noopener noreferrer" aria-label={link.platform} className="hover:opacity-80 transition-opacity">
+                    {socialIconMap[link.icon] ?? socialIconMap[link.platform]}
+                  </a>
+                ))}
               </div>
             </div>
           </div>
@@ -106,11 +114,11 @@ export function HeroSection({ content, basePath = '', statsCard }: HeroSectionPr
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
-              
+
               {/* Floating stats badge - Figma: star shape, center aligned to left edge of image (end side in RTL) */}
               {/* Positioned outside image container so it's visible */}
               {statsCard && (
-                <div className="absolute bottom-6 left-4 lg:bottom-10 lg:left-4 xl:left-[-32px] 2xl:left-[-95.5px]"> {/* Avoid viewport overflow on smaller desktops */}
+                <div className="absolute bottom-6 start-4 lg:bottom-10 lg:start-4 xl:start-[-32px] 2xl:start-[-95.5px]"> {/* Avoid viewport overflow on smaller desktops */}
                   <div className="relative w-[191px] h-[191px]" style={{ filter: 'drop-shadow(0 14px 36px rgba(0,0,0,0.12))' }}>
                     {/* Star SVG - inline for better control */}
                     <svg
@@ -142,7 +150,7 @@ export function HeroSection({ content, basePath = '', statsCard }: HeroSectionPr
 
               {/* Feature pills - Figma: 30% of chip should be outside image (70% inside) */}
               {/* Position at edge, then move 30% of chip width outside */}
-              <div className="absolute top-6 right-4 lg:right-0 flex flex-col gap-3 items-start">
+              <div className="absolute top-6 end-4 lg:end-0 flex flex-col gap-3 items-start">
                 {[
                   'مجموعة مختارة من أفضل القراء',
                   'تلاوات متنوعة بمختلف الروايات',
@@ -150,7 +158,7 @@ export function HeroSection({ content, basePath = '', statsCard }: HeroSectionPr
                   <div
                     key={item}
                     className="flex items-center gap-2 bg-white px-4 py-1.5 rounded-[50px] shadow-sm ring-1 ring-gray-100 translate-x-0 xl:translate-x-[12%] 2xl:translate-x-[30%]"
-                    style={{ 
+                    style={{
                       minHeight: '42px',
                     }}
                   >

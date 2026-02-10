@@ -48,8 +48,6 @@ export async function loadTenantConfig(tenantId: string): Promise<TenantConfig |
     // Validate and cache
     validateTenantConfig(config);
     configCache.set(tenantId, config);
-    
-    console.log(`[TenantConfig] Loaded config for tenant "${tenantId}"`);
     return config;
   } catch (error) {
     console.error(`[TenantConfig] Error loading tenant "${tenantId}":`, error);

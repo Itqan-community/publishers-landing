@@ -66,8 +66,6 @@ export default async function HomePage() {
   const tenantId = getTenantFromHeaders(headersList);
   const basePath = getBasePathFromHeaders(headersList);
 
-  // console.log('[HomePage] Resolved tenant ID:', tenantId);
-
   // Load tenant configuration
   const tenant = await loadTenantConfig(tenantId);
 

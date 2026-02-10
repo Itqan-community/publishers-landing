@@ -73,7 +73,28 @@ export interface TenantContent {
   speakers?: SpeakerContent[];
   readings?: ReadingContent[];
   media?: MediaContent[];
+  /** Sponsors/partners displayed in a dedicated section (Saudi-Center template) */
+  sponsors?: SponsorContent[];
+  /** Feature highlights for the "About" section (Saudi-Center template) */
+  aboutFeatures?: AboutFeatureContent[];
   footer: FooterContent;
+}
+
+/** A sponsor/partner entry for the SponsorsSection */
+export interface SponsorContent {
+  id: string;
+  name: string;
+  description: string;
+  logo: string;
+  website?: string;
+}
+
+/** A feature highlight for the AboutSection */
+export interface AboutFeatureContent {
+  id: string;
+  title: string;
+  description: string;
+  iconSrc: string;
 }
 
 export interface CMSLinks {

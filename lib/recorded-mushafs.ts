@@ -100,7 +100,6 @@ export async function getRecordedMushafs(
     }
 
     const data: PaginatedResponse<RecitationApiResponse> = await response.json();
-    console.log(`[getRecordedMushafs] API response:`, data);
 
     // One card per API result — no padding, no mock items, no duplication
     const results = Array.isArray(data.results) ? data.results : [];
@@ -175,20 +174,10 @@ export async function getRecordedMushafs(
       throw fetchError;
     }
   } catch (error) {
-    const backendUrl = await getBackendUrl(tenantId);
-    const apiUrl = `${backendUrl}/recitations/`;
-    const isDevelopment = process.env.NODE_ENV === 'development';
-    
-    if (isDevelopment) {
-      // In development, use warn instead of error to reduce noise
-      console.warn(`[getRecordedMushafs] API unavailable (${apiUrl}), returning empty array`);
+    if (error instanceof Error) {
+      console.error(`[getRecordedMushafs] Error:`, error.message);
     } else {
-      // In production/staging, log as error and return empty array
-      if (error instanceof Error) {
-        console.error(`[getRecordedMushafs] Error fetching from ${apiUrl}:`, error.message);
-      } else {
-        console.error(`[getRecordedMushafs] Unknown error fetching from ${apiUrl}:`, error);
-      }
+      console.error(`[getRecordedMushafs] Unknown error:`, error);
     }
     return [];
   }
@@ -208,9 +197,6 @@ export const getRecitationById = cache(async (
     
     // Try query parameter format first (API might not support REST endpoint for single recitation)
     const apiUrl = `${backendUrl}/recitations/?id=${recitationId}`;
-    
-    // console.log(`[getRecitationById] Fetching from: ${apiUrl}`);
-    // console.log(`[getRecitationById] Requested recitationId: ${recitationId} (type: ${typeof recitationId})`);
     
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000);
@@ -251,20 +237,6 @@ export const getRecitationById = cache(async (
           recitation = responseData as RecitationApiResponse;
         }
       }
-      
-      /*
-      console.log('========================================');
-      console.log('[getRecitationById] API Response:');
-      console.log('  - Requested recitationId:', recitationId);
-      if (recitation) {
-        console.log('  - Found recitation.id:', recitation.id);
-        console.log('  - Found recitation.name:', recitation.name);
-        console.log('  - IDs match:', String(recitation.id) === String(recitationId));
-      } else {
-        console.log('  - No recitation found matching ID:', recitationId);
-      }
-      console.log('========================================');
-      */
       
       return recitation;
     } catch (fetchError) {

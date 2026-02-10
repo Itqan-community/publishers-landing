@@ -60,19 +60,6 @@ export default async function RecitationDetailsPage({
     notFound();
   }
 
-  // Log the recitation object to verify the ID
-  // Log the recitation object to verify the ID
-  /*
-  console.log('========================================');
-  console.log('[RecitationDetailsPage] Fetched recitation object:');
-  console.log('  - recitation.id:', recitation.id);
-  console.log('  - recitation.id type:', typeof recitation.id);
-  console.log('  - recitation.name:', recitation.name);
-  console.log('  - URL recitationId:', recitationId);
-  console.log('  - IDs match:', String(recitation.id) === String(recitationId));
-  console.log('========================================');
-  */
-
   // Extract reciter information; use image from API only (no mock paths)
   const reciterName = recitation.reciter?.name || 'غير معروف';
   const backendUrl = await getBackendUrl(tenantId);
@@ -82,17 +69,7 @@ export default async function RecitationDetailsPage({
       backendUrl
     ) ?? '';
 
-  // IMPORTANT: Use recitation.id (from API response) as asset_id for tracks API
-  // The API endpoint /recitation-tracks/{asset_id}/ expects the recitation's ID
-  // However, if there's a mismatch, fall back to the URL param (converted to number if possible)
-  let assetIdForTracks: string | number = recitation.id;
-
-  // Verify the ID matches - if not, still use recitation.id as it's the authoritative source
-  if (String(recitation.id) !== String(recitationId)) {
-    // ID mismatch - still use recitation.id from API response
-  }
-
-  // Fetch tracks for this recitation using its ID  
+  // Fetch tracks using recitation.id (authoritative from API) as asset_id
   const tracks = await getRecitationTracksByAssetId(
     recitation.id,
     reciterName,
@@ -118,16 +95,7 @@ export default async function RecitationDetailsPage({
     image: reciterImage,
   }));
 
-  // Use actual tracks from API - DO NOT fallback to mock data to avoid confusion
-  // If no tracks found, show empty array (the component will handle it)
   const surahItems: RecitationItem[] = tracksWithReciterInfo;
-
-  /*
-  console.log('========================================');
-  console.log('[RecitationDetailsPage] Final surahItems count:', surahItems.length);
-  console.log('[RecitationDetailsPage] Using mock data?', surahItems.length === 0 && process.env.NODE_ENV === 'development' ? 'YES (empty, would use mock)' : 'NO (using API data)');
-  console.log('========================================');
-  */
 
   return (
     <>

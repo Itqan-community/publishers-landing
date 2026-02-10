@@ -1,9 +1,12 @@
-# User-agent: *
-# Allow: /
-# Disallow: /api/
-# Disallow: /_next/static/
-# Disallow: /admin/
+# robots.txt is now generated dynamically via app/robots.ts
+# This static file is kept only as a fallback.
+# See app/robots.ts for the canonical source.
 
-# Sitemap
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /_next/static/
+Disallow: /admin/
+
 Sitemap: https://saudi-recitation-center.netlify.app/sitemap.xml
-Sitemap: https:// tahbeer.netlify.app/sitemap.xml
+Sitemap: https://tahbeer.netlify.app/sitemap.xml

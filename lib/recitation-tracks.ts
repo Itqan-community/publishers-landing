@@ -179,15 +179,6 @@ export const getRecitationTracksByAssetId = cache(async (
     const assetIdStr = String(assetId);
     const apiUrl = `${backendUrl}/recitation-tracks/${assetIdStr}/?page_size=120`;
     
-    console.log('========================================');
-    console.log('[getRecitationTracksByAssetId] INPUT PARAMETERS:');
-    console.log('  - assetId (raw):', assetId);
-    console.log('  - assetId type:', typeof assetId);
-    console.log('  - assetId (string):', assetIdStr);
-    console.log('  - API URL:', apiUrl);
-    console.log('  - reciterName:', reciterName);
-    console.log('  - reciterImage:', reciterImage);
-    console.log('========================================');
     
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000);
@@ -209,78 +200,37 @@ export const getRecitationTracksByAssetId = cache(async (
 
       const data: PaginatedResponse<RecitationTrackByAssetApiResponse> = await response.json();
       
-      // Log the full API response for debugging - THIS IS WHAT THE USER REQUESTED
-      console.log('========================================');
-      console.log('[getRecitationTracksByAssetId] FULL API RESPONSE FROM /recitation-tracks/{asset_id}/:');
-      console.log('========================================');
-      console.log(JSON.stringify(data, null, 2));
-      console.log('========================================');
-      console.log('[getRecitationTracksByAssetId] Response structure:', {
-        hasResults: Array.isArray(data.results),
-        count: data.count,
-        resultsLength: data.results?.length || 0,
-        firstResultKeys: data.results?.[0] ? Object.keys(data.results[0]) : [],
-      });
-      
       if (data.results && data.results.length > 0) {
-        console.log('[getRecitationTracksByAssetId] First track FULL object:');
-        console.log(JSON.stringify(data.results[0], null, 2));
-        console.log('[getRecitationTracksByAssetId] First track audio_url value:', data.results[0].audio_url);
-        console.log('[getRecitationTracksByAssetId] First track audio_url type:', typeof data.results[0].audio_url);
-        console.log('[getRecitationTracksByAssetId] First track audio_url length:', data.results[0].audio_url?.length || 0);
+        // Map API response to RecitationItem
       } else {
-        console.warn('[getRecitationTracksByAssetId] No tracks in response!');
+        console.warn('[getRecitationTracksByAssetId] No tracks in response for asset:', assetIdStr);
+        return [];
       }
 
-      // Map API response to RecitationItem
       return data.results.map((track): RecitationItem => {
-        // Build title from surah_name and surah_number
         const title = track.surah_number 
           ? `${track.surah_number}. ${track.surah_name}`
           : track.surah_name || 'سورة';
         
-        // Build surah info with revelation place and ayahs count
         const surahInfo = track.ayahs_count 
           ? `${track.ayahs_count} آية • ${track.revelation_place === 'Makkah' ? 'مكية' : 'مدنية'}`
           : undefined;
 
-        // Use audio_url directly - it's already an absolute URL from the API
         const audioUrl = track.audio_url || '';
         
-        // Log audio URL processing for debugging
-        console.log(`[getRecitationTracksByAssetId] Track ${track.surah_number} (${track.surah_name}):`, {
-          audio_url: track.audio_url,
-          audioUrl,
-          hasAudioUrl: !!audioUrl,
-          audioUrlType: typeof audioUrl,
-          audioUrlLength: audioUrl.length,
-        });
-        
         if (!audioUrl) {
-          console.warn(`[getRecitationTracksByAssetId] Empty audio_url for track ${track.surah_number} (${track.surah_name}) - track will not be playable`);
+          console.warn(`[getRecitationTracksByAssetId] Missing audio_url for surah ${track.surah_number}`);
         }
 
-        const mappedItem: RecitationItem = {
+        return {
           id: `track-${track.surah_number}`,
           title,
           reciterName: reciterName || 'غير معروف',
           duration: formatDuration(track.duration_ms),
-          audioUrl: audioUrl, // Use the absolute URL directly from API
+          audioUrl,
           image: reciterImage || '',
           surahInfo,
         };
-        
-        console.log(`[getRecitationTracksByAssetId] Mapped item for track ${track.surah_number}:`, {
-          id: mappedItem.id,
-          title: mappedItem.title,
-          audioUrl: mappedItem.audioUrl,
-          duration: mappedItem.duration,
-          reciterName: mappedItem.reciterName,
-          hasAudioUrl: !!mappedItem.audioUrl,
-          audioUrlStartsWithHttp: mappedItem.audioUrl?.startsWith('http'),
-        });
-        
-        return mappedItem;
       });
     } catch (fetchError) {
       clearTimeout(timeoutId);
@@ -292,18 +242,10 @@ export const getRecitationTracksByAssetId = cache(async (
       throw fetchError;
     }
   } catch (error) {
-    const backendUrl = await getBackendUrl(tenantId);
-    const apiUrl = `${backendUrl}/recitation-tracks/${assetId}/`;
-    const isDevelopment = process.env.NODE_ENV === 'development';
-    
-    if (isDevelopment) {
-      console.warn(`[getRecitationTracksByAssetId] API unavailable (${apiUrl}), returning empty array`);
+    if (error instanceof Error) {
+      console.error(`[getRecitationTracksByAssetId] Error for asset ${assetId}:`, error.message);
     } else {
-      if (error instanceof Error) {
-        console.error(`[getRecitationTracksByAssetId] Error fetching from ${apiUrl}:`, error.message);
-      } else {
-        console.error(`[getRecitationTracksByAssetId] Unknown error fetching from ${apiUrl}:`, error);
-      }
+      console.error(`[getRecitationTracksByAssetId] Unknown error for asset ${assetId}:`, error);
     }
     
     return [];

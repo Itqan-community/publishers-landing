@@ -59,16 +59,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       console.error(`[Sitemap] Failed to fetch recitations for tenant ${tenantId}:`, error);
     }
 
-    // Static pages (if they exist)
-    const staticPages = ['about', 'contact', 'privacy', 'terms', 'faq'];
-    for (const page of staticPages) {
-      entries.push({
-        url: `${baseUrl}/${tenantId}/${page}`,
-        lastModified: new Date(),
-        changeFrequency: 'monthly',
-        priority: 0.5,
-      });
-    }
+    // Note: only listing actual routes. Add entries here when new pages are created.
   }
 
   return entries;

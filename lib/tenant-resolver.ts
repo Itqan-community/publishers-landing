@@ -119,11 +119,7 @@ export function resolveTenantWithStrategy(request: TenantRequest): TenantResolut
  * Always returns a string (either resolved tenant or default)
  */
 export function resolveTenant(request: TenantRequest): string {
-  const { tenantId, strategy } = resolveTenantWithStrategy(request);
-  if (strategy !== 'path' || tenantId !== getDefaultTenantId()) {
-    // console.log(`[TenantResolver] Resolved tenant "${tenantId}" using ${strategy} strategy`);
-  }
-  return tenantId;
+  return resolveTenantWithStrategy(request).tenantId;
 }
 
 /**

@@ -43,49 +43,16 @@ export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenter
     ? await getFeaturedRecitationTracks(tenant.id, 5, firstRecitationId)
     : [];
 
-  const sponsors: SponsorItem[] = [
-    {
-      id: '1',
-      name: 'أوقاف الراجحي',
-      description: 'تأسس وقف الراجحي على يد الشيخ صالح الراجحي، وهو ملتزم بتمكين المجتمعات وتخفيف حدة الفقر. نحقق ذلك من خلال مشاريع التنمية المستدامة والمساعدات الإنسانية الشاملة.',
-      logo: '/images/sponsor-rajhi.png',
-      website: 'https://example.com',
-    },
-    {
-      id: '2',
-      name: 'أوقاف السبيعي',
-      description: 'مؤسسة عبدالله بن إبراهيم السبيعي الخيرية مؤسسة مانحة تسعى لتمكين العمل الخيري في المملكة العربية السعودية، وتقديم الخدمات والمنتجات النوعية للمستفدين منه، بما يساهم في تحقيق رؤية 2030، عبر نوعين من الدعم ( التأثير ) و ( التمكين )',
-      logo: '/images/sponsor-subai.png',
-      website: 'https://example.com',
-    },
-  ];
+  // Read sponsors and aboutFeatures from tenant config (no more hardcoded data)
+  const sponsors: SponsorItem[] = (tenant.content.sponsors ?? []).map((s) => ({
+    id: s.id,
+    name: s.name,
+    description: s.description,
+    logo: s.logo,
+    website: s.website,
+  }));
 
-  const aboutFeatures = [
-    {
-      id: '1',
-      title: 'نخبة من القراء',
-      description: 'أفضل التلاوات وأعذب الأصوات لنخبة القراء',
-      iconSrc: '/icons/feature-muslim.svg',
-    },
-    {
-      id: '2',
-      title: 'جودة عالية',
-      description: 'تسجيلات بجودة صوتية استثنائية لأفضل تجربة استماع',
-      iconSrc: '/icons/feature-award.svg',
-    },
-    {
-      id: '3',
-      title: 'بث مباشر',
-      description: 'استمع للتلاوات مباشرة على مدار الساعة',
-      iconSrc: '/icons/feature-airdrop.svg',
-    },
-    {
-      id: '4',
-      title: 'محتوى موثوق',
-      description: 'تلاوات متنوعة بمختلف الأساليب الأدائية',
-      iconSrc: '/icons/feature-ramadhan.svg',
-    },
-  ];
+  const aboutFeatures = tenant.content.aboutFeatures ?? [];
 
   return (
     <PageLayout tenant={tenant}>
@@ -101,6 +68,7 @@ export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenter
         <HeroSection
           content={tenant.content.hero}
           basePath={basePath}
+          socialLinks={tenant.content.footer.social}
           statsCard={{
             value: '2.5M',
             label: 'استماع على جميع المنصات',
