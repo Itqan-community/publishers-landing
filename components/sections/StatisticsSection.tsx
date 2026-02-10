@@ -24,24 +24,24 @@ export function StatisticsSection({
   }
 
   return (
-    <section className="relative bg-[#193624] text-white py-20 overflow-hidden">
+    <section className="relative bg-[#171b19] text-white py-20 overflow-hidden">
       {/* Background pattern (same as hero): diagonal fade top-start -> bottom-end */}
       <div
-        className="pointer-events-none absolute inset-0 bg-[url('/images/hero-bg.svg')] bg-no-repeat bg-right-top bg-cover opacity-100 [mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)] [-webkit-mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)]"
+        className="pointer-events-none absolute inset-0 bg-[url('/images/hero-bg.svg')] bg-no-repeat bg-right-top bg-cover opacity-50"
         aria-hidden="true"
       />
 
-      <div className="relative z-[1] max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header: title and description in one row (stack on mobile) */}
+      <div className="relative z-[1] max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-0">
+        {/* Title + description stacked */}
         {(title || description) && (
-          <div className="mb-12 flex flex-col gap-6 lg:flex-row lg:items-center">
+          <div className="mb-12 flex flex-col gap-4">
             {title && (
-              <h2 className="text-[26px] md:text-[32px] font-semibold text-white leading-[1.4] lg:mb-0 lg:max-w-[520px] shrink-0">
+              <h2 className="text-[26px] md:text-[32px] font-semibold text-white leading-[1.4]">
                 {title}
               </h2>
             )}
             {description && (
-              <p className="text-[15px] md:text-[17px] text-white/80 leading-[25px] lg:max-w-[290px]">
+              <p className="text-[15px] md:text-[17px] text-white/80 leading-[25px] max-w-[640px]">
                 {description}
               </p>
             )}

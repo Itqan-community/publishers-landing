@@ -43,7 +43,7 @@ export const RecitersSection: React.FC<RecitersSectionProps> = ({
         </div>
 
         {/* Carousel */}
-        <Carousel slidesToScroll={1} loop={false} showArrows={true}>
+        <Carousel slidesToScroll={1} loop={true} showArrows={false} showDots={true}>
           {reciters.map((reciter) => (
             <div key={reciter.id} className="flex-[0_0_100%] md:flex-[0_0_calc(50%-0.5rem)] lg:flex-[0_0_calc((100%-2rem)/3)]">
               <ReciterCard {...reciter} />

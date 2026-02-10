@@ -23,12 +23,12 @@ export const FeaturedRecitationsSection: React.FC<FeaturedRecitationsSectionProp
     <section className="bg-[#f6f4f1] py-20">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-12 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-          <div className="flex flex-col gap-2 lg:flex-row lg:items-start lg:gap-10">
+        <div className="mb-12 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div className="flex flex-col gap-2">
             <h2 className="text-[32px] font-semibold leading-[1.4] text-black md:text-[39px]">
               {title}
             </h2>
-            <p className="max-w-[320px] text-[18px] leading-[30.4px] text-[#343434] md:text-[20px]">
+            <p className="max-w-[640px] text-[18px] leading-[30.4px] text-[#343434] md:text-[20px]">
               {description}
             </p>
           </div>

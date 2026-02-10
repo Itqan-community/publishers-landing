@@ -42,7 +42,7 @@ export const RecordedMushafsSection: React.FC<RecordedMushafsSectionProps> = ({
         </div>
 
         {/* Carousel */}
-        <Carousel slidesToScroll={1} loop={false} showArrows={true}>
+        <Carousel slidesToScroll={1} loop={true} showArrows={false} showDots={true}>
           {mushafs.map((mushaf) => (
             <div
               key={mushaf.id}

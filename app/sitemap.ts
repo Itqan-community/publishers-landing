@@ -36,6 +36,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     });
 
+    // Hadiths listing
+    entries.push({
+      url: `${baseUrl}/${tenantId}/hadiths`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8,
+    });
+
     // Dynamic recitation detail pages (with error handling)
     try {
       const recitations = await getRecordedMushafs(tenantId, {

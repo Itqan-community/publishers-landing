@@ -24,12 +24,12 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
   return (
     <section id={id} className={`py-20 bg-white ${id ? 'scroll-mt-20' : ''}`}>
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Row 1: heading (start side) + description (other side) */}
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-          <h2 className="text-[32px] md:text-[39px] font-semibold text-black leading-[1.4] lg:mb-0 lg:max-w-[520px] shrink-0">
+        {/* Title + description stacked */}
+        <div className="flex flex-col gap-4">
+          <h2 className="text-[32px] md:text-[39px] font-semibold text-black leading-[1.4]">
             {title}
           </h2>
-          <p className="text-[18px] md:text-[20px] text-[#343434] leading-[30.4px] lg:text-start lg:max-w-[640px]">
+          <p className="text-[18px] md:text-[20px] text-[#343434] leading-[30.4px] max-w-[740px]">
             {description}
           </p>
         </div>

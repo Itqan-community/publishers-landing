@@ -18,6 +18,7 @@
   --color-black: #000000;
   --color-white: #ffffff;
   --color-border: #ebe8e8; /* Borders */
+  --color-gov-link: #1B8354; /* Government banner link */
 
   /* Radius from Figma */
   --radius-sm: 4px; /* Button radius */
@@ -49,7 +50,7 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
     text-align: start; /* Global default: start-aligned (right in RTL). Override with text-center where needed. */
   }
   
@@ -67,6 +68,11 @@
   .text-balance {
     text-wrap: balance;
   }
+}
+
+/* Superellipse corner shape for all rounded elements except fully round ones */
+[class*="rounded-"]:not([class*="rounded-full"]):not(.rounded-full) {
+  corner-shape: superellipse(.8);
 }
 
 /* Hide scrollbar while allowing horizontal scroll */

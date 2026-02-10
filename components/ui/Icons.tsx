@@ -165,7 +165,7 @@ export const TikTokIcon = ({ className = "w-6 h-6" }: { className?: string }) =>
     xmlns="http://www.w3.org/2000/svg"
     className={className}
   >
-    <g id="Elements">
+    <g transform="scale(1, -1) translate(0, -24)">
       <path
         id="Vector"
         opacity="0.3"
