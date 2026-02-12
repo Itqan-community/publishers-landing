@@ -28,7 +28,7 @@ export function HeroSection({ content, basePath = '', statsCard }: HeroSectionPr
   const prefix = basePath || '';
 
   return (
-    <section className="relative w-full" style={{ overflow: 'visible' }}>
+    <section className="relative w-full pt-[60px] sm:pt-[40px] md:pt-0[20px] lg:pt-0" style={{ overflow: 'visible' }}>
       <div className="relative max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 lg:py-20" style={{ overflow: 'visible' }}>
         {/* RTL: Text on right (start), Image on left (end) */}
         {/* Figma: Image is 469px wide, text area is wider - adjust grid ratio */}
