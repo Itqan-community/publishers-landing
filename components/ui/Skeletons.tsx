@@ -40,7 +40,7 @@ export function RecitationsListSkeleton() {
     <div className="min-h-screen bg-white" dir="rtl">
       {/* Top section with background */}
       <div className="relative bg-[#f6f6f4] pb-10 pt-24 sm:pb-12 lg:pt-32">
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
           <div className="animate-pulse space-y-4 sm:space-y-6">
             {/* Title */}
             <div className="mx-auto h-8 w-48 sm:h-10 sm:w-64 rounded bg-gray-200" />
@@ -58,7 +58,7 @@ export function RecitationsListSkeleton() {
       </div>
 
       {/* Grid of mushaf cards */}
-      <div className="mx-auto max-w-[1200px] px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-[1280px] px-4 py-8 sm:py-12 sm:px-6 lg:px-8">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {[...Array(9)].map((_, i) => (
             <MushafCardSkeleton key={i} />
@@ -78,7 +78,7 @@ export function RecitationDetailSkeleton() {
     <div className="min-h-screen bg-white" dir="rtl">
       {/* Full-width top section (matches actual details page layout) */}
       <div className="relative bg-[#f6f6f4] pb-0">
-        <div className="relative mx-auto max-w-[1200px] px-4 pt-10 sm:px-6 sm:pt-12 lg:px-8 lg:pt-16">
+        <div className="relative mx-auto max-w-[1280px] px-4 pt-10 sm:px-6 sm:pt-12 lg:px-8 lg:pt-16">
           <div className="animate-pulse">
             <div className="flex flex-col items-center gap-4 lg:flex-row lg:items-start lg:gap-6">
               {/* Avatar */}
@@ -107,7 +107,7 @@ export function RecitationDetailSkeleton() {
       </div>
 
       {/* Audio player section */}
-      <div className="mx-auto max-w-[1200px] px-4 pb-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-[1280px] px-4 pb-16 sm:px-6 lg:px-8">
         <div className="animate-pulse mt-10">
           <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
             {/* Track list */}

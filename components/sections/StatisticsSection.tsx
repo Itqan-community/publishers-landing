@@ -31,17 +31,17 @@ export function StatisticsSection({
         aria-hidden="true"
       />
 
-      <div className="relative z-[1] max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-[1] max-w-content mx-auto px-4 sm:px-6 lg:px-8">
         {/* Title + description stacked */}
         {(title || description) && (
           <div className="mb-12 flex flex-col gap-4">
             {title && (
-              <h2 className="text-[26px] md:text-[32px] font-semibold text-white leading-[1.4]">
+              <h2 className="text-display-xs md:text-display-sm font-semibold text-white leading-tight">
                 {title}
               </h2>
             )}
             {description && (
-              <p className="text-[15px] md:text-[17px] text-white/80 leading-[25px] max-w-[640px]">
+              <p className="text-sm md:text-md text-white/80 leading-relaxed max-w-[640px]">
                 {description}
               </p>
             )}
@@ -55,15 +55,15 @@ export function StatisticsSection({
               key={index}
               className="relative min-h-[140px] sm:min-h-[160px] md:h-[187px] w-full md:w-[240px] flex-shrink-0"
             >
-              <div className="text-[36px] sm:text-[44px] md:text-[56px] leading-none text-[#faaf41] font-medium">
+              <div className="text-display-sm sm:text-display-lg md:text-display-xl leading-none text-[var(--color-secondary)] font-medium">
                 {typeof stat.value === 'number'
                   ? stat.value.toLocaleString()
                   : stat.value}
                 {stat.suffix ?? ''}
               </div>
-              <div className="text-[20px] sm:text-[24px] md:text-[29px] font-light mt-3 md:mt-4">{stat.label}</div>
+              <div className="text-xl sm:text-display-xs md:text-display-sm font-light mt-3 md:mt-4">{stat.label}</div>
               {stat.description && (
-                <div className="text-[15px] font-light mt-2 text-white/90">
+                <div className="text-sm font-light mt-2 text-white/90">
                   {stat.description}
                 </div>
               )}

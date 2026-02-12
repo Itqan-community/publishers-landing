@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Input } from '@/components/ui/Input';
 
 export interface RecitationItem {
   id: string;
@@ -410,7 +411,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
           </div>
 
           {/* Player at end (left in RTL, right in LTR). Border: block-start on mobile, inline-start on lg. */}
-          <div className="min-w-0 flex-1 border-t border-[#ebe8e8] px-6 py-6 sm:px-8 sm:py-8 lg:border-t-0 lg:border-s">
+          <div className="min-w-0 flex-1 border-t border-[#ebe8e8] px-6 py-6 sm:px-8 sm:py-8 lg:border-t-0 lg:border-s flex flex-col justify-center ">
             <div className="flex flex-col items-center">
               {/* Artwork: featured = track name text only; details = image or user icon */}
               <div className="relative mb-8 size-[160px] sm:size-[190px] lg:size-[214px] rounded-[30px] bg-white p-[7px] shadow-[0px_44px_84px_0px_rgba(0,0,0,0.07)]">
@@ -596,17 +597,17 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
               <div className="flex flex-col gap-4">
                 <div className="flex flex-wrap items-center justify-between gap-4">
                   <h3 className="text-[33.5px] font-bold text-black">{listTitleText}</h3>
-                  <label className="flex w-full items-center gap-2 rounded-[10px] bg-[#f3f3f3] px-3 py-2 sm:w-[240px] flex-row-reverse">
-                    <input
-                      type="text"
+                  <div className="w-full sm:w-[240px] rounded-md bg-[var(--color-bg-neutral-100)]">
+                    <Input
+                      variant="borderless"
+                      inputSize="sm"
                       placeholder="ابحث عن السورة"
                       value={trackSearchQuery}
                       onChange={(e) => setTrackSearchQuery(e.target.value)}
-                      className="w-full bg-transparent text-[16px] text-[#6c737f] placeholder:text-[#6c737f] focus:outline-none"
                       aria-label="ابحث عن السورة"
+                      startIcon={<SearchIcon className="h-5 w-5 text-[var(--color-foreground)]" />}
                     />
-                    <SearchIcon className="h-5 w-5 shrink-0 text-[#161616]" />
-                  </label>
+                  </div>
                 </div>
 
                 <div className="max-h-[400px] sm:max-h-[620px] overflow-y-auto pe-2">

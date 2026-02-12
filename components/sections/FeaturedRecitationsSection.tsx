@@ -21,9 +21,9 @@ export const FeaturedRecitationsSection: React.FC<FeaturedRecitationsSectionProp
 }) => {
   return (
     <section className="bg-[#f6f4f1] py-12 sm:py-16 md:py-20">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-12 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mb-12 flex flex-col gap-4 lg:flex-row lg:justify-between">
           <div className="flex flex-col gap-2">
             <h2 className="text-[24px] sm:text-[32px] font-semibold leading-[1.4] text-black md:text-[39px]">
               {title}

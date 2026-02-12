@@ -3,40 +3,78 @@
 @tailwind utilities;
 
 :root {
-  /* Figma Design Tokens */
-  --color-primary: #193624; /* Primary green */
+  /* ===== Brand Colors (Identity) ===== */
+  --color-primary: #193624;
   --color-primary-dark: #102516;
   --color-primary-light: #245239;
-  --color-secondary: #faaf41; /* Gold accent */
+  --color-secondary: #faaf41;
   --color-secondary-dark: #d69d00;
   --color-secondary-light: #ffc933;
-  --color-button-black: #0d121c; /* Black button background */
-  --color-accent: #faaf41; /* Gold accent */
-  --color-background: #f3f3f3; /* BG from Figma */
-  --color-foreground: #161616; /* Text default */
-  --color-gray: #6a6a6a; /* Gray for inactive nav */
-  --color-black: #000000;
+  --color-accent: #faaf41;
+
+  /* ===== Functional Colors ===== */
+  --color-button-black: #0d121c;
+  --color-background: #f3f3f3;
+  --color-foreground: #161616;
   --color-white: #ffffff;
-  --color-border: #ebe8e8; /* Borders */
-  --color-gov-link: #1B8354; /* Government banner link */
+  --color-black: #000000;
+  --color-gov-link: #1B8354;
 
-  /* Radius from Figma */
-  --radius-sm: 4px; /* Button radius */
-  --radius-md: 12px;
-  --radius-lg: 20px;
-  --radius-full: 50px; /* Feature pills */
+  /* ===== Text Colors (KSA Gov aligned) ===== */
+  --color-text-default: #161616;
+  --color-text-display: #1f2a37;
+  --color-text-paragraph: #384250;
+  --color-text-secondary: #6c737f;
+  --color-text-oncolor: #ffffff;
 
-  /* Shadows */
-  --shadow-soft: 0 8px 20px rgba(0, 0, 0, 0.06);
+  /* ===== Background Colors (KSA Gov aligned) ===== */
+  --color-bg-white: #ffffff;
+  --color-bg-neutral-50: #f9fafb;
+  --color-bg-neutral-100: #f3f4f6;
+  --color-bg-neutral-200: #e5e7eb;
+  --color-bg-card: #ffffff;
+
+  /* ===== Border Colors ===== */
+  --color-border: #ebe8e8;
+  --color-border-secondary: #e5e7eb;
+
+  /* ===== Radius — KSA Gov Standard ===== */
+  --radius-none: 0px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* ===== Shadows — KSA Gov Standard ===== */
+  --shadow-sm: 0 1px 2px 0 rgba(16, 24, 40, 0.05);
+  --shadow-md: 0 4px 6px -2px rgba(16, 24, 40, 0.03), 0 12px 16px -4px rgba(16, 24, 40, 0.08);
+  --shadow-lg: 0 4px 6px -2px rgba(16, 24, 40, 0.03), 0 12px 16px -4px rgba(16, 24, 40, 0.08);
   --shadow-card: 0 14px 36px rgba(0, 0, 0, 0.10);
-  --shadow-strong: 0 24px 50px rgba(0, 0, 0, 0.16);
+  --shadow-player: 0px 44px 84px 0px rgba(0, 0, 0, 0.07);
 
-  /* Typography: IBM Plex Sans Arabic everywhere (global, no overrides) */
+  /* ===== Typography ===== */
   --font-primary: var(--font-ibm-plex-sans-arabic), 'IBM Plex Sans Arabic', 'IBM Plex', sans-serif;
-  --font-size-md: 16px;
-  --line-height-md: 24px;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
+
+  /* ===== Spacing — KSA Gov Standard (4px grid) ===== */
+  --spacing-none: 0px;
+  --spacing-xs: 4px;
+  --spacing-sm: 6px;
+  --spacing-md: 8px;
+  --spacing-lg: 12px;
+  --spacing-xl: 16px;
+  --spacing-2xl: 20px;
+  --spacing-3xl: 24px;
+  --spacing-4xl: 32px;
+  --spacing-5xl: 40px;
+  --spacing-6xl: 48px;
+  --spacing-7xl: 64px;
+  --spacing-8xl: 80px;
+
+  /* ===== Layout ===== */
+  --content-max-width: 1280px;
+  --content-padding: 80px;
+  --header-height: 72px;
 }
 
 @layer base {
@@ -51,7 +89,7 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    text-align: start; /* Global default: start-aligned (right in RTL). Override with text-center where needed. */
+    text-align: start;
   }
   
   /* RTL support */

@@ -25,7 +25,7 @@ export const SponsorsSection: React.FC<SponsorsSectionProps> = ({
 
   return (
     <section className="py-12 sm:py-16 md:py-20 bg-white" dir="rtl">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header (match Saudi Center RTL style) */}
         <div className="mb-12">
           <h2 className="text-[24px] sm:text-[32px] md:text-[39px] font-semibold text-black leading-[1.4]">

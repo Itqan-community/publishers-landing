@@ -28,7 +28,7 @@ export function SpeakersSection({ speakers }: SpeakersSectionProps) {
 
   return (
     <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-gray-50 to-white">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10 sm:mb-16">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
             Meet Our Speakers
@@ -52,7 +52,7 @@ export function SpeakersSection({ speakers }: SpeakersSectionProps) {
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                
+
                 <div className="absolute bottom-4 start-4 end-4 text-white">
                   <h3 className="text-xl sm:text-2xl font-bold mb-1">{speaker.name}</h3>
                   <p className="text-sm text-gray-200">{speaker.title}</p>

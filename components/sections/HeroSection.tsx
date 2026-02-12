@@ -29,16 +29,16 @@ export function HeroSection({ content, basePath = '', statsCard }: HeroSectionPr
 
   return (
     <section className="relative w-full min-h-[420px] sm:min-h-[550px] lg:min-h-[772px]" style={{ overflow: 'visible' }}>
-      <div className="relative max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 lg:py-20" style={{ overflow: 'visible' }}>
+      <div className="relative max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 lg:py-20" style={{ overflow: 'visible' }}>
         {/* RTL: Text on right (start), Image on left (end) */}
         {/* Figma: Image is 469px wide, text area is wider - adjust grid ratio */}
         <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-8 lg:gap-12 items-center">
           {/* Text Column - Right side (start in RTL) */}
           <div className="order-1 lg:order-1 space-y-5 sm:space-y-6">
-            <h1 className="text-[28px] sm:text-[32px] md:text-[39px] font-semibold text-black leading-[1.4] max-w-xl">
+            <h1 className="text-display-xs sm:text-display-sm md:text-display-lg font-semibold text-[var(--color-foreground)] leading-tight max-w-xl">
               {title}
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-gray-700 leading-relaxed max-w-xl">
+            <p className="text-md sm:text-lg md:text-xl text-[var(--color-text-paragraph)] leading-relaxed max-w-xl">
               {description}
             </p>
 
@@ -57,25 +57,29 @@ export function HeroSection({ content, basePath = '', statsCard }: HeroSectionPr
             <div className="flex items-center gap-4 pt-4 justify-start">
               <div className="flex -space-x-3 rtl:space-x-reverse">
                 {[1, 2, 3, 4].map((i) => (
-                  <Image
+                  <div
                     key={i}
-                    src={`/images/avatar-${i}.jpg`}
-                    alt="reciter"
-                    width={48}
-                    height={48}
-                    className="rounded-full border-2 border-white shadow-sm"
-                  />
+                    className="relative w-12 h-12 rounded-full border-[1.5px] border-white shadow-sm overflow-hidden bg-[var(--color-bg-neutral-200)]"
+                  >
+                    <Image
+                      src={`/images/avatar-${i}.jpg`}
+                      alt="reciter"
+                      fill
+                      className="object-cover"
+                      sizes="48px"
+                    />
+                  </div>
                 ))}
-                <div className="w-12 h-12 rounded-full bg-[#193624] text-white border-2 border-white flex items-center justify-center text-[19px] font-bold shadow-sm">
+                <div className="w-12 h-12 rounded-full bg-[var(--color-primary)] text-[var(--color-text-oncolor)] border-[1.5px] border-white flex items-center justify-center text-lg font-bold shadow-sm">
                   +30
                 </div>
               </div>
             </div>
 
             {/* Social icons with line between text and icons - Figma: line between text and icons */}
-            <div className="flex items-center gap-4 text-[#193624] text-lg pt-1 justify-start flex-wrap sm:flex-nowrap">
-              <span className="text-sm text-gray-700">تابعنا على منصات التواصل الاجتماعي</span>
-              <div className="hidden sm:block h-[1px] w-[140px] bg-[#193624]" />
+            <div className="flex items-center gap-4 text-[var(--color-primary)] text-lg pt-1 justify-start flex-wrap sm:flex-nowrap">
+              <span className="text-sm text-[var(--color-text-paragraph)]">تابعنا على منصات التواصل الاجتماعي</span>
+              <div className="hidden sm:block h-[1px] w-[140px] bg-[var(--color-primary)]" />
               <div className="flex items-center gap-[15px]">
                 {/* Figma: gap 15px, icons 24px */}
                 <a href="#" aria-label="X" className="hover:opacity-80 transition-opacity">
@@ -96,7 +100,7 @@ export function HeroSection({ content, basePath = '', statsCard }: HeroSectionPr
             {/* Container with overflow visible to show star and chips */}
             <div className="relative w-full h-[300px] sm:h-[400px] lg:h-[560px]">
               {/* Image container - overflow hidden only for image */}
-              <div className="relative w-full h-full rounded-[32px] overflow-hidden shadow-xl ring-1 ring-black/5 bg-white">
+              <div className="relative w-full h-full rounded-xl overflow-hidden shadow-lg ring-1 ring-black/5 bg-[var(--color-bg-card)]">
                 <Image
                   src={image}
                   alt={title}
@@ -106,7 +110,7 @@ export function HeroSection({ content, basePath = '', statsCard }: HeroSectionPr
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
               </div>
-              
+
               {/* Floating stats badge - Figma: star shape, center aligned to left edge of image (end side in RTL) */}
               {/* Positioned outside image container so it's visible */}
               {statsCard && (
@@ -123,15 +127,15 @@ export function HeroSection({ content, basePath = '', statsCard }: HeroSectionPr
                     >
                       <path
                         d="M28.4707 123.264L0.707031 95.5L28.4707 67.7363V28.4707H67.7363L95.5 0.707031L123.264 28.4707H162.529V67.7363L190.293 95.5L162.529 123.264V162.529H123.264L95.5 190.293L67.7363 162.529H28.4707V123.264Z"
-                        fill="#193624"
+                        fill="var(--color-primary)"
                       />
                     </svg>
                     {/* Content */}
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-white leading-none px-4 py-3 sm:px-6 sm:py-5 pointer-events-none">
-                      <div className="text-[24px] sm:text-[32px] lg:text-[44.332px] font-bold text-[#faaf41] leading-none mb-1 sm:mb-2">
+                      <div className="text-display-xs sm:text-display-sm lg:text-display-lg font-bold text-[var(--color-secondary)] leading-none mb-1 sm:mb-2">
                         {statsCard.value}
                       </div>
-                      <div className="text-[10px] sm:text-[13px] lg:text-[16px] font-medium text-white text-center leading-[1.5]">
+                      <div className="text-xs sm:text-sm lg:text-md font-medium text-[var(--color-text-oncolor)] text-center leading-normal">
                         <p className="mb-0">استماع على جميع</p>
                         <p>المنصات</p>
                       </div>
@@ -149,12 +153,12 @@ export function HeroSection({ content, basePath = '', statsCard }: HeroSectionPr
                 ].map((item, idx) => (
                   <div
                     key={item}
-                    className="flex items-center gap-2 bg-white px-3 py-1 sm:px-4 sm:py-1.5 rounded-[50px] shadow-sm ring-1 ring-gray-100 translate-x-0 xl:translate-x-[12%] 2xl:translate-x-[30%]"
-                    style={{ 
+                    className="flex items-center gap-2 bg-[var(--color-bg-card)] px-3 py-1 sm:px-4 sm:py-1.5 rounded-full shadow-sm ring-1 ring-[var(--color-border)] translate-x-0 xl:translate-x-[12%] 2xl:translate-x-[30%]"
+                    style={{
                       minHeight: '42px',
                     }}
                   >
-                    <span className="text-[13px] sm:text-[16px] font-medium text-black">{item}</span>
+                    <span className="text-sm sm:text-md font-medium text-[var(--color-foreground)]">{item}</span>
                     <CheckmarkBadgeIcon className="w-6 h-6 flex-shrink-0" />
                   </div>
                 ))}

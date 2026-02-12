@@ -122,7 +122,7 @@ export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenter
 
       {/* Divider between About and Recorded Mushafs */}
       <div className="bg-white">
-        <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="border-t border-[#ebe8e8]" />
         </div>
       </div>

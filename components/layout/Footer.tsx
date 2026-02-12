@@ -20,7 +20,7 @@ function withBasePath(href: string, basePath: string): string {
 function XIcon() {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M3 21L10.548 13.452M21 3L13.452 10.548M13.452 10.548L18 3H15L10.548 13.452M13.452 10.548L21 21H18L10.548 13.452" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M3 21L10.548 13.452M21 3L13.452 10.548M13.452 10.548L18 3H15L10.548 13.452M13.452 10.548L21 21H18L10.548 13.452" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -28,7 +28,7 @@ function XIcon() {
 function LinkedInIcon() {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M4.75 1.875C3.157 1.875 1.875 3.157 1.875 4.75V19.25C1.875 20.843 3.157 22.125 4.75 22.125H19.25C20.843 22.125 22.125 20.843 22.125 19.25V4.75C22.125 3.157 20.843 1.875 19.25 1.875H4.75ZM7.5 9V17H5V9H7.5ZM6.25 6C6.94 6 7.5 6.56 7.5 7.25C7.5 7.94 6.94 8.5 6.25 8.5C5.56 8.5 5 7.94 5 7.25C5 6.56 5.56 6 6.25 6ZM19 17H16.5V13C16.5 11.83 15.75 11 14.75 11C13.75 11 13 11.83 13 13V17H10.5V9H13V10.31C13.59 9.54 14.47 9 15.5 9C17.43 9 19 10.57 19 12.5V17Z" stroke="white" strokeWidth="1.2" fill="none"/>
+      <path d="M4.75 1.875C3.157 1.875 1.875 3.157 1.875 4.75V19.25C1.875 20.843 3.157 22.125 4.75 22.125H19.25C20.843 22.125 22.125 20.843 22.125 19.25V4.75C22.125 3.157 20.843 1.875 19.25 1.875H4.75ZM7.5 9V17H5V9H7.5ZM6.25 6C6.94 6 7.5 6.56 7.5 7.25C7.5 7.94 6.94 8.5 6.25 8.5C5.56 8.5 5 7.94 5 7.25C5 6.56 5.56 6 6.25 6ZM19 17H16.5V13C16.5 11.83 15.75 11 14.75 11C13.75 11 13 11.83 13 13V17H10.5V9H13V10.31C13.59 9.54 14.47 9 15.5 9C17.43 9 19 10.57 19 12.5V17Z" stroke="white" strokeWidth="1.2" fill="none" />
     </svg>
   );
 }
@@ -36,9 +36,9 @@ function LinkedInIcon() {
 function InstagramIcon() {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <rect x="2" y="2" width="20" height="20" rx="5" stroke="white" strokeWidth="1.5"/>
-      <circle cx="12" cy="12" r="4.5" stroke="white" strokeWidth="1.5"/>
-      <circle cx="17.5" cy="6.5" r="1" fill="white"/>
+      <rect x="2" y="2" width="20" height="20" rx="5" stroke="white" strokeWidth="1.5" />
+      <circle cx="12" cy="12" r="4.5" stroke="white" strokeWidth="1.5" />
+      <circle cx="17.5" cy="6.5" r="1" fill="white" />
     </svg>
   );
 }
@@ -201,7 +201,7 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = '' }) => {
 
   return (
     <footer className="bg-white border-t border-gray-200">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-8">
           <div className="lg:col-span-1">
             <div className="mb-6">

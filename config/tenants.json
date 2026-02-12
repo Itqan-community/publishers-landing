@@ -369,8 +369,8 @@
       "logo": "/logos/center-logo.png",
       "logoFull": "/logos/center-logo-full.png",
       "favicon": "/favicons/saudi-center.ico",
-      "primaryColor": "#faaf41",
-      "secondaryColor": "#f6f6f4",
+      "primaryColor": "#193624",
+      "secondaryColor": "#faaf41",
       "accentColor": "#0d121c",
       "font": "inter"
     },

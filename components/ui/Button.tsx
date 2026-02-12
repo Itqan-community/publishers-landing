@@ -1,13 +1,22 @@
 import React from 'react';
-import { PlayIcon } from './Icons';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Visual style variant */
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'link' | 'surface';
+  /** Size preset — sm(32px), md(40px), lg(48px), icon(40px square) */
   size?: 'sm' | 'md' | 'lg' | 'icon';
   children: React.ReactNode;
+  /** Render as child element (polymorphic) */
   asChild?: boolean;
 }
 
+/**
+ * Button atom — the single source of truth for all clickable actions.
+ *
+ * - Variants control color/border/background
+ * - Sizes control height, padding, and font-size (KSA gov button tokens)
+ * - All interactive states handled: hover, focus-visible, active, disabled
+ */
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
@@ -20,26 +29,40 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
-    const baseStyles =
-      'inline-flex items-center justify-center font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
-    // Font: IBM Plex Sans Arabic Medium, 16px, line-height 24px from Figma
+    const baseStyles = [
+      'inline-flex items-center justify-center gap-1 font-medium',
+      'transition-colors duration-200',
+      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
+      'active:opacity-90',
+      'disabled:opacity-50 disabled:pointer-events-none',
+    ].join(' ');
 
-    const variants = {
-      primary: 'bg-[#193624] text-white hover:bg-[#102516] rounded-[4px]', // Primary green, radius-sm 4px
-      secondary: 'bg-[#0d121c] text-white hover:bg-[#090d15] rounded-[4px]', // Black button, radius-sm 4px
+    const variants: Record<NonNullable<ButtonProps['variant']>, string> = {
+      primary:
+        'bg-[var(--color-primary)] text-white rounded-sm ' +
+        'hover:bg-[var(--color-primary-dark)]',
+      secondary:
+        'bg-[var(--color-button-black)] text-white rounded-sm ' +
+        'hover:bg-[#090d15]',
       outline:
-        'border border-primary/25 text-primary bg-white hover:bg-primary/5 shadow-sm rounded-[4px]',
+        'border border-primary/25 text-[var(--color-primary)] bg-white rounded-sm ' +
+        'hover:bg-primary/5 shadow-sm',
+      ghost:
+        'text-[var(--color-primary)] rounded-sm ' +
+        'hover:bg-primary/5',
+      link:
+        'text-[var(--color-primary)] underline-offset-4 ' +
+        'hover:underline',
       surface:
-        'bg-white text-[#161616] border border-[#ebe8e8] shadow-none hover:shadow-none hover:bg-gray-50 rounded-[12px] !p-[20px] !h-auto !leading-[1]',
-      ghost: 'text-primary hover:bg-primary/5 rounded-[4px]',
-      link: 'text-primary underline-offset-4 hover:underline',
+        'bg-white text-[var(--color-foreground)] border border-[var(--color-border)] rounded-sm ' +
+        'hover:bg-[var(--color-bg-neutral-50)]',
     };
 
-    const sizes = {
-      sm: 'h-[40px] px-4 text-[16px] leading-[24px]', // Figma: 40px height, 16px padding, 16px font, 24px line-height
-      md: 'h-[40px] px-4 text-[16px] leading-[24px]', // Same as sm per Figma
-      lg: 'h-[40px] px-4 text-[16px] leading-[24px]', // Same as sm per Figma
-      icon: 'h-[40px] w-[40px] text-[16px]',
+    const sizes: Record<NonNullable<ButtonProps['size']>, string> = {
+      sm: 'h-8 px-2 text-sm',         // 32px, 8px padding, 14px font
+      md: 'h-10 px-3 text-md',        // 40px, 12px padding, 16px font
+      lg: 'h-12 px-4 text-md',        // 48px, 16px padding, 16px font
+      icon: 'h-10 w-10 text-md',      // 40px square
     };
 
     const classes = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`;
@@ -54,19 +77,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       } as any);
     }
 
-    // Add play icon to primary button (from Figma design)
-    const showPlayIcon = variant === 'primary' && size !== 'icon';
-
     return (
-      <button ref={ref} className={`${classes} ${showPlayIcon ? 'gap-1' : ''}`} {...props}>
-        {showPlayIcon ? (
-          <span className="flex items-center gap-1">
-            <PlayIcon className="w-6 h-6 flex-shrink-0" />
-            {children}
-          </span>
-        ) : (
-          children
-        )}
+      <button ref={ref} className={classes} {...props}>
+        {children}
       </button>
     );
   }
