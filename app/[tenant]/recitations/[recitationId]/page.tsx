@@ -176,12 +176,12 @@ export default async function RecitationDetailsPage({
                       مصحف مجود
                     </span> */}
                         {recitation.riwayah?.name && (
-                          <span className="rounded-xs bg-white px-xl py-lg text-xs font-[500] text-[#1f2a37]">
+                          <span className="rounded-xs bg-white px-[8px] py-[4px] text-xs font-[500] text-[#1f2a37]">
                             رواية {recitation.riwayah.name}
                           </span>
                         )}
                         {recitation.madd_level && (
-                          <span className="rounded-xs bg-white px-xl py-lg text-xs font-[500] text-[#1f2a37]">
+                          <span className="rounded-xs bg-white px-[8px] py-[4px] text-xs font-[500] text-[#1f2a37]">
                             {recitation.madd_level === 'tawassut' ? 'التوسط' : recitation.madd_level === 'qasr' ? 'قصر' : recitation.madd_level}
                           </span>
                         )}
