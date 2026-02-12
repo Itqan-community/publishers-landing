@@ -29,7 +29,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
           <h2 className="text-display-xs sm:text-display-sm md:text-display-lg font-semibold text-[var(--color-foreground)] leading-tight">
             {title}
           </h2>
-          <p className="text-md sm:text-lg md:text-xl text-[var(--color-text-paragraph)] leading-relaxed max-w-[740px]">
+          <p className="text-md sm:text-lg md:text-xl text-[var(--color-text-paragraph)] leading-relaxed max-w-paragraph">
             {description}
           </p>
         </div>
@@ -41,7 +41,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
               key={feature.id}
               className="relative min-h-[218px] rounded-md border border-[var(--color-border)] bg-[var(--color-bg-card)] overflow-hidden px-5 pt-5 sm:px-6 sm:pt-6"
             >
-              <div className="absolute start-6 top-5 h-[59px] w-[59px] rounded-lg bg-[#eef9f2] flex items-center justify-center">
+              <div className="w-12 h-12 rounded-lg bg-[#eef9f2] flex items-center justify-center">
                 {feature.iconSrc && (
                   <Image
                     src={feature.iconSrc}
@@ -52,7 +52,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
                   />
                 )}
               </div>
-              <h3 className="text-lg sm:text-xl font-semibold text-[var(--color-foreground)] mt-[58px]">
+              <h3 className="text-lg sm:text-xl font-semibold text-[var(--color-foreground)] mt-6">
                 {feature.title}
               </h3>
               {feature.description && (

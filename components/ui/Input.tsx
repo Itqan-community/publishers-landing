@@ -40,8 +40,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         'focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]',
       search:
         'rounded-sm border border-[var(--color-border)] bg-transparent ' +
-        'focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)] ' +
-        'sm:rounded-none sm:border-0',
+        'focus:border-[var(--color-primary)] focus:ring-1 focus:ring-[var(--color-primary)]',
       borderless:
         'rounded-none border-0 bg-transparent',
     };
@@ -61,7 +60,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           className={[
             'w-full outline-none',
             'text-[var(--color-foreground)] placeholder:text-[var(--color-text-secondary)]',
-            'transition-colors duration-200',
+            'transition-all duration-300',
             'disabled:opacity-50 disabled:cursor-not-allowed',
             sizes[inputSize],
             variants[variant],

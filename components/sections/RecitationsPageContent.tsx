@@ -65,7 +65,7 @@ export function RecitationsPageContent({
       {/* Subtle loading state when filters trigger a new fetch */}
       <div className={`transition-opacity duration-200 ${isPending ? 'opacity-50 pointer-events-none' : 'opacity-100'}`}>
         {/* Top section has a shared background that also shows behind the (desktop) transparent header */}
-        <div className="relative bg-[#f6f6f4] -mt-16 lg:-mt-[72px] pt-16 lg:pt-[72px]">
+        <div className="relative bg-[#f6f6f4] -mt-16 lg:-mt-header pt-16 lg:pt-header">
           <div
             className="pointer-events-none absolute inset-0 bg-[url('/images/hero-bg.svg')] bg-no-repeat bg-right-top bg-cover opacity-100 [mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)] [-webkit-mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)]"
             aria-hidden="true"

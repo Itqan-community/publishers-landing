@@ -43,9 +43,10 @@ const config: Config = {
       /* ===== Border Radius — KSA Gov Standard ===== */
       borderRadius: {
         none: "var(--radius-none)",
-        sm: "var(--radius-sm)",     // 4px
+        xs: "var(--radius-xs)",     // 4px
+        sm: "var(--radius-sm)",     // 6px
         md: "var(--radius-md)",     // 8px
-        lg: "var(--radius-lg)",     // 16px
+        lg: "var(--radius-lg)",     // 12px
         xl: "var(--radius-xl)",     // 24px
         full: "var(--radius-full)", // 9999px
       },
@@ -58,6 +59,7 @@ const config: Config = {
       /* ===== Font Size — KSA Gov Type Scale ===== */
       fontSize: {
         // Text sizes
+        "2xs": ["10px", { lineHeight: "14px" }],
         xs: ["12px", { lineHeight: "18px" }],
         sm: ["14px", { lineHeight: "20px" }],
         md: ["16px", { lineHeight: "24px" }],
@@ -66,26 +68,43 @@ const config: Config = {
         // Display sizes
         "display-xs": ["24px", { lineHeight: "32px" }],
         "display-sm": ["30px", { lineHeight: "38px" }],
+        "display-md": ["36px", { lineHeight: "44px", letterSpacing: "-0.02em" }],
         "display-lg": ["48px", { lineHeight: "60px", letterSpacing: "-0.02em" }],
         "display-xl": ["60px", { lineHeight: "72px", letterSpacing: "-0.02em" }],
         "display-2xl": ["72px", { lineHeight: "90px", letterSpacing: "-0.02em" }],
       },
 
-      /* ===== Spacing — KSA Gov Standard (supplementary aliases) ===== */
+      /* ===== Spacing — KSA Gov Standard (semantic aliases) ===== */
       spacing: {
         "header": "var(--header-height)", // 72px
       },
 
-      /* ===== Max Width ===== */
+      /* ===== Max Width — KSA Gov Standard ===== */
       maxWidth: {
         content: "var(--content-max-width)", // 1280px
+        paragraph: "var(--paragraph-max-width)", // 720px
+        "width-xxs": "var(--width-xxs)", // 320px
+        "width-xs": "var(--width-xs)",   // 384px
+        "width-sm": "var(--width-sm)",   // 480px
+        "width-md": "var(--width-md)",   // 560px
+        "width-lg": "var(--width-lg)",   // 640px
+        "width-xl": "var(--width-xl)",   // 768px
+        "width-2xl": "var(--width-2xl)", // 1024px
+        "width-3xl": "var(--width-3xl)", // 1280px
+        "width-4xl": "var(--width-4xl)", // 1440px
+        "width-5xl": "var(--width-5xl)", // 1600px
+        "width-6xl": "var(--width-6xl)", // 1920px
       },
 
-      /* ===== Box Shadow — KSA Gov Standard ===== */
+      /* ===== Box Shadow — KSA Gov Standard (7 levels) ===== */
       boxShadow: {
+        xs: "var(--shadow-xs)",
         sm: "var(--shadow-sm)",
         md: "var(--shadow-md)",
         lg: "var(--shadow-lg)",
+        xl: "var(--shadow-xl)",
+        "2xl": "var(--shadow-2xl)",
+        "3xl": "var(--shadow-3xl)",
         card: "var(--shadow-card)",
         player: "var(--shadow-player)",
       },

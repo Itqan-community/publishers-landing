@@ -72,7 +72,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
       dir="rtl"
     >
       <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-8">
-        <div className="flex items-center justify-between h-[72px]">
+        <div className="flex items-center justify-between h-header">
 
           {/* ── Right side: Logo + Nav Items ── */}
           <div className="flex items-center gap-8 flex-1 min-w-0">
@@ -90,7 +90,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
             </Link>
 
             {/* Desktop Nav Items */}
-            <nav className="hidden md:flex items-center gap-1 h-[72px]">
+            <nav className="hidden md:flex items-center gap-1 h-header">
               {navItems.map((item) => {
                 const active = isActive(item);
                 return (
@@ -98,7 +98,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
                     key={item.href}
                     href={item.href}
                     onClick={(e) => handleNavClick(e, item)}
-                    className={`group relative flex items-center justify-center h-[72px] px-4 text-[16px] leading-[24px] rounded-[4px] transition-colors duration-200
+                    className={`group relative flex items-center justify-center h-header px-4 text-md rounded-xs transition-colors duration-200
                       ${active
                         ? 'bg-[#193624] text-white font-semibold'
                         : 'text-[#161616] font-medium hover:bg-[#193624]/10'
@@ -120,7 +120,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
           </div>
 
           {/* ── Left side: Action Buttons ── */}
-          <div className="hidden md:flex items-center h-[72px]">
+          <div className="hidden md:flex items-center h-header">
             {/* تسجيل الدخول — hidden for now */}
             {/* <Link
               href="/login"
@@ -133,7 +133,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
             {/* استمع الان */}
             <Link
               href="/recitations"
-              className="flex items-center justify-center gap-1 h-[72px] px-4 text-[16px] leading-[24px] font-medium text-[#161616] hover:bg-[#193624]/10 rounded-[4px] transition-colors duration-200"
+              className="flex items-center justify-center gap-1 h-header px-4 text-md font-medium text-[#161616] hover:bg-[#193624]/10 rounded-xs transition-colors duration-200"
             >
               <ListenNowIcon size={24} />
               <span>استمع الان</span>
@@ -142,7 +142,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
 
           {/* ── Mobile Menu Button ── */}
           <button
-            className="md:hidden p-2 text-[#161616] hover:bg-gray-100 rounded-[4px] transition-colors"
+            className="md:hidden p-2 text-[#161616] hover:bg-gray-100 rounded-xs transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -161,7 +161,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
                     key={item.href}
                     href={item.href}
                     onClick={(e) => handleNavClick(e, item)}
-                    className={`group relative flex items-center px-4 py-3 rounded-[4px] text-[16px] leading-[24px] transition-colors
+                    className={`group relative flex items-center px-4 py-3 rounded-xs text-md transition-colors
                       ${active
                         ? 'bg-[#193624] text-white font-semibold'
                         : 'text-[#161616] font-medium hover:bg-[#193624]/10'
@@ -184,7 +184,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
                   <FiUser size={20} />
                   تسجيل الدخول
                 </Link> */}
-                <Link href="/recitations" className="flex items-center justify-center gap-2 px-4 py-3 text-[16px] font-medium text-[#161616] rounded-[4px] hover:bg-[#193624]/10 transition-colors">
+                <Link href="/recitations" className="flex items-center justify-center gap-2 px-4 py-3 text-md font-medium text-[#161616] rounded-xs hover:bg-[#193624]/10 transition-colors">
                   <ListenNowIcon size={20} />
                   استمع الان
                 </Link>

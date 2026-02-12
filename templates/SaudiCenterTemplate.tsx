@@ -90,7 +90,8 @@ export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenter
   return (
     <PageLayout tenant={tenant}>
       {/* Hero has a shared background that also shows behind the (desktop) transparent header */}
-      <div className="relative bg-[#f6f6f4] -mt-16 lg:-mt-[72px] pt-16 lg:pt-[72px]">
+      {/* Hero Section */}
+      <div className="relative bg-bg-neutral-50 -mt-16 lg:-mt-header pt-7xl lg:pt-header">
         {/* Background image layer with diagonal fade (top-start -> bottom-end) */}
         <div
           className="pointer-events-none absolute inset-0 bg-[url('/images/hero-bg.svg')] bg-no-repeat bg-right-top bg-cover opacity-100 [mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)] [-webkit-mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)]"
@@ -109,8 +110,8 @@ export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenter
         />
       </div>
 
-      {/* Partners Section - separate solid background (no hero pattern) */}
-      <PartnersSection />
+      {/* Partners Section moved to bottom */}
+      {/* <PartnersSection /> */}
 
       {/* About Section — scroll target #about */}
       <AboutSection
@@ -151,12 +152,24 @@ export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenter
         reciters={reciters}
       />
 
+      {/* Divider between Reciters and Sponsors */}
+      <div className="bg-white">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="border-t border-[#ebe8e8]" />
+        </div>
+      </div>
 
-      {/* Sponsors Section */}
+
+      {/* Sponsors Section - Commented out as requested, logos merged into Partners carousel */}
+      {/* 
       <SponsorsSection
         title="شركاء النجاح"
         sponsors={sponsors}
       />
+      */}
+
+      {/* Partners Section - Relocated to bottom before Statistics */}
+      <PartnersSection title="شركاء النجاح" />
 
       {/* Statistics Section */}
       {tenant.content.statistics && tenant.content.statistics.length > 0 && (

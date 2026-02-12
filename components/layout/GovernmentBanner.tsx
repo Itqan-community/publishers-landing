@@ -35,7 +35,7 @@ export const GovernmentBanner: React.FC = () => {
     <div className="w-full bg-white border-b border-[#ebe8e8] font-primary antialiased" dir="rtl">
       {/* Main bar: padding on this block only so divider below can be full width */}
       <div className="w-full mx-auto px-4 sm:px-6 lg:px-12 xl:px-20">
-        <div className="flex items-center gap-[10px] py-[6px] text-[12px] sm:text-[13px]">
+        <div className="flex items-center gap-md py-sm text-xs">
           <ArabicFlagIcon />
           <span className="text-[#555] font-medium">
             موقع حكومي مسجل لدى هيئة الحكومة الرقمية
@@ -54,8 +54,8 @@ export const GovernmentBanner: React.FC = () => {
       {/* Collapsible: full width (no padding on this wrapper) so dividers span edge to edge */}
       <div
         className={`overflow-hidden transition-all duration-300 ease-in-out w-full ${isOpen
-            ? 'max-h-[400px] opacity-100'
-            : 'max-h-0 opacity-0'
+          ? 'max-h-[400px] opacity-100'
+          : 'max-h-0 opacity-0'
           }`}
       >
         {/* Full-width divider under first row (main bar) */}
@@ -63,60 +63,60 @@ export const GovernmentBanner: React.FC = () => {
 
         {/* Two columns: padding on inner content only */}
         <div className="w-full mx-auto px-4 sm:px-6 lg:px-12 xl:px-20 py-5">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-6">
-              {/* Col 1: .gov.sa */}
-              <div className="flex gap-6 items-start">
-                <div className="flex-shrink-0 w-[52px] h-[52px] flex items-center justify-center" aria-hidden>
-                  <img src="/link-icon.png" alt="" className="w-[52px] h-[52px] object-contain" />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <span className="font-bold text-[#161616] text-[13px] sm:text-[14px] leading-snug">
-                    روابط المواقع الالكترونية الرسمية السعودية تنتهي ب
-                    <span className="text-[var(--color-gov-link)]"> gov.sa </span>
-                  </span>
-                  <span className="text-[12px] text-[#6a6a6a] leading-relaxed">
-                    جميع روابط المواقع الرسمية التابعة للجهات الحكومية في المملكة العربية السعودية تنتهي بـ
-                    <span className="mx-1">gov.sa</span>
-                  </span>
-                </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-6">
+            {/* Col 1: .gov.sa */}
+            <div className="flex gap-6 items-start">
+              <div className="flex-shrink-0 w-[52px] h-[52px] flex items-center justify-center" aria-hidden>
+                <img src="/link-icon.png" alt="" className="size-6xl object-contain" />
               </div>
+              <div className="flex flex-col gap-1">
+                <span className="font-bold text-[#161616] text-xs sm:text-sm">
+                  روابط المواقع الالكترونية الرسمية السعودية تنتهي ب
+                  <span className="text-[var(--color-gov-link)]"> gov.sa </span>
+                </span>
+                <span className="text-xs text-[#6a6a6a]">
+                  جميع روابط المواقع الرسمية التابعة للجهات الحكومية في المملكة العربية السعودية تنتهي بـ
+                  <span className="mx-1">gov.sa</span>
+                </span>
+              </div>
+            </div>
 
-              {/* Col 2: HTTPS */}
-              <div className="flex gap-6 items-start">
-                <div className="flex-shrink-0 w-[52px] h-[52px] flex items-center justify-center" aria-hidden>
-                  <img src="/lock-icon.png" alt="" className="w-[52px] h-[52px] object-contain" />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <span className="font-bold text-[#161616] text-[13px] sm:text-[14px] leading-snug">
-                    المواقع الالكترونية الحكومية تستخدم بروتوكول
-                    <span className="text-[var(--color-gov-link)]"> HTTPS للتشفير و الأمان. </span>
-                  </span>
-                  <span className="text-[12px] text-[#6a6a6a] leading-relaxed">
-                    المواقع الالكترونية الآمنة في المملكة العربية السعودية تستخدم بروتوكول HTTPS للتشفير.
-                  </span>
-                </div>
+            {/* Col 2: HTTPS */}
+            <div className="flex gap-6 items-start">
+              <div className="flex-shrink-0 w-[52px] h-[52px] flex items-center justify-center" aria-hidden>
+                <img src="/lock-icon.png" alt="" className="size-6xl object-contain" />
+              </div>
+              <div className="flex flex-col gap-1">
+                <span className="font-bold text-[#161616] text-xs sm:text-sm">
+                  المواقع الالكترونية الحكومية تستخدم بروتوكول
+                  <span className="text-[var(--color-gov-link)]"> HTTPS للتشفير و الأمان. </span>
+                </span>
+                <span className="text-xs text-[#6a6a6a]">
+                  المواقع الالكترونية الآمنة في المملكة العربية السعودية تستخدم بروتوكول HTTPS للتشفير.
+                </span>
               </div>
             </div>
           </div>
-
-          {/* Full-width divider above footer */}
-          <div className="w-full border-t border-[#ebe8e8]" aria-hidden />
-
-          {/* Footer: DGA registration — align start, slightly bigger/bolder */}
-          <div className="w-full mx-auto px-4 sm:px-6 lg:px-12 xl:px-20 pt-4 pb-5 flex items-center justify-start gap-3 flex-wrap">
-            <DgaIcon />
-            <span className="text-[14px] text-[#555] font-semibold">مسجل لدى هيئة الحكومة الرقمية برقم:</span>
-            <a
-              href="https://raqmi.dga.gov.sa/platforms/platforms/5b6415e9-ab75-44ba-b359-a2148b1ec8bc/platform-license"
-              target="_blank"
-              rel="noopener noreferrer nofollow"
-              className="text-[var(--color-gov-link)] hover:underline font-bold"
-              aria-label="رابط شهادة التسجيل"
-            >
-              {/* Number left empty as requested */}
-            </a>
-          </div>
         </div>
+
+        {/* Full-width divider above footer */}
+        <div className="w-full border-t border-[#ebe8e8]" aria-hidden />
+
+        {/* Footer: DGA registration — align start, slightly bigger/bolder */}
+        <div className="w-full mx-auto px-4 sm:px-6 lg:px-12 xl:px-20 pt-4 pb-5 flex items-center justify-start gap-3 flex-wrap">
+          <DgaIcon />
+          <span className="text-sm text-[#555] font-semibold">مسجل لدى هيئة الحكومة الرقمية برقم:</span>
+          <a
+            href="https://raqmi.dga.gov.sa/platforms/platforms/5b6415e9-ab75-44ba-b359-a2148b1ec8bc/platform-license"
+            target="_blank"
+            rel="noopener noreferrer nofollow"
+            className="text-[var(--color-gov-link)] hover:underline font-bold"
+            aria-label="رابط شهادة التسجيل"
+          >
+            {/* Number left empty as requested */}
+          </a>
+        </div>
+      </div>
     </div>
   );
 };

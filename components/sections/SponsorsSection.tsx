@@ -28,11 +28,11 @@ export const SponsorsSection: React.FC<SponsorsSectionProps> = ({
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header (match Saudi Center RTL style) */}
         <div className="mb-12">
-          <h2 className="text-[24px] sm:text-[32px] md:text-[39px] font-semibold text-black leading-[1.4]">
+          <h2 className="text-display-xs sm:text-display-sm md:text-display-md font-semibold text-black leading-tight">
             {title}
           </h2>
           {description && (
-            <p className="mt-3 text-[16px] sm:text-[18px] md:text-[20px] text-[#343434] leading-[30.4px] max-w-[720px]">
+            <p className="mt-3 text-md sm:text-lg md:text-xl text-[#343434] max-w-paragraph">
               {description}
             </p>
           )}
@@ -44,7 +44,7 @@ export const SponsorsSection: React.FC<SponsorsSectionProps> = ({
             <Card
               key={sponsor.id}
               variant="outlined"
-              className="border border-[#ebe8e8] rounded-[18px] bg-white p-6 sm:p-8"
+              className="border border-[#ebe8e8] rounded-xl bg-white p-6 sm:p-8"
             >
               <div className="flex flex-col gap-6">
                 {/* Logo - top row */}
@@ -60,11 +60,11 @@ export const SponsorsSection: React.FC<SponsorsSectionProps> = ({
 
                 {/* Text - bottom row */}
                 <div>
-                  <h3 className="text-[20px] md:text-[24px] font-semibold text-black">
+                  <h3 className="text-xl md:text-display-xs font-semibold text-black">
                     {sponsor.name}
                   </h3>
                   {sponsor.description && (
-                    <p className="mt-3 text-[16px] md:text-[18px] leading-[28px] text-[#343434]">
+                    <p className="mt-3 text-md md:text-lg text-[#343434]">
                       {sponsor.description}
                     </p>
                   )}

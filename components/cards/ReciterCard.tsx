@@ -14,6 +14,7 @@ export interface ReciterCardProps {
   id: string;
   name: string;
   title: string;
+  bio?: string;
   /** Image URL from API only; empty/missing shows person icon placeholder. */
   image?: string;
   publisher?: string;
@@ -27,6 +28,7 @@ export const ReciterCard: React.FC<ReciterCardProps> = ({
   name,
   title,
   image,
+  bio,
   publisher,
   publisherUrl,
   href,
@@ -39,8 +41,8 @@ export const ReciterCard: React.FC<ReciterCardProps> = ({
   const showImage = image && image.trim() && !imageError;
 
   return (
-    <div className="relative h-full overflow-hidden rounded-[10px] bg-black cursor-default">
-      <div className="relative w-full h-[380px] bg-[#1a1a1a] flex items-center justify-center">
+    <div className="relative h-full overflow-hidden rounded-md  cursor-default">
+      <div className="relative w-full h-[380px] bg-[#f3f3f3] flex items-center justify-center">
         {showImage ? (
           <Image
             key={image}
@@ -56,9 +58,9 @@ export const ReciterCard: React.FC<ReciterCardProps> = ({
           <UserIcon className="h-24 w-24 text-[#6a6a6a]" />
         )}
       </div>
-      <div className="absolute left-[13px] right-[13px] bottom-[16px] bg-white rounded-[10px] px-6 py-5">
-        <h3 className="text-[24px] font-semibold text-black leading-tight">{name}</h3>
-        <p className="text-[16px] text-[#343434] mt-2">{title}</p>
+      <div className="absolute left-[12px] right-[12px] bottom-[12px] bg-white rounded-md px-6 py-5">
+        <h3 className="text-display-xs font-semibold text-black leading-tight">{name}</h3>
+        <p className="text-md text-[#343434] mt-2 line-clamp-2">{bio || title}</p>
       </div>
     </div>
   );

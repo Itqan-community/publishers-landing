@@ -41,7 +41,7 @@ export function StatisticsSection({
               </h2>
             )}
             {description && (
-              <p className="text-sm md:text-md text-white/80 leading-relaxed max-w-[640px]">
+              <p className="text-sm md:text-md text-white/80 max-w-width-lg">
                 {description}
               </p>
             )}

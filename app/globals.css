@@ -40,24 +40,31 @@
 
   /* ===== Radius — KSA Gov Standard ===== */
   --radius-none: 0px;
-  --radius-sm: 4px;
+  --radius-xs: 4px;
+  --radius-sm: 6px;
   --radius-md: 8px;
-  --radius-lg: 16px;
+  --radius-lg: 12px;
   --radius-xl: 24px;
   --radius-full: 9999px;
 
-  /* ===== Shadows — KSA Gov Standard ===== */
-  --shadow-sm: 0 1px 2px 0 rgba(16, 24, 40, 0.05);
-  --shadow-md: 0 4px 6px -2px rgba(16, 24, 40, 0.03), 0 12px 16px -4px rgba(16, 24, 40, 0.08);
-  --shadow-lg: 0 4px 6px -2px rgba(16, 24, 40, 0.03), 0 12px 16px -4px rgba(16, 24, 40, 0.08);
-  --shadow-card: 0 14px 36px rgba(0, 0, 0, 0.10);
-  --shadow-player: 0px 44px 84px 0px rgba(0, 0, 0, 0.07);
+  /* ===== Shadows — KSA Gov Standard (7 levels) ===== */
+  --shadow-xs: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+  --shadow-sm: 0px 1px 2px 0px rgba(16, 24, 40, 0.06), 0px 1px 3px 0px rgba(16, 24, 40, 0.10);
+  --shadow-md: 0px 2px 4px -2px rgba(16, 24, 40, 0.06), 0px 4px 8px -2px rgba(16, 24, 40, 0.10);
+  --shadow-lg: 0px 4px 6px -2px rgba(16, 24, 40, 0.03), 0px 12px 16px -4px rgba(16, 24, 40, 0.08);
+  --shadow-xl: 0px 8px 8px -4px rgba(16, 24, 40, 0.03), 0px 20px 24px -4px rgba(16, 24, 40, 0.08);
+  --shadow-2xl: 0px 24px 48px -12px rgba(16, 24, 40, 0.18);
+  --shadow-3xl: 0px 32px 64px -12px rgba(16, 24, 40, 0.14);
+  /* Aliases for existing usage */
+  --shadow-card: 0px 24px 48px -12px rgba(16, 24, 40, 0.18);
+  --shadow-player: 0px 32px 64px -12px rgba(16, 24, 40, 0.14);
 
   /* ===== Typography ===== */
   --font-primary: var(--font-ibm-plex-sans-arabic), 'IBM Plex Sans Arabic', 'IBM Plex', sans-serif;
 
   /* ===== Spacing — KSA Gov Standard (4px grid) ===== */
   --spacing-none: 0px;
+  --spacing-xxs: 2px;
   --spacing-xs: 4px;
   --spacing-sm: 6px;
   --spacing-md: 8px;
@@ -70,6 +77,36 @@
   --spacing-6xl: 48px;
   --spacing-7xl: 64px;
   --spacing-8xl: 80px;
+  --spacing-9xl: 96px;
+  --spacing-10xl: 128px;
+  --spacing-11xl: 160px;
+
+  /* ===== Backdrop Blur — KSA Gov Standard ===== */
+  --backdrop-blur-sm: 8px;
+  --backdrop-blur-md: 16px;
+  --backdrop-blur-lg: 24px;
+  --backdrop-blur-xl: 40px;
+
+  /* ===== Widths — KSA Gov Standard ===== */
+  --width-xxs: 320px;
+  --width-xs: 384px;
+  --width-sm: 480px;
+  --width-md: 560px;
+  --width-lg: 640px;
+  --width-xl: 768px;
+  --width-2xl: 1024px;
+  --width-3xl: 1280px;
+  --width-4xl: 1440px;
+  --width-5xl: 1600px;
+  --width-6xl: 1920px;
+
+  /* ===== Containers — KSA Gov Standard ===== */
+  --container-padding-mobile: 16px;
+  --container-padding-desktop: 32px;
+  --container-max-width-desktop: 1280px;
+
+  /* ===== Paragraph Max Width ===== */
+  --paragraph-max-width: 720px;
 
   /* ===== Layout ===== */
   --content-max-width: 1280px;

@@ -63,18 +63,18 @@ export function RecitationsTopSection({
 }: RecitationsTopSectionProps) {
   return (
     <section
-      className="relative overflow-hidden pt-12 pb-10 md:pt-16 md:pb-12"
+      className="relative overflow-hidden py-header"
       aria-labelledby="recitations-heading"
       dir="rtl"
     >
       <div className="relative mx-auto max-w-content px-4 sm:px-6 lg:px-8">
         <h1
           id="recitations-heading"
-          className="text-center text-display-xs sm:text-display-sm font-semibold text-[var(--color-foreground)] md:text-display-sm lg:text-display-lg"
+          className="text-center text-display-xs sm:text-display-sm font-semibold text-[var(--color-foreground)] lg:text-display-lg"
         >
           {title}
         </h1>
-        <p className="mx-auto mt-4 max-w-[640px] text-center text-md text-[var(--color-text-paragraph)] sm:mt-6 sm:text-lg md:mt-8 md:text-xl">
+        <p className="mx-auto mt-xl max-w-width-lg text-center text-md text-[var(--color-text-paragraph)] sm:mt-3xl sm:text-lg md:mt-4xl md:text-xl">
           {description}
         </p>
 

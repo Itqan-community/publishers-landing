@@ -25,10 +25,10 @@ export const FeaturedRecitationsSection: React.FC<FeaturedRecitationsSectionProp
         {/* Header */}
         <div className="mb-12 flex flex-col gap-4 lg:flex-row lg:justify-between">
           <div className="flex flex-col gap-2">
-            <h2 className="text-[24px] sm:text-[32px] font-semibold leading-[1.4] text-black md:text-[39px]">
+            <h2 className="text-display-xs sm:text-display-sm font-semibold leading-tight text-black md:text-display-md">
               {title}
             </h2>
-            <p className="max-w-[640px] text-[16px] sm:text-[18px] leading-[30.4px] text-[#343434] md:text-[20px]">
+            <p className="max-w-width-lg text-md sm:text-lg text-[#343434] md:text-xl">
               {description}
             </p>
           </div>

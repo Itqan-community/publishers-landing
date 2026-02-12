@@ -46,7 +46,7 @@ function InstagramIcon() {
 
 /* ── Icon button wrapper (32×32 bordered square) ── */
 function IconButton({ href, label, children }: { href?: string; label: string; children: React.ReactNode }) {
-  const cls = "flex items-center justify-center size-[32px] rounded-[4px] border border-white/40 shrink-0 hover:bg-white/10 transition-colors";
+  const cls = "flex items-center justify-center size-8 rounded-xs border border-white/40 shrink-0 hover:bg-white/10 transition-colors";
   if (href) {
     return (
       <a href={href} target="_blank" rel="noopener noreferrer" className={cls} aria-label={label}>
@@ -79,9 +79,9 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = '' }) => {
             {/* Column 1 — ملخص (rightmost in RTL) */}
             <div className="flex-1 min-w-[180px] flex flex-col gap-2 items-start">
               <div className="w-full border-b border-white/30 pb-2">
-                <p className="text-[16px] font-medium leading-[24px] text-start">ملخص</p>
+                <p className="text-md font-medium text-start">ملخص</p>
               </div>
-              <div className="flex flex-col gap-2 items-start text-[14px] leading-[20px]">
+              <div className="flex flex-col gap-2 items-start text-sm">
                 <Link href={withBasePath('/about', basePath)} className="hover:underline">حول المركز</Link>
                 <Link href={withBasePath('/privacy', basePath)} className="hover:underline">الخصوصية وشروط الاستخدام</Link>
                 <Link href={withBasePath('/how-to-use', basePath)} className="hover:underline">كيفية استخدام المنصة</Link>
@@ -93,9 +93,9 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = '' }) => {
             {/* Column 2 — روابط مهمة */}
             <div className="flex-1 min-w-[180px] flex flex-col gap-2 items-start">
               <div className="w-full border-b border-white/30 pb-2">
-                <p className="text-[16px] font-medium leading-[24px] text-start">روابط مهمة</p>
+                <p className="text-md font-medium text-start">روابط مهمة</p>
               </div>
-              <div className="flex flex-col gap-2 items-start text-[14px] leading-[20px]">
+              <div className="flex flex-col gap-2 items-start text-sm">
                 <Link href={withBasePath('/about', basePath)} className="hover:underline">من نحن</Link>
                 <Link href={withBasePath('/contact', basePath)} className="hover:underline">تواصل معنا</Link>
                 <Link href={withBasePath('/faq', basePath)} className="hover:underline">الأسئلة الشائعة</Link>
@@ -107,9 +107,9 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = '' }) => {
             {/* Column 3 — الاتصال والدعم */}
             <div className="flex-1 min-w-[180px] flex flex-col gap-2 items-start">
               <div className="w-full border-b border-white/30 pb-2">
-                <p className="text-[16px] font-medium leading-[24px] text-start">الاتصال والدعم</p>
+                <p className="text-md font-medium text-start">الاتصال والدعم</p>
               </div>
-              <div className="flex flex-col gap-2 items-start text-[14px] leading-[20px]">
+              <div className="flex flex-col gap-2 items-start text-sm">
                 <Link href={withBasePath('/cookies', basePath)} className="hover:underline">إعدادات ملفات تعريف الارتباط</Link>
                 <Link href={withBasePath('/contact', basePath)} className="hover:underline">تواصل معنا</Link>
                 <Link href={withBasePath('/share', basePath)} className="hover:underline">شارك معنا</Link>
@@ -123,7 +123,7 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = '' }) => {
               {/* Social media */}
               <div className="w-full flex flex-col gap-2 items-start">
                 <div className="w-full border-b border-white/30 pb-2">
-                  <p className="text-[16px] font-medium leading-[24px] text-start">تابعنا على</p>
+                  <p className="text-md font-medium text-start">تابعنا على</p>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   <IconButton href="https://twitter.com/saudicenter" label="X (Twitter)">
@@ -148,16 +148,16 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = '' }) => {
             {/* Legal info — at start (right in RTL) */}
             <div className="flex flex-col gap-6 items-start">
               {/* Quick links row */}
-              <div className="flex flex-wrap gap-4 items-center text-[14px] leading-[20px]">
+              <div className="flex flex-wrap gap-4 items-center text-sm">
                 <Link href="/sitemap.xml" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">خريطة الموقع</Link>
               </div>
 
               {/* Copyright & last modified */}
               <div className="flex flex-col gap-2 items-start">
-                <p className="text-[14px] font-semibold leading-[20px] text-start">
+                <p className="text-sm font-semibold text-start">
                   {footer.copyright || 'جميع الحقوق محفوظة لهيئة الحكومة الرقمية © 2024'}
                 </p>
-                <p className="text-[14px] leading-[20px] text-start">
+                <p className="text-sm text-start">
                   تاريخ آخر تعديل: ١٢ شعبان ١٤٤٧ - Feb 10, 2026
                 </p>
               </div>

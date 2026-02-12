@@ -141,7 +141,7 @@ export default async function RecitationDetailsPage({
       <PageLayout tenant={tenant}>
         <div dir="rtl" className="bg-white">
           {/* Top section: full width bg + pattern (like hero & listing), content centered, extra block padding */}
-          <div className="relative bg-[#f6f6f4] -mt-16 pt-16 lg:-mt-[72px] lg:pt-[72px] pb-0">
+          <div className="relative bg-[#f6f6f4] -mt-7xl pt-7xl lg:-mt-header lg:pt-header pb-0">
             <div
               className="pointer-events-none absolute inset-0 bg-[url('/images/hero-bg.svg')] bg-no-repeat bg-right-top bg-cover opacity-100 [mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)] [-webkit-mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)]"
               aria-hidden
@@ -151,7 +151,7 @@ export default async function RecitationDetailsPage({
                 <div className="flex flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-12">
                   {/* Part 1 (RTL start): column 1 = avatar, column 2 = info (row1: title+description, row2: tags). Mobile: centered; desktop: start-aligned. */}
                   <div className="flex flex-col gap-4 items-center lg:flex-row lg:items-start lg:gap-6">
-                    <div className="relative h-[120px] w-[120px] sm:h-[150px] sm:w-[150px] lg:h-[179px] lg:w-[179px] shrink-0 overflow-hidden rounded-[24px] bg-white">
+                    <div className="relative h-[120px] w-[120px] sm:h-[150px] sm:w-[150px] lg:h-[179px] lg:w-[179px] shrink-0 overflow-hidden rounded-xl bg-white">
                       <AvatarImage
                         src={reciterImage}
                         alt={`صورة ${reciterName}`}
@@ -163,10 +163,10 @@ export default async function RecitationDetailsPage({
                     </div>
                     <div className="flex min-w-0 w-full flex-1 flex-col items-center gap-2 justify-between h-full lg:w-auto lg:items-start lg:gap-6">
                       <div className="text-center lg:text-start">
-                        <h1 className="text-[28px] font-semibold leading-tight text-black">
+                        <h1 className="text-display-sm font-semibold leading-tight text-black">
                           {reciterName}
                         </h1>
-                        <p className="mt-2 text-[18px] leading-snug text-[#6a6a6a]">
+                        <p className="mt-2 text-lg leading-snug text-[#6a6a6a]">
                           {recitation.name || 'مصحف مرتل'}
                         </p>
                       </div>
@@ -176,12 +176,12 @@ export default async function RecitationDetailsPage({
                       مصحف مجود
                     </span> */}
                         {recitation.riwayah?.name && (
-                          <span className="rounded-[4px] bg-white px-[12px] py-[8px] text-[12px] font-[500] text-[#1f2a37]">
+                          <span className="rounded-xs bg-white px-xl py-lg text-xs font-[500] text-[#1f2a37]">
                             رواية {recitation.riwayah.name}
                           </span>
                         )}
                         {recitation.madd_level && (
-                          <span className="rounded-[4px] bg-white px-[12px] py-[8px] text-[12px] font-[500] text-[#1f2a37]">
+                          <span className="rounded-xs bg-white px-xl py-lg text-xs font-[500] text-[#1f2a37]">
                             {recitation.madd_level === 'tawassut' ? 'التوسط' : recitation.madd_level === 'qasr' ? 'قصر' : recitation.madd_level}
                           </span>
                         )}

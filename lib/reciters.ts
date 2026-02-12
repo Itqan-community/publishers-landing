@@ -68,7 +68,8 @@ export const getReciters = cache(async (
         return {
           id: String(reciter.id),
           name: reciter.name,
-          title: 'قارئ وإمام', // Default title, could come from API
+          title: 'قارئ وإمام',
+          bio: `${reciter.name}، قارئ متميز سجل ${reciter.recitations_count} تلاوات في المركز.`,
           image,
           publisher: 'موقع دار الإسلام', // Default, could come from API
           publisherUrl: 'https://example.com', // Default, could come from API

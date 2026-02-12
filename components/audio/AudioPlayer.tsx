@@ -304,7 +304,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
       className={
         isDetailsVariant
           ? 'grid gap-6 lg:grid-cols-[1.4fr_1fr]'
-          : 'overflow-hidden rounded-[18px] bg-white shadow-[0px_44px_84px_0px_rgba(0,0,0,0.07)]'
+          : 'overflow-hidden rounded-xl bg-white shadow-player'
       }
     >
       {!isDetailsVariant && (
@@ -324,7 +324,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                     className={[
                       'w-full transition-colors',
                       isSelected
-                        ? 'rounded-[18px] border border-[rgba(25,54,36,0.4)] bg-[rgba(25,54,36,0.02)]'
+                        ? 'rounded-xl border border-[rgba(25,54,36,0.4)] bg-[rgba(25,54,36,0.02)]'
                         : 'bg-transparent',
                       !isSelected && !isLast ? 'border-b border-[#ebe8e8]' : '',
                     ].join(' ')}
@@ -391,16 +391,16 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                           </div>
                         )}
                         <div className="min-w-0 text-start">
-                          <p className="truncate text-[18px] font-semibold leading-[22px] text-black">
+                          <p className="truncate text-lg font-semibold text-black">
                             {(recitation.title || '').replace(/^\d+\.\s*/, '')}
                           </p>
-                          <p className="mt-1 truncate text-[16px] leading-[22px] text-[#6a6a6a]">
+                          <p className="mt-1 truncate text-md text-[#6a6a6a]">
                             {recitation.reciterName}
                           </p>
                         </div>
                       </div>
                       {/* Duration: at end (left in RTL, right in LTR) */}
-                      <span className="shrink-0 text-[16px] leading-[22px] text-[#6a6a6a]">
+                      <span className="shrink-0 text-md text-[#6a6a6a]">
                         {recitation.duration}
                       </span>
                     </div>
@@ -414,8 +414,8 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
           <div className="min-w-0 flex-1 border-t border-[#ebe8e8] px-6 py-6 sm:px-8 sm:py-8 lg:border-t-0 lg:border-s flex flex-col justify-center ">
             <div className="flex flex-col items-center">
               {/* Artwork: featured = track name text only; details = image or user icon */}
-              <div className="relative mb-8 size-[160px] sm:size-[190px] lg:size-[214px] rounded-[30px] bg-white p-[7px] shadow-[0px_44px_84px_0px_rgba(0,0,0,0.07)]">
-                <div className="relative h-full w-full overflow-hidden rounded-[23px] bg-[#f3f3f3] flex items-center justify-center px-4">
+              <div className="relative mb-8 size-[160px] sm:size-[190px] lg:size-[214px] rounded-xl bg-white p-[7px] shadow-player">
+                <div className="relative h-full w-full overflow-hidden rounded-xl bg-[#f3f3f3] flex items-center justify-center px-4">
                   {isDetailsVariant ? (
                     <>
                       {selectedRecitation?.image?.trim() ? (
@@ -443,7 +443,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                       </div>
                     </>
                   ) : (
-                    <p className="text-center text-[20px] font-semibold leading-[1.4] text-[#343434]">
+                    <p className="text-center text-xl font-semibold text-[#343434]">
                       {(selectedRecitation?.title || '').replace(/^\d+\.\s*/, '')}
                     </p>
                   )}
@@ -497,10 +497,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                 {/* Controls + text */}
                 <div className="mt-6 flex items-start justify-between gap-6">
                   <div className="min-w-0 text-start">
-                    <p className="truncate text-[18px] font-semibold leading-[22px] text-black">
-                      {(selectedRecitation?.title || '').replace(/^\d+\.\s*/, '')}
-                    </p>
-                    <p className="mt-1 truncate text-[16px] leading-[22px] text-[#6a6a6a]">
+                    <p className="mt-1 truncate text-md text-[#6a6a6a]">
                       {selectedRecitation?.reciterName || ''}
                     </p>
                   </div>
@@ -511,7 +508,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                       onClick={handlePrev}
                       disabled={!hasPrev}
                       aria-label="السابق"
-                      className="flex size-[46px] items-center justify-center rounded-[14px] bg-white text-[#161616] disabled:opacity-40"
+                      className="flex size-[46px] items-center justify-center rounded-lg bg-white text-[#161616] disabled:opacity-40"
                     >
                       <PrevIcon />
                     </button>
@@ -520,7 +517,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                       type="button"
                       onClick={handleTogglePlay}
                       aria-label={isPlaying ? 'إيقاف مؤقت' : 'تشغيل'}
-                      className="flex size-[46px] items-center justify-center rounded-[14px] bg-[#f3f3f3] text-[#161616]"
+                      className="flex size-[46px] items-center justify-center rounded-lg bg-[#f3f3f3] text-[#161616]"
                     >
                       {isPlaying ? <PauseIcon className="h-6 w-6" /> : <PlayIcon />}
                     </button>
@@ -530,7 +527,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                       onClick={handleNext}
                       disabled={!hasNext}
                       aria-label="التالي"
-                      className="flex size-[46px] items-center justify-center rounded-[14px] bg-white text-[#161616] disabled:opacity-40"
+                      className="flex size-[46px] items-center justify-center rounded-lg bg-white text-[#161616] disabled:opacity-40"
                     >
                       <NextIcon />
                     </button>
@@ -593,7 +590,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
         <>
           {/* List first (start side in RTL = right) */}
           <div>
-            <div className="rounded-[12px] border border-[#ebe8e8] bg-white px-6 py-6">
+            <div className="rounded-lg border border-[#ebe8e8] bg-white px-6 py-6">
               <div className="flex flex-col gap-4">
                 <div className="flex flex-wrap items-center justify-between gap-4">
                   <h3 className="text-[33.5px] font-bold text-black">{listTitleText}</h3>
@@ -614,7 +611,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                   {filteredRecitations.map((recitation) => {
                     const isSelected = selectedRecitation?.id === recitation.id;
                     const secondaryText = recitation.surahInfo || recitation.reciterName;
-                    const itemClasses = `flex w-full items-center justify-between gap-4 rounded-[10px] px-4 py-4 transition-colors min-h-[72px] ${isSelected ? 'bg-[#f3f3f3]' : 'border-b border-[#ebe8e8]'
+                    const itemClasses = `flex w-full items-center justify-between gap-4 rounded-md px-4 py-4 transition-colors min-h-header ${isSelected ? 'bg-[#f3f3f3]' : 'border-b border-[#ebe8e8]'
                       }`;
                     const downloadUrl = getValidAudioUrl(recitation.audioUrl);
                     const downloadFilename = `${(recitation.title || 'track').replace(/^\d+\.\s*/, '').replace(/[<>:"/\\|?*]/g, '').trim() || 'audio'}.mp3`;
@@ -626,15 +623,15 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                           onClick={() => handleRecitationClick(recitation)}
                           className="flex-1 min-w-0 text-start"
                         >
-                          <p className="text-[16px] font-medium text-[#1f2a37]">{(recitation.title || '').replace(/^\d+\.\s*/, '')}</p>
-                          <p className="mt-1 text-[14px] text-[#6a6a6a]">{secondaryText}</p>
+                          <p className="text-md font-medium text-[#1f2a37]">{(recitation.title || '').replace(/^\d+\.\s*/, '')}</p>
+                          <p className="mt-1 text-sm text-[#6a6a6a]">{secondaryText}</p>
                         </button>
 
                         <div className="flex items-center gap-2 shrink-0">
                           <button
                             type="button"
                             onClick={() => handleRecitationClick(recitation)}
-                            className="flex h-[44px] w-[44px] items-center justify-center rounded-[11px] text-[#161616] hover:bg-black/5 transition-colors"
+                            className="flex h-[44px] w-[44px] items-center justify-center rounded-lg text-[#161616] hover:bg-black/5 transition-colors"
                             aria-label={isSelected && isPlaying ? 'إيقاف مؤقت' : 'تشغيل'}
                           >
                             {isSelected && isPlaying ? (
@@ -649,7 +646,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                               download={downloadFilename}
                               target="_blank"
                               onClick={(e) => e.stopPropagation()}
-                              className="flex h-[44px] w-[44px] items-center justify-center rounded-[11px] text-[#161616] hover:bg-black/5 transition-colors"
+                              className="flex h-[44px] w-[44px] items-center justify-center rounded-lg text-[#161616] hover:bg-black/5 transition-colors"
                               aria-label="تحميل"
                             >
                               <DownloadIcon className="h-[19px] w-[19px]" />
@@ -666,11 +663,11 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
 
           {/* Player second (end side in RTL = left) — same preview shape & controls as featured */}
           <div>
-            <div className="rounded-[12px] border border-[#ebe8e8] bg-white px-6 py-6">
+            <div className="rounded-lg border border-[#ebe8e8] bg-white px-6 py-6">
               <div className="flex flex-col items-center gap-6">
                 {/* Preview: rounded rectangle like featured (not circle) */}
-                <div className="relative mb-2 size-[160px] sm:size-[190px] lg:size-[214px] shrink-0 rounded-[30px] bg-white p-[7px] shadow-[0px_44px_84px_0px_rgba(0,0,0,0.07)]">
-                  <div className="relative h-full w-full overflow-hidden rounded-[23px] bg-[#f3f3f3] flex items-center justify-center px-4">
+                <div className="relative mb-2 size-[160px] sm:size-[190px] lg:size-[214px] shrink-0 rounded-xl bg-white p-[7px] shadow-player">
+                  <div className="relative h-full w-full overflow-hidden rounded-xl bg-[#f3f3f3] flex items-center justify-center px-4">
                     {selectedRecitation?.image?.trim() ? (
                       <>
                         <Image
@@ -695,7 +692,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                         </div>
                       </>
                     ) : (
-                      <p className="text-center text-[20px] font-semibold leading-[1.4] text-[#343434]">
+                      <p className="text-center text-xl font-semibold text-[#343434]">
                         {(selectedRecitation?.title || '').replace(/^\d+\.\s*/, '')}
                       </p>
                     )}
@@ -703,7 +700,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                 </div>
                 {/* Progress: time above, orange seekable bar */}
                 <div className="w-full max-w-full sm:max-w-[343px]">
-                  <p className="mb-2 text-center text-[14px] text-[#6a6a6a]">
+                  <p className="mb-2 text-center text-sm text-[#6a6a6a]">
                     {durationSeconds ? formatTime(currentTimeSeconds) : selectedRecitation?.duration || '0:00'}
                   </p>
                   <div className="relative h-[18px]">
@@ -771,8 +768,8 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                 </div>
                 {/* Track title + reciter below controls */}
                 <div className="w-full text-start">
-                  <p className="truncate text-[18px] font-semibold text-black">{(selectedRecitation?.title || '').replace(/^\d+\.\s*/, '')}</p>
-                  <p className="mt-1 truncate text-[14px] text-[#6a6a6a]">{selectedRecitation?.reciterName || ''}</p>
+                  <p className="truncate text-lg font-semibold text-black">{(selectedRecitation?.title || '').replace(/^\d+\.\s*/, '')}</p>
+                  <p className="mt-1 truncate text-sm text-[#6a6a6a]">{selectedRecitation?.reciterName || ''}</p>
                 </div>
               </div>
             </div>
