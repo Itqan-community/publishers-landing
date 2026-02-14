@@ -3,7 +3,10 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   // Enable static optimization where possible
   reactStrictMode: true,
-  
+
+  // Enable standalone output for Docker deployment
+  output: 'standalone',
+
   // Image optimization
   images: {
     // Many of our "png" assets in /public are actually inline SVG content (exported from Figma).
