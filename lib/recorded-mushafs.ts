@@ -29,7 +29,7 @@ interface RecitationApiResponse {
   };
   surahs_count: number;
   // Legacy fields that may still be present
-  madd_level?: 'qasr' | 'tawassut' | null;
+  madd_level?: 'qasr' | 'twassut' | null;
   meem_behaviour?: 'silah' | 'skoun' | null;
   year?: number | null;
 }
@@ -123,8 +123,8 @@ export async function getRecordedMushafs(
       // Add madd_level badge if present (e.g. التوسط)
       if (recitation.madd_level) {
         const maddLabels: Record<string, string> = {
-          qasr: 'قصر',
-          tawassut: 'التوسط',
+          qasr: 'بالقصر',
+          twassut: 'بالتوسط',
         };
         badges.push({
           id: `madd-${recitation.id}`,

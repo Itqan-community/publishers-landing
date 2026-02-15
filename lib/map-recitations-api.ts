@@ -77,7 +77,7 @@ export interface RecitationApiResponse {
   };
   riwayah: { id: number; name: string };
   surahs_count: number;
-  madd_level?: 'qasr' | 'tawassut' | null;
+  madd_level?: 'qasr' | 'twassut' | null;
   year?: number | null;
 }
 
@@ -101,8 +101,8 @@ export function mapRecitationsApiToRecordedMushafs(
     }
     if (recitation.madd_level) {
       const maddLabels: Record<string, string> = {
-        qasr: 'قصر',
-        tawassut: 'التوسط',
+        qasr: 'بالقصر',
+        twassut: 'بالتوسط',
       };
       badges.push({
         id: `madd-${recitation.id}`,
