@@ -23,13 +23,13 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
 }) => {
   return (
     <section id={id} className={`py-12 sm:py-16 md:py-20 bg-white ${id ? 'scroll-mt-20' : ''}`}>
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8">
         {/* Title + description stacked */}
         <div className="flex flex-col gap-4">
-          <h2 className="text-[24px] sm:text-[32px] md:text-[39px] font-semibold text-black leading-[1.4]">
+          <h2 className="text-display-xs sm:text-display-sm md:text-display-lg font-semibold text-[var(--color-foreground)] leading-tight">
             {title}
           </h2>
-          <p className="text-[16px] sm:text-[18px] md:text-[20px] text-[#343434] leading-[30.4px] max-w-[740px]">
+          <p className="text-md sm:text-lg md:text-xl text-[var(--color-text-paragraph)] leading-relaxed max-w-paragraph">
             {description}
           </p>
         </div>
@@ -39,9 +39,9 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
           {features.map((feature) => (
             <div
               key={feature.id}
-              className="relative min-h-[218px] rounded-[11px] border border-[#ebe8e8] bg-white overflow-hidden px-5 pt-5 sm:px-6 sm:pt-6"
+              className="relative min-h-[218px] rounded-md border border-[var(--color-border)] bg-[var(--color-bg-card)] overflow-hidden px-5 pt-5 sm:px-6 sm:pt-6"
             >
-              <div className="absolute start-6 top-5 h-[59px] w-[59px] rounded-[12px] bg-[#eef9f2] flex items-center justify-center">
+              <div className="w-12 h-12 rounded-lg bg-[#eef9f2] flex items-center justify-center">
                 {feature.iconSrc && (
                   <Image
                     src={feature.iconSrc}
@@ -52,11 +52,11 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
                   />
                 )}
               </div>
-              <h3 className="text-[18px] sm:text-[20px] font-semibold text-black mt-[58px]">
+              <h3 className="text-lg sm:text-xl font-semibold text-[var(--color-foreground)] mt-6">
                 {feature.title}
               </h3>
               {feature.description && (
-                <p className="text-[16px] sm:text-[19px] leading-[28px] sm:leading-[30.4px] text-[#343434] mt-3 whitespace-pre-line">
+                <p className="text-md sm:text-lg leading-relaxed text-[var(--color-text-paragraph)] mt-3 whitespace-pre-line">
                   {feature.description}
                 </p>
               )}

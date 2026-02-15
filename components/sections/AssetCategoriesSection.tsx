@@ -19,7 +19,7 @@ export function AssetCategoriesSection({ categories }: AssetCategoriesSectionPro
 
   return (
     <section className="py-12 sm:py-16 md:py-20 bg-white">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-10 sm:mb-16">
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
             Explore Our Collections
@@ -44,7 +44,7 @@ export function AssetCategoriesSection({ categories }: AssetCategoriesSectionPro
                   className="object-cover group-hover:scale-110 transition-transform duration-300"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                
+
                 <div className="absolute bottom-4 start-4 end-4 text-white">
                   <div className="text-sm font-semibold mb-1 text-secondary">
                     {category.itemCount.toLocaleString()} Items

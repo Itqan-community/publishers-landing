@@ -19,7 +19,7 @@ export function FooterSection({ content, logo, tenantName }: FooterSectionProps)
 
   return (
     <footer className="bg-gradient-to-b from-gray-900 to-black text-white pt-16 pb-8">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Footer Content */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Brand Section */}
@@ -36,7 +36,7 @@ export function FooterSection({ content, logo, tenantName }: FooterSectionProps)
             <p className="text-gray-400 text-sm leading-relaxed mb-6">
               {description}
             </p>
-            
+
             {/* Social Media */}
             {social && social.length > 0 && (
               <div className="flex gap-4">
@@ -100,7 +100,7 @@ export function FooterSection({ content, logo, tenantName }: FooterSectionProps)
 // Social Icon Component
 function SocialIcon({ platform }: { platform: string }) {
   const iconClass = "w-5 h-5";
-  
+
   switch (platform.toLowerCase()) {
     case 'twitter':
       return (

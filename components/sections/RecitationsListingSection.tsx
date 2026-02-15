@@ -42,7 +42,7 @@ export const RecitationsListingSection: React.FC<RecitationsListingSectionProps>
 
   return (
     <section className="bg-white pt-10 pb-16 md:pt-12 md:pb-20" dir="rtl">
-      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {visible.map((mushaf) => (
             <MushafCard key={mushaf.id} mushaf={mushaf} />
@@ -50,7 +50,7 @@ export const RecitationsListingSection: React.FC<RecitationsListingSectionProps>
         </div>
 
         {mushafs.length === 0 && (
-          <p className="py-12 text-center text-[18px] text-[#6a6a6a]">
+          <p className="py-12 text-center text-lg text-[#6a6a6a]">
             لم يتم العثور على مصاحف تطابق البحث.
           </p>
         )}
@@ -60,7 +60,7 @@ export const RecitationsListingSection: React.FC<RecitationsListingSectionProps>
             <button
               type="button"
               onClick={loadMore}
-              className="inline-flex h-[48px] items-center justify-center gap-2 rounded-[10px] bg-[#193624] px-6 text-[16px] font-medium text-white hover:bg-[#102516] focus:outline-none focus:ring-2 focus:ring-[#193624] focus:ring-offset-2"
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-[#193624] px-6 text-md font-medium text-white hover:bg-[#102516] focus:outline-none focus:ring-2 focus:ring-[#193624] focus:ring-offset-2"
             >
               <SparkleIcon className="h-5 w-5 text-white" />
               عرض المزيد

@@ -5,9 +5,6 @@ export type BadgeSize = 'sm' | 'md';
 export type BadgeShape = 'pill' | 'soft';
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-  /**
-   * Visual tone (colors) must stay consistent with Figma tokens.
-   */
   tone?: BadgeTone;
   size?: BadgeSize;
   shape?: BadgeShape;
@@ -15,19 +12,19 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 const toneClass: Record<BadgeTone, string> = {
-  gold: 'bg-[#faaf41]/15 text-[#a46b00]',
+  gold: 'bg-secondary/15 text-[var(--color-secondary-dark)]',
   gray: 'bg-black/5 text-black/70',
-  green: 'bg-[#193624]/10 text-[#193624]',
+  green: 'bg-primary/10 text-[var(--color-primary)]',
 };
 
 const sizeClass: Record<BadgeSize, string> = {
-  sm: 'px-3 py-[2px] text-[13px]',
-  md: 'px-3.5 py-[2px] text-[14px]',
+  sm: 'px-3 py-0.5 text-xs',      // 12px font (gov text-xs)
+  md: 'px-3.5 py-0.5 text-sm',    // 14px font (gov text-sm)
 };
 
 const shapeClass: Record<BadgeShape, string> = {
-  pill: 'rounded-full',
-  soft: 'rounded-[6px]',
+  pill: 'rounded-full',           // gov radius-full
+  soft: 'rounded-sm',             // gov radius-sm (4px)
 };
 
 export const Badge: React.FC<BadgeProps> = ({
@@ -49,5 +46,3 @@ export const Badge: React.FC<BadgeProps> = ({
     </span>
   );
 };
-
-
