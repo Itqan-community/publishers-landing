@@ -20,8 +20,10 @@ export interface TenantApiConfig {
 export interface TenantConfig {
   id: string;
   name: string;
-  /** Custom domain for this tenant (e.g. saudi-recitations-center.com). Staging uses staging--<domain>. */
+  /** Primary/canonical domain for this tenant (e.g. saudi-recitations-center.com). Used for X-Tenant header. Staging uses staging--<domain>. */
   domain?: string;
+  /** Additional domain aliases that map to this tenant. All domains (primary + additional) support staging--<domain> variants. */
+  domains?: string[];
   /** Backend API base URLs per environment. Used when NEXT_PUBLIC_ENV is set (e.g. in Netlify). */
   api?: TenantApiConfig;
   branding: TenantBranding;

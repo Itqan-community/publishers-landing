@@ -359,6 +359,9 @@
     "id": "saudi-center",
     "name": "المركز السعودي للتلاوات القرآنية والأحاديث النبوية",
     "domain": "https://saudi-recitation-center.netlify.app",
+    "domains": [
+      "https://qhc.itqan.dev"
+    ],
     "api": {
       "development": "https://staging.api.cms.itqan.dev/tenant",
       "staging": "https://staging.api.cms.itqan.dev/tenant",
