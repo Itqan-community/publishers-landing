@@ -195,6 +195,102 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = '' }) => {
     );
   }
 
+  if (template === 'tahbeer') {
+    const footerLogo = branding.logoFull ?? branding.logo;
+    return (
+      <footer className="bg-[var(--color-primary)] text-white" dir="rtl">
+        <div className="mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8 pt-10 pb-6 flex flex-col gap-10">
+          <div className="flex flex-wrap gap-8 pt-4 pb-6">
+            {/* Logo + description (start/right in RTL) */}
+            <div className="flex-1 min-w-[200px] flex flex-col gap-4 items-start">
+              <div className="relative h-10 w-[140px] sm:h-12 sm:w-[180px]">
+                <Image
+                  src={footerLogo}
+                  alt={tenant.name}
+                  fill
+                  className="object-contain object-start"
+                  sizes="180px"
+                />
+              </div>
+              <p className="text-sm text-white/90 max-w-xs text-start">
+                {footer.description}
+              </p>
+            </div>
+            {/* 4 columns from tenant config */}
+            {footer.links?.map((linkGroup, index) => (
+              <div key={index} className="flex-1 min-w-[140px] flex flex-col gap-2 items-start">
+                <div className="w-full border-b border-white/30 pb-2">
+                  <p className="text-md font-medium text-start">{linkGroup.label}</p>
+                </div>
+                <div className="flex flex-col gap-2 items-start text-sm">
+                  {linkGroup.items.map((item, itemIndex) => (
+                    <Link
+                      key={itemIndex}
+                      href={withBasePath(item.href, basePath)}
+                      className="text-white/90 hover:text-white hover:underline"
+                    >
+                      {item.text}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ))}
+            {/* تواصل معنا + تابعنا */}
+            <div className="flex-1 min-w-[180px] flex flex-col gap-4 items-start">
+              {footer.contact && (
+                <div className="flex flex-col gap-1 text-sm">
+                  <div className="w-full border-b border-white/30 pb-2">
+                    <p className="text-md font-medium text-start">تواصل معنا</p>
+                  </div>
+                  {footer.contact.email && (
+                    <a href={`mailto:${footer.contact.email}`} className="text-white/90 hover:text-white hover:underline">
+                      {footer.contact.email}
+                    </a>
+                  )}
+                  {footer.contact.phone && (
+                    <a href={`tel:${footer.contact.phone}`} className="text-white/90 hover:text-white hover:underline">
+                      {footer.contact.phone}
+                    </a>
+                  )}
+                </div>
+              )}
+              {footer.social && footer.social.length > 0 && (
+                <div className="flex flex-col gap-2">
+                  <div className="w-full border-b border-white/30 pb-2">
+                    <p className="text-md font-medium text-start">تابعنا</p>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {footer.social.map((s) => (
+                      <a
+                        key={s.platform}
+                        href={s.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center size-8 rounded-xs border border-white/40 hover:bg-white/10 transition-colors"
+                        aria-label={s.platform}
+                      >
+                        {s.platform.toLowerCase() === 'twitter' && <XIcon />}
+                        {s.platform.toLowerCase() === 'instagram' && <InstagramIcon />}
+                        {s.platform.toLowerCase() === 'tiktok' && (
+                          <svg width="20" height="20" viewBox="0 0 20 20" fill="white" aria-hidden><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1.05-.08 6.33 6.33 0 0 0-6.33 6.34v6.92A6.34 6.34 0 0 0 13.36 19V9.45a6.84 6.84 0 0 0 1.05.08v3.45a4.85 4.85 0 0 0 3.77 4.22 4.82 4.82 0 0 0 4.41-1.07V6.69z" /></svg>
+                        )}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="border-t border-white/30 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p className="text-sm text-white/90 text-center sm:text-start">
+              {footer.copyright}
+            </p>
+          </div>
+        </div>
+      </footer>
+    );
+  }
+
   // Default template
   const socialLinks = {
     twitter: footer.social?.find((s) => s.platform.toLowerCase() === 'twitter')?.url,

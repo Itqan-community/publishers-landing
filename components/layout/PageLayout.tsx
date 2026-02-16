@@ -23,24 +23,32 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
   const { basePath } = useTenant();
   const prefix = basePath || '';
 
-  const navItems = [
-    { label: 'الرئيسية', href: prefix ? prefix : '/' },
-    // { label: 'عن المركز', href: `${prefix}#about` },
-    { label: 'المصاحف المرتلة', href: `${prefix}/recitations` },
-    { label: 'الأحاديث النبوية', href: `${prefix}/hadiths` },
-    // { label: 'القراء', href: `${prefix}#reciters` },
-  ];
+  const navItems =
+    tenant.template === 'tahbeer'
+      ? [
+          { label: 'الرئيسية', href: prefix || '/' },
+          { label: 'القراءات العشر', href: `${prefix || ''}/recitations` },
+          { label: 'فكرة المشروع', href: `${prefix || ''}#project-idea` },
+          { label: 'لجنة التحكيم', href: `${prefix || ''}#review-members` },
+        ]
+      : [
+          { label: 'الرئيسية', href: prefix ? prefix : '/' },
+          { label: 'المصاحف المرتلة', href: `${prefix}/recitations` },
+          { label: 'الأحاديث النبوية', href: `${prefix}/hadiths` },
+        ];
 
   return (
     <div className="min-h-screen flex flex-col">
       {showHeader && (
         <>
-          <GovernmentBanner />
+          {tenant.features.governmentBanner && <GovernmentBanner />}
           <Header
             logo={tenant.branding.logo}
+            logoFull={tenant.branding.logoFull ?? tenant.branding.logo}
             tenantName={tenant.name}
             navItems={navItems}
             homeHref={prefix || '/'}
+            variant={tenant.template === 'tahbeer' ? 'legacy' : 'default'}
           />
         </>
       )}

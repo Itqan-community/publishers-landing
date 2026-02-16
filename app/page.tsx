@@ -38,10 +38,7 @@ export async function generateMetadata(): Promise<Metadata> {
     };
   }
 
-  const isSaudiCenter = tenantId === 'saudi-center';
-  const pageTitle = isSaudiCenter
-    ? 'المركز السعودي للتلاوات القرآنية والأحاديث النبوية'
-    : `${tenant.name} - Home`;
+  const pageTitle = tenant.seo?.title ?? tenant.name;
 
   return {
     title: pageTitle,
@@ -82,7 +79,7 @@ export default async function HomePage() {
   return (
     <>
       {/* Theme: colors only; font is global IBM Plex Sans Arabic (see app/layout.tsx + globals.css) */}
-      <div style={getThemeStyles(tenant.branding)}>
+      <div style={getThemeStyles(tenant.branding, tenant.template)}>
         <TenantProvider initialTenant={tenant} initialBasePath={basePath}>
           <ThemeProvider branding={tenant.branding}>
             <TemplateComponent tenant={tenant} basePath={basePath} />

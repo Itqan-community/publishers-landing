@@ -16,7 +16,8 @@
       "statistics": true,
       "readings": true,
       "media": false,
-      "newsletter": true
+      "newsletter": true,
+      "governmentBanner": false
     },
     "content": {
       "hero": {
@@ -167,7 +168,8 @@
       "statistics": true,
       "readings": true,
       "media": true,
-      "newsletter": true
+      "newsletter": true,
+      "governmentBanner": false
     },
     "content": {
       "hero": {
@@ -269,7 +271,8 @@
       "statistics": true,
       "readings": true,
       "media": true,
-      "newsletter": true
+      "newsletter": true,
+      "governmentBanner": false
     },
     "content": {
       "hero": {
@@ -393,7 +396,8 @@
       "statistics": true,
       "readings": true,
       "media": true,
-      "newsletter": false
+      "newsletter": false,
+      "governmentBanner": true
     },
     "content": {
       "hero": {
@@ -466,28 +470,28 @@
   },
   "tahbeer": {
     "id": "tahbeer",
-    "name": "تهبير",
+    "name": "تحبير",
     "nameEn": "Tahbeer",
-    "domain": "tahbeer.netlify.app",
+    "domain": "https://project-tahbeer.netlify.app",
     "api": {
       "development": "https://staging.api.cms.itqan.dev/tenant",
       "staging": "https://staging.api.cms.itqan.dev/tenant",
       "production": "https://api.cms.itqan.dev/tenant"
     },
-    "template": "saudi-center",
+    "template": "tahbeer",
     "branding": {
-      "logo": "/logos/tahbeer-logo.png",
-      "logoFull": "/logos/tahbeer-logo-full.png",
+      "logo": "/logos/tahbeer-logo.svg",
+      "logoFull": "/logos/tahbeer-logo.svg",
       "favicon": "/favicons/tahbeer.ico",
-      "primaryColor": "#6366f1",
-      "secondaryColor": "#f8fafc",
-      "accentColor": "#8b5cf6",
+      "primaryColor": "#a67851",
+      "secondaryColor": "#8b6914",
+      "accentColor": "#0d121c",
       "font": "inter"
     },
     "seo": {
-      "title": "تهبير - منصة التلاوات القرآنية",
-      "description": "منصة إسلامية متخصصة في نشر التلاوات القرآنية والأحاديث النبوية بأصوات نخبة من القراء [PLACEHOLDER - UPDATE WITH REAL DESCRIPTION]",
-      "keywords": ["تهبير", "القرآن الكريم", "تلاوات قرآنية", "مصاحف مرتلة", "قراء", "PLACEHOLDER"],
+      "title": "تحبير - القراءات العشر",
+      "description": "مشروع تسجيل القرآن الكريم كاملاً بالقراءات العشر والروايات العشرين. منصة تحبير للقراءات العشر ورواتها.",
+      "keywords": ["تحبير", "القراءات العشر", "القرآن الكريم", "تلاوات قرآنية", "مصاحف مرتلة", "قراء", "الروايات العشرين"],
       "ogImage": "/images/tahbeer/og-image.png",
       "twitterImage": "/images/tahbeer/twitter-image.png",
       "twitterCard": "summary_large_image"
@@ -500,13 +504,14 @@
       "statistics": true,
       "readings": true,
       "media": true,
-      "newsletter": false
+      "newsletter": false,
+      "governmentBanner": false
     },
     "content": {
       "hero": {
-        "title": "تهبير [PLACEHOLDER TITLE]",
-        "description": "وصف تهبير [PLACEHOLDER DESCRIPTION]",
-        "image": "/images/tahbeer/hero-image.jpg",
+        "title": "تحبير القراءات العشر",
+        "description": "مشروع تسجيل القرآن الكريم كاملاً بالقراءات العشر والروايات العشرين بصوت الشيخ صابر عبد الحكم",
+        "image": "/images/tahbeer/hero-img.jpg",
         "ctaText": "استمع الان",
         "ctaLink": "/recitations"
       },
@@ -537,7 +542,7 @@
         }
       ],
       "footer": {
-        "description": "[PLACEHOLDER] منصة تهبير للتلاوات القرآنية",
+        "description": "منصة تحبير للقراءات العشر ورواتها — مشروع تسجيل القرآن الكريم كاملاً بالقراءات العشر والروايات العشرين.",
         "tagline": "للتلاوات القرآنية والأحاديث النبوية",
         "contact": { "email": "placeholder@tahbeer.com", "phone": "+966XXXXXXXXX" },
         "links": [

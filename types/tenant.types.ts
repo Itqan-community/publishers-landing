@@ -66,6 +66,7 @@ export interface TenantFeatures {
   readings: boolean;
   media: boolean;
   newsletter: boolean;
+  governmentBanner?: boolean;
 }
 
 export interface TenantContent {
@@ -207,7 +208,7 @@ export interface FooterContent {
 
 // ==================== TEMPLATE TYPES ====================
 
-export type TemplateType = 'default' | 'magazine' | 'minimal' | 'saudi-center';
+export type TemplateType = 'default' | 'magazine' | 'minimal' | 'saudi-center' | 'tahbeer';
 
 export interface TemplateConfig {
   id: TemplateType;

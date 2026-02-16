@@ -36,7 +36,7 @@ export function generateTenantMetadata(
       description,
       url,
       siteName: tenant.name,
-      images: ogImage ? [{ url: ogImage, width: 1200, height: 630, alt: title }] : [],
+      images: ogImage ? [{ url: ogImage, width: 1280, height: 720, alt: title }] : [],
       locale: 'ar_SA',
       type: 'website',
     },

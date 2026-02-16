@@ -90,7 +90,7 @@ export default async function TenantLayout({
         showSpinner={false}
       />
 
-      <div style={getThemeStyles(tenant.branding)}>
+      <div style={getThemeStyles(tenant.branding, tenant.template)}>
         <TenantProvider initialTenant={tenant} initialBasePath={basePath}>
           <ThemeProvider branding={tenant.branding}>{children}</ThemeProvider>
         </TenantProvider>

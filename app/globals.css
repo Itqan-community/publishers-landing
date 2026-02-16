@@ -112,6 +112,9 @@
   --content-max-width: 1280px;
   --content-padding: 80px;
   --header-height: 72px;
+
+  /* Gap between section title and section content (Tahbeer overrides to 30px via theme) */
+  --section-title-to-content-gap: 0.75rem;
 }
 
 @layer base {
@@ -143,11 +146,16 @@
   .text-balance {
     text-wrap: balance;
   }
+
+  /* Gap between section title and content (Tahbeer sets --section-title-to-content-gap: 30px) */
+  .section-title-gap {
+    margin-bottom: var(--section-title-to-content-gap);
+  }
 }
 
 /* Superellipse corner shape for all rounded elements except fully round ones */
 [class*="rounded-"]:not([class*="rounded-full"]):not(.rounded-full) {
-  corner-shape: superellipse(.8);
+  corner-shape: superellipse(1);
 }
 
 /* Hide scrollbar while allowing horizontal scroll */

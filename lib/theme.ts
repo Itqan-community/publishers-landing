@@ -53,13 +53,14 @@ function darkenColor(hex: string, percent: number): string {
 }
 
 /**
- * Generate CSS custom properties object from tenant branding
+ * Generate CSS custom properties object from tenant branding (and optional template for layout vars)
  */
-export function generateThemeVariables(branding: TenantBranding): Record<string, string> {
+export function generateThemeVariables(
+  branding: TenantBranding,
+  template?: string
+): Record<string, string> {
   const { primaryColor, secondaryColor, accentColor } = branding;
-  // Font is global (IBM Plex Sans Arabic) — not overridden per tenant
-
-  return {
+  const vars: Record<string, string> = {
     '--color-primary': primaryColor,
     '--color-primary-dark': darkenColor(primaryColor, 20),
     '--color-primary-light': lightenColor(primaryColor, 20),
@@ -70,16 +71,20 @@ export function generateThemeVariables(branding: TenantBranding): Record<string,
     '--color-background': '#FFFFFF',
     '--color-foreground': '#1a1a1a',
   };
+  if (template === 'tahbeer') {
+    vars['--section-title-to-content-gap'] = '30px';
+  }
+  return vars;
 }
 
 /**
  * Apply theme variables to document root
  * Used on client-side
  */
-export function applyThemeVariables(branding: TenantBranding): void {
+export function applyThemeVariables(branding: TenantBranding, template?: string): void {
   if (typeof document === 'undefined') return;
 
-  const variables = generateThemeVariables(branding);
+  const variables = generateThemeVariables(branding, template);
   const root = document.documentElement;
 
   Object.entries(variables).forEach(([property, value]) => {
@@ -88,10 +93,10 @@ export function applyThemeVariables(branding: TenantBranding): void {
 }
 
 /**
- * Generate inline style object for SSR
+ * Generate inline style object for SSR (pass template for Tahbeer-specific vars e.g. section gap)
  */
-export function getThemeStyles(branding: TenantBranding): React.CSSProperties {
-  const variables = generateThemeVariables(branding);
+export function getThemeStyles(branding: TenantBranding, template?: string): React.CSSProperties {
+  const variables = generateThemeVariables(branding, template);
   return variables as React.CSSProperties;
 }
 
