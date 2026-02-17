@@ -14,7 +14,10 @@ import type { TenReadingsItem } from '@/components/sections/TenReadingsSection';
 import { ProjectIdeaSection } from '@/components/sections/ProjectIdeaSection';
 import { ReviewMembersSection } from '@/components/sections/ReviewMembersSection';
 import type { ReviewMember } from '@/components/sections/ReviewMembersSection';
+import { TahbeerSponsorsSection } from '@/components/sections/TahbeerSponsorsSection';
+import type { TahbeerSponsorItem } from '@/components/sections/TahbeerSponsorsSection';
 import { FeatureItem } from '@/components/sections/AboutSection';
+import { getReviewMembers } from '@/lib/review-members';
 
 interface TahbeerTemplateProps {
   tenant: TenantConfig;
@@ -45,29 +48,41 @@ const TAHBEER_ABOUT_FEATURES: FeatureItem[] = [
 
 /** Project idea paragraphs — from Figma "الفكرة" */
 const TAHBEER_IDEA_PARAGRAPHS = [
-  'إطلاق مشروع تحبير القراءات العشر من رؤية واضحة لإحياء التراث القرآني العظيم وذلك بتسجيل القرآن الكريم كاملاً بالقراءات العشر والروايات العشرين بصوت عذب وتقوى علامة تجمع بين جمال الأداء ودقة الأحكام.',
-  'يهدف المشروع إلى توفير مرجع موثوق لقراءات العلم وتقديم علم القراءات ونشر هذا العلم الشريف بطريقة مبسطة ومتاحة للجميع.',
+  'انطلق مشروع تحبير القراءات العشر من رؤية واضحة لإحياء التراث القرآني العظيم، وذلك بتسجيل القرآن الكريم كاملاً بالقراءات العشر المتواترة والروايات العشرين، بصوت عذب وتلاوة متقنة تجمع بين جمال الأداء ودقة الأحكام.',
+  'يهدف المشروع إلى توفير مرجع صوتي موثوق لطلاب العلم والمهتمين بعلم القراءات، ونشر هذا العلم الشريف بطريقة ميسرة ومتاحة للجميع.',
 ];
 
-/** Participants — from Figma "المشاركون في المشروع" */
+/** Participants — from Figma "المشاركون في المشروع" (2×2 grid with role, name, description) */
 const TAHBEER_PARTICIPANTS = [
-  { role: 'المدير العام', name: 'الشيخ صابر عبد الحكم' },
-  { role: 'الإشراف العام', name: 'الشيخ خالد العمر' },
-  { role: 'المنسق الإداري', name: 'الشيخ ريان الشريف' },
-  { role: 'فريق التسجيل والإنتاج', name: 'فريق الإيمان' },
+  { role: 'القارئ', name: 'الشيخ صابر عبد الحكم', description: 'قارئ وإمام متخصص في القراءات العشر' },
+  { role: 'المشرف العام', name: 'الشيخ خالد البدر', description: 'الإشراف على تنفيذ المشروع' },
+  { role: 'المنسق الإداري', name: 'الشيخ ريان الشريف', description: 'التنسيق الإداري والتنظيمي' },
+  { role: 'فريق التسجيل والإنتاج', name: 'فريق الايمان', description: 'التسجيل والمونتاج والإنتاج' },
 ];
 
-/** Review committee members — from Figma "لجنة التحكيم والمراجعة" */
-const TAHBEER_REVIEW_MEMBERS: ReviewMember[] = [
-  { id: '1', name: 'الشيخ أحمد العبيدي', role: 'رئيس اللجنة' },
-  { id: '2', name: 'الشيخ سامي السلمي', role: 'عضو اللجنة' },
-  { id: '3', name: 'الشيخ يوسف الدوسري', role: 'عضو اللجنة' },
+/** Fallback review committee members — used when API is unavailable */
+const TAHBEER_REVIEW_MEMBERS_FALLBACK: ReviewMember[] = [
+  { id: '1', name: 'الشيخ أحمد العبيدي', role: 'رئيس اللجنة', title: 'أستاذ القراءات بجامعة الاسلامية', image: '/images/tahbeer/review-member-1.jpg' },
+  { id: '2', name: 'الشيخ سامي السلمي', role: 'عضو اللجنة', title: 'باحث متخصص في علم القراءات', image: '/images/tahbeer/review-member-2.jpg' },
+  { id: '3', name: 'الشيخ يوسف الدوسري', role: 'عضو اللجنة', title: 'مقرئ ومتخصص في الروايات', image: '/images/tahbeer/review-member-3.jpg' },
 ];
 
-/** Committee tasks — from Figma "مهام اللجنة" */
+/** Committee tasks — from Figma "مهام اللجنة" (2×2 grid) */
 const TAHBEER_REVIEW_TASKS = [
   'مراجعة التسجيلات الصوتية والتحقق من صحة الأداء القرآني',
+  'اعتماد التسجيلات النهائية قبل النشر',
   'التحقق من تطبيق أحكام القراءات والروايات بدقة',
+  'تقديم الاستشارات العلمية للمشروع',
+];
+
+/** Sponsors — from Figma (logo start, name + description end) */
+const TAHBEER_SPONSORS: TahbeerSponsorItem[] = [
+  {
+    id: '1',
+    name: 'برنامج عبدالرحمن بن عبدالله الموسى لخدمة المجتمع',
+    description: 'الداعم الرسمي وشريك النجاح للمشروع',
+    logo: '/images/tahbeer/sponsor-mousa-program.svg',
+  },
 ];
 
 /** Section title style for Tahbeer: 39px, font-weight 600 */
@@ -75,6 +90,10 @@ const TAHBEER_SECTION_TITLE_CLASS = 'text-[39px] font-semibold text-[var(--color
 
 export async function TahbeerTemplate({ tenant, basePath = '' }: TahbeerTemplateProps) {
   const prefix = basePath || '';
+
+  // Fetch review members from API; fall back to hardcoded data if API is unavailable
+  const apiReviewMembers = await getReviewMembers(tenant.id);
+  const reviewMembers = apiReviewMembers.length > 0 ? apiReviewMembers : TAHBEER_REVIEW_MEMBERS_FALLBACK;
 
   return (
     <PageLayout tenant={tenant}>
@@ -129,24 +148,26 @@ export async function TahbeerTemplate({ tenant, basePath = '' }: TahbeerTemplate
       {/* فكرة المشروع والمشاركين */}
       <ProjectIdeaSection
         id="project-idea"
-        basePath={prefix}
+        sectionTitle="فكرة المشروع والمشاركين"
+        sectionSubtitle="تسجيل صوتي للقراءات العشر بالروايات العشرين بكل طرق الأداء المنقولة عن الأئمة"
         ideaTitle="الفكرة"
         ideaParagraphs={TAHBEER_IDEA_PARAGRAPHS}
         participantsTitle="المشاركون في المشروع"
         participants={TAHBEER_PARTICIPANTS}
-        titleClassName={TAHBEER_SECTION_TITLE_CLASS}
       />
 
       {/* لجنة التحكيم والمراجعة */}
       <ReviewMembersSection
         id="review-members"
-        title="لجنة التحكيم والمراجعة"
-        introText="يضم المشروع فريق مراجعة دقيقة من لجنة علمية متخصصة في علم القراءات لضمان دقة الأداء وسلامة الأحكام القرآنية في جميع القراءات والروايات."
-        members={TAHBEER_REVIEW_MEMBERS}
+        sectionTitle="لجنة التحكيم والمراجعة"
+        sectionSubtitle="يخضع المشروع لمراجعة دقيقة من لجنة علمية متخصصة في علم القراءات، لضمان دقة الأداء وصحة الأحكام القرآنية في جميع القراءات والروايات."
+        members={reviewMembers}
         tasksTitle="مهام اللجنة:"
         tasks={TAHBEER_REVIEW_TASKS}
-        titleClassName={TAHBEER_SECTION_TITLE_CLASS}
       />
+
+      {/* الرعاة — above footer */}
+      <TahbeerSponsorsSection id="sponsors" sponsors={TAHBEER_SPONSORS} />
     </PageLayout>
   );
 }

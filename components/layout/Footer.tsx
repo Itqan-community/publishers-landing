@@ -197,94 +197,149 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = '' }) => {
 
   if (template === 'tahbeer') {
     const footerLogo = branding.logoFull ?? branding.logo;
+
+    /* Social link labels for Tahbeer footer (icon + Arabic text per Figma) */
+    const tahbeerSocialMap: Record<string, { label: string; icon: React.ReactNode }> = {
+      twitter: {
+        label: 'تويتر',
+        icon: (
+          <svg width="24" height="24" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+            <path fillRule="evenodd" clipRule="evenodd" d="M1.94353 2.21547C2.05038 2.00649 2.2653 1.875 2.5 1.875H6.66667C6.86736 1.875 7.05584 1.97137 7.17334 2.13407L11.2867 7.82945L17.0581 2.05806C17.3021 1.81398 17.6979 1.81398 17.9419 2.05806C18.186 2.30214 18.186 2.69786 17.9419 2.94194L12.028 8.85589L18.0067 17.1341C18.1441 17.3243 18.1633 17.5756 18.0565 17.7845C17.9496 17.9935 17.7347 18.125 17.5 18.125H13.3333C13.1326 18.125 12.9442 18.0286 12.8267 17.8659L8.71333 12.1706L2.94194 17.9419C2.69787 18.186 2.30214 18.186 2.05806 17.9419C1.81398 17.6979 1.81398 17.3021 2.05806 17.0581L7.97201 11.1441L1.99333 2.86593C1.85591 2.67566 1.83668 2.42444 1.94353 2.21547ZM3.72235 3.125L13.6529 16.875H16.2777L6.3471 3.125H3.72235Z" fill="black" />
+          </svg>
+        ),
+      },
+      instagram: {
+        label: 'انستجرام',
+        icon: (
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+            <path fillRule="evenodd" clipRule="evenodd" d="M7.5 12C7.5 9.51472 9.51472 7.5 12 7.5C14.4853 7.5 16.5 9.51472 16.5 12C16.5 14.4853 14.4853 16.5 12 16.5C9.51472 16.5 7.5 14.4853 7.5 12ZM12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9Z" fill="black" />
+            <path d="M17.508 7.5C18.0603 7.5 18.508 7.05228 18.508 6.5C18.508 5.94772 18.0603 5.5 17.508 5.5H17.499C16.9467 5.5 16.499 5.94772 16.499 6.5C16.499 7.05228 16.9467 7.5 17.499 7.5H17.508Z" fill="black" />
+            <path fillRule="evenodd" clipRule="evenodd" d="M12.057 1.75C14.248 1.75 15.9687 1.75 17.312 1.93C18.6887 2.116 19.781 2.508 20.639 3.361C21.497 4.219 21.884 5.316 22.069 6.688C22.25 8.032 22.25 9.752 22.25 11.943V12.057C22.25 14.248 22.25 15.968 22.069 17.312C21.884 18.689 21.497 19.781 20.639 20.639C19.781 21.497 18.689 21.884 17.312 22.069C15.969 22.25 14.248 22.25 12.057 22.25H11.943C9.752 22.25 8.031 22.25 6.688 22.069C5.311 21.884 4.219 21.497 3.361 20.639C2.503 19.781 2.116 18.689 1.931 17.312C1.75 15.969 1.75 14.248 1.75 12.057V11.943C1.75 9.752 1.75 8.032 1.931 6.688C2.116 5.311 2.503 4.219 3.361 3.361C4.219 2.503 5.311 2.116 6.688 1.931C8.031 1.75 9.752 1.75 11.943 1.75H12.057ZM6.888 3.417C5.678 3.58 4.955 3.889 4.422 4.422C3.889 4.955 3.58 5.678 3.417 6.888C3.252 8.12 3.25 9.74 3.25 12C3.25 14.261 3.252 15.881 3.417 17.112C3.58 18.323 3.889 19.046 4.422 19.579C4.955 20.112 5.678 20.42 6.888 20.583C8.12 20.749 9.74 20.75 12 20.75C14.261 20.75 15.88 20.749 17.112 20.583C18.322 20.42 19.046 20.112 19.579 19.579C20.112 19.046 20.42 18.323 20.583 17.112C20.749 15.881 20.75 14.261 20.75 12C20.75 9.74 20.749 8.12 20.583 6.888C20.42 5.678 20.112 4.955 19.579 4.422C19.046 3.889 18.322 3.58 17.112 3.417C15.88 3.252 14.261 3.25 12 3.25C9.74 3.25 8.12 3.252 6.888 3.417Z" fill="black" />
+          </svg>
+        ),
+      },
+    };
+
     return (
-      <footer className="bg-[var(--color-primary)] text-white" dir="rtl">
-        <div className="mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8 pt-10 pb-6 flex flex-col gap-10">
-          <div className="flex flex-wrap gap-8 pt-4 pb-6">
-            {/* Logo + description (start/right in RTL) */}
-            <div className="flex-1 min-w-[200px] flex flex-col gap-4 items-start">
-              <div className="relative h-10 w-[140px] sm:h-12 sm:w-[180px]">
+      <footer className="bg-[#f6f4f1]" dir="rtl">
+        <div className="mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 md:pt-[61px] pb-6 flex flex-col">
+
+          {/* ═══════ Top section: logo+description  |  link columns ═══════ */}
+          <div className="flex flex-col lg:flex-row lg:justify-between gap-8 lg:gap-12 pb-10 sm:pb-12">
+
+            {/* Right side (start in RTL): Logo + description */}
+            <div className="flex flex-col gap-3 items-start lg:max-w-[387px] shrink-0">
+              <div className="relative w-[91px] h-[91px]">
                 <Image
                   src={footerLogo}
                   alt={tenant.name}
                   fill
-                  className="object-contain object-start"
-                  sizes="180px"
+                  className="object-contain"
+                  sizes="91px"
                 />
               </div>
-              <p className="text-sm text-white/90 max-w-xs text-start">
+              <p className="text-[14px] font-normal text-black leading-[1.5] text-start">
                 {footer.description}
               </p>
             </div>
-            {/* 4 columns from tenant config */}
-            {footer.links?.map((linkGroup, index) => (
-              <div key={index} className="flex-1 min-w-[140px] flex flex-col gap-2 items-start">
-                <div className="w-full border-b border-white/30 pb-2">
-                  <p className="text-md font-medium text-start">{linkGroup.label}</p>
-                </div>
-                <div className="flex flex-col gap-2 items-start text-sm">
-                  {linkGroup.items.map((item, itemIndex) => (
-                    <Link
-                      key={itemIndex}
-                      href={withBasePath(item.href, basePath)}
-                      className="text-white/90 hover:text-white hover:underline"
-                    >
-                      {item.text}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            ))}
-            {/* تواصل معنا + تابعنا */}
-            <div className="flex-1 min-w-[180px] flex flex-col gap-4 items-start">
-              {footer.contact && (
-                <div className="flex flex-col gap-1 text-sm">
-                  <div className="w-full border-b border-white/30 pb-2">
-                    <p className="text-md font-medium text-start">تواصل معنا</p>
+
+            {/* Left side (end in RTL): 4 link columns — RTL order: عنا, المصادر, تواصل معنا, تابعنا */}
+            <div className="flex justify-end flex-wrap sm:flex-nowrap gap-8 sm:gap-[53px] flex-1 justify-start">
+
+              {/* Link groups from config (عنا, المصادر, etc.) */}
+              {footer.links?.map((linkGroup, index) => (
+                <div key={index} className="flex flex-col gap-[18px] items-start">
+                  <p className="text-[16px] font-semibold text-black leading-[1.5]">
+                    {linkGroup.label}
+                  </p>
+                  <div className="flex flex-col gap-[10px] items-start">
+                    {linkGroup.items.map((item, itemIndex) => (
+                      <Link
+                        key={itemIndex}
+                        href={withBasePath(item.href, basePath)}
+                        className="text-[12px] font-normal text-black leading-[1.5] hover:underline"
+                      >
+                        {item.text}
+                      </Link>
+                    ))}
                   </div>
-                  {footer.contact.email && (
-                    <a href={`mailto:${footer.contact.email}`} className="text-white/90 hover:text-white hover:underline">
-                      {footer.contact.email}
-                    </a>
-                  )}
-                  {footer.contact.phone && (
-                    <a href={`tel:${footer.contact.phone}`} className="text-white/90 hover:text-white hover:underline">
-                      {footer.contact.phone}
-                    </a>
-                  )}
+                </div>
+              ))}
+
+              {/* تواصل معنا */}
+              {footer.contact && (
+                <div className="flex flex-col gap-[18px] items-start">
+                  <p className="text-[16px] font-semibold text-black leading-[1.5]">
+                    تواصل معنا
+                  </p>
+                  <div className="flex flex-col gap-[10px] items-start">
+                    {footer.contact.email && (
+                      <a href={`mailto:${footer.contact.email}`} className="text-[12px] font-normal text-black leading-[1.5] hover:underline">
+                        {footer.contact.email}
+                      </a>
+                    )}
+                    {footer.contact.phone && (
+                      <a href={`tel:${footer.contact.phone}`} className="text-[12px] font-normal text-black leading-[1.5] hover:underline">
+                        {footer.contact.phone}
+                      </a>
+                    )}
+                  </div>
                 </div>
               )}
+
+              {/* تابعنا — social links with Arabic labels + icons */}
               {footer.social && footer.social.length > 0 && (
-                <div className="flex flex-col gap-2">
-                  <div className="w-full border-b border-white/30 pb-2">
-                    <p className="text-md font-medium text-start">تابعنا</p>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {footer.social.map((s) => (
-                      <a
-                        key={s.platform}
-                        href={s.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center justify-center size-8 rounded-xs border border-white/40 hover:bg-white/10 transition-colors"
-                        aria-label={s.platform}
-                      >
-                        {s.platform.toLowerCase() === 'twitter' && <XIcon />}
-                        {s.platform.toLowerCase() === 'instagram' && <InstagramIcon />}
-                        {s.platform.toLowerCase() === 'tiktok' && (
-                          <svg width="20" height="20" viewBox="0 0 20 20" fill="white" aria-hidden><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1.05-.08 6.33 6.33 0 0 0-6.33 6.34v6.92A6.34 6.34 0 0 0 13.36 19V9.45a6.84 6.84 0 0 0 1.05.08v3.45a4.85 4.85 0 0 0 3.77 4.22 4.82 4.82 0 0 0 4.41-1.07V6.69z" /></svg>
-                        )}
-                      </a>
-                    ))}
+                <div className="flex flex-col gap-[18px] items-start">
+                  <p className="text-[16px] font-semibold text-black leading-[1.5]">
+                    تابعنا
+                  </p>
+                  <div className="flex flex-col gap-[10px] items-start">
+                    {footer.social.map((s) => {
+                      const mapped = tahbeerSocialMap[s.platform.toLowerCase()];
+                      if (!mapped) return null;
+                      return (
+                        <a
+                          key={s.platform}
+                          href={s.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-3 py-[5px] hover:opacity-70 transition-opacity"
+                          aria-label={mapped.label}
+                        >
+                          {mapped.icon}
+                          <span className="text-[12px] font-normal text-black leading-[1.5]">
+                            {mapped.label}
+                          </span>
+                        </a>
+                      );
+                    })}
                   </div>
                 </div>
               )}
             </div>
           </div>
-          <div className="border-t border-white/30 pt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-white/90 text-center sm:text-start">
-              {footer.copyright}
+
+          {/* ═══════ Divider ═══════ */}
+          <div className="border-t border-[#ebe8e8]" />
+
+          {/* ═══════ Bottom bar: copyright (start) + footer links (end) ═══════ */}
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-6">
+            {/* Copyright — start side (right in RTL) */}
+            <p className="text-[12px] text-[#6a6a6a] leading-[1.5]">
+              {footer.copyright || '© 2024 جميع الحقوق محفوظة.'}
             </p>
+            {/* Footer quick links — end side (left in RTL) */}
+            <div className="flex flex-wrap gap-6 items-center">
+              <Link href={withBasePath('/privacy', basePath)} className="text-[12px] text-[#6a6a6a] leading-[1.5] hover:underline">
+                سياسة الخصوصية
+              </Link>
+              <Link href={withBasePath('/terms', basePath)} className="text-[12px] text-[#6a6a6a] leading-[1.5] hover:underline">
+                شروط الخدمة
+              </Link>
+              <Link href={withBasePath('/cookies', basePath)} className="text-[12px] text-[#6a6a6a] leading-[1.5] hover:underline">
+                إعدادات ملفات تعريف الارتباط
+              </Link>
+            </div>
           </div>
         </div>
       </footer>
