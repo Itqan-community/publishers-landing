@@ -82,7 +82,7 @@ export function RecitationsPageContent({
             riwayaOptions={riwayaOptions}
           />
         </div>
-        <RecitationsListingSection mushafs={mushafs} />
+        <RecitationsListingSection mushafs={mushafs} tenantId={tenantId} />
       </div>
     </>
   );

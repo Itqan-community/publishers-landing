@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { MushafCard } from '@/components/cards/MushafCard';
+import { TahbeerMushafCard } from '@/components/cards/TahbeerMushafCard';
 import type { RecordedMushaf } from '@/types/tenant.types';
 
 const PAGE_SIZE = 12;
@@ -22,11 +23,16 @@ function SparkleIcon({ className }: { className?: string }) {
 interface RecitationsListingSectionProps {
   /** Mushafs already filtered by backend (search + riwayah_id). */
   mushafs: RecordedMushaf[];
+  /** When `tahbeer`, use Tahbeer card design; otherwise use default MushafCard (e.g. Saudi Center). */
+  tenantId?: string;
 }
 
 export const RecitationsListingSection: React.FC<RecitationsListingSectionProps> = ({
   mushafs,
+  tenantId,
 }) => {
+  const isTahbeer = tenantId === 'tahbeer';
+  const CardComponent = isTahbeer ? TahbeerMushafCard : MushafCard;
   const [displayCount, setDisplayCount] = useState(PAGE_SIZE);
 
   useEffect(() => {
@@ -45,7 +51,7 @@ export const RecitationsListingSection: React.FC<RecitationsListingSectionProps>
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {visible.map((mushaf) => (
-            <MushafCard key={mushaf.id} mushaf={mushaf} />
+            <CardComponent key={mushaf.id} mushaf={mushaf} />
           ))}
         </div>
 

@@ -7,6 +7,7 @@ import { PageLayout } from '@/components/layout/PageLayout';
 import { RecitationsPageContent } from '@/components/sections/RecitationsPageContent';
 import { getRecordedMushafs } from '@/lib/recorded-mushafs';
 import { getRiwayahs } from '@/lib/riwayahs';
+import { getMockRecordedMushafsForTahbeer, getMockRiwayahsForTahbeer } from '@/lib/mock-tahbeer-recitations';
 import { generateTenantMetadata } from '@/lib/seo';
 
 /** Always fetch fresh data — no static/cached page so listing count matches API. */
@@ -73,14 +74,31 @@ export default async function RecitationsListingPage({
   const riwayahId = parseRiwayahId(sp.riwayah_id);
   const riwayahIdParam = riwayahId != null ? String(riwayahId) : '';
 
-  // Always use SSR - X-Tenant authentication is now in place
-  const [mushafs, riwayaOptions] = await Promise.all([
-    getRecordedMushafs(tenantId, {
-      search: search || undefined,
-      riwayah_id: riwayahId != null ? [riwayahId] : undefined,
-    }, basePath),
-    getRiwayahs(tenantId),
-  ]);
+  // Tahbeer: use mock data while BE is down; other tenants use API
+  let mushafs: Awaited<ReturnType<typeof getRecordedMushafs>>;
+  let riwayaOptions: Awaited<ReturnType<typeof getRiwayahs>>;
+
+  if (tenant.id === 'tahbeer') {
+    const mockList = getMockRecordedMushafsForTahbeer(basePath);
+    riwayaOptions = getMockRiwayahsForTahbeer();
+    // Simple filter by search and riwayah_id so UI works while BE is down
+    mushafs = mockList.filter((m) => {
+      if (riwayahId != null && !m.badges?.some((b) => b.id === `r${riwayahId}`)) return false;
+      if (search.trim()) {
+        const q = search.trim().toLowerCase();
+        if (!m.title.toLowerCase().includes(q) && !m.description.toLowerCase().includes(q) && !m.reciter.name.toLowerCase().includes(q)) return false;
+      }
+      return true;
+    });
+  } else {
+    [mushafs, riwayaOptions] = await Promise.all([
+      getRecordedMushafs(tenantId, {
+        search: search || undefined,
+        riwayah_id: riwayahId != null ? [riwayahId] : undefined,
+      }, basePath),
+      getRiwayahs(tenantId),
+    ]);
+  }
 
   return (
     <PageLayout tenant={tenant}>

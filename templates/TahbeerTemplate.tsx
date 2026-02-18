@@ -24,18 +24,18 @@ interface TahbeerTemplateProps {
   basePath?: string;
 }
 
-/** Ten Qira'at + riwayats — from Figma "القراءات العشر ورواتها" */
+/** Ten Qira'at + riwayats — from Figma "القراءات العشر ورواتها". Cards link to riwayah detail page. */
 const TEN_READINGS: TenReadingsItem[] = [
-  { id: '1', number: 1, title: 'نافع المدني', riwayats: 'قالون، ورش', viewMushafHref: '/recitations' },
-  { id: '2', number: 2, title: 'ابن كثير المكي', riwayats: 'البزي، قنبل', viewMushafHref: '/recitations' },
-  { id: '3', number: 3, title: 'أبو عمرو البصري', riwayats: 'الدوري، السوسي', viewMushafHref: '/recitations' },
-  { id: '4', number: 4, title: 'ابن عامر الشامي', riwayats: 'هشام، ابن ذكوان', viewMushafHref: '/recitations' },
-  { id: '5', number: 5, title: 'عاصم الكوفي', riwayats: 'شعبة، حفص', viewMushafHref: '/recitations' },
-  { id: '6', number: 6, title: 'حمزة الكوفي', riwayats: 'خلف، خلاد', viewMushafHref: '/recitations' },
-  { id: '7', number: 7, title: 'الكسائي', riwayats: 'أبو الحارث، حفص الدوري', viewMushafHref: '/recitations' },
-  { id: '8', number: 8, title: 'أبو جعفر المدني', riwayats: 'ابن وردان، ابن جماز', viewMushafHref: '/recitations' },
-  { id: '9', number: 9, title: 'يعقوب الحضرمي', riwayats: 'رويس، روح', viewMushafHref: '/recitations' },
-  { id: '10', number: 10, title: 'خلف العاشر', riwayats: 'إسحاق، إدريس', viewMushafHref: '/recitations' },
+  { id: '1', number: 1, title: 'نافع المدني', riwayats: 'قالون، ورش', viewMushafHref: '/riwayahs/1' },
+  { id: '2', number: 2, title: 'ابن كثير المكي', riwayats: 'البزي، قنبل', viewMushafHref: '/riwayahs/2' },
+  { id: '3', number: 3, title: 'أبو عمرو البصري', riwayats: 'الدوري، السوسي', viewMushafHref: '/riwayahs/3' },
+  { id: '4', number: 4, title: 'ابن عامر الشامي', riwayats: 'هشام، ابن ذكوان', viewMushafHref: '/riwayahs/4' },
+  { id: '5', number: 5, title: 'عاصم الكوفي', riwayats: 'شعبة، حفص', viewMushafHref: '/riwayahs/5' },
+  { id: '6', number: 6, title: 'حمزة الكوفي', riwayats: 'خلف، خلاد', viewMushafHref: '/riwayahs/6' },
+  { id: '7', number: 7, title: 'الكسائي', riwayats: 'أبو الحارث، حفص الدوري', viewMushafHref: '/riwayahs/7' },
+  { id: '8', number: 8, title: 'أبو جعفر المدني', riwayats: 'ابن وردان، ابن جماز', viewMushafHref: '/riwayahs/8' },
+  { id: '9', number: 9, title: 'يعقوب الحضرمي', riwayats: 'رويس، روح', viewMushafHref: '/riwayahs/9' },
+  { id: '10', number: 10, title: 'خلف العاشر', riwayats: 'إسحاق، إدريس', viewMushafHref: '/riwayahs/10' },
 ];
 
 /** About project features — from Figma "عن المشروع" (4 cards) */
