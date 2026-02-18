@@ -20,7 +20,7 @@ import { RecitationItem } from '@/components/audio/AudioPlayer';
 import { SponsorItem } from '@/components/sections/SponsorsSection';
 import { getDeployEnv, getBackendUrl } from '@/lib/backend-url';
 import { getRecordedMushafs } from '@/lib/recorded-mushafs';
-import { getReciters, enrichRecitersWithTrackImages } from '@/lib/reciters';
+import { getReciters, getReciterImageMapFromMushafs, enrichRecitersWithImageMap } from '@/lib/reciters';
 import { getFeaturedRecitationTracks } from '@/lib/recitation-tracks';
 
 interface SaudiCenterTemplateProps {
@@ -39,12 +39,13 @@ export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenter
   ]);
 
   const firstRecitationId = mushafs[0]?.id;
-  const recitations: RecitationItem[] = firstRecitationId
-    ? await getFeaturedRecitationTracks(tenant.id, 5, firstRecitationId)
-    : [];
+  const [recitations, reciterImageMap] = await Promise.all([
+    firstRecitationId ? getFeaturedRecitationTracks(tenant.id, 5, firstRecitationId) : Promise.resolve([]),
+    getReciterImageMapFromMushafs(tenant.id, mushafs),
+  ]);
 
-  // /reciters/ API doesn't return images; enrich from track data (reciter.image_url from /recitation-tracks/)
-  const reciters = enrichRecitersWithTrackImages(rawReciters, recitations);
+  // /reciters/ API doesn't return images; enrich from tracks for ALL mushafs (production has multiple reciters)
+  const reciters = enrichRecitersWithImageMap(rawReciters, reciterImageMap);
 
   const sponsors: SponsorItem[] = [
     {

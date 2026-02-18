@@ -4,6 +4,7 @@ import { getApiHeaders, resolveImageUrl } from '@/lib/utils';
 import { getTenantDomain } from '@/lib/tenant-domain';
 import type { ReciterCardProps } from '@/components/cards/ReciterCard';
 import type { RecitationItem } from '@/components/audio/AudioPlayer';
+import { getReciterImageFromRecitation } from '@/lib/recitation-tracks';
 
 /**
  * /reciters/ API does not return images; /recitation-tracks/ does.
@@ -22,6 +23,45 @@ export function enrichRecitersWithTrackImages(
   return reciters.map((r) => ({
     ...r,
     image: r.image || imageByReciterName.get(r.name) || '',
+  }));
+}
+
+/**
+ * Build reciter image map by fetching tracks for multiple recitations.
+ * Each recitation has one reciter; fetches with page_size=1 for minimal payload.
+ * Use when there are multiple reciters (e.g. production) — featured tracks only cover the first reciter.
+ * Stores by both reciter ID and name for reliable matching.
+ */
+export async function getReciterImageMapFromMushafs(
+  tenantId: string,
+  mushafs: Array<{ id: string; reciter?: { id: string; name: string } }>,
+  maxRecitations = 15
+): Promise<Map<string, string>> {
+  const map = new Map<string, string>();
+  const toFetch = mushafs.slice(0, maxRecitations);
+  const results = await Promise.all(
+    toFetch.map((m) => getReciterImageFromRecitation(m.id, tenantId))
+  );
+  for (const r of results) {
+    if (r?.image) {
+      if (r.reciterName && !map.has(r.reciterName)) map.set(r.reciterName, r.image);
+      if (r.reciterId && !map.has(String(r.reciterId))) map.set(String(r.reciterId), r.image);
+    }
+  }
+  return map;
+}
+
+/**
+ * Enrich reciters with a pre-built image map (e.g. from getReciterImageMapFromMushafs).
+ * Matches by reciter ID first, then by name.
+ */
+export function enrichRecitersWithImageMap(
+  reciters: ReciterCardProps[],
+  imageMap: Map<string, string>
+): ReciterCardProps[] {
+  return reciters.map((r) => ({
+    ...r,
+    image: r.image || imageMap.get(r.id) || imageMap.get(r.name) || '',
   }));
 }
 

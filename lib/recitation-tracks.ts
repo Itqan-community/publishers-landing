@@ -162,6 +162,40 @@ export const getFeaturedRecitationTracks = cache(async (
 });
 
 /**
+ * Fetches reciter image from a recitation's tracks (page_size=1 for minimal payload).
+ * Used to build reciter image map for home page when /reciters/ API doesn't return images.
+ */
+export const getReciterImageFromRecitation = cache(async (
+  assetId: string | number,
+  tenantId?: string
+): Promise<{ reciterName: string; reciterId: number; image: string } | null> => {
+  try {
+    const backendUrl = await getBackendUrl(tenantId);
+    const tenantDomain = await getTenantDomain(tenantId || 'default');
+    const assetIdStr = String(assetId);
+    const apiUrl = `${backendUrl}/recitation-tracks/${assetIdStr}/?page_size=1`;
+
+    const response = await fetch(apiUrl, {
+      method: 'GET',
+      headers: getApiHeaders(tenantDomain),
+      cache: 'no-store',
+    });
+
+    if (!response.ok) return null;
+    const data: PaginatedResponse<RecitationTrackByAssetApiResponse> = await response.json();
+    const first = data.results?.[0];
+    if (!first?.reciter) return null;
+
+    const image = first.reciter.image_url || '';
+    const reciterName = first.reciter.name || 'غير معروف';
+    const reciterId = first.reciter.id ?? 0;
+    return { reciterName, reciterId, image };
+  } catch {
+    return null;
+  }
+});
+
+/**
  * Server-side data accessor for Recitation Tracks by Asset ID.
  * Fetches tracks for a specific recitation from GET /recitation-tracks/{asset_id}/
  * 
