@@ -38,12 +38,12 @@ const TEN_READINGS: TenReadingsItem[] = [
   { id: '10', number: 10, title: 'خلف العاشر', riwayats: 'إسحاق، إدريس', viewMushafHref: '/riwayahs/10' },
 ];
 
-/** About project features — from Figma "عن المشروع" (4 cards) */
+/** About project features — from Figma "عن المشروع" (4 cards) https://www.figma.com/design/ZuC4sVdPQuvuGVGzPigBb1/Ta7beer?node-id=2391-13613 */
 const TAHBEER_ABOUT_FEATURES: FeatureItem[] = [
-  { id: '1', title: 'جودة عالية', description: 'التسجيلات بجودة صوتية استثنائية لأفضل تجربة استماع', iconSrc: '/icons/feature-award.svg' },
-  { id: '2', title: 'جودة عالية', description: 'التسجيلات بجودة صوتية استثنائية لأفضل تجربة استماع', iconSrc: '/icons/feature-award.svg' },
-  { id: '3', title: 'جودة عالية', description: 'التسجيلات بجودة صوتية استثنائية لأفضل تجربة استماع', iconSrc: '/icons/feature-award.svg' },
-  { id: '4', title: 'جودة عالية', description: 'التسجيلات بجودة صوتية استثنائية لأفضل تجربة استماع', iconSrc: '/icons/feature-award.svg' },
+  { id: '2', title: '١٠ قراءات', description: 'القراءات العشر المتواترة عن الأئمة العشرة', iconSrc: '/icons/feature-award.svg' },
+  { id: '1', title: 'جودة عالية', description: 'تسجيلات بجودة صوتية استثنائية لأفضل تجربة استماع', iconSrc: '/icons/feature-award.svg' },
+  { id: '3', title: '٢٠ رواية', description: 'روايتان متواترتان عن كل إمام من الأئمة العشرة', iconSrc: '/icons/feature-award.svg' },
+  { id: '4', title: 'تسجيل صوتي بكل طرق الرواية', description: 'بصوت الشيخ صابر عبد الحكم، وبجودة عالية', iconSrc: '/icons/feature-award.svg' },
 ];
 
 /** Project idea paragraphs — from Figma "الفكرة" */
@@ -113,9 +113,9 @@ export async function TahbeerTemplate({ tenant, basePath = '' }: TahbeerTemplate
           legacyShowSocial={true}
           legacyCheckmarkVariant="tahbeer"
           statsCard={{
-            value: '2.5M',
-            label: 'استماع على جميع',
-            description: 'المنصات',
+            value: 'كافة',
+            label: 'القراءات',
+            description: 'بكل طرق الرواية',
           }}
         />
       </div>
@@ -132,7 +132,7 @@ export async function TahbeerTemplate({ tenant, basePath = '' }: TahbeerTemplate
       {/* القراءات العشر ورواتها */}
       <TenReadingsSection
         id="readings"
-        title="القراءات العشر ورواتها"
+        title="القراءات العشر ورواياتها"
         items={TEN_READINGS}
         viewAllHref={`${prefix}/recitations`}
         basePath={prefix}
@@ -148,7 +148,7 @@ export async function TahbeerTemplate({ tenant, basePath = '' }: TahbeerTemplate
       {/* فكرة المشروع والمشاركين */}
       <ProjectIdeaSection
         id="project-idea"
-        sectionTitle="فكرة المشروع والمشاركين"
+        sectionTitle="فكرة المشروع والمشاركون"
         sectionSubtitle="تسجيل صوتي للقراءات العشر بالروايات العشرين بكل طرق الأداء المنقولة عن الأئمة"
         ideaTitle="الفكرة"
         ideaParagraphs={TAHBEER_IDEA_PARAGRAPHS}
