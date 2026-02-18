@@ -72,6 +72,7 @@ export interface RecitationApiResponse {
   reciter: {
     id: number;
     name: string;
+    image_url?: string;
     image?: string;
     avatar?: string;
   };
@@ -116,7 +117,7 @@ export function mapRecitationsApiToRecordedMushafs(
       : 'المصحف المرتل';
     const avatarImage =
       resolveImageUrl(
-        recitation.reciter?.image ?? recitation.reciter?.avatar,
+        recitation.reciter?.image_url ?? recitation.reciter?.image ?? recitation.reciter?.avatar,
         backendUrl
       ) ?? '';
     return {

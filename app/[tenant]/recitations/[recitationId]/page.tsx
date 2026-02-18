@@ -73,32 +73,25 @@ export default async function RecitationDetailsPage({
   console.log('========================================');
   */
 
-  // Extract reciter information; use image from API only (no mock paths)
+  // Extract reciter information; /recitations/ API often omits reciter image - we get it from tracks
   const reciterName = recitation.reciter?.name || 'غير معروف';
   const backendUrl = await getBackendUrl(tenantId);
-  const reciterImage =
-    resolveImageUrl(
-      recitation.reciter?.image ?? recitation.reciter?.avatar,
-      backendUrl
-    ) ?? '';
 
-  // IMPORTANT: Use recitation.id (from API response) as asset_id for tracks API
-  // The API endpoint /recitation-tracks/{asset_id}/ expects the recitation's ID
-  // However, if there's a mismatch, fall back to the URL param (converted to number if possible)
-  let assetIdForTracks: string | number = recitation.id;
-
-  // Verify the ID matches - if not, still use recitation.id as it's the authoritative source
-  if (String(recitation.id) !== String(recitationId)) {
-    // ID mismatch - still use recitation.id from API response
-  }
-
-  // Fetch tracks for this recitation using its ID  
+  // Fetch tracks first; /recitation-tracks/ returns reciter.image_url, /recitations/ does not
   const tracks = await getRecitationTracksByAssetId(
     recitation.id,
     reciterName,
-    reciterImage,
+    undefined, // Let tracks API extract image from response
     tenantId
   );
+
+  // Prefer image from tracks (API includes reciter.image_url); fallback to recitation.reciter
+  const reciterImage =
+    tracks[0]?.image ||
+    (resolveImageUrl(
+      recitation.reciter?.image_url ?? recitation.reciter?.image ?? recitation.reciter?.avatar,
+      backendUrl
+    ) ?? '');
 
   // Build breadcrumb schema for SEO
   const baseUrl = tenant.domain
@@ -151,7 +144,7 @@ export default async function RecitationDetailsPage({
                 <div className="flex flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-12">
                   {/* Part 1 (RTL start): column 1 = avatar, column 2 = info (row1: title+description, row2: tags). Mobile: centered; desktop: start-aligned. */}
                   <div className="flex flex-col gap-4 items-center lg:flex-row lg:items-start lg:gap-6">
-                    <div className="relative h-[120px] w-[120px] sm:h-[150px] sm:w-[150px] lg:h-[179px] lg:w-[179px] shrink-0 overflow-hidden rounded-xl bg-white">
+                    <div className="relative border-[6px] border-[white] h-[120px] w-[120px] sm:h-[150px] sm:w-[150px] lg:h-[179px] lg:w-[179px] shrink-0 overflow-hidden rounded-xl bg-white">
                       <AvatarImage
                         src={reciterImage}
                         alt={`صورة ${reciterName}`}

@@ -20,7 +20,7 @@ import { RecitationItem } from '@/components/audio/AudioPlayer';
 import { SponsorItem } from '@/components/sections/SponsorsSection';
 import { getDeployEnv, getBackendUrl } from '@/lib/backend-url';
 import { getRecordedMushafs } from '@/lib/recorded-mushafs';
-import { getReciters } from '@/lib/reciters';
+import { getReciters, enrichRecitersWithTrackImages } from '@/lib/reciters';
 import { getFeaturedRecitationTracks } from '@/lib/recitation-tracks';
 
 interface SaudiCenterTemplateProps {
@@ -33,7 +33,7 @@ export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenter
   const prefix = basePath || '';
 
   // Always use SSR - X-Tenant authentication is now in place
-  const [reciters, mushafs] = await Promise.all([
+  const [rawReciters, mushafs] = await Promise.all([
     getReciters(tenant.id, prefix),
     getRecordedMushafs(tenant.id, {}, prefix),
   ]);
@@ -42,6 +42,9 @@ export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenter
   const recitations: RecitationItem[] = firstRecitationId
     ? await getFeaturedRecitationTracks(tenant.id, 5, firstRecitationId)
     : [];
+
+  // /reciters/ API doesn't return images; enrich from track data (reciter.image_url from /recitation-tracks/)
+  const reciters = enrichRecitersWithTrackImages(rawReciters, recitations);
 
   const sponsors: SponsorItem[] = [
     {

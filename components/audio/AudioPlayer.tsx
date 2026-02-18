@@ -665,37 +665,12 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
           <div>
             <div className="rounded-lg border border-[#ebe8e8] bg-white px-6 py-6">
               <div className="flex flex-col items-center gap-6">
-                {/* Preview: rounded rectangle like featured (not circle) */}
+                {/* Preview: surah name only (reciter image shown in page header, not here) */}
                 <div className="relative mb-2 size-[160px] sm:size-[190px] lg:size-[214px] shrink-0 rounded-xl bg-white p-[7px] shadow-player">
                   <div className="relative h-full w-full overflow-hidden rounded-xl bg-[#f3f3f3] flex items-center justify-center px-4">
-                    {selectedRecitation?.image?.trim() ? (
-                      <>
-                        <Image
-                          key={selectedRecitation.image}
-                          src={selectedRecitation.image}
-                          alt={`صورة القارئ ${selectedRecitation?.reciterName} - ${selectedRecitation?.title}`}
-                          fill
-                          className="object-cover"
-                          onError={(e) => {
-                            e.currentTarget.style.display = 'none';
-                            const parent = e.currentTarget.parentElement;
-                            if (parent) {
-                              const userIcon = parent.querySelector('.user-icon-fallback');
-                              if (userIcon) {
-                                (userIcon as HTMLElement).style.display = 'flex';
-                              }
-                            }
-                          }}
-                        />
-                        <div className="user-icon-fallback absolute inset-0 hidden items-center justify-center text-[#6a6a6a]">
-                          <UserIcon className="h-20 w-20" />
-                        </div>
-                      </>
-                    ) : (
-                      <p className="text-center text-xl font-semibold text-[#343434]">
-                        {(selectedRecitation?.title || '').replace(/^\d+\.\s*/, '')}
-                      </p>
-                    )}
+                    <p className="text-center text-xl font-semibold text-[#343434]">
+                      {(selectedRecitation?.title || '').replace(/^\d+\.\s*/, '')}
+                    </p>
                   </div>
                 </div>
                 {/* Progress: time above, orange seekable bar */}

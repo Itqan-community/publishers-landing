@@ -19,7 +19,8 @@ interface RecitationApiResponse {
   reciter: {
     id: number;
     name: string;
-    /** Reciter avatar/image URL from API (absolute or relative to backend). */
+    /** Reciter image URL from API (absolute or relative to backend). */
+    image_url?: string;
     image?: string;
     avatar?: string;
   };
@@ -100,8 +101,6 @@ export async function getRecordedMushafs(
     }
 
     const data: PaginatedResponse<RecitationApiResponse> = await response.json();
-    console.log(`[getRecordedMushafs] API response:`, data);
-
     // One card per API result — no padding, no mock items, no duplication
     const results = Array.isArray(data.results) ? data.results : [];
     const OUTLINE_PALETTE = ['#2563eb', '#059669', '#7c3aed', '#dc2626', '#db2777'];
@@ -139,10 +138,10 @@ export async function getRecordedMushafs(
         ? `المصحف المرتل ل${recitation.reciter.name}`
         : 'المصحف المرتل';
 
-      // Use image/avatar from API only; no mock paths (empty = show person icon)
+      // Use image_url / image / avatar from API only; no mock paths (empty = show person icon)
       const avatarImage =
         resolveImageUrl(
-          recitation.reciter?.image ?? recitation.reciter?.avatar,
+          recitation.reciter?.image_url ?? recitation.reciter?.image ?? recitation.reciter?.avatar,
           backendUrl
         ) ?? '';
 

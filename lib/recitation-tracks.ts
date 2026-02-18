@@ -42,6 +42,12 @@ interface RecitationTrackByAssetApiResponse {
   revelation_order: number;
   revelation_place: 'Makkah' | 'Madinah';
   ayahs_count: number;
+  reciter?: {
+    id: number;
+    name: string;
+    image_url?: string;
+    bio?: string;
+  };
   ayahs_timings?: Array<{
     ayah_key: string;
     start_ms: number;
@@ -131,7 +137,7 @@ export const getFeaturedRecitationTracks = cache(async (
     const reciterName = recitation.reciter?.name || 'غير معروف';
     const reciterImage =
       resolveImageUrl(
-        recitation.reciter?.image ?? recitation.reciter?.avatar,
+        recitation.reciter?.image_url ?? recitation.reciter?.image ?? recitation.reciter?.avatar,
         await getBackendUrl(tenantId)
       ) ?? '';
 
@@ -179,16 +185,6 @@ export const getRecitationTracksByAssetId = cache(async (
     const assetIdStr = String(assetId);
     const apiUrl = `${backendUrl}/recitation-tracks/${assetIdStr}/?page_size=120`;
     
-    console.log('========================================');
-    console.log('[getRecitationTracksByAssetId] INPUT PARAMETERS:');
-    console.log('  - assetId (raw):', assetId);
-    console.log('  - assetId type:', typeof assetId);
-    console.log('  - assetId (string):', assetIdStr);
-    console.log('  - API URL:', apiUrl);
-    console.log('  - reciterName:', reciterName);
-    console.log('  - reciterImage:', reciterImage);
-    console.log('========================================');
-    
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000);
     
@@ -208,79 +204,32 @@ export const getRecitationTracksByAssetId = cache(async (
       }
 
       const data: PaginatedResponse<RecitationTrackByAssetApiResponse> = await response.json();
-      
-      // Log the full API response for debugging - THIS IS WHAT THE USER REQUESTED
-      console.log('========================================');
-      console.log('[getRecitationTracksByAssetId] FULL API RESPONSE FROM /recitation-tracks/{asset_id}/:');
-      console.log('========================================');
-      console.log(JSON.stringify(data, null, 2));
-      console.log('========================================');
-      console.log('[getRecitationTracksByAssetId] Response structure:', {
-        hasResults: Array.isArray(data.results),
-        count: data.count,
-        resultsLength: data.results?.length || 0,
-        firstResultKeys: data.results?.[0] ? Object.keys(data.results[0]) : [],
-      });
-      
-      if (data.results && data.results.length > 0) {
-        console.log('[getRecitationTracksByAssetId] First track FULL object:');
-        console.log(JSON.stringify(data.results[0], null, 2));
-        console.log('[getRecitationTracksByAssetId] First track audio_url value:', data.results[0].audio_url);
-        console.log('[getRecitationTracksByAssetId] First track audio_url type:', typeof data.results[0].audio_url);
-        console.log('[getRecitationTracksByAssetId] First track audio_url length:', data.results[0].audio_url?.length || 0);
-      } else {
-        console.warn('[getRecitationTracksByAssetId] No tracks in response!');
-      }
 
-      // Map API response to RecitationItem
+      // Extract reciter image from the first track if not provided via parameter
+      const trackReciterImage = data.results[0]?.reciter?.image_url || '';
+      const effectiveReciterImage = reciterImage || trackReciterImage;
+      const effectiveReciterName = reciterName || data.results[0]?.reciter?.name || 'غير معروف';
+
       return data.results.map((track): RecitationItem => {
-        // Build title from surah_name and surah_number
         const title = track.surah_number 
           ? `${track.surah_number}. ${track.surah_name}`
           : track.surah_name || 'سورة';
         
-        // Build surah info with revelation place and ayahs count
         const surahInfo = track.ayahs_count 
           ? `${track.ayahs_count} آية • ${track.revelation_place === 'Makkah' ? 'مكية' : 'مدنية'}`
           : undefined;
 
-        // Use audio_url directly - it's already an absolute URL from the API
         const audioUrl = track.audio_url || '';
-        
-        // Log audio URL processing for debugging
-        console.log(`[getRecitationTracksByAssetId] Track ${track.surah_number} (${track.surah_name}):`, {
-          audio_url: track.audio_url,
-          audioUrl,
-          hasAudioUrl: !!audioUrl,
-          audioUrlType: typeof audioUrl,
-          audioUrlLength: audioUrl.length,
-        });
-        
-        if (!audioUrl) {
-          console.warn(`[getRecitationTracksByAssetId] Empty audio_url for track ${track.surah_number} (${track.surah_name}) - track will not be playable`);
-        }
 
-        const mappedItem: RecitationItem = {
+        return {
           id: `track-${track.surah_number}`,
           title,
-          reciterName: reciterName || 'غير معروف',
+          reciterName: effectiveReciterName,
           duration: formatDuration(track.duration_ms),
-          audioUrl: audioUrl, // Use the absolute URL directly from API
-          image: reciterImage || '',
+          audioUrl,
+          image: track.reciter?.image_url || effectiveReciterImage,
           surahInfo,
         };
-        
-        console.log(`[getRecitationTracksByAssetId] Mapped item for track ${track.surah_number}:`, {
-          id: mappedItem.id,
-          title: mappedItem.title,
-          audioUrl: mappedItem.audioUrl,
-          duration: mappedItem.duration,
-          reciterName: mappedItem.reciterName,
-          hasAudioUrl: !!mappedItem.audioUrl,
-          audioUrlStartsWithHttp: mappedItem.audioUrl?.startsWith('http'),
-        });
-        
-        return mappedItem;
       });
     } catch (fetchError) {
       clearTimeout(timeoutId);

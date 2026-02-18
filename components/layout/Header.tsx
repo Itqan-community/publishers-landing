@@ -28,10 +28,14 @@ interface HeaderProps {
    * - legacy: Old header look (explicit 72px, 16px, rounded-[4px], theme vars for colors).
    */
   variant?: 'default' | 'legacy';
+  /** Template type — used to apply Saudi Center–specific logo/sizes (matches footer) without affecting Tahbeer */
+  template?: string;
 }
 
-export const Header: React.FC<HeaderProps> = ({ logo, logoFull, tenantName, navItems, homeHref = '/', variant = 'default' }) => {
-  const logoSrc = logoFull ?? logo;
+export const Header: React.FC<HeaderProps> = ({ logo, logoFull, tenantName, navItems, homeHref = '/', variant = 'default', template }) => {
+  // Saudi Center: use same logo and sizes as footer (/logos/full-logo-dark-bg.svg)
+  const isSaudiCenter = template === 'saudi-center' && variant === 'default';
+  const logoSrc = isSaudiCenter ? '/logos/full-logo.svg' : (logoFull ?? logo);
   const pathname = usePathname();
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -183,9 +187,9 @@ export const Header: React.FC<HeaderProps> = ({ logo, logoFull, tenantName, navI
 
           {/* ── Right side: Logo + Nav Items ── */}
           <div className="flex items-center gap-8 flex-1 min-w-0">
-            {/* Logo */}
+            {/* Logo — Saudi Center: same as footer (h-[40px] w-[200px] sm:h-[44px] sm:w-[266px]) */}
             <Link href={homeHref} className="flex-shrink-0 flex items-center">
-              <div className="relative w-[180px] h-[32px] sm:w-[220px] sm:h-[40px] lg:w-[266px] lg:h-[44px]">
+              <div className={`relative ${isSaudiCenter ? 'h-[40px] w-[200px] sm:h-[44px] sm:w-[266px]' : 'w-[180px] h-[32px] sm:w-[220px] sm:h-[40px] lg:w-[266px] lg:h-[44px]'}`}>
                 <Image
                   src={logoSrc}
                   alt={tenantName}

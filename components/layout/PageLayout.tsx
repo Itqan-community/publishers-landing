@@ -49,6 +49,7 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
             navItems={navItems}
             homeHref={prefix || '/'}
             variant={tenant.template === 'tahbeer' ? 'legacy' : 'default'}
+            template={tenant.template}
           />
         </>
       )}

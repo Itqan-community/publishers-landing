@@ -58,7 +58,7 @@ export const ReciterCard: React.FC<ReciterCardProps> = ({
           <UserIcon className="h-24 w-24 text-[#6a6a6a]" />
         )}
       </div>
-      <div className="absolute left-[12px] right-[12px] bottom-[12px] bg-white rounded-md px-6 py-5">
+      <div className="absolute left-[12px] right-[12px] bottom-[12px] bg-white rounded-md px-6 py-5 opacity-80">
         <h3 className="text-display-xs font-semibold text-black leading-tight">{name}</h3>
         <p className="text-md text-[#343434] mt-2 line-clamp-2">{bio || title}</p>
       </div>

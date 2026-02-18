@@ -3,6 +3,27 @@ import { getBackendUrl } from '@/lib/backend-url';
 import { getApiHeaders, resolveImageUrl } from '@/lib/utils';
 import { getTenantDomain } from '@/lib/tenant-domain';
 import type { ReciterCardProps } from '@/components/cards/ReciterCard';
+import type { RecitationItem } from '@/components/audio/AudioPlayer';
+
+/**
+ * /reciters/ API does not return images; /recitation-tracks/ does.
+ * Use this to enrich reciters with images from track data. Works for all tenants.
+ */
+export function enrichRecitersWithTrackImages(
+  reciters: ReciterCardProps[],
+  tracks: RecitationItem[]
+): ReciterCardProps[] {
+  const imageByReciterName = new Map<string, string>();
+  for (const t of tracks) {
+    if (t.reciterName && t.image && !imageByReciterName.has(t.reciterName)) {
+      imageByReciterName.set(t.reciterName, t.image);
+    }
+  }
+  return reciters.map((r) => ({
+    ...r,
+    image: r.image || imageByReciterName.get(r.name) || '',
+  }));
+}
 
 /**
  * API response model for reciters endpoint
@@ -13,6 +34,7 @@ interface ReciterApiResponse {
   name: string;
   recitations_count: number;
   /** Reciter image URL from API (absolute or relative to backend). */
+  image_url?: string;
   image?: string;
   avatar?: string;
 }
@@ -64,7 +86,7 @@ export const getReciters = cache(async (
       // Map API response to ReciterCardProps; use image from API only (no mock paths)
       return data.results.map((reciter): ReciterCardProps => {
         const image =
-          resolveImageUrl(reciter.image ?? reciter.avatar, backendUrlForImages) ?? '';
+          resolveImageUrl(reciter.image_url ?? reciter.image ?? reciter.avatar, backendUrlForImages) ?? '';
         return {
           id: String(reciter.id),
           name: reciter.name,
