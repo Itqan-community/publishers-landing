@@ -139,7 +139,7 @@ export const ReviewMembersSection: React.FC<ReviewMembersSectionProps> = ({
     >
       <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8">
         {/* ── Section header row ── */}
-        <div className="flex flex-col sm:flex-row sm:items-baseline gap-3 sm:gap-6 mb-8 sm:mb-10 md:mb-[30px]">
+        <div className="flex flex-col sm:flex-row md:items-center sm:items-baseline gap-3 sm:gap-6 mb-8 sm:mb-10 md:mb-[30px]">
           <h2 className="text-[28px] sm:text-[33px] md:text-[39px] font-semibold text-[var(--color-foreground)] leading-[1.4] whitespace-nowrap shrink-0">
             {sectionTitle}
           </h2>
