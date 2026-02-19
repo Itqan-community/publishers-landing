@@ -242,12 +242,8 @@ export const getRecitationById = cache(async (
         // If response is an array, find the matching ID
         recitation = responseData.find((r: RecitationApiResponse) => String(r.id) === String(recitationId)) || null;
       } else if (responseData.results && Array.isArray(responseData.results)) {
-        // If response is paginated, find the matching ID in results
+        // If response is paginated, find the matching ID in results; no fallback — wrong ID must 404
         recitation = responseData.results.find((r: RecitationApiResponse) => String(r.id) === String(recitationId)) || null;
-        // If not found by ID match, fall back to first result (for backward compatibility)
-        if (!recitation && responseData.results.length > 0) {
-          recitation = responseData.results[0];
-        }
       } else if (responseData.id) {
         // If response is a single object, verify ID matches
         if (String(responseData.id) === String(recitationId)) {

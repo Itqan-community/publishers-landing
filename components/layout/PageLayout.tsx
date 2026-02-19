@@ -27,7 +27,7 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
     tenant.template === 'tahbeer'
       ? [
           { label: 'الرئيسية', href: prefix || '/' },
-          { label: 'القراءات العشر', href: `${prefix || ''}/recitations` },
+          { label: 'القراءات العشر', href: `${prefix || '/'}#readings` },
           { label: 'فكرة المشروع', href: `${prefix || ''}#project-idea` },
           { label: 'لجنة التحكيم', href: `${prefix || ''}#review-members` },
         ]

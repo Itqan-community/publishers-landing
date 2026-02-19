@@ -113,6 +113,14 @@ export function middleware(request: NextRequest) {
         request: { headers: requestHeaders },
       });
     }
+    const qiraahSlugMatch = pathname.match(/^\/qiraahs\/([^/]+)(?:\/)?$/);
+    if (qiraahSlugMatch) {
+      requestHeaders.set('x-custom-domain', 'true');
+      requestHeaders.set('x-base-path', '');
+      return NextResponse.rewrite(new URL(`/${tenantId}/qiraahs/${qiraahSlugMatch[1]}${search}`, base), {
+        request: { headers: requestHeaders },
+      });
+    }
   }
 
   // Path-based or subdomain: set base path for link generation (no rewrite)
