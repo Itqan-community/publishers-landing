@@ -75,6 +75,13 @@ const TAHBEER_SPONSORS: TahbeerSponsorItem[] = [
 /** Section title style for Tahbeer: 39px, font-weight 600 */
 const TAHBEER_SECTION_TITLE_CLASS = 'text-[39px] font-semibold text-[var(--color-foreground)] leading-tight';
 
+/** If riwayah name includes "عن", keep only what's before it (e.g. "حفص عن عاصم" → "حفص") */
+function trimRiwayahName(name: string): string {
+  const idx = name.indexOf('عن');
+  if (idx === -1) return name;
+  return name.slice(0, idx).trim();
+}
+
 export async function TahbeerTemplate({ tenant, basePath = '' }: TahbeerTemplateProps) {
   const prefix = basePath || '';
 
@@ -88,7 +95,7 @@ export async function TahbeerTemplate({ tenant, basePath = '' }: TahbeerTemplate
     id: String(q.id),
     number: index + 1,
     title: q.name,
-    riwayats: q.riwayahs?.map((r) => r.name).join('، ') ?? '',
+    riwayats: q.riwayahs?.map((r) => trimRiwayahName(r.name)).join('، ') ?? '',
     viewMushafHref: `/qiraahs/${q.slug}`,
   }));
 
