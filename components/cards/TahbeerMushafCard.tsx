@@ -24,7 +24,7 @@ export const TahbeerMushafCard: React.FC<TahbeerMushafCardProps> = ({ mushaf }) 
     >
       {/* Top section – large brownish icon on light beige (#F9F5F3) */}
       <div className="flex min-h-[200px] flex-shrink-0 items-center justify-center rounded-t-[12px] bg-[#F9F5F3] py-8">
-        <div className="relative h-[140px] w-[136px]" aria-hidden="true">
+        <div className="relative h-[140px] w-[136px] -scale-x-100" aria-hidden="true">
           <Image
             src={TAHBEER_MUSHAF_ICON}
             alt=""

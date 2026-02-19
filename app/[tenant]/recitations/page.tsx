@@ -95,8 +95,8 @@ export default async function RecitationsListingPage({
       getRecordedMushafs(tenantId, {
         search: search || undefined,
         riwayah_id: riwayahId != null ? [riwayahId] : undefined,
-      }, basePath),
-      getRiwayahs(tenantId),
+      }, basePath, 'recitations listing page'),
+      getRiwayahs(tenantId, 'recitations listing page'),
     ]);
   }
 

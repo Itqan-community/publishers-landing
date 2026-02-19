@@ -59,13 +59,16 @@ export interface GetRecordedMushafsParams {
  * Fetches from the backend API and maps to the UI model.
  * Pass search and riwayah_id for backend filtering (synced from URL).
  * @param basePath '' on custom domain, '/<tenantId>' on path-based; used for href.
+ * @param callerPage Optional label for console logs (e.g. "qiraahs/[slug] page").
  */
 /** No cache wrapper — listing must always reflect current API response. */
 export async function getRecordedMushafs(
   tenantId: string,
   params?: GetRecordedMushafsParams,
-  basePath?: string
+  basePath?: string,
+  callerPage?: string
 ): Promise<RecordedMushaf[]> {
+  const caller = callerPage ? ` (called from: ${callerPage})` : '';
   const pathPrefix = basePath !== undefined ? basePath : `/${tenantId}`;
   try {
     const backendUrl = await getBackendUrl(tenantId);
@@ -96,11 +99,12 @@ export async function getRecordedMushafs(
       clearTimeout(timeoutId);
 
     if (!response.ok) {
-      console.error(`[getRecordedMushafs] API error: ${response.status} ${response.statusText}`);
+      console.error(`[getRecordedMushafs]${caller} API error: ${response.status} ${response.statusText}`);
       return [];
     }
 
     const data: PaginatedResponse<RecitationApiResponse> = await response.json();
+    console.log(JSON.stringify({ api: 'getRecordedMushafs', url: apiUrl, calledFrom: callerPage ?? null, response: data }, null, 2));
     // One card per API result — no padding, no mock items, no duplication
     const results = Array.isArray(data.results) ? data.results : [];
     const OUTLINE_PALETTE = ['#2563eb', '#059669', '#7c3aed', '#dc2626', '#db2777'];
@@ -161,14 +165,14 @@ export async function getRecordedMushafs(
         },
         badges: badges.length > 0 ? badges : undefined,
         year: recitation.year ?? undefined,
-        href: `recitations/${recitation.id}`,
+        href: `${pathPrefix.replace(/\/$/, '')}/recitations/${recitation.id}`,
       };
     });
     } catch (fetchError) {
       clearTimeout(timeoutId);
       
       if (fetchError instanceof Error && fetchError.name === 'AbortError') {
-        console.error(`[getRecordedMushafs] Request timeout for ${apiUrl}`);
+        console.error(`[getRecordedMushafs]${caller} Request timeout for ${apiUrl}`);
         throw new Error(`API request timeout: ${apiUrl}`);
       }
       throw fetchError;
@@ -180,13 +184,13 @@ export async function getRecordedMushafs(
     
     if (isDevelopment) {
       // In development, use warn instead of error to reduce noise
-      console.warn(`[getRecordedMushafs] API unavailable (${apiUrl}), returning empty array`);
+      console.warn(`[getRecordedMushafs]${caller} API unavailable (${apiUrl}), returning empty array`);
     } else {
       // In production/staging, log as error and return empty array
       if (error instanceof Error) {
-        console.error(`[getRecordedMushafs] Error fetching from ${apiUrl}:`, error.message);
+        console.error(`[getRecordedMushafs]${caller} Error fetching from ${apiUrl}:`, error.message);
       } else {
-        console.error(`[getRecordedMushafs] Unknown error fetching from ${apiUrl}:`, error);
+        console.error(`[getRecordedMushafs]${caller} Unknown error fetching from ${apiUrl}:`, error);
       }
     }
     return [];

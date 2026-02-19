@@ -27,7 +27,14 @@ import { loadTenantConfig } from './tenant-config';
  * const domain = await getTenantDomain('saudi-center');
  * // Returns: 'https://saudi-center.example.com' or 'http://localhost:3000'
  */
+const TAHBEER_X_TENANT = 'https://project-tahbeer.netlify.app';
+
 export async function getTenantDomain(tenantId: string): Promise<string> {
+  // Tahbeer: always use canonical domain for X-Tenant header
+  if (tenantId === 'tahbeer') {
+    return TAHBEER_X_TENANT;
+  }
+
   const tenant = await loadTenantConfig(tenantId);
   
   if (!tenant) {

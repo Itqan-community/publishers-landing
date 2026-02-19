@@ -93,7 +93,7 @@ export const TenReadingsSection: React.FC<TenReadingsSectionProps> = ({
                   href={item.viewMushafHref.startsWith('http') ? item.viewMushafHref : `${prefix}${item.viewMushafHref}`}
                   className="text-base font-normal text-[#6A6A6A] transition-colors group-hover:text-[var(--color-primary)] group-hover:underline"
                 >
-                  عرض المصحف
+                  عرض المصاحف
                 </Link>
               )}
             </div>

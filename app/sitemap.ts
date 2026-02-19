@@ -49,7 +49,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       const recitations = await getRecordedMushafs(tenantId, {
         // Limit to prevent sitemap from getting too large
         // Google allows max 50,000 URLs per sitemap
-      });
+      }, undefined, 'sitemap');
       
       // Limit to first 1000 recitations per tenant for performance
       const limitedRecitations = recitations.slice(0, 1000);

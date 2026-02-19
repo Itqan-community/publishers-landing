@@ -30,10 +30,13 @@ interface PaginatedResponse<T> {
  * Fetches from GET /review-members and maps to the ReviewMember UI model.
  *
  * @param tenantId – Tenant identifier (e.g. "tahbeer")
+ * @param callerPage Optional label for console logs (e.g. "TahbeerTemplate (home)")
  */
 export const getReviewMembers = cache(async (
   tenantId: string,
+  callerPage?: string
 ): Promise<ReviewMember[]> => {
+  const caller = callerPage ? ` (called from: ${callerPage})` : '';
   try {
     const backendUrl = await getBackendUrl(tenantId);
     const tenantDomain = await getTenantDomain(tenantId);
@@ -53,11 +56,12 @@ export const getReviewMembers = cache(async (
       clearTimeout(timeoutId);
 
       if (!response.ok) {
-        console.error(`[getReviewMembers] API error: ${response.status} ${response.statusText}`);
+        console.error(`[getReviewMembers]${caller} API error: ${response.status} ${response.statusText}`);
         return [];
       }
 
       const data: PaginatedResponse<ReviewMemberApiResponse> = await response.json();
+      console.log(JSON.stringify({ api: 'getReviewMembers', url: apiUrl, calledFrom: callerPage ?? null, response: data }, null, 2));
       const backendUrlForImages = await getBackendUrl(tenantId);
 
       return data.results.map((member): ReviewMember => ({
@@ -71,7 +75,7 @@ export const getReviewMembers = cache(async (
       clearTimeout(timeoutId);
 
       if (fetchError instanceof Error && fetchError.name === 'AbortError') {
-        console.error(`[getReviewMembers] Request timeout for ${apiUrl}`);
+        console.error(`[getReviewMembers]${caller} Request timeout for ${apiUrl}`);
         throw new Error(`API request timeout: ${apiUrl}`);
       }
       throw fetchError;
@@ -82,12 +86,12 @@ export const getReviewMembers = cache(async (
     const isDevelopment = process.env.NODE_ENV === 'development';
 
     if (isDevelopment) {
-      console.warn(`[getReviewMembers] API unavailable (${apiUrl}), returning empty array`);
+      console.warn(`[getReviewMembers]${caller} API unavailable (${apiUrl}), returning empty array`);
     } else {
       if (error instanceof Error) {
-        console.error(`[getReviewMembers] Error fetching from ${apiUrl}:`, error.message);
+        console.error(`[getReviewMembers]${caller} Error fetching from ${apiUrl}:`, error.message);
       } else {
-        console.error(`[getReviewMembers] Unknown error fetching from ${apiUrl}:`, error);
+        console.error(`[getReviewMembers]${caller} Unknown error fetching from ${apiUrl}:`, error);
       }
     }
 

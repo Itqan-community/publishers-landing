@@ -35,7 +35,7 @@ export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenter
   // Always use SSR - X-Tenant authentication is now in place
   const [rawReciters, mushafs] = await Promise.all([
     getReciters(tenant.id, prefix),
-    getRecordedMushafs(tenant.id, {}, prefix),
+    getRecordedMushafs(tenant.id, {}, prefix, 'SaudiCenterTemplate (home)'),
   ]);
 
   const firstRecitationId = mushafs[0]?.id;

@@ -18,25 +18,12 @@ import { TahbeerSponsorsSection } from '@/components/sections/TahbeerSponsorsSec
 import type { TahbeerSponsorItem } from '@/components/sections/TahbeerSponsorsSection';
 import { FeatureItem } from '@/components/sections/AboutSection';
 import { getReviewMembers } from '@/lib/review-members';
+import { getQiraahs } from '@/lib/qiraahs';
 
 interface TahbeerTemplateProps {
   tenant: TenantConfig;
   basePath?: string;
 }
-
-/** Ten Qira'at + riwayats — from Figma "القراءات العشر ورواتها". Cards link to riwayah detail page. */
-const TEN_READINGS: TenReadingsItem[] = [
-  { id: '1', number: 1, title: 'نافع المدني', riwayats: 'قالون، ورش', viewMushafHref: '/riwayahs/1' },
-  { id: '2', number: 2, title: 'ابن كثير المكي', riwayats: 'البزي، قنبل', viewMushafHref: '/riwayahs/2' },
-  { id: '3', number: 3, title: 'أبو عمرو البصري', riwayats: 'الدوري، السوسي', viewMushafHref: '/riwayahs/3' },
-  { id: '4', number: 4, title: 'ابن عامر الشامي', riwayats: 'هشام، ابن ذكوان', viewMushafHref: '/riwayahs/4' },
-  { id: '5', number: 5, title: 'عاصم الكوفي', riwayats: 'شعبة، حفص', viewMushafHref: '/riwayahs/5' },
-  { id: '6', number: 6, title: 'حمزة الكوفي', riwayats: 'خلف، خلاد', viewMushafHref: '/riwayahs/6' },
-  { id: '7', number: 7, title: 'الكسائي', riwayats: 'أبو الحارث، حفص الدوري', viewMushafHref: '/riwayahs/7' },
-  { id: '8', number: 8, title: 'أبو جعفر المدني', riwayats: 'ابن وردان، ابن جماز', viewMushafHref: '/riwayahs/8' },
-  { id: '9', number: 9, title: 'يعقوب الحضرمي', riwayats: 'رويس، روح', viewMushafHref: '/riwayahs/9' },
-  { id: '10', number: 10, title: 'خلف العاشر', riwayats: 'إسحاق، إدريس', viewMushafHref: '/riwayahs/10' },
-];
 
 /** About project features — from Figma "عن المشروع" (4 cards) https://www.figma.com/design/ZuC4sVdPQuvuGVGzPigBb1/Ta7beer?node-id=2391-13613 */
 const TAHBEER_ABOUT_FEATURES: FeatureItem[] = [
@@ -91,9 +78,19 @@ const TAHBEER_SECTION_TITLE_CLASS = 'text-[39px] font-semibold text-[var(--color
 export async function TahbeerTemplate({ tenant, basePath = '' }: TahbeerTemplateProps) {
   const prefix = basePath || '';
 
-  // Fetch review members from API; fall back to hardcoded data if API is unavailable
-  const apiReviewMembers = await getReviewMembers(tenant.id);
+  const [apiReviewMembers, qiraahs] = await Promise.all([
+    getReviewMembers(tenant.id, 'TahbeerTemplate (home)'),
+    getQiraahs(tenant.id, 'TahbeerTemplate (home)'),
+  ]);
   const reviewMembers = apiReviewMembers.length > 0 ? apiReviewMembers : TAHBEER_REVIEW_MEMBERS_FALLBACK;
+
+  const tenReadingsItems: TenReadingsItem[] = qiraahs.map((q, index) => ({
+    id: String(q.id),
+    number: index + 1,
+    title: q.name,
+    riwayats: q.riwayahs?.map((r) => r.name).join('، ') ?? '',
+    viewMushafHref: `/qiraahs/${q.slug}`,
+  }));
 
   return (
     <PageLayout tenant={tenant}>
@@ -133,7 +130,7 @@ export async function TahbeerTemplate({ tenant, basePath = '' }: TahbeerTemplate
       <TenReadingsSection
         id="readings"
         title="القراءات العشر ورواياتها"
-        items={TEN_READINGS}
+        items={tenReadingsItems}
         viewAllHref={`${prefix}/recitations`}
         basePath={prefix}
         titleClassName={TAHBEER_SECTION_TITLE_CLASS}
