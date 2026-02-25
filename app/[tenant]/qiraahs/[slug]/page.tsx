@@ -78,7 +78,7 @@ export default async function TahbeerQiraahPage({
           imam={{
             name: qiraah.name,
             label: 'التعريف بالإمام',
-            bio: '',
+            bio: qiraah.bio ?? '',
           }}
         />
       </div>

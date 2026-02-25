@@ -136,7 +136,7 @@ export async function TahbeerTemplate({ tenant, basePath = '' }: TahbeerTemplate
       {/* القراءات العشر ورواتها */}
       <TenReadingsSection
         id="readings"
-        title="القراءات العشر ورواياتها"
+        title="القراءات العشر ورواتها"
         items={tenReadingsItems}
         viewAllHref={`${prefix}/recitations`}
         basePath={prefix}

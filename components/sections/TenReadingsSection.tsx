@@ -65,39 +65,57 @@ export const TenReadingsSection: React.FC<TenReadingsSectionProps> = ({
         )}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          {items.map((item) => (
-            <div
-              key={item.id}
-              className="group rounded-[24px] border border-[#EBE8E8] flex h-64 flex-col justify-between items-start text-start p-6 transition-colors hover:border-[var(--color-primary)]"
-            >
-              {/* Row 1: Number circle */}
-              <div className="w-[70px] h-[70px] rounded-full bg-[#F3F3F3] flex items-center justify-center shrink-0">
-                <span className="text-[22px] font-semibold text-[#6A6A6A] transition-colors group-hover:text-[var(--color-primary)]">
-                  {toArabicNumeral(item.number)}
-                </span>
-              </div>
+          {items.map((item) => {
+            const href = item.viewMushafHref != null
+              ? (item.viewMushafHref.startsWith('http') ? item.viewMushafHref : `${prefix}${item.viewMushafHref}`)
+              : null;
+            const cardClass =
+              'group rounded-[24px] border border-[#EBE8E8] flex h-64 flex-col justify-between items-start text-start p-6 transition-colors hover:border-[var(--color-primary)]';
+            const content = (
+              <>
+                {/* Row 1: Number circle */}
+                <div className="w-[70px] h-[70px] rounded-full bg-[#F3F3F3] flex items-center justify-center shrink-0">
+                  <span className="text-[22px] font-semibold text-[#6A6A6A] transition-colors group-hover:text-[var(--color-primary)]">
+                    {toArabicNumeral(item.number)}
+                  </span>
+                </div>
 
-              {/* Row 2: Title + subtitle */}
-              <div className="flex flex-col items-start">
-                <h3 className="text-[22px] font-semibold text-[var(--color-foreground)] leading-tight">
-                  {item.title}
-                </h3>
-                <p className="text-[20px] font-normal text-[#6A6A6A] mt-1">
-                  رواياه: {item.riwayats}
-                </p>
-              </div>
+                {/* Row 2: Title + subtitle */}
+                <div className="flex flex-col items-start">
+                  <h3 className="text-[22px] font-semibold text-[var(--color-foreground)] leading-tight">
+                    {item.title}
+                  </h3>
+                  <p className="text-[20px] font-normal text-[#6A6A6A] mt-1">
+                    رواياه: {item.riwayats}
+                  </p>
+                </div>
 
-              {/* Row 3: Link */}
-              {item.viewMushafHref != null && (
+                {/* Row 3: Link label (card is the link when href is set) */}
+                {href != null && (
+                  <span className="text-base font-normal text-[#6A6A6A] transition-colors group-hover:text-[var(--color-primary)] group-hover:underline">
+                    عرض المصاحف
+                  </span>
+                )}
+              </>
+            );
+
+            if (href != null) {
+              return (
                 <Link
-                  href={item.viewMushafHref.startsWith('http') ? item.viewMushafHref : `${prefix}${item.viewMushafHref}`}
-                  className="text-base font-normal text-[#6A6A6A] transition-colors group-hover:text-[var(--color-primary)] group-hover:underline"
+                  key={item.id}
+                  href={href}
+                  className={`${cardClass} cursor-pointer block`}
                 >
-                  عرض المصاحف
+                  {content}
                 </Link>
-              )}
-            </div>
-          ))}
+              );
+            }
+            return (
+              <div key={item.id} className={cardClass}>
+                {content}
+              </div>
+            );
+          })}
         </div>
 
         {/* {viewAllHref && (

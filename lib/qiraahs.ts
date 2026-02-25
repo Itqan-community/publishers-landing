@@ -18,6 +18,8 @@ export interface QiraahApiItem {
   recitations_count?: number;
   /** From API when BE adds it, or merged from GET /riwayahs/ today */
   riwayahs?: Array<{ id: number; name: string }>;
+  /** Bio text for qiraah/imam (e.g. used in top section between quotes). */
+  bio?: string | null;
 }
 
 interface QiraahOut {
@@ -28,6 +30,7 @@ interface QiraahOut {
   riwayahs_count?: number;
   recitations_count?: number;
   riwayahs?: Array<{ id: number; name: string }>;
+  bio?: string | null;
 }
 
 interface PagedQiraahOut {
@@ -118,6 +121,7 @@ export const getQiraahs = cache(async (
         riwayahs_count: q.riwayahs_count,
         recitations_count: q.recitations_count,
         riwayahs: q.riwayahs ?? riwayahsByQiraahId.get(q.id) ?? [],
+        bio: q.bio ?? undefined,
       }));
     } finally {
       clearTimeout(timeoutId);
@@ -193,6 +197,7 @@ export const getQiraahBySlug = cache(async (
         riwayahs_count: q.riwayahs_count,
         recitations_count: q.recitations_count,
         riwayahs,
+        bio: q.bio ?? undefined,
       };
     } finally {
       clearTimeout(timeoutId);
