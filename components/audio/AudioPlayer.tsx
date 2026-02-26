@@ -24,6 +24,8 @@ interface RecitationsPlayerProps {
   detailsHrefBase?: string;
   variant?: RecitationsPlayerVariant;
   listTitle?: string;
+  /** When true, hides reciter name in surah chips and audio player preview (Tahbeer-only) */
+  hideReciterName?: boolean;
 }
 
 // Design icons from Figma: play.svg, next-prev.svg, next-prev-reversed.svg. stroke=currentColor for theming.
@@ -80,6 +82,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
   detailsHrefBase,
   variant = 'featured',
   listTitle,
+  hideReciterName = false,
 }) => {
   const [selectedRecitation, setSelectedRecitation] = useState<RecitationItem | null>(
     recitations.length > 0
@@ -494,13 +497,17 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                   />
                 </div>
 
-                {/* Controls + text */}
+                {/* Controls + text (reciter hidden when hideReciterName) */}
                 <div className="mt-6 flex items-start justify-between gap-6">
-                  <div className="min-w-0 text-start">
-                    <p className="mt-1 truncate text-md text-[#6a6a6a]">
-                      {selectedRecitation?.reciterName || ''}
-                    </p>
-                  </div>
+                  {hideReciterName ? (
+                    <div className="flex-1 shrink" aria-hidden />
+                  ) : (
+                    <div className="min-w-0 text-start">
+                      <p className="mt-1 truncate text-md text-[#6a6a6a]">
+                        {selectedRecitation?.reciterName || ''}
+                      </p>
+                    </div>
+                  )}
 
                   <div className="flex shrink-0 items-center gap-2">
                     <button
@@ -610,7 +617,9 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                 <div className="max-h-[400px] sm:max-h-[620px] overflow-y-auto pe-2">
                   {filteredRecitations.map((recitation) => {
                     const isSelected = selectedRecitation?.id === recitation.id;
-                    const secondaryText = recitation.surahInfo || recitation.reciterName;
+                    const secondaryText = hideReciterName
+                      ? (recitation.surahInfo || '')
+                      : (recitation.surahInfo || recitation.reciterName);
                     const itemClasses = `flex w-full items-center justify-between gap-4 rounded-md px-4 py-4 transition-colors min-h-header ${isSelected ? 'bg-[#f3f3f3]' : 'border-b border-[#ebe8e8]'
                       }`;
                     const downloadUrl = getValidAudioUrl(recitation.audioUrl);
@@ -624,7 +633,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                           className="flex-1 min-w-0 text-start"
                         >
                           <p className="text-md font-medium text-[#1f2a37]">{(recitation.title || '').replace(/^\d+\.\s*/, '')}</p>
-                          <p className="mt-1 text-sm text-[#6a6a6a]">{secondaryText}</p>
+                          {secondaryText ? <p className="mt-1 text-sm text-[#6a6a6a]">{secondaryText}</p> : null}
                         </button>
 
                         <div className="flex items-center gap-2 shrink-0">
@@ -741,10 +750,12 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                     <NextIcon />
                   </button>
                 </div>
-                {/* Track title + reciter below controls */}
+                {/* Track title + reciter below controls (reciter hidden for Tahbeer) */}
                 <div className="w-full text-start">
                   <p className="truncate text-lg font-semibold text-black">{(selectedRecitation?.title || '').replace(/^\d+\.\s*/, '')}</p>
-                  <p className="mt-1 truncate text-sm text-[#6a6a6a]">{selectedRecitation?.reciterName || ''}</p>
+                  {!hideReciterName && (
+                    <p className="mt-1 truncate text-sm text-[#6a6a6a]">{selectedRecitation?.reciterName || ''}</p>
+                  )}
                 </div>
               </div>
             </div>

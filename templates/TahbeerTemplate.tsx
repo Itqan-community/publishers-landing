@@ -13,11 +13,9 @@ import { TenReadingsSection } from '@/components/sections/TenReadingsSection';
 import type { TenReadingsItem } from '@/components/sections/TenReadingsSection';
 import { ProjectIdeaSection } from '@/components/sections/ProjectIdeaSection';
 import { ReviewMembersSection } from '@/components/sections/ReviewMembersSection';
-import type { ReviewMember } from '@/components/sections/ReviewMembersSection';
 import { TahbeerSponsorsSection } from '@/components/sections/TahbeerSponsorsSection';
 import type { TahbeerSponsorItem } from '@/components/sections/TahbeerSponsorsSection';
 import { FeatureItem } from '@/components/sections/AboutSection';
-import { getReviewMembers } from '@/lib/review-members';
 import { getQiraahs } from '@/lib/qiraahs';
 
 interface TahbeerTemplateProps {
@@ -42,19 +40,11 @@ const TAHBEER_IDEA_PARAGRAPHS = [
 /** Participants — from Figma "المشاركون في المشروع" (2×2 grid with role, name, description) */
 const TAHBEER_PARTICIPANTS = [
   { role: 'القارئ', name: 'الشيخ صابر عبد الحكم', description: 'قارئ وإمام متخصص في القراءات العشر' },
-  { role: 'المشرف العام', name: 'الشيخ خالد البدر', description: 'الإشراف على تنفيذ المشروع' },
-  { role: 'المنسق الإداري', name: 'الشيخ ريان الشريف', description: 'التنسيق الإداري والتنظيمي' },
-  { role: 'فريق التسجيل والإنتاج', name: 'فريق الايمان', description: 'التسجيل والمونتاج والإنتاج' },
+  { role: 'المشرف العام', name: 'الدكتور وليد الفخراني', description: 'الإشراف على تنفيذ المشروع' },
+  { role: 'رئيس لجنة المراجعة', name: 'الشيخ المقرئ عدنان العوضي', description: 'إدارة لجنة المراجعة ومتابعة جودة وضبط التسجيلات' },
 ];
 
-/** Fallback review committee members — used when API is unavailable */
-const TAHBEER_REVIEW_MEMBERS_FALLBACK: ReviewMember[] = [
-  { id: '1', name: 'الشيخ أحمد العبيدي', role: 'رئيس اللجنة', title: 'أستاذ القراءات بجامعة الاسلامية', image: '/images/tahbeer/review-member-1.jpg' },
-  { id: '2', name: 'الشيخ سامي السلمي', role: 'عضو اللجنة', title: 'باحث متخصص في علم القراءات', image: '/images/tahbeer/review-member-2.jpg' },
-  { id: '3', name: 'الشيخ يوسف الدوسري', role: 'عضو اللجنة', title: 'مقرئ ومتخصص في الروايات', image: '/images/tahbeer/review-member-3.jpg' },
-];
-
-/** Committee tasks — from Figma "مهام اللجنة" (2×2 grid) */
+/** Committee tasks — static "مهام اللجنة" (2×2 grid) */
 const TAHBEER_REVIEW_TASKS = [
   'مراجعة التسجيلات الصوتية والتحقق من صحة الأداء القرآني',
   'اعتماد التسجيلات النهائية قبل النشر',
@@ -85,11 +75,7 @@ function trimRiwayahName(name: string): string {
 export async function TahbeerTemplate({ tenant, basePath = '' }: TahbeerTemplateProps) {
   const prefix = basePath || '';
 
-  const [apiReviewMembers, qiraahs] = await Promise.all([
-    getReviewMembers(tenant.id, 'TahbeerTemplate (home)'),
-    getQiraahs(tenant.id, 'TahbeerTemplate (home)'),
-  ]);
-  const reviewMembers = apiReviewMembers.length > 0 ? apiReviewMembers : TAHBEER_REVIEW_MEMBERS_FALLBACK;
+  const qiraahs = await getQiraahs(tenant.id, 'TahbeerTemplate (home)');
 
   const tenReadingsItems: TenReadingsItem[] = qiraahs.map((q, index) => ({
     id: String(q.id),
@@ -160,12 +146,11 @@ export async function TahbeerTemplate({ tenant, basePath = '' }: TahbeerTemplate
         participants={TAHBEER_PARTICIPANTS}
       />
 
-      {/* لجنة التحكيم والمراجعة */}
+      {/* لجنة المراجعة */}
       <ReviewMembersSection
         id="review-members"
-        sectionTitle="لجنة التحكيم والمراجعة"
+        sectionTitle="لجنة المراجعة"
         sectionSubtitle="يخضع المشروع لمراجعة دقيقة من لجنة علمية متخصصة في علم القراءات، لضمان دقة الأداء وصحة الأحكام القرآنية في جميع القراءات والروايات."
-        members={reviewMembers}
         tasksTitle="مهام اللجنة:"
         tasks={TAHBEER_REVIEW_TASKS}
       />

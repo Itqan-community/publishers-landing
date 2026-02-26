@@ -156,12 +156,25 @@ export default async function RecitationDetailsPage({
                     </div>
                     <div className="flex min-w-0 w-full flex-1 flex-col items-center gap-2 justify-between h-full lg:w-auto lg:items-start lg:gap-6">
                       <div className="text-center lg:text-start">
-                        <h1 className="text-display-sm font-semibold leading-tight text-black">
-                          {reciterName}
-                        </h1>
-                        <p className="mt-2 text-lg leading-snug text-[#6a6a6a]">
-                          {recitation.name || 'مصحف مرتل'}
-                        </p>
+                        {tenant.template === 'tahbeer' ? (
+                          <>
+                            <h1 className="text-display-sm font-semibold leading-tight text-black">
+                              {recitation.name || 'مصحف مرتل'}
+                            </h1>
+                            <p className="mt-2 text-lg leading-snug text-[#6a6a6a]">
+                              {reciterName}
+                            </p>
+                          </>
+                        ) : (
+                          <>
+                            <h1 className="text-display-sm font-semibold leading-tight text-black">
+                              {reciterName}
+                            </h1>
+                            <p className="mt-2 text-lg leading-snug text-[#6a6a6a]">
+                              {recitation.name || 'مصحف مرتل'}
+                            </p>
+                          </>
+                        )}
                       </div>
                       {/* Tags: second row; mobile: no gap above, centered; desktop: start side */}
                       <div className="flex flex-wrap items-center justify-center gap-3 lg:justify-start">
@@ -244,6 +257,7 @@ export default async function RecitationDetailsPage({
                 defaultSelected={surahItems[0]?.id}
                 variant="details"
                 listTitle="قائمة السور"
+                hideReciterName={tenant.template === 'tahbeer'}
               />
             </section>
           </div>

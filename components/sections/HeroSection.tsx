@@ -57,12 +57,12 @@ export function HeroSection({
     const statsLine2 = statsCard?.description ?? statsCard?.label?.split('\n')[1] ?? 'المنصات';
     return (
       <section className="relative w-full min-h-[420px] sm:min-h-[550px] lg:min-h-[772px]" style={{ overflow: 'visible' }}>
-        <div className="relative max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 lg:py-20" style={{ overflow: 'visible' }}>
-          <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-8 lg:gap-12 items-center">
+        <div className="relative max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 lg:py-20 min-h-[420px] sm:min-h-[550px] lg:min-h-[772px] flex" style={{ overflow: 'visible' }}>
+          <div className="grid lg:grid-cols-[1.2fr_0.8fr] gap-8 lg:gap-12 items-center w-full">
             {/* Text Column - Right side (start in RTL); Figma: big logo, title, description, no CTA/avatars when legacy* set */}
             <div className="order-1 self-stretch lg:order-1 flex flex-col justify-center items-start text-start space-y-5 sm:space-y-6">
               {legacyLogoUrl && (
-                <div className="w-full flex justify-start">
+                <div className="w-full flex justify-start max-lg:hidden">
                   <Image
                     src={legacyLogoUrl}
                     alt=""
@@ -74,10 +74,10 @@ export function HeroSection({
                   />
                 </div>
               )}
-              <h1 className="text-[24px] sm:text-[28px] md:text-[39px] font-semibold text-[var(--color-foreground)] leading-[1.4] max-w-xl">
+              <h1 className="text-[34px] md:text-[39px] font-semibold text-[var(--color-foreground)] leading-[1.4] max-w-xl">
                 {title}
               </h1>
-              <p className="text-[16px] sm:text-[18px] md:text-[29px] text-[var(--color-text-paragraph)] leading-relaxed max-w-xl">
+              <p className="text-[22px] md:text-[29px] text-[var(--color-text-paragraph)] leading-relaxed max-w-xl">
                 {description}
               </p>
               {legacyShowCta && (
@@ -126,8 +126,8 @@ export function HeroSection({
                 </div>
               )}
             </div>
-            {/* Image Column - Left side (end in RTL) */}
-            <div className="order-2 lg:order-2 relative">
+            {/* Image Column - Left side (end in RTL); hidden on phone/tablet, visible on lg+ */}
+            <div className="order-2 lg:order-2 relative hidden lg:block">
               <div className="relative w-full h-[300px] sm:h-[400px] lg:h-[560px]">
                 <div className="relative w-full h-full rounded-[32px] overflow-hidden shadow-xl ring-1 ring-black/5 bg-white">
                   <Image
