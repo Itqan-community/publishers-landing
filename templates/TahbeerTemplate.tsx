@@ -97,6 +97,7 @@ export async function TahbeerTemplate({ tenant, basePath = '' }: TahbeerTemplate
           variant="legacy"
           content={tenant.content.hero}
           basePath={basePath}
+          socialLinks={tenant.content.footer?.social}
           legacyLogoUrl={tenant.branding.logoFull ?? tenant.branding.logo}
           legacyShowCta={false}
           legacyShowAvatars={false}

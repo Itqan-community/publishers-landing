@@ -566,9 +566,8 @@
           }
         ],
         "social": [
-          { "platform": "twitter", "url": "https://twitter.com/tahbeer-PLACEHOLDER", "icon": "twitter" },
-          { "platform": "instagram", "url": "https://instagram.com/tahbeer-PLACEHOLDER", "icon": "instagram" },
-          { "platform": "tiktok", "url": "https://tiktok.com/@tahbeer-PLACEHOLDER", "icon": "tiktok" }
+          { "platform": "youtube", "url": "https://www.youtube.com/@user-gs7bw9on3q", "icon": "youtube" },
+          { "platform": "twitter", "url": "https://x.com/Saberhakam", "icon": "twitter" }
         ],
         "copyright": "© جميع الحقوق محفوظة ١٤٤٧."
       }

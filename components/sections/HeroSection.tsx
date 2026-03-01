@@ -10,12 +10,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { HeroContent } from '@/types/tenant.types';
 import { Button } from '@/components/ui/Button';
-import { CheckmarkBadgeIcon, TwitterIcon, InstagramIcon, TikTokIcon } from '@/components/ui/Icons';
+import { CheckmarkBadgeIcon, TwitterIcon, InstagramIcon, TikTokIcon, YouTubeIcon } from '@/components/ui/Icons';
+
+/** Shape of social link from tenant footer config */
+export type SocialLink = { platform: string; url: string };
 
 interface HeroSectionProps {
   content: HeroContent;
   /** Base path for links: '' on custom domain, '/<tenantId>' on path-based */
   basePath?: string;
+  /** Legacy variant: optional social links (youtube, twitter). When provided, renders these instead of hardcoded. */
+  socialLinks?: SocialLink[];
   statsCard?: {
     value: string;
     label: string;
@@ -41,6 +46,7 @@ interface HeroSectionProps {
 export function HeroSection({
   content,
   basePath = '',
+  socialLinks,
   statsCard,
   variant = 'default',
   legacyLogoUrl,
@@ -113,15 +119,28 @@ export function HeroSection({
                   <span className="text-sm text-[var(--color-text-paragraph)]">تابعنا على منصات التواصل الاجتماعي</span>
                   <div className="hidden sm:block h-[1px] w-[140px] bg-[var(--color-primary)]" />
                   <div className="flex items-center gap-[15px]">
-                    <a href="#" aria-label="X" className="hover:opacity-80 transition-opacity">
-                      <TwitterIcon variant={legacyCheckmarkVariant} className="w-6 h-6" />
-                    </a>
-                    <a href="#" aria-label="Instagram" className="hover:opacity-80 transition-opacity">
-                      <InstagramIcon variant={legacyCheckmarkVariant} className="w-6 h-6" />
-                    </a>
-                    <a href="#" aria-label="TikTok" className="hover:opacity-80 transition-opacity">
-                      <TikTokIcon variant={legacyCheckmarkVariant} className="w-6 h-6" />
-                    </a>
+                    {socialLinks && socialLinks.length > 0
+                      ? socialLinks
+                          .filter((s) => ['youtube', 'twitter'].includes(s.platform.toLowerCase()))
+                          .map((s) => {
+                            const pl = s.platform.toLowerCase();
+                            if (pl === 'youtube') {
+                              return (
+                                <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="hover:opacity-80 transition-opacity">
+                                  <YouTubeIcon variant={legacyCheckmarkVariant} className="w-6 h-6" />
+                                </a>
+                              );
+                            }
+                            if (pl === 'twitter') {
+                              return (
+                                <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer" aria-label="X" className="hover:opacity-80 transition-opacity">
+                                  <TwitterIcon variant={legacyCheckmarkVariant} className="w-6 h-6" />
+                                </a>
+                              );
+                            }
+                            return null;
+                          })
+                      : null}
                   </div>
                 </div>
               )}
