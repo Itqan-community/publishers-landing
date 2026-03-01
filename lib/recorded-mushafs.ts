@@ -45,11 +45,12 @@ interface PaginatedResponse<T> {
 
 /**
  * Query params for listing recitations (backend filtering).
- * Mirrors API: search, riwayah_id (array), optional pagination.
+ * Mirrors API: search, riwayah_id (array), qiraah_id (Tahbeer), optional pagination.
  */
 export interface GetRecordedMushafsParams {
   search?: string;
   riwayah_id?: number[];
+  qiraah_id?: number;
   page?: number;
   page_size?: number;
 }
@@ -78,6 +79,9 @@ export async function getRecordedMushafs(
     if (params?.search?.trim()) searchParams.set('search', params.search.trim());
     if (params?.riwayah_id?.length) {
       params.riwayah_id.forEach((id) => searchParams.append('riwayah_id', String(id)));
+    }
+    if (params?.qiraah_id != null) {
+      searchParams.set('qiraah_id', String(params.qiraah_id));
     }
     const page = params?.page ?? 1;
     const pageSize = params?.page_size ?? 100;
@@ -154,6 +158,7 @@ export async function getRecordedMushafs(
         title: recitation.name || 'مصحف',
         description,
         riwayaLabel: recitation.riwayah?.name ? `رواية ${recitation.riwayah.name}` : undefined,
+        riwayahId: recitation.riwayah?.id != null ? String(recitation.riwayah.id) : undefined,
         reciter: {
           id: String(recitation.reciter?.id || ''),
           name: recitation.reciter?.name || 'غير معروف',

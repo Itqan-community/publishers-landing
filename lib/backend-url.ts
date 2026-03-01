@@ -55,9 +55,9 @@ export async function getBackendUrl(tenantId?: string): Promise<string> {
   }
 
   const defaults: Record<DeployEnv, string> = {
-    development: "https://staging.api.cms.itqan.dev",
-    staging: "https://staging.api.cms.itqan.dev",
-    production: "https://api.cms.itqan.dev",
+    development: "https://staging.api.cms.itqan.dev/tenant",
+    staging: "https://staging.api.cms.itqan.dev/tenant",
+    production: "https://api.cms.itqan.dev/tenant",
   };
   return defaults[env].replace(/\/$/, "");
 }

@@ -147,6 +147,8 @@ export interface RecordedMushaf {
   title: string;
   description: string;
   riwayaLabel?: string; // e.g. "برواية حفص"
+  /** Riwayah ID from API (for grouping by riwayah when fetched via qiraah_id). */
+  riwayahId?: string;
 
   reciter: {
     id: string;

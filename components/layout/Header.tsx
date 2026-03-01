@@ -105,6 +105,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, logoFull, tenantName, navI
                   src={logoSrc}
                   alt={tenantName}
                   fill
+                  sizes="(max-width: 1024px) 56px, 72px"
                   className="object-contain"
                   priority
                 />

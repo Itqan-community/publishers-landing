@@ -34,7 +34,7 @@ export async function generateMetadata({
   if (!tenant || tenant.id !== 'tahbeer') {
     return { title: 'Not Found' };
   }
-  const qiraah = await getQiraahBySlug(tenantId, slug, 'qiraahs/[slug] page (generateMetadata)');
+  const qiraah = await getQiraahBySlug(tenantId, slug, 'qiraahs/[slug]');
   const title = qiraah ? `${qiraah.name} — المصاحف المرتلة` : 'القراءة';
   return generateTenantMetadata(tenant, {
     title,
@@ -57,16 +57,21 @@ export default async function TahbeerQiraahPage({
     notFound();
   }
 
-  const qiraah = await getQiraahBySlug(tenantId, slug, 'qiraahs/[slug] page');
+  const qiraah = await getQiraahBySlug(tenantId, slug, 'qiraahs/[slug]');
   if (!qiraah) {
     notFound();
   }
 
   const riwayahs = qiraah.riwayahs ?? [];
-  const recitationsByRiwayah = await Promise.all(
-    riwayahs.map((r) =>
-      getRecordedMushafs(tenantId, { riwayah_id: [r.id], page_size: 100 }, basePath, 'qiraahs/[slug] page')
-    )
+  const allRecitations = await getRecordedMushafs(
+    tenantId,
+    { qiraah_id: qiraah.id, page_size: 100 },
+    basePath,
+    'qiraahs/[slug] page'
+  );
+
+  const recitationsByRiwayah = riwayahs.map((riwayah) =>
+    allRecitations.filter((m) => m.riwayahId === String(riwayah.id))
   );
 
   return (

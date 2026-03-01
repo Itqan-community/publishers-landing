@@ -52,8 +52,8 @@ interface PagedRiwayahOut {
 }
 
 /**
- * Fetches qiraahs and riwayahs, merges riwayahs into each qiraah.
- * Returns qiraahs with riwayahs attached (for TenReadingsSection).
+ * Fetches qiraahs from GET /qiraahs/.
+ * Each qiraah includes embedded riwayahs from the API (used for Tahbeer TenReadingsSection).
  * @param callerPage Optional label for console logs (e.g. "TahbeerTemplate (home)")
  */
 export const getQiraahs = cache(async (
@@ -69,22 +69,13 @@ export const getQiraahs = cache(async (
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
     try {
-      const qiraahsUrl = `${backendUrl}/qiraahs/?ordering=name&page_size=20`;
-      const riwayahsUrl = `${backendUrl}/riwayahs/?page_size=20&ordering=name`;
-      const [qiraahsRes, riwayahsRes] = await Promise.all([
-        fetch(qiraahsUrl, {
-          method: 'GET',
-          headers: getApiHeaders(tenantDomain),
-          signal: controller.signal,
-          cache: 'no-store',
-        }),
-        fetch(riwayahsUrl, {
-          method: 'GET',
-          headers: getApiHeaders(tenantDomain),
-          signal: controller.signal,
-          cache: 'no-store',
-        }),
-      ]);
+      const qiraahsUrl = `${backendUrl}/qiraahs/?page_size=100`;
+      const qiraahsRes = await fetch(qiraahsUrl, {
+        method: 'GET',
+        headers: getApiHeaders(tenantDomain),
+        signal: controller.signal,
+        cache: 'no-store',
+      });
 
       clearTimeout(timeoutId);
 
@@ -97,22 +88,6 @@ export const getQiraahs = cache(async (
       console.log(JSON.stringify({ api: 'getQiraahs', url: qiraahsUrl, calledFrom: callerPage ?? null, response: qiraahsData }, null, 2));
       const qiraahs = qiraahsData.results ?? [];
 
-      const riwayahsByQiraahId = new Map<number, Array<{ id: number; name: string }>>();
-
-      if (riwayahsRes.ok) {
-        const riwayahsData: PagedRiwayahOut = await riwayahsRes.json();
-        console.log(JSON.stringify({ api: 'getQiraahs (riwayahs)', url: riwayahsUrl, calledFrom: callerPage ?? null, response: riwayahsData }, null, 2));
-        const riwayahs = riwayahsData.results ?? [];
-        for (const r of riwayahs) {
-          const qid = r.qiraah?.id;
-          if (qid == null) continue;
-          if (!riwayahsByQiraahId.has(qid)) {
-            riwayahsByQiraahId.set(qid, []);
-          }
-          riwayahsByQiraahId.get(qid)!.push({ id: r.id, name: r.name });
-        }
-      }
-
       return qiraahs.map((q) => ({
         id: q.id,
         name: q.name,
@@ -120,7 +95,7 @@ export const getQiraahs = cache(async (
         is_active: q.is_active,
         riwayahs_count: q.riwayahs_count,
         recitations_count: q.recitations_count,
-        riwayahs: q.riwayahs ?? riwayahsByQiraahId.get(q.id) ?? [],
+        riwayahs: (q.riwayahs ?? []).map((r) => ({ id: r.id, name: r.name })),
         bio: q.bio ?? undefined,
       }));
     } finally {
@@ -172,9 +147,9 @@ export const getQiraahBySlug = cache(async (
       const q = results[0];
       if (!q) return null;
 
-      let riwayahs = q.riwayahs ?? [];
+      let riwayahs = (q.riwayahs ?? []).map((r) => ({ id: r.id, name: r.name }));
       if (riwayahs.length === 0) {
-        const riwayahsUrl = `${backendUrl}/riwayahs/?qiraah_id=${q.id}&page_size=20&ordering=name`;
+        const riwayahsUrl = `${backendUrl}/riwayahs/?qiraah_id=${q.id}&page_size=20`;
         const riwayahsRes = await fetch(riwayahsUrl, {
           method: 'GET',
           headers: getApiHeaders(tenantDomain),
