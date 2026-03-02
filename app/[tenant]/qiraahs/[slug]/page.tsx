@@ -5,6 +5,7 @@ import { loadTenantConfig } from '@/lib/tenant-config';
 import { getBasePathFromHeaders } from '@/lib/tenant-resolver';
 import { PageLayout } from '@/components/layout/PageLayout';
 import { TahbeerRiwayahTopSection } from '@/components/sections/TahbeerRiwayahTopSection';
+import { TahbeerRiwayahsSection } from '@/components/sections/TahbeerRiwayahsSection';
 import { TahbeerRiwayahCarouselSection } from '@/components/sections/TahbeerRiwayahCarouselSection';
 import { TahbeerSponsorsSection } from '@/components/sections/TahbeerSponsorsSection';
 import type { TahbeerSponsorItem } from '@/components/sections/TahbeerSponsorsSection';
@@ -88,6 +89,8 @@ export default async function TahbeerQiraahPage({
         />
       </div>
 
+      <TahbeerRiwayahsSection id="riwayahs" qiraahName={qiraah.name} riwayahs={riwayahs} />
+
       {riwayahs.map((riwayah, index) => {
         const mushafs = recitationsByRiwayah[index] ?? [];
         const firstMushaf = mushafs[0];
@@ -98,9 +101,9 @@ export default async function TahbeerQiraahPage({
           <TahbeerRiwayahCarouselSection
             key={riwayah.id}
             id={index === 0 ? 'listing' : 'featured'}
-            riwayahTitle={riwayah.name.split(' ')[0]}
+            riwayahTitle={`مصاحف رواية ${riwayah.name}`}
             reciterName={reciterName}
-            reciterBio={reciterBio}
+            reciterBio={''}
             mushafs={mushafs}
           />
         );

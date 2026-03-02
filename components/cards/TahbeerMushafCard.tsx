@@ -19,7 +19,7 @@ export const TahbeerMushafCard: React.FC<TahbeerMushafCardProps> = ({ mushaf }) 
 
   return (
     <article
-      className="flex w-full flex-col overflow-hidden rounded-[12px] border border-[#ebe8e8] bg-[#FDFDFC] text-right"
+      className="flex w-full flex-col h-[stretch] overflow-hidden rounded-[12px] border border-[#ebe8e8] bg-[#FDFDFC] text-right"
       dir="rtl"
     >
       {/* Top section – large brownish icon on light beige (#F9F5F3) */}
@@ -37,13 +37,13 @@ export const TahbeerMushafCard: React.FC<TahbeerMushafCardProps> = ({ mushaf }) 
       </div>
       {/* Bottom section – content (white) */}
       <div className="flex flex-1 flex-col gap-2 bg-white px-4 py-4">
-        <h3 className="text-[20px] font-semibold leading-snug text-[#000000]">
+        <h3 className="text-[20px] font-medium mb-2 leading-snug text-[#000000]">
           {title}
         </h3>
-        <p className="line-clamp-3 text-[13px] font-normal leading-[20px] text-[#7B7B7B]">
+        {/* <p className="line-clamp-3 text-[13px] font-normal leading-[20px] text-[#7B7B7B]">
           {description}
-        </p>
-        <div className="mt-2">
+        </p> */}
+        <div className="mt-auto">
           <Link
             href={href}
             className="inline-flex h-8 items-center justify-center rounded-[6px] bg-[#B58A65] px-4 text-sm font-medium text-white hover:bg-[#9e7957] focus:outline-none focus:ring-2 focus:ring-[#B58A65] focus:ring-offset-2"
