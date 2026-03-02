@@ -17,7 +17,7 @@ export interface QiraahApiItem {
   riwayahs_count?: number;
   recitations_count?: number;
   /** From API when BE adds it, or merged from GET /riwayahs/ today */
-  riwayahs?: Array<{ id: number; name: string }>;
+  riwayahs?: Array<{ id: number; name: string; slug?: string; bio?: string }>;
   /** Bio text for qiraah/imam (e.g. used in top section between quotes). */
   bio?: string | null;
 }
@@ -29,7 +29,7 @@ interface QiraahOut {
   is_active: boolean;
   riwayahs_count?: number;
   recitations_count?: number;
-  riwayahs?: Array<{ id: number; name: string }>;
+  riwayahs?: Array<{ id: number; name: string; slug?: string; bio?: string }>;
   bio?: string | null;
 }
 
@@ -41,7 +41,8 @@ interface PagedQiraahOut {
 interface RiwayahOut {
   id: number;
   name: string;
-  slug: string;
+  slug?: string;
+  bio?: string;
   qiraah: { id: number; name: string; slug?: string };
   recitations_count?: number;
 }
@@ -95,7 +96,7 @@ export const getQiraahs = cache(async (
         is_active: q.is_active,
         riwayahs_count: q.riwayahs_count,
         recitations_count: q.recitations_count,
-        riwayahs: (q.riwayahs ?? []).map((r) => ({ id: r.id, name: r.name })),
+        riwayahs: (q.riwayahs ?? []).map((r) => ({ id: r.id, name: r.name, slug: r.slug, bio: r.bio })),
         bio: q.bio ?? undefined,
       }));
     } finally {
@@ -147,7 +148,7 @@ export const getQiraahBySlug = cache(async (
       const q = results[0];
       if (!q) return null;
 
-      let riwayahs = (q.riwayahs ?? []).map((r) => ({ id: r.id, name: r.name }));
+      let riwayahs = (q.riwayahs ?? []).map((r) => ({ id: r.id, name: r.name, slug: r.slug, bio: r.bio }));
       if (riwayahs.length === 0) {
         const riwayahsUrl = `${backendUrl}/riwayahs/?qiraah_id=${q.id}&page_size=20`;
         const riwayahsRes = await fetch(riwayahsUrl, {
@@ -160,7 +161,7 @@ export const getQiraahBySlug = cache(async (
           const riwayahsData: PagedRiwayahOut = await riwayahsRes.json();
           console.log(JSON.stringify({ api: 'getQiraahBySlug (riwayahs)', url: riwayahsUrl, calledFrom: callerPage ?? null, response: riwayahsData }, null, 2));
           const list = riwayahsData.results ?? [];
-          riwayahs = list.map((r) => ({ id: r.id, name: r.name }));
+          riwayahs = list.map((r) => ({ id: r.id, name: r.name, slug: r.slug, bio: r.bio }));
         }
       }
 

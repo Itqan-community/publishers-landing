@@ -86,7 +86,7 @@ export const TenReadingsSection: React.FC<TenReadingsSectionProps> = ({
                     {item.title}
                   </h3>
                   <p className="text-[20px] font-normal text-[#6A6A6A] mt-1">
-                    رواياه: {item.riwayats}
+                    راوياه: {item.riwayats}
                   </p>
                 </div>
 

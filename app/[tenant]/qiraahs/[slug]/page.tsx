@@ -92,13 +92,13 @@ export default async function TahbeerQiraahPage({
         const mushafs = recitationsByRiwayah[index] ?? [];
         const firstMushaf = mushafs[0];
         const reciterName = firstMushaf?.reciter?.name ?? 'قارئ المصحف';
-        const reciterBio = firstMushaf?.description ?? '';
+        const reciterBio = riwayah.bio ?? '';
 
         return (
           <TahbeerRiwayahCarouselSection
             key={riwayah.id}
             id={index === 0 ? 'listing' : 'featured'}
-            riwayahTitle={riwayah.name}
+            riwayahTitle={riwayah.name.split(' ')[0]}
             reciterName={reciterName}
             reciterBio={reciterBio}
             mushafs={mushafs}

@@ -50,7 +50,7 @@ export const ImamInfoCard: React.FC<ImamInfoCardProps> = ({
       dir="rtl"
     >
       {/* 1. Avatar + label/name row on mobile; same row on desktop */}
-      <div className="flex flex-row items-center gap-4 sm:gap-6 shrink-0 justify-center">
+      {/* <div className="flex flex-row items-center gap-4 sm:gap-6 shrink-0 justify-center">
         <div
           className="flex h-16 w-16 sm:h-[97px] sm:w-[97px] flex-shrink-0 items-center justify-center rounded-full bg-[#EEF9F2]"
           aria-hidden
@@ -86,7 +86,7 @@ export const ImamInfoCard: React.FC<ImamInfoCardProps> = ({
             {name}
           </h3>
         </div>
-      </div>
+      </div> */}
 
       {/* 2. Flipped quotes for RTL: closing quote at start, opening at end */}
       <div className="flex min-w-0 flex-1 flex-row items-start gap-1 sm:gap-2 justify-center">

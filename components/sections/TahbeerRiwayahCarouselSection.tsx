@@ -33,14 +33,14 @@ export const TahbeerRiwayahCarouselSection: React.FC<TahbeerRiwayahCarouselSecti
     >
       <div className="mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8">
         {/* Header: one row on large screens — title + (reciter name & bio), 120px gap on lg */}
-        <div className="mb-6 sm:mb-8 md:mb-10 lg:mb-[30px] flex flex-col gap-3 sm:gap-6 lg:flex-row lg:items-center lg:gap-[120px] text-start">
+        <div className="mb-6 sm:mb-8 md:mb-10 lg:mb-[30px] flex flex-col gap-4 text-start">
           <h2 className="text-[24px] sm:text-[28px] md:text-[33px] lg:text-[39px] font-semibold text-[var(--color-foreground)] leading-[1.4] shrink-0">
             {riwayahTitle}
           </h2>
           <div className="flex flex-col gap-0.5 min-w-0 lg:max-w-[515px]">
-            <p className="text-[15px] sm:text-[17px] md:text-[19px] font-semibold text-[var(--color-foreground)]">
+            {/* <p className="text-[15px] sm:text-[17px] md:text-[19px] font-semibold text-[var(--color-foreground)]">
               {reciterName}
-            </p>
+            </p> */}
             <p className="text-[15px] sm:text-[17px] md:text-[19px] font-light text-[var(--color-text-paragraph)] leading-[1.4]">
               {reciterBio}
             </p>
