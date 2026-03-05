@@ -19,9 +19,15 @@ export const dynamic = 'force-dynamic';
 const TAHBEER_SPONSORS: TahbeerSponsorItem[] = [
   {
     id: '1',
-    name: 'برنامج عبدالرحمن بن عبدالله الموسى لخدمة المجتمع',
-    description: 'الداعم الرسمي وشريك النجاح للمشروع',
+    name: 'مؤسسة عبدالرحمن بن عبدالله الموسى لخدمة المجتمع',
+    description: 'الداعم وشريك النجاح',
     logo: '/images/tahbeer/sponsor-mousa-program.svg',
+  },
+  {
+    id: '2',
+    name: 'مؤسسة عبدالله بن إبراهيم السبيعي الخيرية',
+    description: 'الداعم وشريك النجاح',
+    logo: '/images/tahbeer/sponsor-subaie-charity.svg',
   },
 ];
 

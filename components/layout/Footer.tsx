@@ -198,12 +198,12 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = '' }) => {
   if (template === 'tahbeer') {
     const footerLogo = branding.logoFull ?? branding.logo;
 
-    /* Social link labels for Tahbeer footer (icon + Arabic text per Figma) */
+    /* Social link labels for Tahbeer footer (icon + Arabic text), 28×28 icons */
     const tahbeerSocialMap: Record<string, { label: string; icon: React.ReactNode }> = {
       youtube: {
         label: 'يوتيوب',
         icon: (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className=" shrink-0">
             <path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33 2.78 2.78 0 001.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.33 29 29 0 00-.46-5.33z" stroke="black" strokeWidth="1.5" fill="none" strokeLinejoin="round" />
             <path d="M9.75 15.02l5.75-3.27-5.75-3.27v6.54z" fill="black" />
           </svg>
@@ -212,7 +212,7 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = '' }) => {
       twitter: {
         label: 'تويتر',
         icon: (
-          <svg width="24" height="24" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+          <svg width="28" height="28" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden className=" shrink-0">
             <path fillRule="evenodd" clipRule="evenodd" d="M1.94353 2.21547C2.05038 2.00649 2.2653 1.875 2.5 1.875H6.66667C6.86736 1.875 7.05584 1.97137 7.17334 2.13407L11.2867 7.82945L17.0581 2.05806C17.3021 1.81398 17.6979 1.81398 17.9419 2.05806C18.186 2.30214 18.186 2.69786 17.9419 2.94194L12.028 8.85589L18.0067 17.1341C18.1441 17.3243 18.1633 17.5756 18.0565 17.7845C17.9496 17.9935 17.7347 18.125 17.5 18.125H13.3333C13.1326 18.125 12.9442 18.0286 12.8267 17.8659L8.71333 12.1706L2.94194 17.9419C2.69787 18.186 2.30214 18.186 2.05806 17.9419C1.81398 17.6979 1.81398 17.3021 2.05806 17.0581L7.97201 11.1441L1.99333 2.86593C1.85591 2.67566 1.83668 2.42444 1.94353 2.21547ZM3.72235 3.125L13.6529 16.875H16.2777L6.3471 3.125H3.72235Z" fill="black" />
           </svg>
         ),
@@ -226,8 +226,8 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = '' }) => {
           {/* ═══════ Top section: logo+description  |  link columns ═══════ */}
           <div className="flex flex-col lg:flex-row lg:justify-between gap-8 lg:gap-12 pb-10 sm:pb-12">
 
-            {/* Right side (start in RTL): Logo + description */}
-            <div className="flex flex-col gap-3 items-start lg:max-w-[387px] shrink-0">
+            {/* Right side (start in RTL): Logo + description — centered on mobile */}
+            <div className="flex flex-col gap-3 items-center lg:items-start text-center lg:text-start lg:max-w-[387px] shrink-0">
               <div className="relative w-[91px] h-[91px]">
                 <Image
                   src={footerLogo}
@@ -237,16 +237,16 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = '' }) => {
                   sizes="91px"
                 />
               </div>
-              <p className="text-[14px] font-normal text-black leading-[1.5] text-start">
+              <p className="text-[14px] font-normal text-black leading-[1.5]">
                 {footer.description}
               </p>
             </div>
 
-            {/* Left side (end in RTL): 4 link columns — RTL order: عنا, المصادر, تواصل معنا, تابعنا */}
-            <div className="flex justify-end flex-wrap sm:flex-nowrap gap-8 sm:gap-[53px] flex-1 justify-start">
+            {/* Left side (end in RTL): social links — centered on mobile */}
+            <div className="flex justify-center lg:justify-end flex-wrap sm:flex-nowrap gap-8 sm:gap-[53px] flex-1">
 
-              {/* Link groups from config (عنا, المصادر, etc.) */}
-              {footer.links?.map((linkGroup, index) => (
+              {/* Link groups from config (عنا, المصادر, etc.) — HIDDEN */}
+              {/* {footer.links?.map((linkGroup, index) => (
                 <div key={index} className="flex flex-col gap-[18px] items-start">
                   <p className="text-[16px] font-semibold text-black leading-[1.5]">
                     {linkGroup.label}
@@ -263,10 +263,10 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = '' }) => {
                     ))}
                   </div>
                 </div>
-              ))}
+              ))} */}
 
-              {/* تواصل معنا */}
-              {footer.contact && (
+              {/* تواصل معنا — HIDDEN */}
+              {/* {footer.contact && (
                 <div className="flex flex-col gap-[18px] items-start">
                   <p className="text-[16px] font-semibold text-black leading-[1.5]">
                     تواصل معنا
@@ -284,15 +284,15 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = '' }) => {
                     )}
                   </div>
                 </div>
-              )}
+              )} */}
 
-              {/* تابعنا — social links with Arabic labels + icons */}
+              {/* تابعنا — social links in one row, bigger, centered on mobile */}
               {footer.social && footer.social.length > 0 && (
-                <div className="flex flex-col gap-[18px] items-start">
+                <div className="flex flex-col gap-[18px] items-center lg:items-start">
                   <p className="text-[16px] font-semibold text-black leading-[1.5]">
                     تابعنا
                   </p>
-                  <div className="flex flex-col gap-[10px] items-start">
+                  <div className="flex flex-row gap-5 sm:gap-8 items-center">
                     {footer.social.map((s) => {
                       const mapped = tahbeerSocialMap[s.platform.toLowerCase()];
                       if (!mapped) return null;
@@ -306,7 +306,7 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = '' }) => {
                           aria-label={mapped.label}
                         >
                           {mapped.icon}
-                          <span className="text-[12px] font-normal text-black leading-[1.5]">
+                          <span className="text-[14px] sm:text-[16px] font-normal text-black leading-[1.5]">
                             {mapped.label}
                           </span>
                         </a>
@@ -327,8 +327,8 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = '' }) => {
             <p className="text-[12px] text-[#6a6a6a] leading-[1.5]">
               {footer.copyright || '© 2024 جميع الحقوق محفوظة.'}
             </p>
-            {/* Footer quick links — end side (left in RTL) */}
-            <div className="flex flex-wrap gap-6 items-center">
+            {/* Footer quick links — end side (left in RTL) — HIDDEN */}
+            {/* <div className="flex flex-wrap gap-6 items-center">
               <Link href={withBasePath('/privacy', basePath)} className="text-[12px] text-[#6a6a6a] leading-[1.5] hover:underline">
                 سياسة الخصوصية
               </Link>
@@ -338,7 +338,7 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = '' }) => {
               <Link href={withBasePath('/cookies', basePath)} className="text-[12px] text-[#6a6a6a] leading-[1.5] hover:underline">
                 إعدادات ملفات تعريف الارتباط
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </footer>

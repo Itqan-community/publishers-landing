@@ -33,34 +33,36 @@ export const TahbeerSponsorsSection: React.FC<TahbeerSponsorsSectionProps> = ({
       dir="rtl"
     >
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-        {sponsors.map((sponsor) => (
-          <div
-            key={sponsor.id}
-            className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-8 py-6 first:pt-0 last:pb-0"
-          >
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-12 lg:gap-16 flex-wrap">
+          {sponsors.map((sponsor, index) => (
+            <div
+              key={sponsor.id}
+              className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6"
+            >
             {/* Logo — start side (right in RTL), 74×74 per Figma */}
             <div className="relative w-[74px] h-[74px] shrink-0 rounded-xl bg-white overflow-hidden">
               <Image
                 src={sponsor.logo}
                 alt={sponsor.name}
                 fill
-                className="object-contain p-2"
+                className={`object-contain ${index === 1 ? 'p-0' : 'p-2'}`}
                 sizes="74px"
                 unoptimized={sponsor.logo.endsWith('.svg')}
               />
             </div>
 
-            {/* Text — end side (left in RTL), start-aligned */}
-            <div className="flex flex-col gap-1 items-start text-start min-w-0">
+            {/* Text — centered on mobile, start-aligned on desktop; justified */}
+            <div className="flex flex-col gap-1 items-center sm:items-start text-center sm:text-start min-w-0">
               <h3 className="text-lg sm:text-xl font-bold text-black leading-tight text-justify">
                 {sponsor.description}
               </h3>
-              <p className="text-sm sm:text-base font-normal text-[#6a6a6a] leading-[1.5]">
+              <p className="text-sm sm:text-base font-normal text-[#6a6a6a] leading-[1.5] text-justify">
                 {sponsor.name}
               </p>
             </div>
           </div>
-        ))}
+          ))}
+        </div>
       </div>
     </section>
   );
