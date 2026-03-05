@@ -59,7 +59,7 @@ export const TenReadingsSection: React.FC<TenReadingsSectionProps> = ({
           {title}
         </h2>
         {description && (
-          <p className="text-md sm:text-lg text-[var(--color-text-paragraph)] leading-relaxed mb-8 max-w-2xl">
+          <p className="text-md sm:text-lg text-[var(--color-text-paragraph)] leading-relaxed mb-8 max-w-2xl text-justify">
             {description}
           </p>
         )}

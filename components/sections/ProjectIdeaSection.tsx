@@ -49,7 +49,7 @@ export const ProjectIdeaSection: React.FC<ProjectIdeaSectionProps> = ({
           <h2 className="text-[28px] sm:text-[33px] md:text-[39px] font-semibold text-[var(--color-foreground)] leading-[1.4] whitespace-nowrap shrink-0">
             {sectionTitle}
           </h2>
-          <p className="text-[16px] sm:text-[17px] md:text-[19px] text-[var(--color-foreground)] leading-[1.4] max-w-[448px]">
+          <p className="text-[16px] sm:text-[17px] md:text-[19px] text-[var(--color-foreground)] leading-[1.4] max-w-[448px] text-justify">
             {sectionSubtitle}
           </p>
         </div>
@@ -59,12 +59,12 @@ export const ProjectIdeaSection: React.FC<ProjectIdeaSectionProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12">
             {/* Column 1: الفكرة (right in RTL) */}
             <div className="flex flex-col">
-              <h3 className="text-[24px] sm:text-[27px] md:text-[29px] font-semibold text-[var(--color-foreground)] leading-[1.4] mb-4 sm:mb-5 md:mb-6">
+              <h3 className="text-[24px] sm:text-[27px] md:text-[29px] font-semibold text-[var(--color-foreground)] leading-[1.4] mb-4 sm:mb-5 md:mb-6 text-justify">
                 {ideaTitle}
               </h3>
               <div className="flex flex-col gap-4 text-[16px] sm:text-[17px] md:text-[19px] text-[var(--color-foreground)] leading-[1.4]">
                 {ideaParagraphs.map((paragraph, idx) => (
-                  <p key={idx}>{paragraph}</p>
+                  <p key={idx} className="text-justify">{paragraph}</p>
                 ))}
               </div>
             </div>
@@ -83,7 +83,7 @@ export const ProjectIdeaSection: React.FC<ProjectIdeaSectionProps> = ({
                     <span className="text-[16px] sm:text-[17px] md:text-[19px] font-normal text-[var(--color-foreground)] leading-[1.4]">
                       {participant.name}
                     </span>
-                    <span className="text-[13px] sm:text-[14px] md:text-[15px] text-[#6a6a6a] leading-[1.7] mt-0.5">
+                    <span className="text-[13px] sm:text-[14px] md:text-[15px] text-[#6a6a6a] leading-[1.7] mt-0.5 text-justify block">
                       {participant.description}
                     </span>
                   </div>

@@ -41,7 +41,7 @@ export const TahbeerRiwayahCarouselSection: React.FC<TahbeerRiwayahCarouselSecti
             {/* <p className="text-[15px] sm:text-[17px] md:text-[19px] font-semibold text-[var(--color-foreground)]">
               {reciterName}
             </p> */}
-            <p className="text-[15px] sm:text-[17px] md:text-[19px] font-light text-[var(--color-text-paragraph)] leading-[1.4]">
+            <p className="text-[15px] sm:text-[17px] md:text-[19px] font-light text-[var(--color-text-paragraph)] leading-[1.4] text-justify">
               {reciterBio}
             </p>
           </div>

@@ -93,7 +93,7 @@ export const ImamInfoCard: React.FC<ImamInfoCardProps> = ({
         <span className="text-2xl sm:text-[40px] font-serif leading-none text-[var(--color-primary)] shrink-0" aria-hidden>
           &rdquo;
         </span>
-        <p className="flex-1 min-w-0 max-w-max text-[16px] sm:text-[20px] lg:text-[23px] leading-relaxed text-[#343434]">
+        <p className="flex-1 min-w-0 max-w-max text-[16px] sm:text-[20px] lg:text-[23px] leading-relaxed text-[#343434] text-justify">
           {bio}
         </p>
         <span className="text-2xl sm:text-[40px] font-serif leading-none text-[var(--color-primary)] shrink-0" aria-hidden>

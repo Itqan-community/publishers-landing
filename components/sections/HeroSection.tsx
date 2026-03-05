@@ -83,7 +83,7 @@ export function HeroSection({
               <h1 className="text-[34px] md:text-[39px] font-semibold text-[var(--color-foreground)] leading-[1.4] max-w-xl">
                 {title}
               </h1>
-              <p className="text-[22px] md:text-[29px] text-[var(--color-text-paragraph)] leading-relaxed max-w-xl">
+              <p className="text-[22px] md:text-[29px] text-[var(--color-text-paragraph)] leading-relaxed max-w-xl text-justify">
                 {description}
               </p>
               {legacyShowCta && (

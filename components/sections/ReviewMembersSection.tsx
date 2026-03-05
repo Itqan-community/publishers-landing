@@ -41,7 +41,7 @@ export const ReviewMembersSection: React.FC<ReviewMembersSectionProps> = ({
             {sectionTitle}
           </h2>
           {sectionSubtitle && (
-            <p className="text-[16px] sm:text-[17px] md:text-[19px] text-[var(--color-foreground)] leading-[1.4] max-w-[515px]">
+            <p className="text-[16px] sm:text-[17px] md:text-[19px] text-[var(--color-foreground)] leading-[1.4] max-w-[515px] text-justify">
               {sectionSubtitle}
             </p>
           )}

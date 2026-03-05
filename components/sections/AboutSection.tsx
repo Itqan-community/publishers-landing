@@ -40,7 +40,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
             {title}
           </h2>
           {description != null && description !== '' && (
-            <p className="text-md sm:text-lg md:text-xl text-[var(--color-text-paragraph)] leading-relaxed max-w-paragraph">
+            <p className="text-md sm:text-lg md:text-xl text-[var(--color-text-paragraph)] leading-relaxed max-w-paragraph text-justify">
               {description}
             </p>
           )}
@@ -70,7 +70,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
                 {feature.title}
               </h3>
               {feature.description && (
-                <p className="text-md sm:text-lg leading-relaxed text-[var(--color-text-paragraph)] mt-3 whitespace-pre-line">
+                <p className="text-md sm:text-lg leading-relaxed text-[var(--color-text-paragraph)] mt-3 whitespace-pre-line text-justify">
                   {feature.description}
                 </p>
               )}

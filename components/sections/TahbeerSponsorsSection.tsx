@@ -52,7 +52,7 @@ export const TahbeerSponsorsSection: React.FC<TahbeerSponsorsSectionProps> = ({
 
             {/* Text — end side (left in RTL), start-aligned */}
             <div className="flex flex-col gap-1 items-start text-start min-w-0">
-              <h3 className="text-lg sm:text-xl font-bold text-black leading-tight">
+              <h3 className="text-lg sm:text-xl font-bold text-black leading-tight text-justify">
                 {sponsor.description}
               </h3>
               <p className="text-sm sm:text-base font-normal text-[#6a6a6a] leading-[1.5]">

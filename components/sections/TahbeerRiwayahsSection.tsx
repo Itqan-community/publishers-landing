@@ -33,7 +33,7 @@ export const TahbeerRiwayahsSection: React.FC<TahbeerRiwayahsSectionProps> = ({
           <h2 className="text-[28px] sm:text-[33px] lg:text-[39px] font-semibold text-[var(--color-foreground)] leading-tight">
             راوياه
           </h2>
-          <p className="text-[16px] sm:text-[18px] lg:text-[20px] text-[var(--color-text-paragraph)] leading-relaxed">
+          <p className="text-[16px] sm:text-[18px] lg:text-[20px] text-[var(--color-text-paragraph)] leading-relaxed text-justify">
             راويا قراءة {qiraahName}
           </p>
         </div>
@@ -50,7 +50,7 @@ export const TahbeerRiwayahsSection: React.FC<TahbeerRiwayahsSectionProps> = ({
                 <h3 className="text-[20px] sm:text-[22px] font-semibold text-[var(--color-foreground)] leading-tight mb-4">
                   الإمام {firstWord}
                 </h3>
-                <p className="text-[15px] sm:text-[17px] leading-relaxed text-[var(--color-text-paragraph)] whitespace-pre-line">
+                <p className="text-[15px] sm:text-[17px] leading-relaxed text-[var(--color-text-paragraph)] whitespace-pre-line text-justify">
                   {riwayah.bio || ''}
                 </p>
               </div>

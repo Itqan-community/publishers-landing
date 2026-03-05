@@ -39,9 +39,9 @@ const TAHBEER_IDEA_PARAGRAPHS = [
 
 /** Participants — from Figma "المشاركون في المشروع" (2×2 grid with role, name, description) */
 const TAHBEER_PARTICIPANTS = [
-  { role: 'القارئ', name: 'الشيخ صابر عبد الحكم', description: 'قارئ وإمام متخصص في القراءات العشر' },
+  { role: 'القارئ', name: 'الشيخ صابر عبد الحكم', description: 'المقريء بالقراءات العشر' },
   { role: 'المشرف العام', name: 'الدكتور وليد الفخراني', description: 'الإشراف على تنفيذ المشروع' },
-  { role: 'رئيس لجنة المراجعة', name: 'الشيخ المقرئ عدنان العوضي', description: 'إدارة لجنة المراجعة ومتابعة جودة وضبط التسجيلات' },
+  { role: 'رئيس لجنة المراجعة', name: 'الشيخ عدنان العرضي', description: 'المراجعة والتدقيق العلمي للمصاحف المسجلة' },
 ];
 
 /** Committee tasks — static "مهام اللجنة" (2×2 grid) */

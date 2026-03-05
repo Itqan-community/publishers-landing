@@ -38,7 +38,7 @@ export const TahbeerRiwayahTopSection: React.FC<TahbeerRiwayahTopSectionProps> =
         >
           {title}
         </h1>
-        <p className="mx-auto mt-4 sm:mt-8 max-w-2xl text-center text-[18px] sm:text-[24px] lg:text-[29px] font-normal text-[var(--color-text-paragraph)]">
+        <p className="mx-auto mt-4 sm:mt-8 max-w-2xl text-center text-[18px] sm:text-[24px] lg:text-[29px] font-normal text-[var(--color-text-paragraph)] text-justify">
           {description}
         </p>
         <div className="mt-8 sm:mt-10 w-full">
