@@ -13,14 +13,15 @@ import { applyThemeVariables } from '@/lib/theme';
 
 interface ThemeProviderProps {
   branding: TenantBranding;
+  template?: string;
   children: React.ReactNode;
 }
 
-export function ThemeProvider({ branding, children }: ThemeProviderProps) {
+export function ThemeProvider({ branding, template, children }: ThemeProviderProps) {
   useEffect(() => {
-    // Apply theme variables when branding changes
-    applyThemeVariables(branding);
-  }, [branding]);
+    // Apply theme variables when branding changes (includes --font-primary for Tahbeer)
+    applyThemeVariables(branding, template);
+  }, [branding, template]);
 
   return <>{children}</>;
 }

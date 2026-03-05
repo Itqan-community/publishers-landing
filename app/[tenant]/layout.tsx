@@ -68,6 +68,9 @@ export default async function TenantLayout({
   const organizationSchema = generateOrganizationSchema(tenant);
   const gaId = tenant.analytics?.googleAnalyticsId;
 
+  // Theme styles include --font-primary override for Tahbeer (Noto Kufi Arabic)
+  const themeStyles = getThemeStyles(tenant.branding, tenant.template);
+
   return (
     <>
       {/* JSON-LD Structured Data */}
@@ -90,9 +93,11 @@ export default async function TenantLayout({
         showSpinner={false}
       />
 
-      <div style={getThemeStyles(tenant.branding, tenant.template)}>
+      <div style={themeStyles}>
         <TenantProvider initialTenant={tenant} initialBasePath={basePath}>
-          <ThemeProvider branding={tenant.branding}>{children}</ThemeProvider>
+          <ThemeProvider branding={tenant.branding} template={tenant.template}>
+            {children}
+          </ThemeProvider>
         </TenantProvider>
       </div>
     </>
