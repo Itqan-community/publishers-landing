@@ -81,6 +81,15 @@ export default async function TahbeerQiraahPage({
     allRecitations.filter((m) => m.riwayahId === String(riwayah.id))
   );
 
+  const riwayahIdSet = new Set(riwayahs.map((r) => String(r.id)));
+  const combinedRecitations = allRecitations.filter(
+    (m) =>
+      m.riwayahIds &&
+      m.riwayahIds.length >= 2 &&
+      riwayahIdSet.size >= 2 &&
+      [...riwayahIdSet].every((id) => m.riwayahIds!.includes(id))
+  );
+
   return (
     <PageLayout tenant={tenant}>
       <div className="relative bg-[#F9F5F3] -mt-16 lg:-mt-header pt-16 lg:pt-header">
@@ -106,14 +115,24 @@ export default async function TahbeerQiraahPage({
         return (
           <TahbeerRiwayahCarouselSection
             key={riwayah.id}
-            id={index === 0 ? 'listing' : 'featured'}
+            id={index === 0 ? 'listing' : `riwayah-${index}`}
             riwayahTitle={`مصاحف رواية ${riwayah.name}`}
             reciterName={reciterName}
-            reciterBio={''}
+            reciterBio={reciterBio}
             mushafs={mushafs}
           />
         );
       })}
+
+      {combinedRecitations.length > 0 && (
+        <TahbeerRiwayahCarouselSection
+          id="combined"
+          riwayahTitle="مصاحف بجمع الروايتين"
+          reciterName=""
+          reciterBio=""
+          mushafs={combinedRecitations}
+        />
+      )}
 
       <TahbeerSponsorsSection id="sponsors" sponsors={TAHBEER_SPONSORS} />
     </PageLayout>
