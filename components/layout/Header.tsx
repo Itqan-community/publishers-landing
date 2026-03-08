@@ -148,7 +148,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, logoFull, tenantName, navI
             </button>
           </div>
 
-          {/* Mobile Menu */}
+          {/* Mobile Menu — Tahbeer: no "استمع الان" button */}
           {mobileMenuOpen && (
             <div className="md:hidden py-4 border-t border-gray-200">
               <nav className="flex flex-col gap-4">
@@ -162,13 +162,6 @@ export const Header: React.FC<HeaderProps> = ({ logo, logoFull, tenantName, navI
                     {item.label}
                   </Link>
                 ))}
-                <div className="flex flex-col gap-3 pt-4 border-t border-gray-200">
-                  <Link href={listenHref} className="block">
-                    <Button variant="primary" size="sm" className="w-full">
-                      استمع الان
-                    </Button>
-                  </Link>
-                </div>
               </nav>
             </div>
           )}

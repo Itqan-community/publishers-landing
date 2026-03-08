@@ -193,7 +193,7 @@ export function HeroSection({
                   {['بصوت  الشيخ صابر عبد الحكم', 'تلاوات متنوعة بمختلف الروايات'].map((item) => (
                     <div
                       key={item}
-                      className="flex items-center gap-2 bg-white px-6 rounded-[50px] shadow-sm ring-1 ring-gray-100 translate-x-[-8%] md:translate-x-[-8%] lg:translate-x-[36%] xl:translate-x-[40%]"
+                      className="flex min-w-[300px] items-center gap-2 bg-white px-6 rounded-[50px] shadow-sm ring-1 ring-gray-100 translate-x-[-8%] md:translate-x-[-8%] lg:translate-x-[36%] xl:translate-x-[40%]"
                       style={{ height: '54px', minHeight: '54px' }}
                     >
                       <CheckmarkBadgeIcon variant={legacyCheckmarkVariant} className="w-6 h-6 flex-shrink-0" />

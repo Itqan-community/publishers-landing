@@ -37,7 +37,7 @@ export const TahbeerRiwayahCarouselSection: React.FC<TahbeerRiwayahCarouselSecti
           <h2 className="text-[24px] sm:text-[28px] md:text-[33px] lg:text-[39px] font-semibold text-[var(--color-foreground)] leading-[1.4] shrink-0">
             {riwayahTitle}
           </h2>
-          <div className="flex flex-col gap-0.5 min-w-0 lg:max-w-[515px]">
+          <div className="flex flex-col gap-0.5 min-w-0 ">
             {/* <p className="text-[15px] sm:text-[17px] md:text-[19px] font-semibold text-[var(--color-foreground)]">
               {reciterName}
             </p> */}
