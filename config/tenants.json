@@ -472,9 +472,11 @@
     "id": "tahbeer",
     "name": "تحبير",
     "nameEn": "Tahbeer",
-    "domain": "https://staging--project-tahbeer.netlify.app",
+    "domain": "https://tahbeer.net",
     "domains": [
-      "https://tahbeer.itqan.dev"
+      "https://project-tahbeer.netlify.app",
+      "https://tahbeer.itqan.dev",
+      "https://tahbeer.net"
     ],
     "api": {
       "development": "https://staging.api.cms.itqan.dev/tenant",
