@@ -10,8 +10,8 @@ import { getRiwayahs } from '@/lib/riwayahs';
 import { getMockRecordedMushafsForTahbeer, getMockRiwayahsForTahbeer } from '@/lib/mock-tahbeer-recitations';
 import { generateTenantMetadata } from '@/lib/seo';
 
-/** Always fetch fresh data — no static/cached page so listing count matches API. */
-export const dynamic = 'force-dynamic';
+/** Recitations listing: allow slight staleness (ISR) instead of per-request dynamic rendering. */
+export const revalidate = 60;
 
 const TITLE = 'المصاحف المرتلة';
 const DESCRIPTION =
@@ -101,7 +101,7 @@ export default async function RecitationsListingPage({
   }
 
   return (
-    <PageLayout tenant={tenant}>
+    <PageLayout tenant={tenant} basePath={basePath}>
       <div dir="rtl" className="bg-[#f6f4f1]">
         <RecitationsPageContent
           tenantId={tenantId}

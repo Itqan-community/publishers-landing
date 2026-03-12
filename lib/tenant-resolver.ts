@@ -9,7 +9,7 @@
  * The resolver checks all strategies and returns the first match.
  */
 
-import { getTenantIdByHostname } from '@/lib/domains';
+import { getTenantIdByHostname, getTenantIdsSync } from '@/lib/domains';
 import { getDefaultTenantId } from '@/lib/tenant-config';
 import { TenantRequest, TenantResolutionStrategy } from '@/types/tenant.types';
 
@@ -62,9 +62,17 @@ export const pathStrategy: TenantResolutionStrategy = {
     }
 
     const segment = match[1];
-    
-    // Skip common paths that aren't tenants
-    if (['api', '_next', 'static', 'favicon.ico'].includes(segment)) {
+
+    // Skip common paths that aren't tenants (reserved non-tenant prefixes)
+    const reservedPrefixes = [
+      'api',
+      '_next',
+      'static',
+      'favicon.ico',
+      'robots.txt',
+      'sitemap.xml',
+    ];
+    if (reservedPrefixes.includes(segment)) {
       return null;
     }
 
@@ -146,6 +154,16 @@ export function createTenantRequest(
  * Always returns a string (either resolved tenant or default)
  */
 export function getTenantFromHeaders(headers: Headers): string {
+  // If middleware already resolved a tenant, trust it as the single source of truth,
+  // but only when it matches a known tenant ID.
+  const headerTenantId = headers.get('x-tenant-id');
+  if (headerTenantId) {
+    const knownTenantIds = getTenantIdsSync();
+    if (knownTenantIds.includes(headerTenantId)) {
+      return headerTenantId;
+    }
+  }
+
   const hostname = headers.get('host') || 'localhost';
   const pathname = headers.get('x-pathname') || '/';
   

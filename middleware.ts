@@ -7,12 +7,33 @@ import {
   resolveTenantWithStrategy,
 } from '@/lib/tenant-resolver';
 
+function buildTenantRewritePath(pathname: string, tenantId: string): string | null {
+  if (pathname === '/' || pathname === '') {
+    return `/${tenantId}`;
+  }
+  if (pathname === '/recitations') {
+    return `/${tenantId}/recitations`;
+  }
+  const recitationMatch = pathname.match(/^\/recitations\/([^/]+)(?:\/)?$/);
+  if (recitationMatch) {
+    return `/${tenantId}/recitations/${recitationMatch[1]}`;
+  }
+  if (pathname === '/hadiths') {
+    return `/${tenantId}/hadiths`;
+  }
+  const qiraahSlugMatch = pathname.match(/^\/qiraahs\/([^/]+)(?:\/)?$/);
+  if (qiraahSlugMatch) {
+    return `/${tenantId}/qiraahs/${qiraahSlugMatch[1]}`;
+  }
+  return null;
+}
+
 /**
  * Middleware for Multi-Tenant Resolution (domain + path-based)
  *
- * - Custom domain (e.g. saudi-recitations-center.com): rewrites /, /recitations, /recitations/[id]
- *   to internal /[tenant]/... and returns 404 for /[tenantId] paths so tenant IDs are not exposed.
- * - Staging: staging--<domain> (e.g. staging--saudi-recitations-center.com) is treated as same tenant.
+ * - Custom domain (e.g. saudi-recitations-center.com): rewrites clean URLs to internal /[tenant]/...
+ *   and returns 404 for /[tenantId] paths so tenant IDs are not exposed.
+ * - Staging (e.g. staging--<domain>): treated as the same tenant, with clean URLs.
  * - Path-based (e.g. localhost/saudi-center): no rewrite; x-base-path set for link generation.
  */
 export function middleware(request: NextRequest) {
@@ -29,45 +50,22 @@ export function middleware(request: NextRequest) {
   const isCustomDomain = strategy === 'domain';
   const isLocalhost = hostname === 'localhost';
 
-  // Non-localhost clean URLs (e.g. staging /recitations): rewrite to default tenant so links work without /tenant in path
+  // Non-localhost clean URLs for default/path-based tenant (e.g. staging /recitations):
+  // rewrite only when the resolver fell back to the default tenant via path strategy,
+  // so we never override an explicitly resolved subdomain/custom-domain tenant.
   if (!isLocalhost && !isCustomDomain) {
-    const base = request.nextUrl.origin;
-    const search = request.nextUrl.search ?? '';
-    if (pathname === '/' || pathname === '') {
-      const defaultTenant = getDefaultTenantId();
-      requestHeaders.set('x-custom-domain', 'true');
-      requestHeaders.set('x-base-path', '');
-      return NextResponse.rewrite(new URL(`/${defaultTenant}${search}`, base), {
-        request: { headers: requestHeaders },
-      });
-    }
-    if (pathname === '/recitations') {
-      const defaultTenant = getDefaultTenantId();
-      requestHeaders.set('x-custom-domain', 'true');
-      requestHeaders.set('x-base-path', '');
-      const rewriteUrl = new URL(`/${defaultTenant}/recitations${search}`, base);
-      return NextResponse.rewrite(rewriteUrl, {
-        request: { headers: requestHeaders },
-      });
-    }
-    const recitationMatch = pathname.match(/^\/recitations\/([^/]+)(?:\/)?$/);
-    if (recitationMatch) {
-      const defaultTenant = getDefaultTenantId();
-      requestHeaders.set('x-custom-domain', 'true');
-      requestHeaders.set('x-base-path', '');
-      const rewriteUrl = new URL(`/${defaultTenant}/recitations/${recitationMatch[1]}${search}`, base);
-      return NextResponse.rewrite(rewriteUrl, {
-        request: { headers: requestHeaders },
-      });
-    }
-    if (pathname === '/hadiths') {
-      const defaultTenant = getDefaultTenantId();
-      requestHeaders.set('x-custom-domain', 'true');
-      requestHeaders.set('x-base-path', '');
-      const rewriteUrl = new URL(`/${defaultTenant}/hadiths${search}`, base);
-      return NextResponse.rewrite(rewriteUrl, {
-        request: { headers: requestHeaders },
-      });
+    const defaultTenant = getDefaultTenantId();
+    if (strategy === 'path' && tenantId === defaultTenant) {
+      const base = request.nextUrl.origin;
+      const search = request.nextUrl.search ?? '';
+      const internalPath = buildTenantRewritePath(pathname, defaultTenant);
+      if (internalPath) {
+        requestHeaders.set('x-custom-domain', 'true');
+        requestHeaders.set('x-base-path', '');
+        return NextResponse.rewrite(new URL(`${internalPath}${search}`, base), {
+          request: { headers: requestHeaders },
+        });
+      }
     }
   }
 
@@ -83,41 +81,11 @@ export function middleware(request: NextRequest) {
     // Rewrite clean URLs to internal [tenant] routes (browser URL stays clean); preserve query string
     const base = request.nextUrl.origin;
     const search = request.nextUrl.search ?? '';
-    if (pathname === '/' || pathname === '') {
+    const internalPath = buildTenantRewritePath(pathname, tenantId);
+    if (internalPath) {
       requestHeaders.set('x-custom-domain', 'true');
       requestHeaders.set('x-base-path', '');
-      return NextResponse.rewrite(new URL(`/${tenantId}${search}`, base), {
-        request: { headers: requestHeaders },
-      });
-    }
-    if (pathname === '/recitations') {
-      requestHeaders.set('x-custom-domain', 'true');
-      requestHeaders.set('x-base-path', '');
-      return NextResponse.rewrite(new URL(`/${tenantId}/recitations${search}`, base), {
-        request: { headers: requestHeaders },
-      });
-    }
-    const recitationMatch = pathname.match(/^\/recitations\/([^/]+)(?:\/)?$/);
-    if (recitationMatch) {
-      requestHeaders.set('x-custom-domain', 'true');
-      requestHeaders.set('x-base-path', '');
-      return NextResponse.rewrite(
-        new URL(`/${tenantId}/recitations/${recitationMatch[1]}${search}`, base),
-        { request: { headers: requestHeaders } }
-      );
-    }
-    if (pathname === '/hadiths') {
-      requestHeaders.set('x-custom-domain', 'true');
-      requestHeaders.set('x-base-path', '');
-      return NextResponse.rewrite(new URL(`/${tenantId}/hadiths${search}`, base), {
-        request: { headers: requestHeaders },
-      });
-    }
-    const qiraahSlugMatch = pathname.match(/^\/qiraahs\/([^/]+)(?:\/)?$/);
-    if (qiraahSlugMatch) {
-      requestHeaders.set('x-custom-domain', 'true');
-      requestHeaders.set('x-base-path', '');
-      return NextResponse.rewrite(new URL(`/${tenantId}/qiraahs/${qiraahSlugMatch[1]}${search}`, base), {
+      return NextResponse.rewrite(new URL(`${internalPath}${search}`, base), {
         request: { headers: requestHeaders },
       });
     }

@@ -8,8 +8,7 @@ import { generateTenantMetadata } from '@/lib/seo';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
 
-/** Always fetch fresh data */
-export const dynamic = 'force-dynamic';
+// Static placeholder page; no dynamic data required.
 
 const TITLE = 'الأحاديث النبوية الشريفة';
 const DESCRIPTION = 'الأحاديث النبوية الشريفة';
@@ -50,10 +49,8 @@ export default async function HadithsPage({
     notFound();
   }
 
-  const prefix = basePath || '';
-
   return (
-    <PageLayout tenant={tenant}>
+    <PageLayout tenant={tenant} basePath={basePath}>
       <div dir="rtl" className="bg-[#f6f4f1]">
         {/* Top section with background pattern */}
         <div className="relative bg-[#f6f6f4] -mt-16 lg:-mt-header pt-16 lg:pt-header">
@@ -74,7 +71,7 @@ export default async function HadithsPage({
 
             <div className="mt-4">
               <Button variant="primary" size="lg" asChild>
-                <Link href={prefix || '/'}>
+                <Link href={basePath || '/'}>
                   العودة للرئيسية
                 </Link>
               </Button>

@@ -1,15 +1,13 @@
-'use client';
-
 import React from 'react';
 import { Header } from './Header';
 import { Footer } from './Footer';
 import { GovernmentBanner } from './GovernmentBanner';
-import { useTenant } from '@/components/providers/TenantProvider';
 import { TenantConfig } from '@/types/tenant.types';
 
 interface PageLayoutProps {
   tenant: TenantConfig;
   children: React.ReactNode;
+  basePath?: string;
   showHeader?: boolean;
   showFooter?: boolean;
 }
@@ -17,10 +15,10 @@ interface PageLayoutProps {
 export const PageLayout: React.FC<PageLayoutProps> = ({
   tenant,
   children,
+  basePath = '',
   showHeader = true,
   showFooter = true,
 }) => {
-  const { basePath } = useTenant();
   const prefix = basePath || '';
 
   const navItems =
@@ -53,9 +51,7 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
           />
         </>
       )}
-      <main className="flex-grow">
-        {children}
-      </main>
+      <main className="flex-grow">{children}</main>
       {showFooter && <Footer tenant={tenant} basePath={basePath} />}
     </div>
   );
