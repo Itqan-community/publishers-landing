@@ -1,14 +1,14 @@
 /**
  * Partners Section Component
- * 
+ *
  * Displays partner and sponsor logos in a horizontal carousel
  * Now located at the bottom of the page
  * RTL order: from right (start) to left (end)
  */
 
-/* eslint-disable @next/next/no-img-element */
 'use client';
 
+import Image from 'next/image';
 import { Carousel } from '@/components/ui/Carousel';
 
 interface PartnersSectionProps {
@@ -58,12 +58,15 @@ export function PartnersSection({ title, partners }: PartnersSectionProps) {
                   rel="noopener noreferrer"
                   className="flex items-center justify-center opacity-70 hover:opacity-100 transition-opacity"
                 >
-                  <img
-                    src={partner.logo}
-                    alt={partner.name}
-                    loading="lazy"
-                    className="max-h-12 sm:max-h-16 md:max-h-20 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
-                  />
+                  <div className="relative max-h-12 sm:max-h-16 md:max-h-20 w-auto">
+                    <Image
+                      src={partner.logo}
+                      alt={partner.name}
+                      width={200}
+                      height={80}
+                      className="h-full w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
+                    />
+                  </div>
                 </a>
               </div>
             );

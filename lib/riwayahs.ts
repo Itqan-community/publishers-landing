@@ -52,7 +52,7 @@ export const getRiwayahs = cache(async (tenantId?: string, callerPage?: string):
         method: 'GET',
         headers: getApiHeaders(tenantDomain),
         signal: controller.signal,
-        cache: 'no-store',
+        next: { revalidate: 300 },
       });
 
       clearTimeout(timeoutId);

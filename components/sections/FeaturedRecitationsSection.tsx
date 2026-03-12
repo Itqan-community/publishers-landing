@@ -1,7 +1,8 @@
 'use client';
 
 import React from 'react';
-import { RecitationsPlayer, RecitationItem } from '@/components/audio/AudioPlayer';
+import dynamic from 'next/dynamic';
+import type { RecitationItem } from '@/components/audio/AudioPlayer';
 import { Button } from '@/components/ui/Button';
 
 interface FeaturedRecitationsSectionProps {
@@ -11,6 +12,11 @@ interface FeaturedRecitationsSectionProps {
   viewAllHref?: string;
   detailsHrefBase?: string;
 }
+
+const RecitationsPlayer = dynamic(
+  () => import('@/components/audio/AudioPlayer').then((m) => m.RecitationsPlayer),
+  { ssr: false }
+);
 
 export const FeaturedRecitationsSection: React.FC<FeaturedRecitationsSectionProps> = ({
   title,

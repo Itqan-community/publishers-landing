@@ -99,7 +99,7 @@ export async function getRecordedMushafs(
         method: 'GET',
         headers: getApiHeaders(tenantDomain),
         signal: controller.signal,
-        cache: 'no-store', // never cache — listing count must match API
+        next: { revalidate: 60 },
       });
       
       clearTimeout(timeoutId);
@@ -244,7 +244,7 @@ export const getRecitationById = cache(async (
         method: 'GET',
         headers: getApiHeaders(tenantDomain),
         signal: controller.signal,
-        cache: 'no-store',
+        next: { revalidate: 300 },
       });
       
       clearTimeout(timeoutId);

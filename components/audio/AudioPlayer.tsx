@@ -135,7 +135,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
       0,
       recitations.findIndex((r) => r.id === selectedRecitation.id)
     );
-  }, [recitations, selectedRecitation?.id]);
+  }, [recitations, selectedRecitation]);
 
   /** Filtered track list for details variant (frontend search by title, reciter, surahInfo). */
   const filteredRecitations = useMemo(() => {
@@ -207,7 +207,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
     if (!selectedRecitation) return null;
     const url = getValidAudioUrl(selectedRecitation.audioUrl);
     return url;
-  }, [selectedRecitation?.audioUrl, selectedRecitation?.id, selectedRecitation?.title]);
+  }, [selectedRecitation]);
 
   // Reset time when recitation changes
   useEffect(() => {

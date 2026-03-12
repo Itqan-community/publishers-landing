@@ -4,7 +4,7 @@ import Script from 'next/script';
 import { loadTenantConfig } from '@/lib/tenant-config';
 import { PageLayout } from '@/components/layout/PageLayout';
 import { Button } from '@/components/ui/Button';
-import { RecitationsPlayer, RecitationItem } from '@/components/audio/AudioPlayer';
+import { RecitationsPlayer, type RecitationItem } from '@/components/audio/AudioPlayer';
 import { getRecitationById } from '@/lib/recorded-mushafs';
 import { getRecitationTracksByAssetId } from '@/lib/recitation-tracks';
 import { getBackendUrl } from '@/lib/backend-url';

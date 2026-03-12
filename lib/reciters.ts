@@ -110,7 +110,7 @@ export const getReciters = cache(async (
         method: 'GET',
         headers: getApiHeaders(tenantDomain),
         signal: controller.signal,
-        cache: 'no-store',
+        next: { revalidate: 300 },
       });
       
       clearTimeout(timeoutId);

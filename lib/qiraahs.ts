@@ -75,7 +75,7 @@ export const getQiraahs = cache(async (
         method: 'GET',
         headers: getApiHeaders(tenantDomain),
         signal: controller.signal,
-        cache: 'no-store',
+        next: { revalidate: 300 },
       });
 
       clearTimeout(timeoutId);
@@ -133,7 +133,7 @@ export const getQiraahBySlug = cache(async (
         method: 'GET',
         headers: getApiHeaders(tenantDomain),
         signal: controller.signal,
-        cache: 'no-store',
+        next: { revalidate: 300 },
       });
       clearTimeout(timeoutId);
 
@@ -155,7 +155,7 @@ export const getQiraahBySlug = cache(async (
           method: 'GET',
           headers: getApiHeaders(tenantDomain),
           signal: controller.signal,
-          cache: 'no-store',
+          next: { revalidate: 300 },
         });
         if (riwayahsRes.ok) {
           const riwayahsData: PagedRiwayahOut = await riwayahsRes.json();

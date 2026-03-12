@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { FiCheck, FiChevronUp, FiChevronDown } from 'react-icons/fi';
 import { ArabicFlagIcon } from './ArabicFlagIcon';
 
@@ -67,7 +68,16 @@ export const GovernmentBanner: React.FC = () => {
             {/* Col 1: .gov.sa */}
             <div className="flex gap-6 items-start">
               <div className="flex-shrink-0 w-[52px] h-[52px] flex items-center justify-center" aria-hidden>
-                <img src="/link-icon.png" alt="" className="size-6xl object-contain" />
+                <div className="relative size-6xl">
+                  <Image
+                    src="/link-icon.png"
+                    alt=""
+                    fill
+                    className="object-contain"
+                    sizes="52px"
+                    priority={false}
+                  />
+                </div>
               </div>
               <div className="flex flex-col gap-1">
                 <span className="font-bold text-[#161616] text-xs sm:text-sm">
@@ -84,7 +94,16 @@ export const GovernmentBanner: React.FC = () => {
             {/* Col 2: HTTPS */}
             <div className="flex gap-6 items-start">
               <div className="flex-shrink-0 w-[52px] h-[52px] flex items-center justify-center" aria-hidden>
-                <img src="/lock-icon.png" alt="" className="size-6xl object-contain" />
+                <div className="relative size-6xl">
+                  <Image
+                    src="/lock-icon.png"
+                    alt=""
+                    fill
+                    className="object-contain"
+                    sizes="52px"
+                    priority={false}
+                  />
+                </div>
               </div>
               <div className="flex flex-col gap-1">
                 <span className="font-bold text-[#161616] text-xs sm:text-sm">

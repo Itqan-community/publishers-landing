@@ -178,7 +178,7 @@ export const getReciterImageFromRecitation = cache(async (
     const response = await fetch(apiUrl, {
       method: 'GET',
       headers: getApiHeaders(tenantDomain),
-      cache: 'no-store',
+      next: { revalidate: 300 },
     });
 
     if (!response.ok) return null;
@@ -227,7 +227,7 @@ export const getRecitationTracksByAssetId = cache(async (
         method: 'GET',
         headers: getApiHeaders(tenantDomain),
         signal: controller.signal,
-        cache: 'no-store',
+        next: { revalidate: 300 },
       });
       
       clearTimeout(timeoutId);
