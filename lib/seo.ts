@@ -19,7 +19,18 @@ export function generateTenantMetadata(
 
   const title = options?.title || seo.title || tenant.name;
   const description = options?.description || seo.description || '';
-  const url = options?.path ? `${baseUrl}${options.path}` : baseUrl;
+  let path = options?.path || '';
+
+  if (path && !path.startsWith('/')) {
+    path = `/${path}`;
+  }
+
+  // On custom domains, strip internal /<tenantId> prefix from canonical paths
+  if (tenant.domain && path.startsWith(`/${tenant.id}`)) {
+    path = path.slice(tenant.id.length + 1) || '/';
+  }
+
+  const url = path ? `${baseUrl}${path}` : baseUrl;
 
   // Build absolute image URLs
   const ogImage = seo.ogImage ? `${baseUrl}${seo.ogImage}` : undefined;

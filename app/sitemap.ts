@@ -20,9 +20,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         : `https://${tenant.domain}`
       : process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
+    // On custom domains, public URLs are clean (no /<tenantId> in path).
+    // On shared/base domain, keep /<tenantId> path prefix.
+    const pathPrefix = tenant.domain ? '' : `/${tenantId}`;
+
     // Home page
     entries.push({
-      url: `${baseUrl}/${tenantId}`,
+      url: tenant.domain ? baseUrl : `${baseUrl}${pathPrefix}`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 1.0,
@@ -30,7 +34,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Recitations listing
     entries.push({
-      url: `${baseUrl}/${tenantId}/recitations`,
+      url: `${baseUrl}${pathPrefix}/recitations`,
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: 0.9,
@@ -38,7 +42,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     // Hadiths listing
     entries.push({
-      url: `${baseUrl}/${tenantId}/hadiths`,
+      url: `${baseUrl}${pathPrefix}/hadiths`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8,
@@ -56,7 +60,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       
       limitedRecitations.forEach(rec => {
         entries.push({
-          url: `${baseUrl}/${tenantId}/recitations/${rec.id}`,
+          url: `${baseUrl}${pathPrefix}/recitations/${rec.id}`,
           lastModified: new Date(),
           changeFrequency: 'monthly',
           priority: 0.7,
@@ -67,16 +71,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       console.error(`[Sitemap] Failed to fetch recitations for tenant ${tenantId}:`, error);
     }
 
-    // Static pages (if they exist)
-    const staticPages = ['about', 'contact', 'privacy', 'terms', 'faq'];
-    for (const page of staticPages) {
-      entries.push({
-        url: `${baseUrl}/${tenantId}/${page}`,
-        lastModified: new Date(),
-        changeFrequency: 'monthly',
-        priority: 0.5,
-      });
-    }
+    // Static pages are intentionally omitted until corresponding routes exist.
   }
 
   return entries;

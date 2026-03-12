@@ -8,6 +8,7 @@
 
 import { TenantConfig } from '@/types/tenant.types';
 import tenantConfigs from '@/config/tenants.json';
+import { z } from 'zod';
 
 // In-memory cache for tenant configs
 const configCache = new Map<string, TenantConfig>();
@@ -64,27 +65,105 @@ export async function getAllTenantIds(): Promise<string[]> {
   return Object.keys(tenantConfigs);
 }
 
+const TenantConfigSchema = z.object({
+  id: z.string().min(1),
+  name: z.string().min(1),
+  domain: z.string().url().optional(),
+  domains: z.array(z.string().url()).optional(),
+  api: z
+    .object({
+      development: z.string().url(),
+      staging: z.string().url(),
+      production: z.string().url(),
+    })
+    .optional(),
+  branding: z.object({
+    logo: z.string().min(1),
+    logoFull: z.string().optional(),
+    favicon: z.string().optional(),
+    primaryColor: z.string().min(1),
+    secondaryColor: z.string().min(1),
+    accentColor: z.string().optional(),
+    font: z.string().min(1),
+  }),
+  features: z.object({
+    speakers: z.boolean(),
+    statistics: z.boolean(),
+    readings: z.boolean(),
+    media: z.boolean(),
+    newsletter: z.boolean(),
+    governmentBanner: z.boolean().optional(),
+  }),
+  content: z.object({
+    hero: z.object({
+      title: z.string().min(1),
+      description: z.string().min(1),
+      image: z.string().min(1),
+      ctaText: z.string().optional(),
+      ctaLink: z.string().optional(),
+    }),
+    footer: z.object({
+      description: z.string().min(1),
+      tagline: z.string().optional(),
+      contact: z
+        .object({
+          email: z.string().optional(),
+          phone: z.string().optional(),
+        })
+        .optional(),
+      links: z
+        .array(
+          z.object({
+            label: z.string(),
+            items: z.array(
+              z.object({
+                text: z.string(),
+                href: z.string(),
+              })
+            ),
+          })
+        )
+        .optional(),
+      social: z
+        .array(
+          z.object({
+            platform: z.string(),
+            url: z.string(),
+            icon: z.string(),
+          })
+        )
+        .optional(),
+      copyright: z.string(),
+    }),
+  }),
+  cmsLinks: z.object({
+    store: z.string(),
+    admin: z.string().optional(),
+    support: z.string().optional(),
+  }),
+  template: z.string(),
+  seo: z
+    .object({
+      title: z.string().optional(),
+      description: z.string().optional(),
+      keywords: z.array(z.string()).optional(),
+      ogImage: z.string().optional(),
+      twitterImage: z.string().optional(),
+      twitterCard: z.string().optional(),
+    })
+    .optional(),
+  analytics: z
+    .object({
+      googleAnalyticsId: z.string().optional(),
+    })
+    .optional(),
+});
+
 /**
  * Validate tenant configuration structure
  */
 function validateTenantConfig(config: TenantConfig): void {
-  const required = ['id', 'name', 'branding', 'features', 'content', 'cmsLinks', 'template'];
-  
-  for (const field of required) {
-    if (!(field in config)) {
-      throw new Error(`Tenant config missing required field: ${field}`);
-    }
-  }
-  
-  // Validate branding
-  if (!config.branding.primaryColor || !config.branding.secondaryColor) {
-    throw new Error('Tenant branding must include primaryColor and secondaryColor');
-  }
-  
-  // Validate content has hero and footer
-  if (!config.content.hero || !config.content.footer) {
-    throw new Error('Tenant content must include hero and footer');
-  }
+  TenantConfigSchema.parse(config);
 }
 
 /**

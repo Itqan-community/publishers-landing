@@ -98,10 +98,12 @@ export default async function RecitationDetailsPage({
     ? (tenant.domain.startsWith('http') ? tenant.domain : `https://${tenant.domain}`)
     : process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
+  const pathPrefix = tenant.domain ? '' : `/${tenantId}`;
+
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: tenant.name, url: `${baseUrl}/${tenantId}` },
-    { name: 'المصاحف المرتلة', url: `${baseUrl}/${tenantId}/recitations` },
-    { name: recitation.name, url: `${baseUrl}/${tenantId}/recitations/${recitationId}` },
+    { name: tenant.name, url: tenant.domain ? baseUrl : `${baseUrl}${pathPrefix}` },
+    { name: 'المصاحف المرتلة', url: `${baseUrl}${pathPrefix}/recitations` },
+    { name: recitation.name, url: `${baseUrl}${pathPrefix}/recitations/${recitationId}` },
   ]);
 
   // Update tracks with reciter information (already set, but ensure consistency)
