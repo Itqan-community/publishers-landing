@@ -15,6 +15,7 @@ export interface TenReadingsItem {
   title: string;
   riwayats: string;
   viewMushafHref?: string;
+  comingSoon?: boolean;
 }
 
 const defaultTitleClass = 'text-display-xs sm:text-display-sm md:text-display-lg font-semibold text-[var(--color-foreground)] leading-tight section-title-gap';
@@ -66,36 +67,50 @@ export const TenReadingsSection: React.FC<TenReadingsSectionProps> = ({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
           {items.map((item) => {
+            const isComingSoon = item.comingSoon === true;
             const href = item.viewMushafHref != null
               ? (item.viewMushafHref.startsWith('http') ? item.viewMushafHref : `${prefix}${item.viewMushafHref}`)
               : null;
-            const cardClass =
-              'group rounded-[24px] border border-[#EBE8E8] flex h-64 flex-col justify-between items-start text-start p-6 transition-colors hover:border-[var(--color-primary)]';
+            const cardClass = [
+              'group rounded-[24px] border flex h-64 flex-col justify-between items-start text-start p-6 transition-colors',
+              isComingSoon
+                ? 'border-[#EBE8E8] opacity-70 hover:opacity-100 hover:border-[#C4B5A3]'
+                : 'border-[#EBE8E8] hover:border-[var(--color-primary)]',
+            ].join(' ');
+
             const content = (
               <>
-                {/* Row 1: Number circle */}
-                <div className="w-[70px] h-[70px] rounded-full bg-[#F3F3F3] flex items-center justify-center shrink-0">
-                  <span className="text-[22px] font-semibold text-[#6A6A6A] transition-colors group-hover:text-[var(--color-primary)]">
-                    {toArabicNumeral(item.number)}
-                  </span>
+                <div className="flex items-start justify-between w-full">
+                  <div className="w-[70px] h-[70px] rounded-full bg-[#F3F3F3] flex items-center justify-center shrink-0">
+                    <span className={`text-[22px] font-semibold transition-colors ${isComingSoon ? 'text-[#B0A89F]' : 'text-[#6A6A6A] group-hover:text-[var(--color-primary)]'}`}>
+                      {toArabicNumeral(item.number)}
+                    </span>
+                  </div>
+                  {isComingSoon && (
+                    <span className="text-[13px] font-medium text-[#A67851] bg-[#F5EDE4] rounded-full px-3 py-1">
+                      قريباً
+                    </span>
+                  )}
                 </div>
 
-                {/* Row 2: Title + subtitle */}
                 <div className="flex flex-col items-start">
-                  <h3 className="text-[22px] font-semibold text-[var(--color-foreground)] leading-tight">
+                  <h3 className={`text-[22px] font-semibold leading-tight ${isComingSoon ? 'text-[#9A9390]' : 'text-[var(--color-foreground)]'}`}>
                     {item.title}
                   </h3>
-                  <p className="text-[20px] font-normal text-[#6A6A6A] mt-1">
+                  <p className={`text-[20px] font-normal mt-1 ${isComingSoon ? 'text-[#B0A89F]' : 'text-[#6A6A6A]'}`}>
                     راوياه: {item.riwayats}
                   </p>
                 </div>
 
-                {/* Row 3: Link label (card is the link when href is set) */}
-                {href != null && (
+                {isComingSoon ? (
+                  <span className="text-base font-normal text-[#B0A89F]">
+                    قريباً إن شاء الله
+                  </span>
+                ) : href != null ? (
                   <span className="text-base font-normal text-[#6A6A6A] transition-colors group-hover:text-[var(--color-primary)] group-hover:underline">
                     عرض المصاحف
                   </span>
-                )}
+                ) : null}
               </>
             );
 
