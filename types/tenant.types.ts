@@ -151,6 +151,11 @@ export interface RecordedMushaf {
   riwayahId?: string;
   /** Riwayah IDs when recitation combines 2+ riwayahs (مصاحف بجمع الروايتين). */
   riwayahIds?: string[];
+  /**
+   * True when this recitation is مصحف الجمع (API signals with `riwayah: null`, or legacy `riwayahs` array).
+   * Used on Tahbeer qiraah page for the combined mushaf section.
+   */
+  isMushafJami?: boolean;
 
   reciter: {
     id: string;
