@@ -31,7 +31,15 @@ export async function generateMetadata({
 
   // Build descriptive title: "Recitation Name - Reciter Name"
   const title = `${recitation.name} - ${recitation.reciter.name}`;
-  const description = `استمع إلى ${recitation.name} برواية ${recitation.riwayah.name} بصوت ${recitation.reciter.name}`;
+  const riwayahPhrase =
+    recitation.riwayah === null
+      ? 'مصحف الجمع'
+      : recitation.riwayah?.name
+        ? `برواية ${recitation.riwayah.name}`
+        : '';
+  const description = riwayahPhrase
+    ? `استمع إلى ${recitation.name} ${riwayahPhrase} بصوت ${recitation.reciter.name}`
+    : `استمع إلى ${recitation.name} بصوت ${recitation.reciter.name}`;
 
   return generateTenantMetadata(tenant, {
     title,
@@ -181,10 +189,16 @@ export default async function RecitationDetailsPage({
                         {/* <span className="rounded-[4px] bg-white px-[12px] py-[8px] text-[12px] font-[500] text-[#1f2a37]">
                       مصحف مجود
                     </span> */}
-                        {recitation.riwayah?.name && (
+                        {recitation.riwayah === null ? (
                           <span className="rounded-xs bg-white px-[8px] py-[4px] text-xs font-[500] text-[#1f2a37]">
-                            رواية {recitation.riwayah.name}
+                            مصحف الجمع
                           </span>
+                        ) : (
+                          recitation.riwayah?.name && (
+                            <span className="rounded-xs bg-white px-[8px] py-[4px] text-xs font-[500] text-[#1f2a37]">
+                              رواية {recitation.riwayah.name}
+                            </span>
+                          )
                         )}
                         {recitation.madd_level && (
                           <span className="rounded-xs bg-white px-[8px] py-[4px] text-xs font-[500] text-[#1f2a37]">

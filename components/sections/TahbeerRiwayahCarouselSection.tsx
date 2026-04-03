@@ -21,7 +21,7 @@ export interface TahbeerRiwayahCarouselSectionProps {
 export const TahbeerRiwayahCarouselSection: React.FC<TahbeerRiwayahCarouselSectionProps> = ({
   id,
   riwayahTitle,
-  reciterName,
+  reciterName: _reciterName,
   reciterBio,
   mushafs,
 }) => {
@@ -32,16 +32,13 @@ export const TahbeerRiwayahCarouselSection: React.FC<TahbeerRiwayahCarouselSecti
       dir="rtl"
     >
       <div className="mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8">
-        {/* Header: one row on large screens — title + (reciter name & bio), 120px gap on lg */}
-        <div className="mb-6 sm:mb-8 md:mb-10 lg:mb-[30px] flex flex-col gap-4 text-start">
-          <h2 className="text-[24px] sm:text-[28px] md:text-[33px] lg:text-[39px] font-semibold text-[var(--color-foreground)] leading-[1.4] shrink-0">
+        {/* Mobile: stacked; lg+: title + description on one row (≈120px gap) */}
+        <div className="mb-6 sm:mb-8 md:mb-10 lg:mb-[30px] flex flex-col gap-4 text-start lg:flex-row lg:items-start lg:gap-x-[120px]">
+          <h2 className="shrink-0 text-[24px] font-semibold leading-[1.4] text-[var(--color-foreground)] sm:text-[28px] md:text-[33px] lg:text-[39px]">
             {riwayahTitle}
           </h2>
-          <div className="flex flex-col gap-0.5 min-w-0 ">
-            {/* <p className="text-[15px] sm:text-[17px] md:text-[19px] font-semibold text-[var(--color-foreground)]">
-              {reciterName}
-            </p> */}
-            <p className="text-[15px] sm:text-[17px] md:text-[19px] font-light text-[var(--color-text-paragraph)] leading-[1.4] text-justify">
+          <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+            <p className="text-[15px] font-light leading-[1.4] text-[var(--color-text-paragraph)] text-justify sm:text-[17px] md:text-[19px]">
               {reciterBio}
             </p>
           </div>

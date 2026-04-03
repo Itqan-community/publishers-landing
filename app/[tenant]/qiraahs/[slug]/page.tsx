@@ -5,11 +5,13 @@ import { loadTenantConfig } from '@/lib/tenant-config';
 import { getBasePathFromHeaders } from '@/lib/tenant-resolver';
 import { PageLayout } from '@/components/layout/PageLayout';
 import { TahbeerRiwayahTopSection } from '@/components/sections/TahbeerRiwayahTopSection';
-import { TahbeerRiwayahsSection } from '@/components/sections/TahbeerRiwayahsSection';
+// import { TahbeerRiwayahsSection } from '@/components/sections/TahbeerRiwayahsSection';
+import { TahbeerMushafJamiSection } from '@/components/sections/TahbeerMushafJamiSection';
 import { TahbeerRiwayahCarouselSection } from '@/components/sections/TahbeerRiwayahCarouselSection';
 import { TahbeerSponsorsSection } from '@/components/sections/TahbeerSponsorsSection';
 import type { TahbeerSponsorItem } from '@/components/sections/TahbeerSponsorsSection';
 import { getQiraahBySlug } from '@/lib/qiraahs';
+import { trimRiwayahName } from '@/lib/tahbeer-riwayah';
 import { getRecordedMushafs } from '@/lib/recorded-mushafs';
 import { generateTenantMetadata } from '@/lib/seo';
 
@@ -81,14 +83,8 @@ export default async function TahbeerQiraahPage({
     allRecitations.filter((m) => m.riwayahId === String(riwayah.id))
   );
 
-  const riwayahIdSet = new Set(riwayahs.map((r) => String(r.id)));
-  const combinedRecitations = allRecitations.filter(
-    (m) =>
-      m.riwayahIds &&
-      m.riwayahIds.length >= 2 &&
-      riwayahIdSet.size >= 2 &&
-      [...riwayahIdSet].every((id) => m.riwayahIds!.includes(id))
-  );
+  /** مصحف الجمع: API returns these with `riwayah: null` (see recorded-mushafs mapper → isMushafJami). At most one per qiraah. */
+  const combinedMushaf = allRecitations.find((m) => m.isMushafJami === true);
 
   return (
     <PageLayout tenant={tenant}>
@@ -104,7 +100,11 @@ export default async function TahbeerQiraahPage({
         />
       </div>
 
-      <TahbeerRiwayahsSection id="riwayahs" qiraahName={qiraah.name} riwayahs={riwayahs} />
+      {/* <TahbeerRiwayahsSection id="riwayahs" qiraahName={qiraah.name} riwayahs={riwayahs} /> */}
+
+      {combinedMushaf && (
+        <TahbeerMushafJamiSection qiraahName={qiraah.name} mushaf={combinedMushaf} />
+      )}
 
       {riwayahs.map((riwayah, index) => {
         const mushafs = recitationsByRiwayah[index] ?? [];
@@ -116,23 +116,13 @@ export default async function TahbeerQiraahPage({
           <TahbeerRiwayahCarouselSection
             key={riwayah.id}
             id={index === 0 ? 'listing' : `riwayah-${index}`}
-            riwayahTitle={`مصاحف رواية ${riwayah.name}`}
+            riwayahTitle={`رواية ${trimRiwayahName(riwayah.name)}`}
             reciterName={reciterName}
             reciterBio={reciterBio}
             mushafs={mushafs}
           />
         );
       })}
-
-      {combinedRecitations.length > 0 && (
-        <TahbeerRiwayahCarouselSection
-          id="combined"
-          riwayahTitle="مصاحف بجمع الروايتين"
-          reciterName=""
-          reciterBio=""
-          mushafs={combinedRecitations}
-        />
-      )}
 
       <TahbeerSponsorsSection id="sponsors" sponsors={TAHBEER_SPONSORS} />
     </PageLayout>

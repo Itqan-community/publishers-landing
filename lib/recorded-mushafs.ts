@@ -24,11 +24,12 @@ interface RecitationApiResponse {
     image?: string;
     avatar?: string;
   };
+  /** Single riwayah; `null` means مصحف الجمع (combined both riwayahs of the qiraah). */
   riwayah: {
     id: number;
     name: string;
-  };
-  /** For combined recitations (جمع الروايتين), API returns array instead of riwayah. */
+  } | null;
+  /** Legacy/extra: multiple riwayahs when API still sends an array for combined recitations. */
   riwayahs?: Array<{ id: number; name: string }>;
   surahs_count: number;
   // Legacy fields that may still be present
@@ -119,10 +120,12 @@ export async function getRecordedMushafs(
       // Build badges from riwayah/riwayahs, madd_level, and meem_behaviour
       const badges: RecordedMushaf['badges'] = [];
 
-      const isCombined = recitation.riwayahs && recitation.riwayahs.length >= 2;
+      const isMushafJami =
+        recitation.riwayah === null ||
+        (!!recitation.riwayahs && recitation.riwayahs.length >= 2);
 
-      // Add riwayah badge — combined uses "جمع الروايتين", single uses "رواية X"
-      if (isCombined) {
+      // Add riwayah badge — جمع uses "جمع الروايتين", single uses "رواية X"
+      if (isMushafJami) {
         badges.push({
           id: `riwayah-combined-${recitation.id}`,
           label: 'جمع الروايتين',
@@ -168,13 +171,17 @@ export async function getRecordedMushafs(
         id: String(recitation.id),
         title: recitation.name || 'مصحف',
         description,
-        riwayaLabel: isCombined
+        riwayaLabel: isMushafJami
           ? 'جمع الروايتين'
           : recitation.riwayah?.name
             ? `رواية ${recitation.riwayah.name}`
             : undefined,
-        riwayahId: !isCombined && recitation.riwayah?.id != null ? String(recitation.riwayah.id) : undefined,
-        riwayahIds: isCombined ? recitation.riwayahs!.map((r) => String(r.id)) : undefined,
+        riwayahId: !isMushafJami && recitation.riwayah?.id != null ? String(recitation.riwayah.id) : undefined,
+        riwayahIds:
+          isMushafJami && recitation.riwayahs?.length
+            ? recitation.riwayahs.map((r) => String(r.id))
+            : undefined,
+        isMushafJami,
         reciter: {
           id: String(recitation.reciter?.id || ''),
           name: recitation.reciter?.name || 'غير معروف',
