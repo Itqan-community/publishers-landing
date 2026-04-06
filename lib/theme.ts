@@ -74,7 +74,7 @@ export function generateThemeVariables(
   if (template === 'tahbeer') {
     vars['--section-title-to-content-gap'] = '30px';
     vars['--font-primary'] =
-      'var(--font-noto-kufi-arabic), "Noto Kufi Arabic", sans-serif';
+      'var(--font-fustat), "Fustat", sans-serif';
   }
   return vars;
 }
@@ -101,7 +101,7 @@ export function getThemeStyles(branding: TenantBranding, template?: string): Rea
   const variables = generateThemeVariables(branding, template) as Record<string, string>;
   const style: Record<string, string> = { ...variables };
   if (template === 'tahbeer') {
-    style.fontFamily = 'var(--font-noto-kufi-arabic), "Noto Kufi Arabic", sans-serif';
+    style.fontFamily = 'var(--font-fustat), "Fustat", sans-serif';
   }
   return style as React.CSSProperties;
 }

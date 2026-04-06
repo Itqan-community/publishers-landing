@@ -68,7 +68,7 @@ export default async function TenantLayout({
   const organizationSchema = generateOrganizationSchema(tenant);
   const gaId = tenant.analytics?.googleAnalyticsId;
 
-  // Theme styles include --font-primary override for Tahbeer (Noto Kufi Arabic)
+  // Theme styles include --font-primary override for Tahbeer (Fustat)
   const themeStyles = getThemeStyles(tenant.branding, tenant.template);
 
   return (
