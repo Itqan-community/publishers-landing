@@ -11,6 +11,7 @@ export interface TahbeerMushafJamiSectionProps {
 
 /**
  * Tahbeer qiraah page — مصحف الجمع (single combined mushaf, not a carousel).
+ * Redesigned to match the page's section language: full-width, warm bg, consistent title sizing.
  */
 export const TahbeerMushafJamiSection: React.FC<TahbeerMushafJamiSectionProps> = ({
   id = 'mushaf-jami',
@@ -20,21 +21,31 @@ export const TahbeerMushafJamiSection: React.FC<TahbeerMushafJamiSectionProps> =
   return (
     <section
       id={id}
-      className={`px-4 sm:px-6 ${id ? 'scroll-mt-20' : ''}`}
+      className={`py-10 sm:py-14 md:py-16 lg:py-20 bg-[#F9F5F3] ${id ? 'scroll-mt-20' : ''}`}
       dir="rtl"
     >
-      <div
-        className="relative mx-auto my-12 w-full max-w-full overflow-hidden rounded-[40px] border border-[#e5dfd7] pt-8 px-8 pb-[calc(2rem+16px)] shadow-[2px_2px_20px_rgba(0,0,0,0.031)] sm:w-max sm:max-w-max [corner-shape:superellipse(1)]"
-      >
-        <div
-          className="pointer-events-none absolute inset-0 bg-[url('/images/hero-bg.svg')] bg-right-top bg-cover bg-no-repeat opacity-100 [mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)] [-webkit-mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)]"
-          aria-hidden
-        />
-        <div className="relative z-10 flex w-full max-w-[720px] flex-col items-center gap-6 sm:gap-8 md:gap-10">
-          <h2 className="rounded-[16px] bg-white p-[14px] text-center text-[30px] font-semibold leading-[1.4] text-[var(--color-foreground)]">
-            مصحف الجمع لقراءة {qiraahName}
-          </h2>
-          <div className="w-full max-w-[360px] sm:max-w-[380px]">
+      <div className="mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col items-center gap-8 sm:gap-10 md:gap-12 lg:flex-row lg:items-start lg:gap-x-[80px]">
+          {/* Text content */}
+          <div className="flex flex-1 flex-col items-center text-center lg:items-start lg:text-start lg:pt-6">
+            <span className="mb-3 inline-flex items-center gap-2 rounded-full bg-[#EEF9F2] px-4 py-1.5 text-[14px] font-medium text-[#193624]">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="#193624" opacity="0.2" stroke="#193624" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              مصحف الجمع
+            </span>
+
+            <h2 className="text-[24px] font-semibold leading-[1.4] text-[var(--color-foreground)] sm:text-[28px] md:text-[33px] lg:text-[39px]">
+              مصحف الجمع لقراءة {qiraahName}
+            </h2>
+
+            <p className="mt-3 max-w-[520px] text-[15px] font-light leading-[1.7] text-[var(--color-text-paragraph)] sm:text-[17px] md:text-[19px]">
+              يجمع هذا المصحف جميع أوجه الروايات في تسجيل واحد شامل، ليُمكّن المستمع من الاستماع لكافة الطرق المتواترة عن الإمام في مصحف واحد.
+            </p>
+          </div>
+
+          {/* Card */}
+          <div className="w-full max-w-[300px] shrink-0 sm:max-w-[320px]">
             <TahbeerMushafCard mushaf={mushaf} appearance="green" />
           </div>
         </div>
