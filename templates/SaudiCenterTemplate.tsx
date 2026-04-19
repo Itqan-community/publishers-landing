@@ -121,7 +121,7 @@ export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenter
       <AboutSection
         id="about"
         title="عن المركز"
-        description="المركز السعودي للتلاوات القرآنية هو منصة إسلامية رائدة تهدف إلى نشر كتاب الله الكريم بأفضل التسجيلات الصوتية، حيث نجمع تلاوات نخبة من أفضل القراء في العالم الإسلامي لتكون في متناول الجميع"
+        description="مـركـز حـكومـي تـــابـع لهـيئة الإذاعـة والـتلفزيـون، مــتخصص بإنتاج الــمحتوى الــسمعي والــبصري لـلقرآن الـكريـم والـسنة الـنبويـة"
         features={aboutFeatures}
       />
 
@@ -136,7 +136,7 @@ export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenter
       <RecordedMushafsSection
         id="recorded-mushafs"
         title="المصاحف المرتلة"
-        description="استمع إلى القرآن الكريم بأصوات نخبة من أفضل القراء في العالم الإسلامي"
+        description="استمع إلى القرآن الكريم بأصوات نخبة من أفضل القراء في العالم العربي والإسلامي"
         mushafs={mushafs}
         viewAllHref={`${prefix}/recitations`}
       />

@@ -410,25 +410,25 @@
       "statistics": [
         {
           "label": "مصحف مرتل",
-          "value": "+850",
+          "value": "34",
           "suffix": "",
           "description": "مصاحف مرتلة محكمة علمياً ومتقنة فنياً"
         },
         {
           "label": "ساعة صوتية",
-          "value": "+250",
+          "value": "2400",
           "suffix": "",
           "description": "تثري المحتوى الصوتي القرآني"
         },
         {
           "label": "قارئ",
-          "value": "11",
+          "value": "48",
           "suffix": "",
           "description": "سجل أو شارك في تسجيل مصحف مرتل"
         },
         {
           "label": "شريك بث",
-          "value": "+120",
+          "value": "20",
           "suffix": "",
           "description": "من مختلف دول العالم"
         }
