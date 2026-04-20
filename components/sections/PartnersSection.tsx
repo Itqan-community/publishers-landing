@@ -23,14 +23,17 @@ interface PartnersSectionProps {
 export function PartnersSection({ title, partners }: PartnersSectionProps) {
   // Default partners from Figma + Sponsors Merged
   const defaultPartners = [
-    { name: 'King Fahd Complex', logo: '/images/partners/king-fahd.svg', url: 'https://qurancomplex.gov.sa/' },
-    { name: 'Islamic Ministry', logo: '/images/partners/islamic-ministiry.svg', url: 'https://www.moia.gov.sa/' },
-    { name: 'SBA', logo: '/images/partners/sba.svg', url: 'https://sba.sa/' },
-    { name: 'WO9', logo: '/images/partners/wo9.svg', url: 'https://www.spa.gov.sa/' },
-    { name: 'Islamic University', logo: '/images/partners/islamic-university.svg', url: 'https://iu.edu.sa/' },
-    // Merged Sponsors
-    { name: 'أوقاف الراجحي', logo: '/images/sponsor-rajhi.png', url: '#' },
-    { name: 'أوقاف السبيعي', logo: '/images/sponsor-subai.png', url: '#' },
+    { name: 'Awqaf', logo: '/images/partners/awqaf.svg', url: 'https://qurancomplex.gov.sa/' },
+    { name: 'Ehsan', logo: '/images/partners/ehsan.svg', url: 'https://qurancomplex.gov.sa/' },
+    { name: 'Nusuk', logo: '/images/partners/nusuk.svg', url: 'https://qurancomplex.gov.sa/' },
+    // { name: 'King Fahd Complex', logo: '/images/partners/king-fahd.svg', url: 'https://qurancomplex.gov.sa/' },
+    // { name: 'Islamic Ministry', logo: '/images/partners/islamic-ministiry.svg', url: 'https://www.moia.gov.sa/' },
+    // { name: 'SBA', logo: '/images/partners/sba.svg', url: 'https://sba.sa/' },
+    // { name: 'WO9', logo: '/images/partners/wo9.svg', url: 'https://www.spa.gov.sa/' },
+    // { name: 'Islamic University', logo: '/images/partners/islamic-university.svg', url: 'https://iu.edu.sa/' },
+    // // Merged Sponsors
+    // { name: 'أوقاف الراجحي', logo: '/images/sponsor-rajhi.png', url: '#' },
+    // { name: 'أوقاف السبيعي', logo: '/images/sponsor-subai.png', url: '#' },
   ];
 
   const partnerLogos = partners || defaultPartners;
@@ -51,7 +54,7 @@ export function PartnersSection({ title, partners }: PartnersSectionProps) {
         >
           {partnerLogos.map((partner, idx) => {
             return (
-              <div key={`${partner.name}-${idx}`} className="flex-[0_0_auto] flex items-center justify-center">
+              <div key={`${partner.name}-${idx}`} className="flex-[0_0_auto] flex items-center justify-center mx-2 first-of-type:ms-0 last-of-type:me-0">
                 <a
                   href={partner.url}
                   target="_blank"
@@ -62,7 +65,7 @@ export function PartnersSection({ title, partners }: PartnersSectionProps) {
                     src={partner.logo}
                     alt={partner.name}
                     loading="lazy"
-                    className="max-h-12 sm:max-h-16 md:max-h-20 w-auto object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
+                    className="max-h-12 sm:max-h-16 md:max-h-20 w-auto h-[60px] object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
                   />
                 </a>
               </div>
