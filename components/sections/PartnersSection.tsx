@@ -23,9 +23,9 @@ interface PartnersSectionProps {
 export function PartnersSection({ title, partners }: PartnersSectionProps) {
   // Default partners from Figma + Sponsors Merged
   const defaultPartners = [
-    { name: 'Awqaf', logo: '/images/partners/awqaf.svg', url: 'https://qurancomplex.gov.sa/' },
-    { name: 'Ehsan', logo: '/images/partners/ehsan.svg', url: 'https://qurancomplex.gov.sa/' },
-    { name: 'Nusuk', logo: '/images/partners/nusuk.svg', url: 'https://qurancomplex.gov.sa/' },
+    { name: 'Awqaf', logo: '/images/partners/awqaf.svg', url: 'https://www.awqaf.gov.sa/' },
+    { name: 'Ehsan', logo: '/images/partners/ehsan.svg', url: 'https://ehsan.sa/' },
+    { name: 'Nusuk', logo: '/images/partners/nusuk.svg', url: 'https://www.nusuk.sa/' },
     // { name: 'King Fahd Complex', logo: '/images/partners/king-fahd.svg', url: 'https://qurancomplex.gov.sa/' },
     // { name: 'Islamic Ministry', logo: '/images/partners/islamic-ministiry.svg', url: 'https://www.moia.gov.sa/' },
     // { name: 'SBA', logo: '/images/partners/sba.svg', url: 'https://sba.sa/' },
