@@ -39,7 +39,7 @@ export function PartnersSection({ title, partners }: PartnersSectionProps) {
   const partnerLogos = partners || defaultPartners;
 
   return (
-    <section className="relative w-full overflow-hidden py-8 mt-10 mb-20 sm:mt-16 sm:mb-32 md:mt-20 md:mb-40" dir="rtl">
+    <section className="relative w-full overflow-hidden py-8 my-10 sm:my-16 md:my-20" dir="rtl">
       <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8">
         {title && (
           <h2 className="text-display-xs sm:text-display-sm md:text-display-md font-semibold text-[var(--color-foreground)] leading-tight mb-8 sm:mb-12">
@@ -54,7 +54,7 @@ export function PartnersSection({ title, partners }: PartnersSectionProps) {
         >
           {partnerLogos.map((partner, idx) => {
             return (
-              <div key={`${partner.name}-${idx}`} className="flex-[0_0_auto] flex items-center justify-center mx-2 first-of-type:ms-0 last-of-type:me-0">
+              <div key={`${partner.name}-${idx}`} className="flex-[0_0_auto] flex items-center justify-center mx-4 first-of-type:ms-0 last-of-type:me-0">
                 <a
                   href={partner.url}
                   target="_blank"
@@ -65,7 +65,7 @@ export function PartnersSection({ title, partners }: PartnersSectionProps) {
                     src={partner.logo}
                     alt={partner.name}
                     loading="lazy"
-                    className="max-h-12 sm:max-h-16 md:max-h-20 w-auto h-[60px] object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
+                    className="w-auto h-28 object-contain filter grayscale hover:grayscale-0 transition-all duration-300"
                   />
                 </a>
               </div>
