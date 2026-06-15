@@ -1,33 +1,43 @@
-import Script from 'next/script';
+'use client';
+
+import { Suspense, useEffect } from 'react';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { gaPageView, initGa } from '@/lib/analytics/ga';
 
 interface GoogleAnalyticsProps {
   gaId: string;
+  isProduction: boolean;
+}
+
+function GoogleAnalyticsTracker({ gaId, isProduction }: GoogleAnalyticsProps) {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    initGa({ measurementId: gaId, isProduction });
+  }, [gaId, isProduction]);
+
+  useEffect(() => {
+    const search = searchParams?.toString();
+    const path = search ? `${pathname}?${search}` : pathname;
+    gaPageView(path, document.title);
+  }, [pathname, searchParams]);
+
+  return null;
 }
 
 /**
- * Google Analytics component
- * Add to layout or page to enable GA tracking
+ * Per-tenant Google Analytics tracker.
+ * Loads GA only in production with a valid measurement ID and sends manual SPA pageviews.
  */
-export function GoogleAnalytics({ gaId }: GoogleAnalyticsProps) {
-  // Skip if placeholder or missing ID
+export function GoogleAnalytics({ gaId, isProduction }: GoogleAnalyticsProps) {
   if (!gaId || gaId.startsWith('G-PLACEHOLDER')) {
     return null;
   }
 
   return (
-    <>
-      <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-        strategy="afterInteractive"
-      />
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', '${gaId}');
-        `}
-      </Script>
-    </>
+    <Suspense fallback={null}>
+      <GoogleAnalyticsTracker gaId={gaId} isProduction={isProduction} />
+    </Suspense>
   );
 }

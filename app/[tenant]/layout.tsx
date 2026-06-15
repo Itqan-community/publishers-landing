@@ -8,6 +8,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Script from 'next/script';
 import NextTopLoader from 'nextjs-toploader';
+import { getDeployEnv } from '@/lib/backend-url';
 import { loadTenantConfig } from '@/lib/tenant-config';
 import { getBasePathFromHeaders, getTenantFromHeaders } from '@/lib/tenant-resolver';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
@@ -67,6 +68,7 @@ export default async function TenantLayout({
   // Generate structured data
   const organizationSchema = generateOrganizationSchema(tenant);
   const gaId = tenant.analytics?.googleAnalyticsId;
+  const isProduction = (await getDeployEnv()) === 'production';
 
   // Theme styles include --font-primary override for Tahbeer (Fustat)
   const themeStyles = getThemeStyles(tenant.branding, tenant.template);
@@ -81,7 +83,7 @@ export default async function TenantLayout({
       />
 
       {/* Google Analytics */}
-      {gaId && <GoogleAnalytics gaId={gaId} />}
+      {gaId && <GoogleAnalytics gaId={gaId} isProduction={isProduction} />}
 
       {/* Web Vitals Performance Tracking */}
       <WebVitals />
