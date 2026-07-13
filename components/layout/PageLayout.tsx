@@ -6,6 +6,7 @@ import { Footer } from './Footer';
 import { GovernmentBanner } from './GovernmentBanner';
 import { useTenant } from '@/components/providers/TenantProvider';
 import { TenantConfig } from '@/types/tenant.types';
+import { isTenQiraahsTemplate } from '@/lib/ten-qiraahs-template';
 
 interface PageLayoutProps {
   tenant: TenantConfig;
@@ -22,20 +23,20 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
 }) => {
   const { basePath } = useTenant();
   const prefix = basePath || '';
+  const tenQiraahs = isTenQiraahsTemplate(tenant.template);
 
-  const navItems =
-    tenant.template === 'tahbeer'
-      ? [
-          { label: 'الرئيسية', href: prefix || '/' },
-          { label: 'القراءات العشر', href: `${prefix || '/'}#readings` },
-          { label: 'فكرة المشروع', href: `${prefix || ''}#project-idea` },
-          { label: 'لجنة المراجعة', href: `${prefix || ''}#review-members` },
-        ]
-      : [
-          { label: 'الرئيسية', href: prefix ? prefix : '/' },
-          { label: 'المصاحف المرتلة', href: `${prefix}/recitations` },
-          { label: 'الأحاديث النبوية', href: `${prefix}/hadiths` },
-        ];
+  const navItems = tenQiraahs
+    ? [
+        { label: 'الرئيسية', href: prefix || '/' },
+        { label: 'القراءات العشر', href: `${prefix || '/'}#readings` },
+        { label: 'فكرة المشروع', href: `${prefix || ''}#project-idea` },
+        { label: 'لجنة المراجعة', href: `${prefix || ''}#review-members` },
+      ]
+    : [
+        { label: 'الرئيسية', href: prefix ? prefix : '/' },
+        { label: 'المصاحف المرتلة', href: `${prefix}/recitations` },
+        { label: 'الأحاديث النبوية', href: `${prefix}/hadiths` },
+      ];
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -48,7 +49,7 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
             tenantName={tenant.name}
             navItems={navItems}
             homeHref={prefix || '/'}
-            variant={tenant.template === 'tahbeer' ? 'legacy' : 'default'}
+            variant={tenQiraahs ? 'legacy' : 'default'}
             template={tenant.template}
           />
         </>

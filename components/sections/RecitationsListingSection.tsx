@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import { MushafCard } from '@/components/cards/MushafCard';
 import { TahbeerMushafCard } from '@/components/cards/TahbeerMushafCard';
-import type { RecordedMushaf } from '@/types/tenant.types';
+import type { RecordedMushaf, TemplateType } from '@/types/tenant.types';
+import { isTenQiraahsTemplate, usesGreenMushafCards } from '@/lib/ten-qiraahs-template';
 
 const PAGE_SIZE = 12;
 
@@ -23,16 +24,19 @@ function SparkleIcon({ className }: { className?: string }) {
 interface RecitationsListingSectionProps {
   /** Mushafs already filtered by backend (search + riwayah_id). */
   mushafs: RecordedMushaf[];
-  /** When `tahbeer`, use Tahbeer card design; otherwise use default MushafCard (e.g. Saudi Center). */
+  /** @deprecated Prefer `template`. Kept for callers that only pass tenantId. */
   tenantId?: string;
+  template?: TemplateType | string;
 }
 
 export const RecitationsListingSection: React.FC<RecitationsListingSectionProps> = ({
   mushafs,
   tenantId,
+  template,
 }) => {
-  const isTahbeer = tenantId === 'tahbeer';
-  const CardComponent = isTahbeer ? TahbeerMushafCard : MushafCard;
+  const resolvedTemplate = template ?? (tenantId === 'tahbeer' ? 'tahbeer' : tenantId === 'qiraat' ? 'qiraat' : undefined);
+  const useTenQiraahsCard = isTenQiraahsTemplate(resolvedTemplate);
+  const greenAppearance = usesGreenMushafCards(resolvedTemplate);
   const [displayCount, setDisplayCount] = useState(PAGE_SIZE);
 
   useEffect(() => {
@@ -50,9 +54,17 @@ export const RecitationsListingSection: React.FC<RecitationsListingSectionProps>
     <section className="bg-white pt-10 pb-16 md:pt-12 md:pb-20" dir="rtl">
       <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {visible.map((mushaf) => (
-            <CardComponent key={mushaf.id} mushaf={mushaf} />
-          ))}
+          {visible.map((mushaf) =>
+            useTenQiraahsCard ? (
+              <TahbeerMushafCard
+                key={mushaf.id}
+                mushaf={mushaf}
+                appearance={greenAppearance ? 'green' : 'default'}
+              />
+            ) : (
+              <MushafCard key={mushaf.id} mushaf={mushaf} />
+            )
+          )}
         </div>
 
         {mushafs.length === 0 && (

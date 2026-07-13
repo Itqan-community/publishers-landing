@@ -7,6 +7,7 @@ import { PageLayout } from '@/components/layout/PageLayout';
 import { generateTenantMetadata } from '@/lib/seo';
 import { Button } from '@/components/ui/Button';
 import Link from 'next/link';
+import { isTenQiraahsTemplate } from '@/lib/ten-qiraahs-template';
 
 export const dynamic = 'force-dynamic';
 
@@ -21,7 +22,7 @@ export async function generateMetadata({
   const { tenant: tenantId } = await params;
   const tenant = await loadTenantConfig(tenantId);
 
-  if (!tenant || tenant.id !== 'tahbeer') {
+  if (!tenant || !isTenQiraahsTemplate(tenant.template)) {
     return { title: 'Not Found' };
   }
 
@@ -42,7 +43,7 @@ export default async function QiraahComingSoonPage({
   const basePath = getBasePathFromHeaders(headersList);
   const tenant = await loadTenantConfig(tenantId);
 
-  if (!tenant || tenant.id !== 'tahbeer') {
+  if (!tenant || !isTenQiraahsTemplate(tenant.template)) {
     notFound();
   }
 

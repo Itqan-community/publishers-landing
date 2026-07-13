@@ -5,11 +5,12 @@ import { useRouter, usePathname } from 'next/navigation';
 import { RecitationsTopSection } from '@/components/sections/RecitationsTopSection';
 import { RecitationsListingSection } from '@/components/sections/RecitationsListingSection';
 import { BouncingDots } from '@/components/ui/BouncingDots';
-import type { RecordedMushaf } from '@/types/tenant.types';
+import type { RecordedMushaf, TemplateType } from '@/types/tenant.types';
 import type { RiwayahOption } from '@/lib/listing-riwayah';
 
 interface RecitationsPageContentProps {
   tenantId: string;
+  template?: TemplateType;
   mushafs: RecordedMushaf[];
   title: string;
   description: string;
@@ -23,6 +24,7 @@ interface RecitationsPageContentProps {
 
 export function RecitationsPageContent({
   tenantId,
+  template,
   mushafs,
   title,
   description,
@@ -82,7 +84,7 @@ export function RecitationsPageContent({
             riwayaOptions={riwayaOptions}
           />
         </div>
-        <RecitationsListingSection mushafs={mushafs} tenantId={tenantId} />
+        <RecitationsListingSection mushafs={mushafs} tenantId={tenantId} template={template} />
       </div>
     </>
   );

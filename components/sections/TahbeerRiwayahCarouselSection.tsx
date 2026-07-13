@@ -11,6 +11,7 @@ export interface TahbeerRiwayahCarouselSectionProps {
   reciterName: string;
   reciterBio: string;
   mushafs: RecordedMushaf[];
+  mushafAppearance?: 'default' | 'green';
 }
 
 /**
@@ -24,6 +25,7 @@ export const TahbeerRiwayahCarouselSection: React.FC<TahbeerRiwayahCarouselSecti
   reciterName: _reciterName,
   reciterBio,
   mushafs,
+  mushafAppearance = 'default',
 }) => {
   return (
     <section
@@ -51,7 +53,7 @@ export const TahbeerRiwayahCarouselSection: React.FC<TahbeerRiwayahCarouselSecti
               key={mushaf.id}
               className="flex-[0_0_100%] sm:flex-[0_0_284px]"
             >
-              <TahbeerMushafCard mushaf={mushaf} />
+              <TahbeerMushafCard mushaf={mushaf} appearance={mushafAppearance} />
             </div>
           ))}
         </Carousel>

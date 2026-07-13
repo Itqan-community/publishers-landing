@@ -5,6 +5,7 @@
  */
 
 import { TenantBranding } from '@/types/tenant.types';
+import { isTenQiraahsTemplate } from '@/lib/ten-qiraahs-template';
 
 /**
  * Convert hex color to RGB values
@@ -71,7 +72,7 @@ export function generateThemeVariables(
     '--color-background': '#FFFFFF',
     '--color-foreground': '#1a1a1a',
   };
-  if (template === 'tahbeer') {
+  if (isTenQiraahsTemplate(template)) {
     vars['--section-title-to-content-gap'] = '30px';
     vars['--font-primary'] =
       'var(--font-fustat), "Fustat", sans-serif';
@@ -95,12 +96,12 @@ export function applyThemeVariables(branding: TenantBranding, template?: string)
 }
 
 /**
- * Generate inline style object for SSR (pass template for Tahbeer-specific vars e.g. section gap)
+ * Generate inline style object for SSR (pass template for ten-qiraahs vars e.g. section gap)
  */
 export function getThemeStyles(branding: TenantBranding, template?: string): React.CSSProperties {
   const variables = generateThemeVariables(branding, template) as Record<string, string>;
   const style: Record<string, string> = { ...variables };
-  if (template === 'tahbeer') {
+  if (isTenQiraahsTemplate(template)) {
     style.fontFamily = 'var(--font-fustat), "Fustat", sans-serif';
   }
   return style as React.CSSProperties;

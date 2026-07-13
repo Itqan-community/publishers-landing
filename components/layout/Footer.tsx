@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { FaTwitter, FaInstagram, FaTiktok } from "react-icons/fa";
 import { TenantConfig } from "@/types/tenant.types";
+import { isTenQiraahsTemplate } from "@/lib/ten-qiraahs-template";
 
 interface FooterProps {
   tenant: TenantConfig;
@@ -373,10 +374,10 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = "" }) => {
     );
   }
 
-  if (template === "tahbeer") {
+  if (isTenQiraahsTemplate(template)) {
     const footerLogo = branding.logoFull ?? branding.logo;
 
-    /* Social link labels for Tahbeer footer (icon + Arabic text), 28×28 icons */
+    /* Social link labels for ten-qiraahs footer (icon + Arabic text), 28×28 icons */
     const tahbeerSocialMap: Record<
       string,
       { label: string; icon: React.ReactNode }

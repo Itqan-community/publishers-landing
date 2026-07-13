@@ -3,12 +3,13 @@ import { Metadata } from 'next';
 import { loadTenantConfig } from '@/lib/tenant-config';
 import { getQiraahs } from '@/lib/qiraahs';
 import { generateTenantMetadata } from '@/lib/seo';
+import { isTenQiraahsTemplate } from '@/lib/ten-qiraahs-template';
 
 export const dynamic = 'force-dynamic';
 
 /**
- * Tahbeer: redirect /riwayahs/[id] to /qiraahs/[slug] for backward compatibility.
- * Non-Tahbeer tenants: 404 (this page was Tahbeer-only).
+ * Ten-qiraahs tenants: redirect /riwayahs/[id] to /qiraahs/[slug] for backward compatibility.
+ * Other tenants: 404.
  */
 export async function generateMetadata({
   params,
@@ -17,7 +18,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { tenant: tenantId, id } = await params;
   const tenant = await loadTenantConfig(tenantId);
-  if (!tenant || tenant.id !== 'tahbeer') {
+  if (!tenant || !isTenQiraahsTemplate(tenant.template)) {
     return { title: 'Not Found' };
   }
   const qiraahs = await getQiraahs(tenantId, 'riwayahs/[id] redirect page (generateMetadata)');
@@ -38,7 +39,7 @@ export default async function TahbeerRiwayahRedirectPage({
   const { tenant: tenantId, id } = await params;
   const tenant = await loadTenantConfig(tenantId);
 
-  if (!tenant || tenant.id !== 'tahbeer') {
+  if (!tenant || !isTenQiraahsTemplate(tenant.template)) {
     notFound();
   }
 

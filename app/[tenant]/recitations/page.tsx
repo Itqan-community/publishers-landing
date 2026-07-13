@@ -105,6 +105,7 @@ export default async function RecitationsListingPage({
       <div dir="rtl" className="bg-[#f6f4f1]">
         <RecitationsPageContent
           tenantId={tenantId}
+          template={tenant.template}
           mushafs={mushafs}
           title={TITLE}
           description={DESCRIPTION}

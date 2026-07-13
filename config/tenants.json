@@ -579,6 +579,121 @@
       "admin": "https://admin.domain.com/tahbeer",
       "support": "https://support.domain.com"
     }
+  },
+  "qiraat": {
+    "id": "qiraat",
+    "name": "موقع قراءات القرآن",
+    "nameEn": "Quran Qiraat",
+    "domain": "https://qiraat.example.com",
+    "domains": [
+      "https://qiraat.itqan.dev",
+      "https://qiraat.example.com"
+    ],
+    "api": {
+      "development": "https://staging.api.cms.itqan.dev/tenant",
+      "staging": "https://staging.api.cms.itqan.dev/tenant",
+      "production": "https://api.cms.itqan.dev/tenant"
+    },
+    "template": "qiraat",
+    "branding": {
+      "logo": "/logos/qiraat-logo.svg",
+      "logoFull": "/logos/qiraat-logo.svg",
+      "favicon": "/favicons/qiraat.ico",
+      "primaryColor": "#9DCF68",
+      "secondaryColor": "#2A5B39",
+      "accentColor": "#193624",
+      "font": "fustat"
+    },
+    "seo": {
+      "title": "موقع قراءات القرآن - الشيخ مفتاح السلطني",
+      "description": "منصة للاستماع إلى تسجيلات القرآن الكريم بالقراءات العشر الكبرى والصغرى بصوت الشيخ الدكتور مفتاح السلطني.",
+      "keywords": [
+        "قراءات القرآن",
+        "مفتاح السلطني",
+        "القراءات العشر",
+        "القرآن الكريم",
+        "مصاحف مرتلة",
+        "روايات",
+        "تلاوات قرآنية"
+      ],
+      "ogImage": "/images/qiraat/og-image.svg",
+      "twitterImage": "/images/qiraat/twitter-image.svg",
+      "twitterCard": "summary_large_image"
+    },
+    "features": {
+      "speakers": true,
+      "statistics": true,
+      "readings": true,
+      "media": true,
+      "newsletter": false,
+      "governmentBanner": false
+    },
+    "content": {
+      "hero": {
+        "title": "موقع قراءات القرآن",
+        "description": "مشروع تسجيل القرآن الكريم بالقراءات العشر الكبرى والصغرى بصوت الشيخ الدكتور مفتاح السلطني",
+        "image": "/images/qiraat/hero-img.svg",
+        "ctaText": "استمع الآن",
+        "ctaLink": "/recitations"
+      },
+      "statistics": [
+        {
+          "label": "مصحف مرتل",
+          "value": "0",
+          "suffix": "+",
+          "description": "[PLACEHOLDER]"
+        },
+        {
+          "label": "ساعة صوتية",
+          "value": "0",
+          "suffix": "+",
+          "description": "[PLACEHOLDER]"
+        },
+        {
+          "label": "قارئ",
+          "value": "1",
+          "suffix": "",
+          "description": "الشيخ الدكتور مفتاح السلطني"
+        },
+        {
+          "label": "قراءة",
+          "value": "10",
+          "suffix": "",
+          "description": "القراءات العشر المتواترة"
+        }
+      ],
+      "footer": {
+        "description": "موقع قراءات القرآن — منصة للاستماع إلى تسجيلات القرآن الكريم بالقراءات العشر الكبرى والصغرى بصوت الشيخ الدكتور مفتاح السلطني.",
+        "tagline": "للقراءات العشر والتلاوات القرآنية",
+        "contact": { "email": "placeholder@qiraat.example.com", "phone": "+966XXXXXXXXX" },
+        "links": [
+          {
+            "label": "عنا",
+            "items": [
+              { "text": "من نحن", "href": "/about" },
+              { "text": "تواصل معنا", "href": "/contact" }
+            ]
+          },
+          {
+            "label": "المصادر",
+            "items": [
+              { "text": "الأسئلة الشائعة", "href": "/faq" },
+              { "text": "الشروط", "href": "/terms" },
+              { "text": "الخصوصية", "href": "/privacy" }
+            ]
+          }
+        ],
+        "social": [
+          { "platform": "youtube", "url": "https://www.youtube.com/c/moftahelsaltani", "icon": "youtube" }
+        ],
+        "copyright": "© جميع الحقوق محفوظة ١٤٤٧."
+      }
+    },
+    "cmsLinks": {
+      "store": "https://cms.domain.com/qiraat",
+      "admin": "https://admin.domain.com/qiraat",
+      "support": "https://support.domain.com"
+    }
   }
 }
 

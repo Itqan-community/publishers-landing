@@ -11,6 +11,7 @@ import { getBackendUrl } from '@/lib/backend-url';
 import { resolveImageUrl } from '@/lib/utils';
 import { AvatarImage } from '@/components/ui/AvatarImage';
 import { generateTenantMetadata, generateBreadcrumbSchema } from '@/lib/seo';
+import { isTenQiraahsTemplate } from '@/lib/ten-qiraahs-template';
 import Link from 'next/link';
 
 /**
@@ -164,7 +165,7 @@ export default async function RecitationDetailsPage({
                     </div>
                     <div className="flex min-w-0 w-full flex-1 flex-col items-center gap-2 justify-between h-full lg:w-auto lg:items-start lg:gap-6">
                       <div className="text-center lg:text-start">
-                        {tenant.template === 'tahbeer' ? (
+                        {isTenQiraahsTemplate(tenant.template) ? (
                           <>
                             <h1 className="text-display-sm font-semibold leading-tight text-black">
                               {recitation.name || 'مصحف مرتل'}
@@ -271,7 +272,7 @@ export default async function RecitationDetailsPage({
                 defaultSelected={surahItems[0]?.id}
                 variant="details"
                 listTitle="قائمة السور"
-                hideReciterName={tenant.template === 'tahbeer'}
+                hideReciterName={isTenQiraahsTemplate(tenant.template)}
               />
             </section>
           </div>

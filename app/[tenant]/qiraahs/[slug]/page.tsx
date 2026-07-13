@@ -14,10 +14,11 @@ import { getQiraahBySlug } from '@/lib/qiraahs';
 import { trimRiwayahName } from '@/lib/tahbeer-riwayah';
 import { getRecordedMushafs } from '@/lib/recorded-mushafs';
 import { generateTenantMetadata } from '@/lib/seo';
+import { isTenQiraahsTemplate } from '@/lib/ten-qiraahs-template';
 
 export const dynamic = 'force-dynamic';
 
-/** Sponsor data for qiraah page (same as home) */
+/** Sponsor data for Tahbeer qiraah page (same as home). Qiraat has none. */
 const TAHBEER_SPONSORS: TahbeerSponsorItem[] = [
   {
     id: '1',
@@ -40,7 +41,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { tenant: tenantId, slug } = await params;
   const tenant = await loadTenantConfig(tenantId);
-  if (!tenant || tenant.id !== 'tahbeer') {
+  if (!tenant || !isTenQiraahsTemplate(tenant.template)) {
     return { title: 'Not Found' };
   }
   const qiraah = await getQiraahBySlug(tenantId, slug, 'qiraahs/[slug]');
@@ -62,7 +63,7 @@ export default async function TahbeerQiraahPage({
   const basePath = getBasePathFromHeaders(headersList);
   const tenant = await loadTenantConfig(tenantId);
 
-  if (!tenant || tenant.id !== 'tahbeer') {
+  if (!tenant || !isTenQiraahsTemplate(tenant.template)) {
     notFound();
   }
 
@@ -120,11 +121,14 @@ export default async function TahbeerQiraahPage({
             reciterName={reciterName}
             reciterBio={reciterBio}
             mushafs={mushafs}
+            mushafAppearance={tenant.template === 'qiraat' ? 'green' : 'default'}
           />
         );
       })}
 
-      <TahbeerSponsorsSection id="sponsors" sponsors={TAHBEER_SPONSORS} />
+      {tenant.template === 'tahbeer' && (
+        <TahbeerSponsorsSection id="sponsors" sponsors={TAHBEER_SPONSORS} />
+      )}
     </PageLayout>
   );
 }

@@ -9,6 +9,7 @@ import { DefaultTemplate } from './DefaultTemplate';
 import { MagazineTemplate } from './MagazineTemplate';
 import { SaudiCenterTemplate } from './SaudiCenterTemplate';
 import { TahbeerTemplate } from './TahbeerTemplate';
+import { QiraatTemplate } from './QiraatTemplate';
 
 export const TemplateRegistry = {
   default: DefaultTemplate,
@@ -16,6 +17,7 @@ export const TemplateRegistry = {
   minimal: DefaultTemplate, // Use default for minimal until implemented
   'saudi-center': SaudiCenterTemplate,
   tahbeer: TahbeerTemplate,
+  qiraat: QiraatTemplate,
 } as const;
 
 export function getTemplate(templateType: TemplateType) {
