@@ -25,7 +25,7 @@ export async function generateMetadata({
   const { tenant: tenantId, recitationId } = await params;
   const tenant = await loadTenantConfig(tenantId);
 
-  if (!tenant || isTenQiraahsTemplate(tenant.template)) {
+  if (!tenant) {
     return { title: 'Not Found' };
   }
 
@@ -66,12 +66,8 @@ export default async function RecitationDetailsPage({
     notFound();
   }
 
-  // Tahbeer / Qiraat use /qiraahs — not the Saudi Center /recitations detail route
-  if (isTenQiraahsTemplate(tenant.template)) {
-    notFound();
-  }
-
   // Always use SSR - X-Tenant authentication is now in place
+  // Listing (/recitations) stays blocked for ten-qiraahs; detail is available for all tenants
   const recitation = await getRecitationById(recitationId, tenantId);
 
   // If recitation not found, show 404
@@ -117,11 +113,20 @@ export default async function RecitationDetailsPage({
     ? (tenant.domain.startsWith('http') ? tenant.domain : `https://${tenant.domain}`)
     : process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
-  const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: tenant.name, url: `${baseUrl}/${tenantId}` },
-    { name: 'المصاحف المرتلة', url: `${baseUrl}/${tenantId}/recitations` },
-    { name: recitation.name, url: `${baseUrl}/${tenantId}/recitations/${recitationId}` },
-  ]);
+  // Ten-qiraahs tenants have no /recitations listing — middle crumb points home instead
+  const homeUrl = `${baseUrl}/${tenantId}`;
+  const breadcrumbSchema = generateBreadcrumbSchema(
+    isTenQiraahsTemplate(tenant.template)
+      ? [
+          { name: tenant.name, url: homeUrl },
+          { name: recitation.name, url: `${homeUrl}/recitations/${recitationId}` },
+        ]
+      : [
+          { name: tenant.name, url: homeUrl },
+          { name: 'المصاحف المرتلة', url: `${homeUrl}/recitations` },
+          { name: recitation.name, url: `${homeUrl}/recitations/${recitationId}` },
+        ]
+  );
 
   // Update tracks with reciter information (already set, but ensure consistency)
   const tracksWithReciterInfo = tracks.map(track => ({
