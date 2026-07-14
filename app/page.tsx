@@ -79,9 +79,9 @@ export default async function HomePage() {
   return (
     <>
       {/* Theme: colors only; font is global IBM Plex Sans Arabic (see app/layout.tsx + globals.css) */}
-      <div style={getThemeStyles(tenant.branding, tenant.template)}>
+      <div style={getThemeStyles(tenant.branding, tenant.template)} data-template={tenant.template}>
         <TenantProvider initialTenant={tenant} initialBasePath={basePath}>
-          <ThemeProvider branding={tenant.branding}>
+          <ThemeProvider branding={tenant.branding} template={tenant.template}>
             <TemplateComponent tenant={tenant} basePath={basePath} />
           </ThemeProvider>
         </TenantProvider>

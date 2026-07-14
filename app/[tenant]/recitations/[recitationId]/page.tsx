@@ -143,11 +143,8 @@ export default async function RecitationDetailsPage({
       <PageLayout tenant={tenant}>
         <div dir="rtl" className="bg-white">
           {/* Top section: full width bg + pattern (like hero & listing), content centered, extra block padding */}
-          <div className="relative bg-[#f6f6f4] -mt-7xl pt-7xl lg:-mt-header lg:pt-header pb-0">
-            <div
-              className="pointer-events-none absolute inset-0 bg-[url('/images/hero-bg.svg')] bg-no-repeat bg-right-top bg-cover opacity-100 [mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)] [-webkit-mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)]"
-              aria-hidden
-            />
+          <div className="hero-section-surface relative bg-[#f6f6f4] -mt-7xl pt-7xl lg:-mt-header lg:pt-header pb-0">
+            <div className="hero-bg-pattern" aria-hidden />
             <div className="relative mx-auto max-w-[1280px] px-4 pt-10 pb-10 sm:px-6 sm:pt-12 sm:pb-12 lg:px-8 lg:pt-16 lg:pb-16">
               <section className="overflow-hidden">
                 <div className="flex flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-12">

@@ -11,7 +11,6 @@ import { AboutSection } from '@/components/sections/AboutSection';
 import { TenReadingsSection } from '@/components/sections/TenReadingsSection';
 import type { TenReadingsItem } from '@/components/sections/TenReadingsSection';
 import { ProjectIdeaSection } from '@/components/sections/ProjectIdeaSection';
-import { ReviewMembersSection } from '@/components/sections/ReviewMembersSection';
 import { FeatureItem } from '@/components/sections/AboutSection';
 import { getQiraahs } from '@/lib/qiraahs';
 import { trimRiwayahName } from '@/lib/tahbeer-riwayah';
@@ -62,13 +61,6 @@ const QIRAAT_PARTICIPANTS = [
   },
 ];
 
-const QIRAAT_REVIEW_TASKS = [
-  'مراجعة التسجيلات الصوتية والتحقق من صحة الأداء القرآني',
-  'اعتماد التسجيلات النهائية قبل النشر',
-  'التحقق من تطبيق أحكام القراءات والروايات بدقة',
-  'تقديم الاستشارات العلمية للمشروع',
-];
-
 const SECTION_TITLE_CLASS = 'text-[39px] font-semibold text-[var(--color-foreground)] leading-tight';
 
 export async function QiraatTemplate({ tenant, basePath = '' }: QiraatTemplateProps) {
@@ -113,17 +105,14 @@ export async function QiraatTemplate({ tenant, basePath = '' }: QiraatTemplatePr
 
   return (
     <PageLayout tenant={tenant}>
-      <div className="relative bg-bg-neutral-50 -mt-16 lg:-mt-header pt-7xl lg:pt-header">
-        <div
-          className="pointer-events-none absolute inset-0 bg-[url('/images/hero-bg.svg')] bg-no-repeat bg-right-top bg-cover opacity-100 [mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)] [-webkit-mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)]"
-          aria-hidden="true"
-        />
+      <div className="hero-section-surface relative bg-bg-neutral-50 -mt-16 lg:-mt-header pt-7xl lg:pt-header">
+        <div className="hero-bg-pattern" aria-hidden="true" />
         <HeroSection
           variant="legacy"
           content={tenant.content.hero}
           basePath={basePath}
           socialLinks={tenant.content.footer?.social}
-          legacyLogoUrl={tenant.branding.logoFull ?? tenant.branding.logo}
+          legacyLogoUrl={tenant.branding.heroBrandImage}
           legacyShowCta={false}
           legacyShowAvatars={false}
           legacyShowSocial={true}
@@ -167,14 +156,6 @@ export async function QiraatTemplate({ tenant, basePath = '' }: QiraatTemplatePr
         ideaParagraphs={QIRAAT_IDEA_PARAGRAPHS}
         participantsTitle="المشاركون في المشروع"
         participants={QIRAAT_PARTICIPANTS}
-      />
-
-      <ReviewMembersSection
-        id="review-members"
-        sectionTitle="لجنة المراجعة"
-        sectionSubtitle="تخضع التسجيلات لمراجعة دقيقة من لجنة علمية متخصصة في علم القراءات، لضمان دقة الأداء وصحة الأحكام القرآنية في جميع القراءات والروايات."
-        tasksTitle="مهام اللجنة:"
-        tasks={QIRAAT_REVIEW_TASKS}
       />
     </PageLayout>
   );

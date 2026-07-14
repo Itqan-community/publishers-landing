@@ -59,7 +59,13 @@ export const RecitationsListingSection: React.FC<RecitationsListingSectionProps>
               <TahbeerMushafCard
                 key={mushaf.id}
                 mushaf={mushaf}
-                appearance={greenAppearance ? 'green' : 'default'}
+                appearance={
+                  resolvedTemplate === 'qiraat'
+                    ? 'qiraat-mint'
+                    : greenAppearance
+                      ? 'green'
+                      : 'default'
+                }
               />
             ) : (
               <MushafCard key={mushaf.id} mushaf={mushaf} />

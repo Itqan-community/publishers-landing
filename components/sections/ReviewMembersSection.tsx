@@ -60,7 +60,7 @@ export const ReviewMembersSection: React.FC<ReviewMembersSectionProps> = ({
                   key={idx}
                   className="flex items-center gap-2.5 bg-white rounded-[50px] px-5 sm:px-6 py-3.5 sm:py-4"
                 >
-                  <CheckmarkBadgeIcon variant="tahbeer" className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0" />
+                  <CheckmarkBadgeIcon variant="tahbeer" className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 text-[var(--color-primary)]" />
                   <span className="text-[14px] sm:text-[15px] md:text-[16px] font-medium text-black leading-none">
                     {task}
                   </span>

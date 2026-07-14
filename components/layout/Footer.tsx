@@ -375,7 +375,7 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = "" }) => {
   }
 
   if (isTenQiraahsTemplate(template)) {
-    const footerLogo = branding.logoFull ?? branding.logo;
+    const footerLogo = branding.logo;
 
     /* Social link labels for ten-qiraahs footer (icon + Arabic text), 28×28 icons */
     const tahbeerSocialMap: Record<

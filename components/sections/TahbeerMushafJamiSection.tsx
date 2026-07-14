@@ -1,5 +1,6 @@
 import React from 'react';
 import { TahbeerMushafCard } from '@/components/cards/TahbeerMushafCard';
+import type { MushafCardAppearance } from '@/components/cards/TahbeerMushafCard';
 import type { RecordedMushaf } from '@/types/tenant.types';
 
 export interface TahbeerMushafJamiSectionProps {
@@ -7,6 +8,7 @@ export interface TahbeerMushafJamiSectionProps {
   /** Qiraah name after «لقراءة» in the title (full API string). */
   qiraahName: string;
   mushaf: RecordedMushaf;
+  mushafAppearance?: MushafCardAppearance;
 }
 
 /**
@@ -17,6 +19,7 @@ export const TahbeerMushafJamiSection: React.FC<TahbeerMushafJamiSectionProps> =
   id = 'mushaf-jami',
   qiraahName,
   mushaf,
+  mushafAppearance = 'green',
 }) => {
   return (
     <section
@@ -46,7 +49,7 @@ export const TahbeerMushafJamiSection: React.FC<TahbeerMushafJamiSectionProps> =
 
           {/* Card */}
           <div className="w-full max-w-[300px] shrink-0 sm:max-w-[320px]">
-            <TahbeerMushafCard mushaf={mushaf} appearance="green" />
+            <TahbeerMushafCard mushaf={mushaf} appearance={mushafAppearance} />
           </div>
         </div>
       </div>

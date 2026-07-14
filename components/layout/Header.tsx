@@ -32,10 +32,11 @@ interface HeaderProps {
   template?: string;
 }
 
-export const Header: React.FC<HeaderProps> = ({ logo, logoFull, tenantName, navItems, homeHref = '/', variant = 'default', template }) => {
-  // Saudi Center: use same logo and sizes as footer (/logos/full-logo-dark-bg.svg)
+export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, homeHref = '/', variant = 'default', template }) => {
+  // Saudi Center: use same logo and sizes as footer (/logos/full-logo.svg)
   const isSaudiCenter = template === 'saudi-center' && variant === 'default';
-  const logoSrc = isSaudiCenter ? '/logos/full-logo.svg' : (logoFull ?? logo);
+  // Always use mark/main logo in nav; wide logos are tenant/template-specific (Saudi Center above)
+  const logoSrc = isSaudiCenter ? '/logos/full-logo.svg' : logo;
   const pathname = usePathname();
   const router = useRouter();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

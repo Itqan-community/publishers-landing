@@ -89,7 +89,7 @@ export default async function TahbeerQiraahPage({
 
   return (
     <PageLayout tenant={tenant}>
-      <div className="relative bg-[#F9F5F3] -mt-16 lg:-mt-header pt-16 lg:pt-header">
+      <div className="hero-section-surface relative bg-[#F9F5F3] -mt-16 lg:-mt-header pt-16 lg:pt-header">
         <TahbeerRiwayahTopSection
           title={qiraah.name}
           description=""
@@ -104,7 +104,11 @@ export default async function TahbeerQiraahPage({
       {/* <TahbeerRiwayahsSection id="riwayahs" qiraahName={qiraah.name} riwayahs={riwayahs} /> */}
 
       {combinedMushaf && (
-        <TahbeerMushafJamiSection qiraahName={qiraah.name} mushaf={combinedMushaf} />
+        <TahbeerMushafJamiSection
+          qiraahName={qiraah.name}
+          mushaf={combinedMushaf}
+          mushafAppearance={tenant.template === 'qiraat' ? 'qiraat-mint' : 'green'}
+        />
       )}
 
       {riwayahs.map((riwayah, index) => {
@@ -121,7 +125,13 @@ export default async function TahbeerQiraahPage({
             reciterName={reciterName}
             reciterBio={reciterBio}
             mushafs={mushafs}
-            mushafAppearance={tenant.template === 'qiraat' ? 'green' : 'default'}
+            mushafAppearance={
+              tenant.template === 'qiraat'
+                ? index === 0
+                  ? 'qiraat-mint'
+                  : 'qiraat-cream'
+                : 'default'
+            }
           />
         );
       })}

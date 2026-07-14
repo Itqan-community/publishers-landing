@@ -58,6 +58,15 @@ export interface TenantBranding {
   secondaryColor: string;
   accentColor?: string;
   font: string;
+  /**
+   * Hero / top-section decorative background pattern.
+   * Defaults to `/images/hero-bg.svg` when omitted.
+   */
+  heroBackgroundPattern?: string;
+  /**
+   * Decorative brand graphic shown in the hero (not the nav/footer logo).
+   */
+  heroBrandImage?: string;
 }
 
 export interface TenantFeatures {

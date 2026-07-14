@@ -115,10 +115,10 @@ export function HeroSection({
                 </div>
               )}
               {legacyShowSocial && (
-                <div className="flex mt-auto items-center gap-4 text-[var(--color-primary)] text-lg pt-1 justify-start flex-wrap sm:flex-nowrap">
+                <div className="flex mt-auto items-center gap-4 text-[var(--hero-social-color,var(--color-primary))] text-lg pt-1 justify-start flex-wrap sm:flex-nowrap">
                   <span className="text-sm text-[var(--color-text-paragraph)]">تابعنا على منصات التواصل الاجتماعي</span>
                   <div className="hidden sm:block h-[1px] w-[140px] bg-[var(--color-primary)]" />
-                  <div className="flex items-center gap-[15px]">
+                  <div className="flex items-center gap-[15px] text-[var(--hero-social-color,var(--color-primary))]">
                     {socialLinks && socialLinks.length > 0
                       ? socialLinks
                           .filter((s) => ['youtube', 'twitter'].includes(s.platform.toLowerCase()))
@@ -177,11 +177,11 @@ export function HeroSection({
                           fill="var(--color-primary)"
                         />
                       </svg>
-                      <div className="absolute inset-0 flex flex-col items-center justify-center text-white leading-none px-4 py-3 sm:px-6 sm:py-5 pointer-events-none">
+                      <div className="absolute inset-0 flex flex-col items-center justify-center text-[var(--hero-stats-text,white)] leading-none px-4 py-3 sm:px-6 sm:py-5 pointer-events-none">
                         <div className="text-[24px] sm:text-[32px] lg:text-[44.332px] font-bold leading-none mb-1 sm:mb-2">
                           {statsCard.value}
                         </div>
-                        <div className="text-[10px] sm:text-[13px] lg:text-[16px] font-medium text-white text-center leading-[1.5]">
+                        <div className="text-[10px] sm:text-[13px] lg:text-[16px] font-medium text-center leading-[1.5]">
                           <p className="mb-0">{statsLine1}</p>
                           <p>{statsLine2}</p>
                         </div>
@@ -196,7 +196,7 @@ export function HeroSection({
                       className="flex min-w-[300px] items-center gap-2 bg-white px-6 rounded-[50px] shadow-sm ring-1 ring-gray-100 translate-x-[-8%] md:translate-x-[-8%] lg:translate-x-[36%] xl:translate-x-[40%]"
                       style={{ height: '54px', minHeight: '54px' }}
                     >
-                      <CheckmarkBadgeIcon variant={legacyCheckmarkVariant} className="w-6 h-6 flex-shrink-0" />
+                      <CheckmarkBadgeIcon variant={legacyCheckmarkVariant} className="w-6 h-6 flex-shrink-0 text-[var(--color-primary)]" />
                       <span className="text-[13px] sm:text-[16px] font-medium text-[var(--color-foreground)]">
                         {item}
                       </span>

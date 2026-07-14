@@ -600,9 +600,11 @@
       "logoFull": "/logos/qiraat-logo.svg",
       "favicon": "/favicons/qiraat.ico",
       "primaryColor": "#9DCF68",
-      "secondaryColor": "#2A5B39",
+      "secondaryColor": "#004022",
       "accentColor": "#193624",
-      "font": "fustat"
+      "font": "kufam",
+      "heroBackgroundPattern": "/images/qiraat/hero-bg.png",
+      "heroBrandImage": "/logos/qiraat-hero-logo.svg"
     },
     "seo": {
       "title": "موقع قراءات القرآن - الشيخ مفتاح السلطني",
@@ -632,7 +634,7 @@
       "hero": {
         "title": "موقع قراءات القرآن",
         "description": "مشروع تسجيل القرآن الكريم بالقراءات العشر الكبرى والصغرى بصوت الشيخ الدكتور مفتاح السلطني",
-        "image": "/images/qiraat/hero-img.svg",
+        "image": "/images/qiraat/hero-img.jpg",
         "ctaText": "استمع الآن",
         "ctaLink": "/recitations"
       },

@@ -97,10 +97,7 @@ export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenter
       {/* Hero Section */}
       <div className="relative bg-bg-neutral-50 -mt-16 lg:-mt-header pt-7xl lg:pt-header">
         {/* Background image layer with diagonal fade (top-start -> bottom-end) */}
-        <div
-          className="pointer-events-none absolute inset-0 bg-[url('/images/hero-bg.svg')] bg-no-repeat bg-right-top bg-cover opacity-100 [mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)] [-webkit-mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)]"
-          aria-hidden="true"
-        />
+        <div className="hero-bg-pattern" aria-hidden="true" />
 
         {/* Hero Section */}
         <HeroSection

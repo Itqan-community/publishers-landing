@@ -115,6 +115,16 @@
 
   /* Gap between section title and section content (Tahbeer overrides to 30px via theme) */
   --section-title-to-content-gap: 0.75rem;
+
+  /* Hero / top-section decorative pattern (tenant can override via branding.heroBackgroundPattern) */
+  --hero-bg-pattern: url('/images/hero-bg.svg');
+
+  /* Coming-soon card accents (Tahbeer brown defaults; Qiraat overrides via theme) */
+  --coming-soon-badge-bg: #f5ede4;
+  --coming-soon-badge-text: #a67851;
+  --coming-soon-muted: #b0a89f;
+  --coming-soon-title: #9a9390;
+  --coming-soon-hover-border: #c4b5a3;
 }
 
 @layer base {
@@ -151,6 +161,35 @@
   .section-title-gap {
     margin-bottom: var(--section-title-to-content-gap);
   }
+
+  /* Decorative background pattern for hero / page tops (uses --hero-bg-pattern) */
+  .hero-bg-pattern {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    background-image: var(--hero-bg-pattern);
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-size: cover;
+    opacity: 1;
+    mask-image: linear-gradient(to bottom left, #000 0%, #000 24%, transparent 88%);
+    -webkit-mask-image: linear-gradient(to bottom left, #000 0%, #000 24%, transparent 88%);
+  }
+}
+
+/* Qiraat-only hero pattern: tiled calligraphy + color-dodge on light olive surface */
+[data-template='qiraat'] .hero-bg-pattern {
+  background-repeat: repeat;
+  background-position: unset;
+  background-size: auto;
+  opacity: 0.5;
+  mask-image: none;
+  -webkit-mask-image: linear-gradient(to bottom left, #000 0%, #000 24%, transparent 88%);
+  mix-blend-mode: color-dodge;
+}
+
+[data-template='qiraat'] .hero-section-surface {
+  background-color: #fafbf5;
 }
 
 /* Superellipse corner shape for all rounded elements except fully round ones */

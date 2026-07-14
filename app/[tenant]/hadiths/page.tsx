@@ -57,10 +57,7 @@ export default async function HadithsPage({
       <div dir="rtl" className="bg-[#f6f4f1]">
         {/* Top section with background pattern */}
         <div className="relative bg-[#f6f6f4] -mt-16 lg:-mt-header pt-16 lg:pt-header">
-          <div
-            className="pointer-events-none absolute inset-0 bg-[url('/images/hero-bg.svg')] bg-no-repeat bg-right-top bg-cover opacity-100 [mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)] [-webkit-mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)]"
-            aria-hidden="true"
-          />
+          <div className="hero-bg-pattern" aria-hidden="true" />
 
           <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-24 text-center flex flex-col items-center justify-center gap-8 relative z-10">
             <h1 className="text-display-xs sm:text-display-sm md:text-display-lg font-semibold text-foreground leading-tight">

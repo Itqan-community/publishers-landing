@@ -53,7 +53,13 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
               key={feature.id}
               className="relative min-h-[218px] rounded-md border border-[var(--color-border)] bg-[var(--color-bg-card)] overflow-hidden px-5 pt-5 sm:px-6 sm:pt-6"
             >
-              <div className="w-12 h-12 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'color-mix(in srgb, var(--color-primary) 10%, white)' }}>
+              <div
+                className="w-12 h-12 rounded-lg flex items-center justify-center text-[var(--about-icon-color,var(--color-primary))]"
+                style={{
+                  backgroundColor:
+                    'var(--about-icon-bg, color-mix(in srgb, var(--color-primary) 10%, white))',
+                }}
+              >
                 {iconVariant === 'tahbeer' ? (
                   <FeatureAwardIcon variant="tahbeer" className="w-[26px] h-[26px]" />
                 ) : feature.iconSrc ? (

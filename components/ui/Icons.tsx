@@ -16,7 +16,6 @@ export const CheckmarkBadgeIcon = ({
   variant?: "default" | "tahbeer";
 }) => {
   const isTahbeer = variant === "tahbeer";
-  const colorClass = isTahbeer ? "text-[var(--color-primary)]" : "";
   const fillColor = isTahbeer ? "currentColor" : "#193624";
   const strokeColor = isTahbeer ? "currentColor" : "#193624";
 
@@ -28,7 +27,7 @@ export const CheckmarkBadgeIcon = ({
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={`${colorClass} ${className}`.trim()}
+      className={className}
     >
       <path opacity="0.3" d={checkmarkBadgePathOpacity} fill={fillColor} />
       <path
@@ -57,13 +56,12 @@ export const FeatureAwardIcon = ({
 }) => {
   const c = variant === "tahbeer" ? "currentColor" : "#193624";
   const stroke0 = variant === "tahbeer" ? "currentColor" : "#030315";
-  const colorClass = variant === "tahbeer" ? "text-[var(--color-primary)]" : "";
   return (
     <svg
       viewBox="0 0 26 26"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={`${colorClass} ${className}`.trim()}
+      className={className}
     >
       <path
         opacity="0.3"
@@ -150,7 +148,6 @@ export const TwitterIcon = ({
   variant?: "default" | "tahbeer";
 }) => {
   const c = variant === "tahbeer" ? "currentColor" : "#193624";
-  const colorClass = variant === "tahbeer" ? "text-[var(--color-primary)]" : "";
   return (
     <svg
       preserveAspectRatio="none"
@@ -159,7 +156,7 @@ export const TwitterIcon = ({
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={`${colorClass} ${className}`.trim()}
+      className={className}
     >
       <path opacity="0.3" d="M8 3H3L10.5484 13.4516L16 21H21L13.4516 10.5484L8 3Z" fill={c} />
       <path
@@ -182,7 +179,6 @@ export const InstagramIcon = ({
 }) => {
   const c = variant === "tahbeer" ? "currentColor" : "#193624";
   const dotStroke = variant === "tahbeer" ? "currentColor" : "#030315";
-  const colorClass = variant === "tahbeer" ? "text-[var(--color-primary)]" : "";
   return (
     <svg
       preserveAspectRatio="none"
@@ -191,7 +187,7 @@ export const InstagramIcon = ({
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={`${colorClass} ${className}`.trim()}
+      className={className}
     >
       <path
         opacity="0.3"
@@ -230,7 +226,6 @@ export const YouTubeIcon = ({
   variant?: "default" | "tahbeer";
 }) => {
   const c = variant === "tahbeer" ? "currentColor" : "#193624";
-  const colorClass = variant === "tahbeer" ? "text-[var(--color-primary)]" : "";
   return (
     <svg
       preserveAspectRatio="none"
@@ -239,7 +234,7 @@ export const YouTubeIcon = ({
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={`${colorClass} ${className}`.trim()}
+      className={className}
     >
       <path
         opacity="0.3"
@@ -268,7 +263,6 @@ export const TikTokIcon = ({
   variant?: "default" | "tahbeer";
 }) => {
   const c = variant === "tahbeer" ? "currentColor" : "#193624";
-  const colorClass = variant === "tahbeer" ? "text-[var(--color-primary)]" : "";
   return (
     <svg
       preserveAspectRatio="none"
@@ -277,7 +271,7 @@ export const TikTokIcon = ({
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={`${colorClass} ${className}`.trim()}
+      className={className}
     >
       <g transform="scale(1, -1) translate(0, -24)">
         <path

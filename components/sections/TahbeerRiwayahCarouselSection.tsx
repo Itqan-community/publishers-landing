@@ -5,13 +5,15 @@ import { Carousel } from '@/components/ui/Carousel';
 import { TahbeerMushafCard } from '@/components/cards/TahbeerMushafCard';
 import type { RecordedMushaf } from '@/types/tenant.types';
 
+import type { MushafCardAppearance } from '@/components/cards/TahbeerMushafCard';
+
 export interface TahbeerRiwayahCarouselSectionProps {
   id?: string;
   riwayahTitle: string;
   reciterName: string;
   reciterBio: string;
   mushafs: RecordedMushaf[];
-  mushafAppearance?: 'default' | 'green';
+  mushafAppearance?: MushafCardAppearance;
 }
 
 /**

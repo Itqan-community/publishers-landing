@@ -27,10 +27,7 @@ export const TahbeerRiwayahTopSection: React.FC<TahbeerRiwayahTopSectionProps> =
       aria-labelledby="riwayah-heading"
       dir="rtl"
     >
-      <div
-        className="pointer-events-none absolute inset-0 bg-[url('/images/hero-bg.svg')] bg-right-top bg-cover bg-no-repeat opacity-100 [mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)] [-webkit-mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)]"
-        aria-hidden="true"
-      />
+      <div className="hero-bg-pattern" aria-hidden="true" />
       <div className="relative mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8">
         <h1
           id="riwayah-heading"

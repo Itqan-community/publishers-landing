@@ -51,18 +51,15 @@ export default async function QiraahComingSoonPage({
 
   return (
     <PageLayout tenant={tenant}>
-      <div dir="rtl" className="bg-[#F9F5F3]">
-        <div className="relative bg-[#F9F5F3] -mt-16 lg:-mt-header pt-16 lg:pt-header">
-          <div
-            className="pointer-events-none absolute inset-0 bg-[url('/images/hero-bg.svg')] bg-no-repeat bg-right-top bg-cover opacity-100 [mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)] [-webkit-mask-image:linear-gradient(to_bottom_left,#000_0%,#000_24%,transparent_88%)]"
-            aria-hidden="true"
-          />
+      <div dir="rtl" className="hero-section-surface bg-[#F9F5F3]">
+        <div className="hero-section-surface relative bg-[#F9F5F3] -mt-16 lg:-mt-header pt-16 lg:pt-header">
+          <div className="hero-bg-pattern" aria-hidden="true" />
 
           <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-24 text-center flex flex-col items-center justify-center gap-8 relative z-10 min-h-[60vh]">
-            <div className="w-[100px] h-[100px] rounded-full bg-[#F5EDE4] flex items-center justify-center mx-auto">
+            <div className="w-[100px] h-[100px] rounded-full bg-[var(--coming-soon-badge-bg)] flex items-center justify-center mx-auto text-[var(--coming-soon-badge-text)]">
               <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M12 6v6l4 2" stroke="#A67851" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <circle cx="12" cy="12" r="10" stroke="#A67851" strokeWidth="2"/>
+                <path d="M12 6v6l4 2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
               </svg>
             </div>
 

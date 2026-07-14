@@ -70,7 +70,7 @@ export default async function TenantLayout({
   const gaId = tenant.analytics?.googleAnalyticsId;
   const isProduction = (await getDeployEnv()) === 'production';
 
-  // Theme styles include --font-primary override for Tahbeer (Fustat)
+  // Theme styles include --font-primary (Fustat for Tahbeer, Kufam for Qiraat)
   const themeStyles = getThemeStyles(tenant.branding, tenant.template);
 
   return (
@@ -95,7 +95,7 @@ export default async function TenantLayout({
         showSpinner={false}
       />
 
-      <div style={themeStyles}>
+      <div style={themeStyles} data-template={tenant.template}>
         <TenantProvider initialTenant={tenant} initialBasePath={basePath}>
           <ThemeProvider branding={tenant.branding} template={tenant.template}>
             {children}

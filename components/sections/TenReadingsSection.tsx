@@ -74,41 +74,41 @@ export const TenReadingsSection: React.FC<TenReadingsSectionProps> = ({
             const cardClass = [
               'group rounded-[24px] border flex h-64 flex-col justify-between items-start text-start p-6 transition-colors',
               isComingSoon
-                ? 'border-[#EBE8E8] opacity-70 hover:opacity-100 hover:border-[#C4B5A3]'
+                ? 'border-[#EBE8E8] opacity-70 hover:opacity-100 hover:border-[var(--coming-soon-hover-border)]'
                 : 'border-[#EBE8E8] hover:border-[var(--color-primary)]',
             ].join(' ');
 
             const content = (
               <>
                 <div className="flex items-start justify-between w-full">
-                  <div className="w-[70px] h-[70px] rounded-full bg-[#F3F3F3] flex items-center justify-center shrink-0">
-                    <span className={`text-[22px] font-semibold transition-colors ${isComingSoon ? 'text-[#B0A89F]' : 'text-[#6A6A6A] group-hover:text-[var(--color-primary)]'}`}>
+                  <div className={`w-[70px] h-[70px] rounded-full flex items-center justify-center shrink-0 transition-colors ${isComingSoon ? 'bg-[#F3F3F3]' : 'bg-[#F3F3F3] group-hover:bg-[#F6F6F4]'}`}>
+                    <span className={`text-[22px] font-semibold transition-colors ${isComingSoon ? 'text-[var(--coming-soon-muted)]' : 'text-[#6A6A6A] group-hover:text-[var(--color-primary)]'}`}>
                       {toArabicNumeral(item.number)}
                     </span>
                   </div>
                   {isComingSoon && (
-                    <span className="text-[13px] font-medium text-[#A67851] bg-[#F5EDE4] rounded-full px-3 py-1">
+                    <span className="text-[13px] font-medium text-[var(--coming-soon-badge-text)] bg-[var(--coming-soon-badge-bg)] rounded-full px-3 py-1">
                       قريباً
                     </span>
                   )}
                 </div>
 
                 <div className="flex flex-col items-start">
-                  <h3 className={`text-[22px] font-semibold leading-tight ${isComingSoon ? 'text-[#9A9390]' : 'text-[var(--color-foreground)]'}`}>
+                  <h3 className={`text-[22px] font-semibold leading-tight ${isComingSoon ? 'text-[var(--coming-soon-title)]' : 'text-black'}`}>
                     {item.title}
                   </h3>
-                  <p className={`text-[20px] font-normal mt-1 ${isComingSoon ? 'text-[#B0A89F]' : 'text-[#6A6A6A]'}`}>
+                  <p className={`text-[20px] font-normal mt-1 ${isComingSoon ? 'text-[var(--coming-soon-muted)]' : 'text-[#6A6A6A]'}`}>
                     راوياه: {item.riwayats}
                   </p>
                 </div>
 
                 {isComingSoon ? (
-                  <span className="text-base font-normal text-[#B0A89F]">
+                  <span className="text-base font-normal text-[var(--coming-soon-muted)]">
                     قريباً إن شاء الله
                   </span>
                 ) : href != null ? (
-                  <span className="text-base font-normal text-[#6A6A6A] transition-colors group-hover:text-[var(--color-primary)] group-hover:underline">
-                    عرض المصاحف
+                  <span className="text-base font-normal text-[#6A6A6A] transition-colors group-hover:text-[var(--color-primary)] group-hover:underline group-hover:font-bold">
+                    عرض المصحف
                   </span>
                 ) : null}
               </>
