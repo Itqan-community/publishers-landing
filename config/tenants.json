@@ -584,10 +584,10 @@
     "id": "qiraat",
     "name": "موقع قراءات القرآن",
     "nameEn": "Quran Qiraat",
-    "domain": "https://qiraat.example.com",
+    "domain": "https://qiraat.itqan.dev",
     "domains": [
       "https://qiraat.itqan.dev",
-      "https://qiraat.example.com"
+      "https://qiraat-quran.netlify.app"
     ],
     "api": {
       "development": "https://staging.api.cms.itqan.dev/tenant",
