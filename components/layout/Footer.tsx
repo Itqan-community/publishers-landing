@@ -426,6 +426,89 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = "" }) => {
           </svg>
         ),
       },
+      instagram: {
+        label: "إنستغرام",
+        icon: (
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden
+            className=" shrink-0"
+          >
+            <path
+              d="M2.5 12C2.5 16.4783 2.5 18.7175 3.89124 20.1088C5.28249 21.5 7.52166 21.5 12 21.5C16.4783 21.5 18.7175 21.5 20.1088 20.1088C21.5 18.7175 21.5 16.4783 21.5 12C21.5 7.52166 21.5 5.28249 20.1088 3.89124C18.7175 2.5 16.4783 2.5 12 2.5C7.52166 2.5 5.28249 2.5 3.89124 3.89124C2.5 5.28249 2.5 7.52166 2.5 12Z"
+              stroke="black"
+              strokeWidth="1.5"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M16.5 12C16.5 9.51472 14.4853 7.5 12 7.5C9.51472 7.5 7.5 9.51472 7.5 12C7.5 14.4853 9.51472 16.5 12 16.5C14.4853 16.5 16.5 14.4853 16.5 12Z"
+              stroke="black"
+              strokeWidth="1.5"
+            />
+            <path
+              d="M17.5078 17.4997L17.4988 17.4997"
+              stroke="black"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        ),
+      },
+      facebook: {
+        label: "فيسبوك",
+        icon: (
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden
+            className=" shrink-0"
+          >
+            <path
+              d="M14 9.5V7.5C14 6.39543 14.8954 5.5 16 5.5H18V2H16C12.6863 2 10 4.68629 10 8V9.5H7V13H10V22H14V13H17L18 9.5H14Z"
+              stroke="black"
+              strokeWidth="1.5"
+              strokeLinejoin="round"
+            />
+          </svg>
+        ),
+      },
+      tiktok: {
+        label: "تيك توك",
+        icon: (
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden
+            className=" shrink-0"
+          >
+            <path
+              d="M14.5 4v9.25a3.75 3.75 0 11-3.75-3.75"
+              stroke="black"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M14.5 7.5c1.1 1.15 2.6 1.85 4.25 1.95"
+              stroke="black"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        ),
+      },
     };
 
     return (
@@ -498,7 +581,7 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = "" }) => {
                   <p className="text-[16px] font-semibold text-black leading-[1.5]">
                     تابعنا
                   </p>
-                  <div className="flex flex-row gap-5 sm:gap-8 items-center">
+                  <div className="flex flex-row flex-wrap gap-5 sm:gap-8 items-center justify-center lg:justify-start">
                     {footer.social.map((s) => {
                       const mapped = tahbeerSocialMap[s.platform.toLowerCase()];
                       if (!mapped) return null;

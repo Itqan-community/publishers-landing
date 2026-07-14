@@ -293,3 +293,36 @@ export const TikTokIcon = ({
     </svg>
   );
 };
+
+export const FacebookIcon = ({
+  className = "w-6 h-6",
+  variant = "default",
+}: {
+  className?: string;
+  variant?: "default" | "tahbeer";
+}) => {
+  const c = variant === "tahbeer" ? "currentColor" : "#193624";
+  return (
+    <svg
+      preserveAspectRatio="none"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+    >
+      <path
+        opacity="0.3"
+        d="M14 9.5V7.5C14 6.39543 14.8954 5.5 16 5.5H18V2H16C12.6863 2 10 4.68629 10 8V9.5H7V13H10V22H14V13H17L18 9.5H14Z"
+        fill={c}
+      />
+      <path
+        d="M14 9.5V7.5C14 6.39543 14.8954 5.5 16 5.5H18V2H16C12.6863 2 10 4.68629 10 8V9.5H7V13H10V22H14V13H17L18 9.5H14Z"
+        stroke={c}
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};

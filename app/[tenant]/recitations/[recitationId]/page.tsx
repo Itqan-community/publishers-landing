@@ -24,9 +24,14 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { tenant: tenantId, recitationId } = await params;
   const tenant = await loadTenantConfig(tenantId);
+
+  if (!tenant || isTenQiraahsTemplate(tenant.template)) {
+    return { title: 'Not Found' };
+  }
+
   const recitation = await getRecitationById(recitationId, tenantId);
 
-  if (!tenant || !recitation) {
+  if (!recitation) {
     return { title: 'Not Found' };
   }
 
@@ -58,6 +63,11 @@ export default async function RecitationDetailsPage({
   const tenant = await loadTenantConfig(tenantId);
 
   if (!tenant) {
+    notFound();
+  }
+
+  // Tahbeer / Qiraat use /qiraahs — not the Saudi Center /recitations detail route
+  if (isTenQiraahsTemplate(tenant.template)) {
     notFound();
   }
 

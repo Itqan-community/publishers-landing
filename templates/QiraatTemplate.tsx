@@ -117,10 +117,16 @@ export async function QiraatTemplate({ tenant, basePath = '' }: QiraatTemplatePr
           legacyShowAvatars={false}
           legacyShowSocial={true}
           legacyCheckmarkVariant="tahbeer"
+          legacyBadgeItems={[
+            'بصوت الشيخ مفتاح السلطني',
+            'تلاوات متنوعة بمختلف الروايات',
+          ]}
           statsCard={{
             value: 'كافة',
             label: 'القراءات',
-            description: 'بالروايات المتواترة',
+            description: 'بكل طرق الرواية',
+            descriptionClassName:
+              'text-[10px] sm:text-[13px] lg:text-[14px] font-medium text-center leading-[1.5]',
           }}
         />
       </div>
@@ -137,7 +143,6 @@ export async function QiraatTemplate({ tenant, basePath = '' }: QiraatTemplatePr
         id="readings"
         title="القراءات العشر ورواتها"
         items={tenReadingsItems}
-        viewAllHref={`${prefix}/recitations`}
         basePath={prefix}
         titleClassName={SECTION_TITLE_CLASS}
       />
@@ -151,7 +156,7 @@ export async function QiraatTemplate({ tenant, basePath = '' }: QiraatTemplatePr
       <ProjectIdeaSection
         id="project-idea"
         sectionTitle="فكرة المشروع والمشاركون"
-        sectionSubtitle="تسجيل صوتي للقراءات العشر الكبرى والصغرى بكل طرق الأداء المنقولة عن الأئمة"
+        sectionSubtitle="تجميع القرآن الكريم صوتيا بالقراءات العشر المتواترة من طرق الشاطبية والدرة المضيةو الطيبة"
         ideaTitle="الفكرة"
         ideaParagraphs={QIRAAT_IDEA_PARAGRAPHS}
         participantsTitle="المشاركون في المشروع"

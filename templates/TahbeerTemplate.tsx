@@ -147,7 +147,6 @@ export async function TahbeerTemplate({ tenant, basePath = '' }: TahbeerTemplate
         id="readings"
         title="القراءات العشر ورواتها"
         items={tenReadingsItems}
-        viewAllHref={`${prefix}/recitations`}
         basePath={prefix}
         titleClassName={TAHBEER_SECTION_TITLE_CLASS}
       />

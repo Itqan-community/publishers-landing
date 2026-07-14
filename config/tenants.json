@@ -582,10 +582,11 @@
   },
   "qiraat": {
     "id": "qiraat",
-    "name": "موقع قراءات القرآن",
-    "nameEn": "Quran Qiraat",
-    "domain": "https://qiraat.itqan.dev",
+    "name": "قراءات القرآن",
+    "nameEn": "Quranqiraat.com",
+    "domain": "https://quranqiraat.com",
     "domains": [
+      "https://quranqiraat.com",
       "https://qiraat.itqan.dev",
       "https://qiraat-quran.netlify.app"
     ],
@@ -607,16 +608,18 @@
       "heroBrandImage": "/logos/qiraat-hero-logo.svg"
     },
     "seo": {
-      "title": "موقع قراءات القرآن - الشيخ مفتاح السلطني",
-      "description": "منصة للاستماع إلى تسجيلات القرآن الكريم بالقراءات العشر الكبرى والصغرى بصوت الشيخ الدكتور مفتاح السلطني.",
+      "title": "قراءات القرآن",
+      "description": "مشروع جمع القراءات صوتيا",
       "keywords": [
-        "قراءات القرآن",
-        "مفتاح السلطني",
-        "القراءات العشر",
-        "القرآن الكريم",
-        "مصاحف مرتلة",
-        "روايات",
-        "تلاوات قرآنية"
+        "قراءات",
+        "القرآن",
+        "حفص",
+        "عاصم",
+        "ورش",
+        "قالون",
+        "شعبة",
+        "الازرق",
+        "ابن زكوان"
       ],
       "ogImage": "/images/qiraat/og-image.svg",
       "twitterImage": "/images/qiraat/twitter-image.svg",
@@ -632,10 +635,10 @@
     },
     "content": {
       "hero": {
-        "title": "موقع قراءات القرآن",
-        "description": "مشروع تسجيل القرآن الكريم بالقراءات العشر الكبرى والصغرى بصوت الشيخ الدكتور مفتاح السلطني",
+        "title": "قراءات القرآن",
+        "description": "مشروع تجميع القرآن صوتيا بالقراءات العشر",
         "image": "/images/qiraat/hero-img.jpg",
-        "ctaText": "استمع الآن",
+        "ctaText": "تصفح",
         "ctaLink": "/recitations"
       },
       "statistics": [
@@ -686,9 +689,13 @@
           }
         ],
         "social": [
-          { "platform": "youtube", "url": "https://www.youtube.com/c/moftahelsaltani", "icon": "youtube" }
+          { "platform": "youtube", "url": "https://www.youtube.com/@moftahelsaltani", "icon": "youtube" },
+          { "platform": "twitter", "url": "https://x.com/moftahelsaltani", "icon": "twitter" },
+          { "platform": "instagram", "url": "https://www.instagram.com/moftahelsaltani", "icon": "instagram" },
+          { "platform": "facebook", "url": "https://www.facebook.com/profile.php?id=100037207136040", "icon": "facebook" },
+          { "platform": "tiktok", "url": "https://www.tiktok.com/@moftahelsaltani", "icon": "tiktok" }
         ],
-        "copyright": "© جميع الحقوق محفوظة ١٤٤٧."
+        "copyright": "© جميع الحقوق محفوظة ١٤٣٦."
       }
     },
     "cmsLinks": {

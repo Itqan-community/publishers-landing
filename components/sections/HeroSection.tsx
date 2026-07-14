@@ -10,7 +10,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { HeroContent } from '@/types/tenant.types';
 import { Button } from '@/components/ui/Button';
-import { CheckmarkBadgeIcon, TwitterIcon, InstagramIcon, TikTokIcon, YouTubeIcon } from '@/components/ui/Icons';
+import { CheckmarkBadgeIcon, TwitterIcon, InstagramIcon, TikTokIcon, YouTubeIcon, FacebookIcon } from '@/components/ui/Icons';
 
 /** Shape of social link from tenant footer config */
 export type SocialLink = { platform: string; url: string };
@@ -25,6 +25,8 @@ interface HeroSectionProps {
     value: string;
     label: string;
     description: string;
+    /** Optional class for label + description text under the value (e.g. lg:text-[14px] for Qiraat). */
+    descriptionClassName?: string;
   };
   /**
    * - default: Gov-style (current), single column, CSS variables.
@@ -41,6 +43,8 @@ interface HeroSectionProps {
   legacyShowSocial?: boolean;
   /** Legacy only: CheckmarkBadgeIcon variant — 'tahbeer' uses theme primary (brown). */
   legacyCheckmarkVariant?: 'default' | 'tahbeer';
+  /** Legacy only: floating badges on the hero image. Defaults to Tahbeer (صابر عبد الحكم). */
+  legacyBadgeItems?: string[];
 }
 
 export function HeroSection({
@@ -54,6 +58,7 @@ export function HeroSection({
   legacyShowAvatars = true,
   legacyShowSocial = true,
   legacyCheckmarkVariant = 'default',
+  legacyBadgeItems = ['بصوت  الشيخ صابر عبد الحكم', 'تلاوات متنوعة بمختلف الروايات'],
 }: HeroSectionProps) {
   const { title, description, image, ctaText, ctaLink } = content;
   const prefix = basePath || '';
@@ -121,20 +126,47 @@ export function HeroSection({
                   <div className="flex items-center gap-[15px] text-[var(--hero-social-color,var(--color-primary))]">
                     {socialLinks && socialLinks.length > 0
                       ? socialLinks
-                          .filter((s) => ['youtube', 'twitter'].includes(s.platform.toLowerCase()))
+                          .filter((s) =>
+                            ['youtube', 'twitter', 'instagram', 'facebook', 'tiktok'].includes(
+                              s.platform.toLowerCase(),
+                            ),
+                          )
                           .map((s) => {
                             const pl = s.platform.toLowerCase();
+                            const iconClass = 'w-6 h-6';
+                            const linkClass = 'hover:opacity-80 transition-opacity';
                             if (pl === 'youtube') {
                               return (
-                                <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="hover:opacity-80 transition-opacity">
-                                  <YouTubeIcon variant={legacyCheckmarkVariant} className="w-6 h-6" />
+                                <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer" aria-label="YouTube" className={linkClass}>
+                                  <YouTubeIcon variant={legacyCheckmarkVariant} className={iconClass} />
                                 </a>
                               );
                             }
                             if (pl === 'twitter') {
                               return (
-                                <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer" aria-label="X" className="hover:opacity-80 transition-opacity">
-                                  <TwitterIcon variant={legacyCheckmarkVariant} className="w-6 h-6" />
+                                <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer" aria-label="X" className={linkClass}>
+                                  <TwitterIcon variant={legacyCheckmarkVariant} className={iconClass} />
+                                </a>
+                              );
+                            }
+                            if (pl === 'instagram') {
+                              return (
+                                <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className={linkClass}>
+                                  <InstagramIcon variant={legacyCheckmarkVariant} className={iconClass} />
+                                </a>
+                              );
+                            }
+                            if (pl === 'facebook') {
+                              return (
+                                <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className={linkClass}>
+                                  <FacebookIcon variant={legacyCheckmarkVariant} className={iconClass} />
+                                </a>
+                              );
+                            }
+                            if (pl === 'tiktok') {
+                              return (
+                                <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer" aria-label="TikTok" className={linkClass}>
+                                  <TikTokIcon variant={legacyCheckmarkVariant} className={iconClass} />
                                 </a>
                               );
                             }
@@ -181,7 +213,12 @@ export function HeroSection({
                         <div className="text-[24px] sm:text-[32px] lg:text-[44.332px] font-bold leading-none mb-1 sm:mb-2">
                           {statsCard.value}
                         </div>
-                        <div className="text-[10px] sm:text-[13px] lg:text-[16px] font-medium text-center leading-[1.5]">
+                        <div
+                          className={
+                            statsCard.descriptionClassName ??
+                            'text-[10px] sm:text-[13px] lg:text-[16px] font-medium text-center leading-[1.5]'
+                          }
+                        >
                           <p className="mb-0">{statsLine1}</p>
                           <p>{statsLine2}</p>
                         </div>
@@ -190,7 +227,7 @@ export function HeroSection({
                   </div>
                 )}
                 <div className="absolute top-10 start-0 flex flex-col gap-2 sm:gap-3 items-start">
-                  {['بصوت  الشيخ صابر عبد الحكم', 'تلاوات متنوعة بمختلف الروايات'].map((item) => (
+                  {legacyBadgeItems.map((item) => (
                     <div
                       key={item}
                       className="flex min-w-[300px] items-center gap-2 bg-white px-6 rounded-[50px] shadow-sm ring-1 ring-gray-100 translate-x-[-8%] md:translate-x-[-8%] lg:translate-x-[36%] xl:translate-x-[40%]"
