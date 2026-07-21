@@ -177,19 +177,107 @@
   }
 }
 
-/* Qiraat-only hero pattern: tiled calligraphy + color-dodge on light olive surface */
+/* ─── Qiraat-only: living mushaf archive identity ─── */
 [data-template='qiraat'] .hero-bg-pattern {
   background-repeat: repeat;
-  background-position: unset;
-  background-size: auto;
-  opacity: 0.5;
-  mask-image: none;
-  -webkit-mask-image: linear-gradient(to bottom left, #000 0%, #000 24%, transparent 88%);
-  mix-blend-mode: color-dodge;
+  background-position: top start;
+  background-size: 280px auto;
+  opacity: 0.22;
+  mask-image: linear-gradient(to bottom left, #000 0%, #000 30%, transparent 92%);
+  -webkit-mask-image: linear-gradient(to bottom left, #000 0%, #000 30%, transparent 92%);
+  mix-blend-mode: multiply;
 }
 
 [data-template='qiraat'] .hero-section-surface {
-  background-color: #fafbf5;
+  background-color: var(--hero-surface, #E6E2D8);
+}
+
+/* Paper / white section rhythm */
+[data-template='qiraat'] .qiraat-paper-band {
+  background-color: var(--color-paper, #E6E2D8);
+}
+
+[data-template='qiraat'] .qiraat-rule {
+  border-color: color-mix(in srgb, var(--color-rule-gold, #A68B4B) 45%, transparent);
+}
+
+/* Soft paper panels */
+[data-template='qiraat'] .qiraat-panel {
+  background-color: var(--color-paper, #E6E2D8);
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--color-rule-gold, #A68B4B) 35%, transparent);
+}
+
+/* Hero ink fade-in */
+@keyframes qiraat-ink-fade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+[data-template='qiraat'] .qiraat-hero-ink {
+  animation: qiraat-ink-fade 0.7s ease-out both;
+}
+
+[data-template='qiraat'] .qiraat-hero-ink-delay {
+  animation: qiraat-ink-fade 0.7s ease-out 0.12s both;
+}
+
+[data-template='qiraat'] .qiraat-hero-ink-delay-2 {
+  animation: qiraat-ink-fade 0.7s ease-out 0.24s both;
+}
+
+/* About icon settle */
+@keyframes qiraat-icon-settle {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+[data-template='qiraat'] .qiraat-about-item {
+  animation: qiraat-icon-settle 0.55s ease-out both;
+}
+
+[data-template='qiraat'] .qiraat-about-item:nth-child(1) { animation-delay: 0.05s; }
+[data-template='qiraat'] .qiraat-about-item:nth-child(2) { animation-delay: 0.12s; }
+[data-template='qiraat'] .qiraat-about-item:nth-child(3) { animation-delay: 0.19s; }
+[data-template='qiraat'] .qiraat-about-item:nth-child(4) { animation-delay: 0.26s; }
+
+/* Ten readings: soft ink underline on hover */
+[data-template='qiraat'] .qiraat-reading-link {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 100% 100%;
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  transition: background-size 0.35s ease, color 0.25s ease;
+}
+
+[data-template='qiraat'] .group:hover .qiraat-reading-link,
+[data-template='qiraat'] a:hover .qiraat-reading-link {
+  background-size: 100% 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-template='qiraat'] .qiraat-hero-ink,
+  [data-template='qiraat'] .qiraat-hero-ink-delay,
+  [data-template='qiraat'] .qiraat-hero-ink-delay-2,
+  [data-template='qiraat'] .qiraat-about-item {
+    animation: none;
+  }
+
+  [data-template='qiraat'] .qiraat-reading-link {
+    transition: none;
+  }
 }
 
 /* Superellipse corner shape for all rounded elements except fully round ones */

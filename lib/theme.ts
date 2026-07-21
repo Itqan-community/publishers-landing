@@ -80,18 +80,23 @@ export function generateThemeVariables(
     vars['--section-title-to-content-gap'] = '30px';
   }
   if (template === 'qiraat') {
+    /* Living mushaf archive — ink / verdigris / paper / sealing-wax */
     vars['--font-primary'] = 'var(--font-kufam), "Kufam", sans-serif';
-    vars['--color-foreground'] = '#000000';
-    vars['--color-text-paragraph'] = '#343434';
-    vars['--hero-stats-text'] = secondaryColor;
-    vars['--hero-social-color'] = secondaryColor;
-    vars['--about-icon-bg'] = '#EEF9F2';
-    vars['--about-icon-color'] = accentColor || '#193624';
-    /* Coming-soon qiraah cards — green muted (not Tahbeer brown) */
-    vars['--coming-soon-badge-bg'] = primaryColor;
+    vars['--color-foreground'] = '#1A1612';
+    vars['--color-text-paragraph'] = '#4A4540';
+    vars['--color-background'] = '#FFFFFF';
+    vars['--color-paper'] = '#E6E2D8';
+    vars['--color-rule-gold'] = '#A68B4B';
+    vars['--hero-surface'] = '#E6E2D8';
+    vars['--hero-stats-text'] = '#FFFFFF';
+    vars['--hero-social-color'] = primaryColor;
+    vars['--about-icon-bg'] = '#DDE8E4';
+    vars['--about-icon-color'] = primaryColor;
+    /* Coming-soon — muted ink / teal (not lime) */
+    vars['--coming-soon-badge-bg'] = '#DDE8E4';
     vars['--coming-soon-badge-text'] = secondaryColor;
-    vars['--coming-soon-muted'] = '#8A9B8E';
-    vars['--coming-soon-title'] = '#6B7D70';
+    vars['--coming-soon-muted'] = '#7A756E';
+    vars['--coming-soon-title'] = '#5C574F';
     vars['--coming-soon-hover-border'] = primaryColor;
   } else if (isTenQiraahsTemplate(template)) {
     vars['--font-primary'] = 'var(--font-fustat), "Fustat", sans-serif';

@@ -600,11 +600,11 @@
       "logo": "/logos/qiraat-logo.svg",
       "logoFull": "/logos/qiraat-logo.svg",
       "favicon": "/favicons/qiraat.ico",
-      "primaryColor": "#9DCF68",
-      "secondaryColor": "#004022",
-      "accentColor": "#193624",
+      "primaryColor": "#1F5C57",
+      "secondaryColor": "#0D3B38",
+      "accentColor": "#8B2E2E",
       "font": "kufam",
-      "heroBackgroundPattern": "/images/qiraat/hero-bg.png"
+      "heroBackgroundPattern": "/images/qiraat/hero-bg.svg"
     },
     "seo": {
       "title": "قراءات القرآن",
@@ -637,8 +637,8 @@
         "title": "قراءات القرآن",
         "description": "مشروع جمع القرآن صوتيا بالقراءات العشر",
         "image": "/images/qiraat/hero-img.jpg",
-        "ctaText": "تصفح",
-        "ctaLink": "/recitations"
+        "ctaText": "تصفح القراءات",
+        "ctaLink": "#readings"
       },
       "statistics": [
         {

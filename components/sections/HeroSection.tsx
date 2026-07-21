@@ -4,6 +4,9 @@
  * Supports two variants:
  * - default: Gov-style layout (KSA Gov design system), single column, no image/avatars.
  * - legacy: Two-column layout with image, star stats badge; optionally CTA, avatars, social, big logo (Figma Tahbeer).
+ *
+ * Optional appearance `qiraat-archive` (legacy only): quieter manuscript hero — no floating
+ * badges/stats over image; ruled strip + ink fade. Defaults preserve Tahbeer.
  */
 
 import Image from 'next/image';
@@ -14,6 +17,8 @@ import { CheckmarkBadgeIcon, TwitterIcon, InstagramIcon, TikTokIcon, YouTubeIcon
 
 /** Shape of social link from tenant footer config */
 export type SocialLink = { platform: string; url: string };
+
+export type HeroAppearance = 'default' | 'qiraat-archive';
 
 interface HeroSectionProps {
   content: HeroContent;
@@ -45,6 +50,70 @@ interface HeroSectionProps {
   legacyCheckmarkVariant?: 'default' | 'tahbeer';
   /** Legacy only: floating badges on the hero image. Defaults to Tahbeer (صابر عبد الحكم). */
   legacyBadgeItems?: string[];
+  /**
+   * Presentation chrome. `qiraat-archive` = manuscript calm (no overlay badges/stats).
+   * Default preserves existing Tahbeer/legacy layout.
+   */
+  appearance?: HeroAppearance;
+}
+
+function SocialIcons({
+  socialLinks,
+  legacyCheckmarkVariant,
+}: {
+  socialLinks?: SocialLink[];
+  legacyCheckmarkVariant: 'default' | 'tahbeer';
+}) {
+  if (!socialLinks || socialLinks.length === 0) return null;
+  const iconClass = 'w-6 h-6';
+  const linkClass = 'hover:opacity-80 transition-opacity';
+  return (
+    <>
+      {socialLinks
+        .filter((s) =>
+          ['youtube', 'twitter', 'instagram', 'facebook', 'tiktok'].includes(s.platform.toLowerCase()),
+        )
+        .map((s) => {
+          const pl = s.platform.toLowerCase();
+          if (pl === 'youtube') {
+            return (
+              <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer" aria-label="YouTube" className={linkClass}>
+                <YouTubeIcon variant={legacyCheckmarkVariant} className={iconClass} />
+              </a>
+            );
+          }
+          if (pl === 'twitter') {
+            return (
+              <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer" aria-label="X" className={linkClass}>
+                <TwitterIcon variant={legacyCheckmarkVariant} className={iconClass} />
+              </a>
+            );
+          }
+          if (pl === 'instagram') {
+            return (
+              <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className={linkClass}>
+                <InstagramIcon variant={legacyCheckmarkVariant} className={iconClass} />
+              </a>
+            );
+          }
+          if (pl === 'facebook') {
+            return (
+              <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className={linkClass}>
+                <FacebookIcon variant={legacyCheckmarkVariant} className={iconClass} />
+              </a>
+            );
+          }
+          if (pl === 'tiktok') {
+            return (
+              <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer" aria-label="TikTok" className={linkClass}>
+                <TikTokIcon variant={legacyCheckmarkVariant} className={iconClass} />
+              </a>
+            );
+          }
+          return null;
+        })}
+    </>
+  );
 }
 
 export function HeroSection({
@@ -59,13 +128,112 @@ export function HeroSection({
   legacyShowSocial = true,
   legacyCheckmarkVariant = 'default',
   legacyBadgeItems = ['بصوت  الشيخ صابر عبد الحكم', 'تلاوات متنوعة بمختلف الروايات'],
+  appearance = 'default',
 }: HeroSectionProps) {
   const { title, description, image, ctaText, ctaLink } = content;
   const prefix = basePath || '';
+  const isArchive = appearance === 'qiraat-archive';
 
   if (variant === 'legacy') {
     const statsLine1 = statsCard?.label?.split('\n')[0] ?? 'استماع على جميع';
     const statsLine2 = statsCard?.description ?? statsCard?.label?.split('\n')[1] ?? 'المنصات';
+
+    if (isArchive) {
+      return (
+        <section className="relative w-full min-h-[420px] sm:min-h-[550px] lg:min-h-[720px]" style={{ overflow: 'visible' }}>
+          <div className="relative max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 lg:py-20 min-h-[420px] sm:min-h-[550px] lg:min-h-[720px] flex" style={{ overflow: 'visible' }}>
+            <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-8 lg:gap-14 items-center w-full">
+              <div className="order-1 self-stretch lg:order-1 flex flex-col justify-center items-start text-start space-y-5 sm:space-y-6">
+                {legacyLogoUrl && (
+                  <div className="w-full flex justify-start max-lg:hidden qiraat-hero-ink">
+                    <Image
+                      src={legacyLogoUrl}
+                      alt=""
+                      width={280}
+                      height={120}
+                      className="h-16 sm:h-20 md:h-28 lg:h-36 w-auto object-contain object-start"
+                      priority
+                      sizes="(max-width: 1024px) 200px, 280px"
+                    />
+                  </div>
+                )}
+                <h1 className="qiraat-hero-ink text-[36px] md:text-[44px] lg:text-[48px] font-bold text-[var(--color-foreground)] leading-[1.35] max-w-xl">
+                  {title}
+                </h1>
+                <div
+                  className="qiraat-hero-ink-delay h-px w-[72px] bg-[var(--color-rule-gold,#A68B4B)] opacity-70"
+                  aria-hidden="true"
+                />
+                <p className="qiraat-hero-ink-delay text-[18px] md:text-[22px] text-[var(--color-text-paragraph)] leading-relaxed max-w-xl">
+                  {description}
+                </p>
+                {(legacyBadgeItems.length > 0 || statsCard) && (
+                  <div className="qiraat-hero-ink-delay-2 flex flex-col gap-2 w-full max-w-xl pt-1">
+                    {legacyBadgeItems.map((item) => (
+                      <p
+                        key={item}
+                        className="text-[15px] sm:text-[16px] font-medium text-[var(--color-foreground)] flex items-center gap-2"
+                      >
+                        <span
+                          className="inline-block w-1.5 h-1.5 rounded-full bg-[var(--color-primary)] shrink-0"
+                          aria-hidden="true"
+                        />
+                        {item}
+                      </p>
+                    ))}
+                    {statsCard && (
+                      <p className="text-[14px] sm:text-[15px] text-[var(--color-text-paragraph)] mt-1 border-s-2 border-[var(--color-primary)] ps-3">
+                        <span className="font-semibold text-[var(--color-foreground)]">{statsCard.value}</span>
+                        {' '}
+                        {statsLine1}
+                        {statsLine2 ? ` — ${statsLine2}` : ''}
+                      </p>
+                    )}
+                  </div>
+                )}
+                {legacyShowCta && (
+                  <div className="qiraat-hero-ink-delay-2 flex flex-wrap gap-4 pt-2 justify-start">
+                    <Button variant="primary" size="md" asChild>
+                      <Link href={ctaLink ? `${prefix}${ctaLink}` : `${prefix}/recitations`}>
+                        {ctaText ?? 'استمع الان'}
+                      </Link>
+                    </Button>
+                  </div>
+                )}
+                {legacyShowSocial && (
+                  <div className="qiraat-hero-ink-delay-2 flex mt-auto items-center gap-4 text-[var(--hero-social-color,var(--color-primary))] text-lg pt-2 justify-start flex-wrap sm:flex-nowrap">
+                    <span className="text-sm text-[var(--color-text-paragraph)]">تابعنا على منصات التواصل الاجتماعي</span>
+                    <div className="hidden sm:block h-px w-[100px] bg-[var(--color-primary)] opacity-60" />
+                    <div className="flex items-center gap-[15px]">
+                      <SocialIcons socialLinks={socialLinks} legacyCheckmarkVariant={legacyCheckmarkVariant} />
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div className="order-2 lg:order-2 relative hidden lg:block qiraat-hero-ink-delay">
+                <div className="relative w-full h-[480px] xl:h-[560px]">
+                  <div className="relative w-full h-full rounded-[12px] overflow-hidden ring-1 ring-[var(--color-rule-gold,#A68B4B)]/40">
+                    <Image
+                      src={image}
+                      alt={title}
+                      fill
+                      className="object-cover"
+                      priority
+                      sizes="(max-width: 1024px) 100vw, 50vw"
+                    />
+                    <div
+                      className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent"
+                      aria-hidden="true"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
     return (
       <section className="relative w-full min-h-[420px] sm:min-h-[550px] lg:min-h-[772px]" style={{ overflow: 'visible' }}>
         <div className="relative max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 lg:py-20 min-h-[420px] sm:min-h-[550px] lg:min-h-[772px] flex" style={{ overflow: 'visible' }}>
@@ -124,55 +292,7 @@ export function HeroSection({
                   <span className="text-sm text-[var(--color-text-paragraph)]">تابعنا على منصات التواصل الاجتماعي</span>
                   <div className="hidden sm:block h-[1px] w-[140px] bg-[var(--color-primary)]" />
                   <div className="flex items-center gap-[15px] text-[var(--hero-social-color,var(--color-primary))]">
-                    {socialLinks && socialLinks.length > 0
-                      ? socialLinks
-                          .filter((s) =>
-                            ['youtube', 'twitter', 'instagram', 'facebook', 'tiktok'].includes(
-                              s.platform.toLowerCase(),
-                            ),
-                          )
-                          .map((s) => {
-                            const pl = s.platform.toLowerCase();
-                            const iconClass = 'w-6 h-6';
-                            const linkClass = 'hover:opacity-80 transition-opacity';
-                            if (pl === 'youtube') {
-                              return (
-                                <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer" aria-label="YouTube" className={linkClass}>
-                                  <YouTubeIcon variant={legacyCheckmarkVariant} className={iconClass} />
-                                </a>
-                              );
-                            }
-                            if (pl === 'twitter') {
-                              return (
-                                <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer" aria-label="X" className={linkClass}>
-                                  <TwitterIcon variant={legacyCheckmarkVariant} className={iconClass} />
-                                </a>
-                              );
-                            }
-                            if (pl === 'instagram') {
-                              return (
-                                <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer" aria-label="Instagram" className={linkClass}>
-                                  <InstagramIcon variant={legacyCheckmarkVariant} className={iconClass} />
-                                </a>
-                              );
-                            }
-                            if (pl === 'facebook') {
-                              return (
-                                <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer" aria-label="Facebook" className={linkClass}>
-                                  <FacebookIcon variant={legacyCheckmarkVariant} className={iconClass} />
-                                </a>
-                              );
-                            }
-                            if (pl === 'tiktok') {
-                              return (
-                                <a key={s.platform} href={s.url} target="_blank" rel="noopener noreferrer" aria-label="TikTok" className={linkClass}>
-                                  <TikTokIcon variant={legacyCheckmarkVariant} className={iconClass} />
-                                </a>
-                              );
-                            }
-                            return null;
-                          })
-                      : null}
+                    <SocialIcons socialLinks={socialLinks} legacyCheckmarkVariant={legacyCheckmarkVariant} />
                   </div>
                 </div>
               )}
@@ -286,4 +406,3 @@ export function HeroSection({
     </section>
   );
 }
-

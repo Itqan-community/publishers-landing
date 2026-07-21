@@ -61,7 +61,7 @@ export const RecitationsListingSection: React.FC<RecitationsListingSectionProps>
                 mushaf={mushaf}
                 appearance={
                   resolvedTemplate === 'qiraat'
-                    ? 'qiraat-mint'
+                    ? 'qiraat-paper'
                     : greenAppearance
                       ? 'green'
                       : 'default'

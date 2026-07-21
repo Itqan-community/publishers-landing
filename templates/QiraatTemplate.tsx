@@ -1,7 +1,7 @@
 /**
  * Qiraat Template (موقع قراءات القرآن)
  *
- * Same section order / UX as Tahbeer; green branding + مفتاح السلطني content.
+ * Same section order / UX as Tahbeer; living mushaf archive identity (verdigris/ink/paper).
  */
 
 import { TenantConfig } from '@/types/tenant.types';
@@ -105,14 +105,15 @@ export async function QiraatTemplate({ tenant, basePath = '' }: QiraatTemplatePr
 
   return (
     <PageLayout tenant={tenant}>
-      <div className="hero-section-surface relative bg-bg-neutral-50 -mt-16 lg:-mt-header pt-7xl lg:pt-header">
+      <div className="hero-section-surface relative -mt-16 lg:-mt-header pt-7xl lg:pt-header">
         <div className="hero-bg-pattern" aria-hidden="true" />
         <HeroSection
           variant="legacy"
+          appearance="qiraat-archive"
           content={tenant.content.hero}
           basePath={basePath}
           socialLinks={tenant.content.footer?.social}
-          legacyShowCta={false}
+          legacyShowCta={true}
           legacyShowAvatars={false}
           legacyShowSocial={true}
           legacyCheckmarkVariant="tahbeer"
@@ -124,14 +125,13 @@ export async function QiraatTemplate({ tenant, basePath = '' }: QiraatTemplatePr
             value: 'كافة',
             label: 'القراءات',
             description: 'بكل طرق الرواية',
-            descriptionClassName:
-              'text-[10px] sm:text-[13px] lg:text-[14px] font-medium text-center leading-[1.5]',
           }}
         />
       </div>
 
       <AboutSection
         id="about"
+        appearance="qiraat-archive"
         title="عن المشروع"
         features={QIRAAT_ABOUT_FEATURES}
         iconVariant="tahbeer"
@@ -140,6 +140,7 @@ export async function QiraatTemplate({ tenant, basePath = '' }: QiraatTemplatePr
 
       <TenReadingsSection
         id="readings"
+        appearance="qiraat-archive"
         title="القراءات العشر ورواتها"
         items={tenReadingsItems}
         basePath={prefix}
@@ -148,12 +149,13 @@ export async function QiraatTemplate({ tenant, basePath = '' }: QiraatTemplatePr
 
       <div className="bg-white">
         <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="border-t border-[var(--color-border)]" />
+          <div className="border-t qiraat-rule border-[var(--color-rule-gold,#A68B4B)] opacity-40" />
         </div>
       </div>
 
       <ProjectIdeaSection
         id="project-idea"
+        appearance="qiraat-archive"
         sectionTitle="فكرة المشروع والمشاركون"
         sectionSubtitle="جمع القرآن الكريم صوتيا بالقراءات العشر المتواترة من طرق الشاطبية والدرة المضيةو الطيبة"
         ideaTitle="الفكرة"
