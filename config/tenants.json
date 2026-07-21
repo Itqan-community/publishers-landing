@@ -604,8 +604,7 @@
       "secondaryColor": "#004022",
       "accentColor": "#193624",
       "font": "kufam",
-      "heroBackgroundPattern": "/images/qiraat/hero-bg.png",
-      "heroBrandImage": "/logos/qiraat-hero-logo.svg"
+      "heroBackgroundPattern": "/images/qiraat/hero-bg.png"
     },
     "seo": {
       "title": "قراءات القرآن",
@@ -636,7 +635,7 @@
     "content": {
       "hero": {
         "title": "قراءات القرآن",
-        "description": "مشروع تجميع القرآن صوتيا بالقراءات العشر",
+        "description": "مشروع جمع القرآن صوتيا بالقراءات العشر",
         "image": "/images/qiraat/hero-img.jpg",
         "ctaText": "تصفح",
         "ctaLink": "/recitations"

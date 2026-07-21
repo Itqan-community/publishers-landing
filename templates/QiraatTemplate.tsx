@@ -112,7 +112,6 @@ export async function QiraatTemplate({ tenant, basePath = '' }: QiraatTemplatePr
           content={tenant.content.hero}
           basePath={basePath}
           socialLinks={tenant.content.footer?.social}
-          legacyLogoUrl={tenant.branding.heroBrandImage}
           legacyShowCta={false}
           legacyShowAvatars={false}
           legacyShowSocial={true}
@@ -156,7 +155,7 @@ export async function QiraatTemplate({ tenant, basePath = '' }: QiraatTemplatePr
       <ProjectIdeaSection
         id="project-idea"
         sectionTitle="فكرة المشروع والمشاركون"
-        sectionSubtitle="تجميع القرآن الكريم صوتيا بالقراءات العشر المتواترة من طرق الشاطبية والدرة المضيةو الطيبة"
+        sectionSubtitle="جمع القرآن الكريم صوتيا بالقراءات العشر المتواترة من طرق الشاطبية والدرة المضيةو الطيبة"
         ideaTitle="الفكرة"
         ideaParagraphs={QIRAAT_IDEA_PARAGRAPHS}
         participantsTitle="المشاركون في المشروع"
