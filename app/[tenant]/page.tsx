@@ -9,6 +9,7 @@ import { loadTenantConfig, getAllTenantIds } from '@/lib/tenant-config';
 import { getBasePathFromHeaders } from '@/lib/tenant-resolver';
 import { getTemplate } from '@/templates';
 import type { Metadata } from 'next';
+import { generateTenantMetadata } from '@/lib/seo';
 
 /**
  * Generate static params for all tenants (optional, for static export)
@@ -44,6 +45,15 @@ export async function generateMetadata({
       title: 'Not Found',
       description: 'Tenant not found',
     };
+  }
+
+  // Qiraat: full SEO (OG PNG, icon set, manifest). Other tenants keep prior home metadata.
+  if (tenant.template === 'qiraat') {
+    return generateTenantMetadata(tenant, {
+      title: tenant.name,
+      description: tenant.content.hero.description,
+      path: `/${tenant.id}`,
+    });
   }
 
   return {

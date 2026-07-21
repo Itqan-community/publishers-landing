@@ -26,13 +26,26 @@ export async function generateMetadata({
 }: {
   params: Promise<{ tenant: string }>;
 }): Promise<Metadata> {
-  const { tenant: tenantId } = await params;
   const headersList = await headers();
   const resolvedId = getTenantFromHeaders(headersList);
   const tenant = await loadTenantConfig(resolvedId);
 
   if (!tenant) {
     return {};
+  }
+
+  if (tenant.template === 'qiraat') {
+    return {
+      icons: {
+        icon: [
+          { url: '/favicons/qiraat.ico', sizes: 'any' },
+          { url: '/favicons/qiraat-16x16.png', sizes: '16x16', type: 'image/png' },
+          { url: '/favicons/qiraat-32x32.png', sizes: '32x32', type: 'image/png' },
+        ],
+        apple: [{ url: '/favicons/qiraat-apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
+      },
+      manifest: '/favicons/qiraat.webmanifest',
+    };
   }
 
   return {

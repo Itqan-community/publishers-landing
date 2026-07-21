@@ -122,25 +122,28 @@ export default async function TahbeerQiraahPage({
         const firstMushaf = mushafs[0];
         const reciterName = firstMushaf?.reciter?.name ?? 'قارئ المصحف';
         const reciterBio = riwayah.bio ?? '';
+        const isQiraat = tenant.template === 'qiraat';
 
         return (
-          <TahbeerRiwayahCarouselSection
-            key={riwayah.id}
-            id={index === 0 ? 'listing' : `riwayah-${index}`}
-            riwayahTitle={`رواية ${trimRiwayahName(riwayah.name)}`}
-            reciterName={reciterName}
-            reciterBio={reciterBio}
-            mushafs={mushafs}
-            appearance={tenant.template === 'qiraat' ? 'qiraat-archive' : 'default'}
-            surface={tenant.template === 'qiraat' && index % 2 === 1 ? 'paper' : 'white'}
-            mushafAppearance={
-              tenant.template === 'qiraat'
-                ? index === 0
-                  ? 'qiraat-paper'
-                  : 'qiraat-ink'
-                : 'default'
-            }
-          />
+          <div key={riwayah.id}>
+            {isQiraat && index > 0 && (
+              <div className="bg-white" aria-hidden="true">
+                <div className="mx-auto max-w-[1280px] px-4 sm:px-6 lg:px-8">
+                  <div className="border-t border-[var(--color-rule-gold,#A68B4B)] opacity-40" />
+                </div>
+              </div>
+            )}
+            <TahbeerRiwayahCarouselSection
+              id={index === 0 ? 'listing' : `riwayah-${index}`}
+              riwayahTitle={`رواية ${trimRiwayahName(riwayah.name)}`}
+              reciterName={reciterName}
+              reciterBio={reciterBio}
+              mushafs={mushafs}
+              appearance={isQiraat ? 'qiraat-archive' : 'default'}
+              surface="white"
+              mushafAppearance={isQiraat ? 'qiraat-paper' : 'default'}
+            />
+          </div>
         );
       })}
 

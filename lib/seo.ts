@@ -25,6 +25,21 @@ export function generateTenantMetadata(
   const ogImage = seo.ogImage ? `${baseUrl}${seo.ogImage}` : undefined;
   const twitterImage = seo.twitterImage ? `${baseUrl}${seo.twitterImage}` : ogImage;
 
+  // Icons (favicon) — Qiraat gets full icon set; others keep single favicon
+  const icons: Metadata['icons'] =
+    tenant.template === 'qiraat'
+      ? {
+          icon: [
+            { url: '/favicons/qiraat.ico', sizes: 'any' },
+            { url: '/favicons/qiraat-16x16.png', sizes: '16x16', type: 'image/png' },
+            { url: '/favicons/qiraat-32x32.png', sizes: '32x32', type: 'image/png' },
+          ],
+          apple: [{ url: '/favicons/qiraat-apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
+        }
+      : {
+          icon: tenant.branding?.favicon || '/favicon.ico',
+        };
+
   return {
     title,
     description,
@@ -36,7 +51,7 @@ export function generateTenantMetadata(
       description,
       url,
       siteName: tenant.name,
-      images: ogImage ? [{ url: ogImage, width: 1280, height: 720, alt: title }] : [],
+      images: ogImage ? [{ url: ogImage, width: 1200, height: 630, alt: title }] : [],
       locale: 'ar_SA',
       type: 'website',
     },
@@ -54,10 +69,8 @@ export function generateTenantMetadata(
       canonical: url,
     },
 
-    // Icons (favicon)
-    icons: {
-      icon: tenant.branding?.favicon || '/favicon.ico',
-    },
+    icons,
+    ...(tenant.template === 'qiraat' ? { manifest: '/favicons/qiraat.webmanifest' } : {}),
 
     // Additional metadata
     robots: {

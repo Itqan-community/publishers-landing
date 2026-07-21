@@ -32,7 +32,7 @@ export const TahbeerMushafJamiSection: React.FC<TahbeerMushafJamiSectionProps> =
     <section
       id={id}
       className={`py-10 sm:py-14 md:py-16 lg:py-20 ${
-        isArchive ? 'bg-[var(--color-paper,#E6E2D8)]' : 'bg-[#F9F5F3]'
+        isArchive ? 'bg-[var(--about-icon-bg,#DDE8E4)]' : 'bg-[#F9F5F3]'
       } ${id ? 'scroll-mt-20' : ''}`}
       dir="rtl"
     >
