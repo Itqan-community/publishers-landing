@@ -2,6 +2,43 @@ import { Metadata } from 'next';
 import { TenantConfig } from '@/types/tenant.types';
 
 /**
+ * Canonical site origin for absolute OG/canonical URLs.
+ * Prefer the live request host (so scrapers fetch images from the URL being shared),
+ * then tenant.domain, then env / localhost.
+ */
+export function resolveSiteOrigin(
+  tenant: TenantConfig,
+  requestOrigin?: string | null
+): string {
+  if (requestOrigin) {
+    try {
+      const u = new URL(requestOrigin);
+      if (u.protocol === 'http:' || u.protocol === 'https:') {
+        return u.origin;
+      }
+    } catch {
+      /* ignore invalid */
+    }
+  }
+  if (tenant.domain) {
+    return tenant.domain.startsWith('http') ? tenant.domain : `https://${tenant.domain}`;
+  }
+  return process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+}
+
+/** Build origin from Next request headers (x-forwarded-* / host). */
+export function originFromHeaders(headersList: Headers): string | null {
+  const host =
+    headersList.get('x-forwarded-host')?.split(',')[0]?.trim() ||
+    headersList.get('host')?.trim();
+  if (!host) return null;
+  const proto =
+    headersList.get('x-forwarded-proto')?.split(',')[0]?.trim() ||
+    (host.includes('localhost') || host.startsWith('127.') ? 'http' : 'https');
+  return `${proto}://${host}`;
+}
+
+/**
  * Generate metadata for a tenant page
  */
 export function generateTenantMetadata(
@@ -10,20 +47,22 @@ export function generateTenantMetadata(
     title?: string;
     description?: string;
     path?: string;
+    /** Override origin (e.g. from request headers) so og:image matches the shared host */
+    requestOrigin?: string | null;
   }
 ): Metadata {
   const seo = tenant.seo || {};
-  const baseUrl = tenant.domain 
-    ? (tenant.domain.startsWith('http') ? tenant.domain : `https://${tenant.domain}`)
-    : process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+  const baseUrl = resolveSiteOrigin(tenant, options?.requestOrigin);
 
   const title = options?.title || seo.title || tenant.name;
   const description = options?.description || seo.description || '';
-  const url = options?.path ? `${baseUrl}${options.path}` : baseUrl;
+  const path = options?.path ?? '';
+  const normalizedPath = path === '/' ? '' : path;
+  const url = normalizedPath ? `${baseUrl}${normalizedPath}` : baseUrl;
 
-  // Build absolute image URLs
-  const ogImage = seo.ogImage ? `${baseUrl}${seo.ogImage}` : undefined;
-  const twitterImage = seo.twitterImage ? `${baseUrl}${seo.twitterImage}` : ogImage;
+  // Relative paths + metadataBase → absolute URLs on the host being scraped
+  const ogImagePath = seo.ogImage;
+  const twitterImagePath = seo.twitterImage || seo.ogImage;
 
   // Icons (favicon) — Qiraat gets full icon set; others keep single favicon
   const icons: Metadata['icons'] =
@@ -41,59 +80,54 @@ export function generateTenantMetadata(
         };
 
   return {
+    metadataBase: new URL(baseUrl),
     title,
     description,
     keywords: seo.keywords,
-    
-    // Open Graph
+
     openGraph: {
       title,
       description,
-      url,
+      url: url || baseUrl,
       siteName: tenant.name,
-      images: ogImage ? [{ url: ogImage, width: 1200, height: 630, alt: title }] : [],
+      images: ogImagePath
+        ? [{ url: ogImagePath, width: 1200, height: 630, alt: title }]
+        : [],
       locale: 'ar_SA',
       type: 'website',
     },
 
-    // Twitter Card
     twitter: {
       card: (seo.twitterCard as 'summary' | 'summary_large_image') || 'summary_large_image',
       title,
       description,
-      images: twitterImage ? [twitterImage] : [],
+      images: twitterImagePath ? [twitterImagePath] : [],
     },
 
-    // Alternate languages (if needed in future)
     alternates: {
-      canonical: url,
+      canonical: url || baseUrl,
     },
 
     icons,
     ...(tenant.template === 'qiraat' ? { manifest: '/favicons/qiraat.webmanifest' } : {}),
 
-    // Additional metadata
     robots: {
       index: true,
       follow: true,
     },
-
-    // Verification tags (add later if needed)
-    // verification: {
-    //   google: 'your-google-verification-code',
-    // },
   };
 }
 
 /**
  * Generate structured data (JSON-LD) for organization
  */
-export function generateOrganizationSchema(tenant: TenantConfig) {
-  const baseUrl = tenant.domain 
-    ? (tenant.domain.startsWith('http') ? tenant.domain : `https://${tenant.domain}`)
-    : process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+export function generateOrganizationSchema(
+  tenant: TenantConfig,
+  requestOrigin?: string | null
+) {
+  const baseUrl = resolveSiteOrigin(tenant, requestOrigin);
 
-  const logo = tenant.branding?.logo 
+  const logo = tenant.branding?.logo
     ? `${baseUrl}${tenant.branding.logo}`
     : undefined;
 
@@ -104,13 +138,15 @@ export function generateOrganizationSchema(tenant: TenantConfig) {
     url: baseUrl,
     logo: logo,
     description: tenant.seo?.description || tenant.content?.hero?.description,
-    contactPoint: tenant.content?.footer?.contact ? {
-      '@type': 'ContactPoint',
-      email: tenant.content.footer.contact.email,
-      telephone: tenant.content.footer.contact.phone,
-      contactType: 'Customer Service',
-    } : undefined,
-    sameAs: tenant.content?.footer?.social?.map(s => s.url) || [],
+    contactPoint: tenant.content?.footer?.contact
+      ? {
+          '@type': 'ContactPoint',
+          email: tenant.content.footer.contact.email,
+          telephone: tenant.content.footer.contact.phone,
+          contactType: 'Customer Service',
+        }
+      : undefined,
+    sameAs: tenant.content?.footer?.social?.map((s) => s.url) || [],
   };
 }
 

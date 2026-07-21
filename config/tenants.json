@@ -584,11 +584,11 @@
     "id": "qiraat",
     "name": "قراءات القرآن",
     "nameEn": "Quranqiraat.com",
-    "domain": "https://quranqiraat.com",
+    "domain": "https://qiraat-quran.netlify.app",
     "domains": [
-      "https://quranqiraat.com",
+      "https://qiraat-quran.netlify.app",
       "https://qiraat.itqan.dev",
-      "https://qiraat-quran.netlify.app"
+      "https://quranqiraat.com"
     ],
     "api": {
       "development": "https://staging.api.cms.itqan.dev/tenant",
@@ -607,8 +607,8 @@
       "heroBackgroundPattern": "/images/qiraat/hero-bg.svg"
     },
     "seo": {
-      "title": "قراءات القرآن",
-      "description": "مشروع جمع القراءات صوتيا",
+      "title": "قراءات القرآن | المصاحف المرتلة بالقراءات العشر بصوت الشيخ مفتاح السلطني",
+      "description": "استمع إلى تسجيلات القرآن الكريم بالقراءات العشر الكبرى والصغرى بصوت الشيخ الدكتور مفتاح السلطني — مرجع صوتي موثوق لطلاب العلم والمهتمين بعلم القراءات.",
       "keywords": [
         "قراءات",
         "القرآن",

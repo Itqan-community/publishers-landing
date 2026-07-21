@@ -13,7 +13,7 @@ import type { TahbeerSponsorItem } from '@/components/sections/TahbeerSponsorsSe
 import { getQiraahBySlug } from '@/lib/qiraahs';
 import { trimRiwayahName } from '@/lib/tahbeer-riwayah';
 import { getRecordedMushafs } from '@/lib/recorded-mushafs';
-import { generateTenantMetadata } from '@/lib/seo';
+import { generateTenantMetadata, originFromHeaders } from '@/lib/seo';
 import { isTenQiraahsTemplate } from '@/lib/ten-qiraahs-template';
 
 export const dynamic = 'force-dynamic';
@@ -44,12 +44,16 @@ export async function generateMetadata({
   if (!tenant || !isTenQiraahsTemplate(tenant.template)) {
     return { title: 'Not Found' };
   }
+  const headersList = await headers();
+  const basePath = getBasePathFromHeaders(headersList);
   const qiraah = await getQiraahBySlug(tenantId, slug, 'qiraahs/[slug]');
   const title = qiraah ? `${qiraah.name} — المصاحف المرتلة` : 'القراءة';
   return generateTenantMetadata(tenant, {
     title,
-    description: '',
-    path: `/${tenantId}/qiraahs/${slug}`,
+    description: tenant.template === 'qiraat' ? tenant.seo?.description || '' : '',
+    path: `${basePath}/qiraahs/${slug}`,
+    // Request-host OG resolution is Qiraat-only; Tahbeer keeps tenant.domain fallback
+    requestOrigin: tenant.template === 'qiraat' ? originFromHeaders(headersList) : null,
   });
 }
 

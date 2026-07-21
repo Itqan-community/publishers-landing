@@ -9,7 +9,7 @@ import { loadTenantConfig, getAllTenantIds } from '@/lib/tenant-config';
 import { getBasePathFromHeaders } from '@/lib/tenant-resolver';
 import { getTemplate } from '@/templates';
 import type { Metadata } from 'next';
-import { generateTenantMetadata } from '@/lib/seo';
+import { generateTenantMetadata, originFromHeaders } from '@/lib/seo';
 
 /**
  * Generate static params for all tenants (optional, for static export)
@@ -47,12 +47,18 @@ export async function generateMetadata({
     };
   }
 
+  const headersList = await headers();
+  const basePath = getBasePathFromHeaders(headersList);
+  const requestOrigin = originFromHeaders(headersList);
+
   // Qiraat: full SEO (OG PNG, icon set, manifest). Other tenants keep prior home metadata.
   if (tenant.template === 'qiraat') {
     return generateTenantMetadata(tenant, {
-      title: tenant.name,
-      description: tenant.content.hero.description,
-      path: `/${tenant.id}`,
+      title: tenant.seo?.title || tenant.name,
+      description: tenant.seo?.description || tenant.content.hero.description,
+      // Custom domain → `/`; path-based → `/qiraat`
+      path: basePath || '/',
+      requestOrigin,
     });
   }
 
