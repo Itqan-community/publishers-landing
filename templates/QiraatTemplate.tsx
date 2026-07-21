@@ -105,7 +105,7 @@ export async function QiraatTemplate({ tenant, basePath = '' }: QiraatTemplatePr
 
   return (
     <PageLayout tenant={tenant}>
-      <div className="hero-section-surface relative -mt-16 lg:-mt-header pt-7xl lg:pt-header">
+      <div className="hero-section-surface relative -mt-16 lg:-mt-header pt-16 lg:pt-header">
         <div className="hero-bg-pattern" aria-hidden="true" />
         <HeroSection
           variant="legacy"

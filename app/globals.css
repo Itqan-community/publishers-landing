@@ -267,6 +267,11 @@
   background-size: 100% 1px;
 }
 
+/* Recitation player — map hard Saudi-green fills to verdigris primary */
+[data-template='qiraat'] .bg-\[\#193624\] {
+  background-color: var(--color-primary) !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   [data-template='qiraat'] .qiraat-hero-ink,
   [data-template='qiraat'] .qiraat-hero-ink-delay,

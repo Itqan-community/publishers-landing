@@ -28,6 +28,8 @@ export interface ImamInfoCardProps {
   name: string;
   bio: string;
   avatarSrc?: string;
+  /** `qiraat-archive` = 12px paper panel, no soft shadow. Default = Tahbeer. */
+  appearance?: 'default' | 'qiraat-archive';
 }
 
 /**
@@ -39,14 +41,20 @@ export const ImamInfoCard: React.FC<ImamInfoCardProps> = ({
   name,
   bio,
   avatarSrc,
+  appearance = 'default',
 }) => {
   const [imageError, setImageError] = useState(false);
   useEffect(() => setImageError(false), [avatarSrc]);
   const showImage = avatarSrc?.trim() && !imageError;
+  const isArchive = appearance === 'qiraat-archive';
 
   return (
     <div
-      className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 rounded-[16px] sm:rounded-[20px] border border-[#e7e7e7] bg-white p-4 sm:p-6 text-start shadow-[0px_14px_44px_rgba(0,0,0,0.07)]"
+      className={
+        isArchive
+          ? 'flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 rounded-[12px] border border-[var(--color-rule-gold,#A68B4B)]/35 bg-white p-4 sm:p-6 text-start'
+          : 'flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 rounded-[16px] sm:rounded-[20px] border border-[#e7e7e7] bg-white p-4 sm:p-6 text-start shadow-[0px_14px_44px_rgba(0,0,0,0.07)]'
+      }
       dir="rtl"
     >
       {/* 1. Avatar + label/name row on mobile; same row on desktop */}

@@ -30,7 +30,9 @@ export const PageLayout: React.FC<PageLayoutProps> = ({
         { label: 'الرئيسية', href: prefix || '/' },
         { label: 'القراءات العشر', href: `${prefix || '/'}#readings` },
         { label: 'فكرة المشروع', href: `${prefix || ''}#project-idea` },
-        { label: 'لجنة المراجعة', href: `${prefix || ''}#review-members` },
+        ...(tenant.template === 'tahbeer'
+          ? [{ label: 'لجنة المراجعة', href: `${prefix || ''}#review-members` }]
+          : []),
       ]
     : [
         { label: 'الرئيسية', href: prefix ? prefix : '/' },

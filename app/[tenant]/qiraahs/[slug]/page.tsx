@@ -97,6 +97,7 @@ export default async function TahbeerQiraahPage({
         <TahbeerRiwayahTopSection
           title={qiraah.name}
           description=""
+          appearance={tenant.template === 'qiraat' ? 'qiraat-archive' : 'default'}
           imam={{
             name: qiraah.name,
             label: 'التعريف بالإمام',
@@ -111,6 +112,7 @@ export default async function TahbeerQiraahPage({
         <TahbeerMushafJamiSection
           qiraahName={qiraah.name}
           mushaf={combinedMushaf}
+          appearance={tenant.template === 'qiraat' ? 'qiraat-archive' : 'default'}
           mushafAppearance={tenant.template === 'qiraat' ? 'qiraat-paper' : 'green'}
         />
       )}
@@ -129,6 +131,8 @@ export default async function TahbeerQiraahPage({
             reciterName={reciterName}
             reciterBio={reciterBio}
             mushafs={mushafs}
+            appearance={tenant.template === 'qiraat' ? 'qiraat-archive' : 'default'}
+            surface={tenant.template === 'qiraat' && index % 2 === 1 ? 'paper' : 'white'}
             mushafAppearance={
               tenant.template === 'qiraat'
                 ? index === 0

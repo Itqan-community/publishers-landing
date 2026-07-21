@@ -141,7 +141,7 @@ export function HeroSection({
     if (isArchive) {
       return (
         <section className="relative w-full min-h-[420px] sm:min-h-[550px] lg:min-h-[720px]" style={{ overflow: 'visible' }}>
-          <div className="relative max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 lg:py-20 min-h-[420px] sm:min-h-[550px] lg:min-h-[720px] flex" style={{ overflow: 'visible' }}>
+          <div className="relative max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-10 sm:py-16 lg:py-20 min-h-[420px] sm:min-h-[550px] lg:min-h-[720px] flex" style={{ overflow: 'visible' }}>
             <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-8 lg:gap-14 items-center w-full">
               <div className="order-1 self-stretch lg:order-1 flex flex-col justify-center items-start text-start space-y-5 sm:space-y-6">
                 {legacyLogoUrl && (

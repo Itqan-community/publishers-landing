@@ -511,6 +511,125 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = "" }) => {
       },
     };
 
+    /* ── Qiraat archive footer (paper / gold rule / verdigris social) ── */
+    if (template === "qiraat") {
+      const qiraatSocialMap: Record<
+        string,
+        { label: string; icon: React.ReactNode }
+      > = {
+        youtube: {
+          label: "يوتيوب",
+          icon: (
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden className="shrink-0">
+              <path d="M22.54 6.42a2.78 2.78 0 00-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 00-1.94 2A29 29 0 001 11.75a29 29 0 00.46 5.33 2.78 2.78 0 001.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 001.94-2 29 29 0 00.46-5.33 29 29 0 00-.46-5.33z" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinejoin="round" />
+              <path d="M9.75 15.02l5.75-3.27-5.75-3.27v6.54z" fill="currentColor" />
+            </svg>
+          ),
+        },
+        twitter: {
+          label: "تويتر",
+          icon: (
+            <svg width="28" height="28" viewBox="0 0 20 20" fill="none" aria-hidden className="shrink-0">
+              <path fillRule="evenodd" clipRule="evenodd" d="M1.94353 2.21547C2.05038 2.00649 2.2653 1.875 2.5 1.875H6.66667C6.86736 1.875 7.05584 1.97137 7.17334 2.13407L11.2867 7.82945L17.0581 2.05806C17.3021 1.81398 17.6979 1.81398 17.9419 2.05806C18.186 2.30214 18.186 2.69786 17.9419 2.94194L12.028 8.85589L18.0067 17.1341C18.1441 17.3243 18.1633 17.5756 18.0565 17.7845C17.9496 17.9935 17.7347 18.125 17.5 18.125H13.3333C13.1326 18.125 12.9442 18.0286 12.8267 17.8659L8.71333 12.1706L2.94194 17.9419C2.69787 18.186 2.30214 18.186 2.05806 17.9419C1.81398 17.6979 1.81398 17.3021 2.05806 17.0581L7.97201 11.1441L1.99333 2.86593C1.85591 2.67566 1.83668 2.42444 1.94353 2.21547ZM3.72235 3.125L13.6529 16.875H16.2777L6.3471 3.125H3.72235Z" fill="currentColor" />
+            </svg>
+          ),
+        },
+        instagram: {
+          label: "إنستغرام",
+          icon: (
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden className="shrink-0">
+              <path d="M2.5 12C2.5 16.4783 2.5 18.7175 3.89124 20.1088C5.28249 21.5 7.52166 21.5 12 21.5C16.4783 21.5 18.7175 21.5 20.1088 20.1088C21.5 18.7175 21.5 16.4783 21.5 12C21.5 7.52166 21.5 5.28249 20.1088 3.89124C18.7175 2.5 16.4783 2.5 12 2.5C7.52166 2.5 5.28249 2.5 3.89124 3.89124C2.5 5.28249 2.5 7.52166 2.5 12Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+              <path d="M16.5 12C16.5 9.51472 14.4853 7.5 12 7.5C9.51472 7.5 7.5 9.51472 7.5 12C7.5 14.4853 9.51472 16.5 12 16.5C14.4853 16.5 16.5 14.4853 16.5 12Z" stroke="currentColor" strokeWidth="1.5" />
+              <path d="M17.5078 17.4997L17.4988 17.4997" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          ),
+        },
+        facebook: {
+          label: "فيسبوك",
+          icon: (
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden className="shrink-0">
+              <path d="M14 9.5V7.5C14 6.39543 14.8954 5.5 16 5.5H18V2H16C12.6863 2 10 4.68629 10 8V9.5H7V13H10V22H14V13H17L18 9.5H14Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+            </svg>
+          ),
+        },
+        tiktok: {
+          label: "تيك توك",
+          icon: (
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden className="shrink-0">
+              <path d="M14.5 4v9.25a3.75 3.75 0 11-3.75-3.75" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M14.5 7.5c1.1 1.15 2.6 1.85 4.25 1.95" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          ),
+        },
+      };
+
+      return (
+        <footer className="bg-[var(--color-paper,#E6E2D8)]" dir="rtl">
+          <div className="mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 md:pt-[61px] pb-8 flex flex-col">
+            <div
+              className="h-px w-full max-w-[120px] mx-auto lg:mx-0 mb-8 bg-[var(--color-rule-gold,#A68B4B)] opacity-50"
+              aria-hidden="true"
+            />
+            <div className="flex flex-col lg:flex-row lg:justify-between gap-8 lg:gap-12 pb-10 sm:pb-12">
+              <div className="flex flex-col gap-3 items-center lg:items-start text-center lg:text-start lg:max-w-[387px] shrink-0">
+                <div className="relative w-[91px] h-[91px]">
+                  <Image
+                    src={footerLogo}
+                    alt={tenant.name}
+                    fill
+                    className="object-contain"
+                    sizes="91px"
+                  />
+                </div>
+                <p className="text-[14px] font-normal text-[var(--color-foreground)] leading-[1.5]">
+                  {footer.description}
+                </p>
+              </div>
+
+              <div className="flex justify-center lg:justify-end flex-wrap sm:flex-nowrap gap-8 sm:gap-[53px] flex-1">
+                {footer.social && footer.social.length > 0 && (
+                  <div className="flex flex-col gap-[18px] items-center lg:items-start">
+                    <p className="text-[16px] font-semibold text-[var(--color-foreground)] leading-[1.5]">
+                      تابعنا
+                    </p>
+                    <div className="flex flex-row flex-wrap gap-5 sm:gap-8 items-center justify-center lg:justify-start text-[var(--color-primary)]">
+                      {footer.social.map((s) => {
+                        const mapped = qiraatSocialMap[s.platform.toLowerCase()];
+                        if (!mapped) return null;
+                        return (
+                          <a
+                            key={s.platform}
+                            href={s.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-3 min-h-11 py-1.5 hover:opacity-70 transition-opacity"
+                            aria-label={mapped.label}
+                          >
+                            {mapped.icon}
+                            <span className="text-[14px] sm:text-[16px] font-normal text-[var(--color-foreground)] leading-[1.5]">
+                              {mapped.label}
+                            </span>
+                          </a>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="border-t border-[var(--color-rule-gold,#A68B4B)]/35" />
+
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-6">
+              <p className="text-[12px] text-[var(--color-text-paragraph)] leading-[1.5] text-center sm:text-start">
+                {footer.copyright || "© 2024 جميع الحقوق محفوظة."}
+              </p>
+            </div>
+          </div>
+        </footer>
+      );
+    }
+
     return (
       <footer className="bg-[#f6f4f1]" dir="rtl">
         <div className="mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 md:pt-[61px] pb-6 flex flex-col">
