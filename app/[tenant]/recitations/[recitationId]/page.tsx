@@ -1,12 +1,20 @@
-import { notFound } from 'next/navigation';
+import { headers } from 'next/headers';
+import { notFound, redirect } from 'next/navigation';
 import { Metadata } from 'next';
 import Script from 'next/script';
 import { loadTenantConfig } from '@/lib/tenant-config';
+import { getBasePathFromHeaders } from '@/lib/tenant-resolver';
 import { PageLayout } from '@/components/layout/PageLayout';
 import { Button } from '@/components/ui/Button';
 import { RecitationsPlayer, RecitationItem } from '@/components/audio/AudioPlayer';
 import { getRecitationById } from '@/lib/recorded-mushafs';
-import { getRecitationTracksByAssetId } from '@/lib/recitation-tracks';
+import { getRecitationTracksByAssetId, getReciterImageFromRecitation } from '@/lib/recitation-tracks';
+import {
+  RecitationFolderNotFoundError,
+  folderFromQuery,
+  isKnownFolderQuery,
+  parseFolderQuery,
+} from '@/lib/recitation-folders';
 import { getBackendUrl } from '@/lib/backend-url';
 import { resolveImageUrl } from '@/lib/utils';
 import { AvatarImage } from '@/components/ui/AvatarImage';
@@ -56,15 +64,22 @@ export async function generateMetadata({
 
 export default async function RecitationDetailsPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ tenant: string; recitationId: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const { tenant: tenantId, recitationId } = await params;
+  const sp = await searchParams;
   const tenant = await loadTenantConfig(tenantId);
 
   if (!tenant) {
     notFound();
   }
+
+  const headersList = await headers();
+  const basePath = getBasePathFromHeaders(headersList);
+  const recitationPath = `${basePath.replace(/\/$/, '')}/recitations/${recitationId}`;
 
   // Always use SSR - X-Tenant authentication is now in place
   // Listing (/recitations) stays blocked for ten-qiraahs; detail is available for all tenants
@@ -75,38 +90,51 @@ export default async function RecitationDetailsPage({
     notFound();
   }
 
-  // Log the recitation object to verify the ID
-  // Log the recitation object to verify the ID
-  /*
-  console.log('========================================');
-  console.log('[RecitationDetailsPage] Fetched recitation object:');
-  console.log('  - recitation.id:', recitation.id);
-  console.log('  - recitation.id type:', typeof recitation.id);
-  console.log('  - recitation.name:', recitation.name);
-  console.log('  - URL recitationId:', recitationId);
-  console.log('  - IDs match:', String(recitation.id) === String(recitationId));
-  console.log('========================================');
-  */
+  const folders = recitation.folders ?? [];
+  const folderQuery = parseFolderQuery(sp.folder);
+  const selectedFolder = folderFromQuery(folders, folderQuery);
+
+  if (folders.length > 0 && selectedFolder && !isKnownFolderQuery(folders, folderQuery)) {
+    redirect(`${recitationPath}?folder=${encodeURIComponent(selectedFolder.slug)}`);
+  }
 
   // Extract reciter information; /recitations/ API often omits reciter image - we get it from tracks
   const reciterName = recitation.reciter?.name || 'غير معروف';
   const backendUrl = await getBackendUrl(tenantId);
 
-  // Fetch tracks first; /recitation-tracks/ returns reciter.image_url, /recitations/ does not
-  const tracks = await getRecitationTracksByAssetId(
-    recitation.id,
-    reciterName,
-    undefined, // Let tracks API extract image from response
-    tenantId
-  );
+  let tracks: RecitationItem[] = [];
+  try {
+    tracks = await getRecitationTracksByAssetId(
+      recitation.id,
+      reciterName,
+      undefined, // Let tracks API extract image from response
+      tenantId,
+      selectedFolder?.slug
+    );
+  } catch (error) {
+    if (error instanceof RecitationFolderNotFoundError && selectedFolder) {
+      const fallback = folders.find((folder) => folder.is_default) ?? folders[0];
+      if (fallback && fallback.slug !== selectedFolder.slug) {
+        redirect(`${recitationPath}?folder=${encodeURIComponent(fallback.slug)}`);
+      }
+      redirect(recitationPath);
+    }
+    throw error;
+  }
 
-  // Prefer image from tracks (API includes reciter.image_url); fallback to recitation.reciter
-  const reciterImage =
+  // Prefer image from selected-folder tracks; /recitations/ often omits reciter image.
+  // Empty folders have no tracks — fall back to metadata, then default-folder tracks.
+  let reciterImage =
     tracks[0]?.image ||
     (resolveImageUrl(
       recitation.reciter?.image_url ?? recitation.reciter?.image ?? recitation.reciter?.avatar,
       backendUrl
     ) ?? '');
+
+  if (!reciterImage) {
+    const fromDefaultFolder = await getReciterImageFromRecitation(recitation.id, tenantId);
+    reciterImage = fromDefaultFolder?.image || '';
+  }
 
   // Build breadcrumb schema for SEO
   const baseUrl = tenant.domain
@@ -291,13 +319,76 @@ export default async function RecitationDetailsPage({
 
           <div className="mx-auto max-w-[1280px] px-4 pb-16 sm:px-6 lg:px-8">
             <section className="mt-10">
-              <RecitationsPlayer
-                recitations={surahItems}
-                defaultSelected={surahItems[0]?.id}
-                variant="details"
-                listTitle="قائمة السور"
-                hideReciterName={isTenQiraahsTemplate(tenant.template)}
-              />
+              {folders.length > 1 && (
+                <div
+                  role="tablist"
+                  aria-label="مجلدات التلاوة"
+                  className="mb-6 flex gap-1 overflow-x-auto overflow-y-hidden border-b border-[#ebe8e8]"
+                >
+                  {folders.map((folder) => {
+                    const isSelected = selectedFolder?.slug === folder.slug;
+                    return (
+                      <Link
+                        key={folder.slug}
+                        role="tab"
+                        aria-selected={isSelected}
+                        href={`${recitationPath}?folder=${encodeURIComponent(folder.slug)}`}
+                        className={
+                          isSelected
+                            ? isQiraat
+                              ? '-mb-px shrink-0 border-b-2 border-[var(--color-primary)] px-4 py-3 text-md font-semibold text-[var(--color-foreground)]'
+                              : '-mb-px shrink-0 border-b-2 border-[#193624] px-4 py-3 text-md font-semibold text-[#1f2a37]'
+                            : isQiraat
+                              ? 'shrink-0 border-b-2 border-transparent px-4 py-3 text-md font-medium text-[var(--color-text-paragraph,#6a6a6a)] hover:text-[var(--color-foreground)]'
+                              : 'shrink-0 border-b-2 border-transparent px-4 py-3 text-md font-medium text-[#6a6a6a] hover:text-[#1f2a37]'
+                        }
+                      >
+                        {folder.name}
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
+              {surahItems.length > 0 ? (
+                <RecitationsPlayer
+                  key={selectedFolder?.slug ?? 'default'}
+                  recitations={surahItems}
+                  defaultSelected={surahItems[0]?.id}
+                  variant="details"
+                  listTitle="قائمة السور"
+                  hideReciterName={isTenQiraahsTemplate(tenant.template)}
+                />
+              ) : (
+                <div
+                  className={
+                    isQiraat
+                      ? 'rounded-[12px] border border-[var(--color-rule-gold,#A68B4B)]/35 bg-[var(--color-paper,#E6E2D8)]/40 px-6 py-16 text-center sm:px-10'
+                      : 'rounded-lg border border-[#ebe8e8] bg-white px-6 py-14 text-center sm:px-10'
+                  }
+                  role="status"
+                >
+                  <p
+                    className={
+                      isQiraat
+                        ? 'text-xl font-semibold text-[var(--color-foreground)]'
+                        : 'text-xl font-semibold text-[#1f2a37]'
+                    }
+                  >
+                    لا توجد سور مرفوعة بعد
+                  </p>
+                  <p
+                    className={
+                      isQiraat
+                        ? 'mx-auto mt-3 max-w-md text-md leading-relaxed text-[var(--color-text-paragraph,#6a6a6a)]'
+                        : 'mx-auto mt-3 max-w-md text-md leading-relaxed text-[#6a6a6a]'
+                    }
+                  >
+                    {selectedFolder && folders.length > 1
+                      ? `لم تُرفع سور نسخة «${selectedFolder.name}» بعد، وستكون متاحة قريبًا إن شاء الله.`
+                      : 'لم تُرفع سور هذا المصحف بعد، وستكون متاحة قريبًا إن شاء الله.'}
+                  </p>
+                </div>
+              )}
             </section>
           </div>
         </div>
