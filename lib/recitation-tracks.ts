@@ -4,6 +4,7 @@ import { getApiHeaders, resolveImageUrl } from '@/lib/utils';
 import { getTenantDomain } from '@/lib/tenant-domain';
 import type { RecitationItem } from '@/components/audio/AudioPlayer';
 import { getRecitationById } from '@/lib/recorded-mushafs';
+import { RecitationFolderNotFoundError } from '@/lib/recitation-folders';
 
 /**
  * API response model for recitation tracks endpoint
@@ -203,13 +204,15 @@ export const getReciterImageFromRecitation = cache(async (
  * @param reciterName - Optional reciter name to include in the response (for display)
  * @param reciterImage - Optional reciter image URL to include in the response
  * @param tenantId - Tenant ID for backend URL (uses default tenant if omitted)
+ * @param folderSlug - Recitation folder slug (`?folder=`). Omit for the default folder.
  * @returns Array of RecitationItem objects representing the tracks
  */
 export const getRecitationTracksByAssetId = cache(async (
   assetId: string | number,
   reciterName?: string,
   reciterImage?: string,
-  tenantId?: string
+  tenantId?: string,
+  folderSlug?: string
 ): Promise<RecitationItem[]> => {
   try {
     const backendUrl = await getBackendUrl(tenantId);
@@ -217,7 +220,11 @@ export const getRecitationTracksByAssetId = cache(async (
     
     // Ensure assetId is properly converted to string for URL
     const assetIdStr = String(assetId);
-    const apiUrl = `${backendUrl}/recitation-tracks/${assetIdStr}/?page_size=120`;
+    const searchParams = new URLSearchParams({ page_size: '120' });
+    if (folderSlug) {
+      searchParams.set('folder', folderSlug);
+    }
+    const apiUrl = `${backendUrl}/recitation-tracks/${assetIdStr}/?${searchParams.toString()}`;
     
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000);
@@ -233,6 +240,18 @@ export const getRecitationTracksByAssetId = cache(async (
       clearTimeout(timeoutId);
 
       if (!response.ok) {
+        if (response.status === 404) {
+          let errorName: string | undefined;
+          try {
+            const body = (await response.json()) as { error_name?: string };
+            errorName = body?.error_name;
+          } catch {
+            errorName = undefined;
+          }
+          if (errorName === 'folder_not_found') {
+            throw new RecitationFolderNotFoundError();
+          }
+        }
         console.error(`[getRecitationTracksByAssetId] API error: ${response.status} ${response.statusText}`);
         return [];
       }
@@ -243,6 +262,7 @@ export const getRecitationTracksByAssetId = cache(async (
       const trackReciterImage = data.results[0]?.reciter?.image_url || '';
       const effectiveReciterImage = reciterImage || trackReciterImage;
       const effectiveReciterName = reciterName || data.results[0]?.reciter?.name || 'غير معروف';
+      const idPrefix = folderSlug || 'default';
 
       return data.results.map((track): RecitationItem => {
         const title = track.surah_number 
@@ -256,7 +276,7 @@ export const getRecitationTracksByAssetId = cache(async (
         const audioUrl = track.audio_url || '';
 
         return {
-          id: `track-${track.surah_number}`,
+          id: `track-${idPrefix}-${track.surah_number}`,
           title,
           reciterName: effectiveReciterName,
           duration: formatDuration(track.duration_ms),
@@ -267,6 +287,10 @@ export const getRecitationTracksByAssetId = cache(async (
       });
     } catch (fetchError) {
       clearTimeout(timeoutId);
+
+      if (fetchError instanceof RecitationFolderNotFoundError) {
+        throw fetchError;
+      }
       
       if (fetchError instanceof Error && fetchError.name === 'AbortError') {
         console.error(`[getRecitationTracksByAssetId] Request timeout for ${apiUrl}`);
@@ -275,6 +299,10 @@ export const getRecitationTracksByAssetId = cache(async (
       throw fetchError;
     }
   } catch (error) {
+    if (error instanceof RecitationFolderNotFoundError) {
+      throw error;
+    }
+
     const backendUrl = await getBackendUrl(tenantId);
     const apiUrl = `${backendUrl}/recitation-tracks/${assetId}/`;
     const isDevelopment = process.env.NODE_ENV === 'development';
