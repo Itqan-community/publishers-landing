@@ -28,11 +28,11 @@
 
 | # | Field | Answer |
 |---|-------|--------|
-| 1.1 | Primary production domain | `https://qiraat.example.com` (PLACEHOLDER) |
-| 1.2 | Additional domains | `https://qiraat.itqan.dev` (PLACEHOLDER) |
-| 1.3 | Staging pattern | `staging--qiraat.example.com` (auto) |
+| 1.1 | Primary production domain | `https://quranqiraat.com` |
+| 1.2 | Additional domains | `https://qiraat-quran.netlify.app`, `https://www.quranqiraat.com` |
+| 1.3 | Staging pattern | `staging--quranqiraat.com` (auto) |
 | 1.4 | Default tenant on generic host? | No — path `/qiraat` |
-| 1.5 | X-Tenant header domain | TBD — use `domain` from config until overridden |
+| 1.5 | X-Tenant header domain | `https://quranqiraat.com` |
 
 ---
 
