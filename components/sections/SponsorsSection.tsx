@@ -24,15 +24,15 @@ export const SponsorsSection: React.FC<SponsorsSectionProps> = ({
   if (!sponsors || sponsors.length === 0) return null;
 
   return (
-    <section className="py-12 sm:py-16 md:py-20 bg-white" dir="rtl">
+    <section className="py-12 sm:py-16 md:py-20 bg-bg-card" dir="rtl">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header (match Saudi Center RTL style) */}
         <div className="mb-12">
-          <h2 className="text-display-xs sm:text-display-sm md:text-display-md font-semibold text-black leading-tight">
+          <h2 className="section-heading-title text-display-xs sm:text-display-sm md:text-display-md font-semibold text-black leading-tight">
             {title}
           </h2>
           {description && (
-            <p className="mt-3 text-md sm:text-lg md:text-xl text-[#343434] max-w-paragraph">
+            <p className="section-heading-description mt-3 text-md sm:text-lg md:text-xl text-[#343434] max-w-paragraph">
               {description}
             </p>
           )}
@@ -44,7 +44,7 @@ export const SponsorsSection: React.FC<SponsorsSectionProps> = ({
             <Card
               key={sponsor.id}
               variant="outlined"
-              className="border border-[#ebe8e8] rounded-xl bg-white p-6 sm:p-8"
+              className="border border-border rounded-xl bg-bg-card p-6 sm:p-8"
             >
               <div className="flex flex-col gap-6">
                 {/* Logo - top row */}
@@ -60,11 +60,11 @@ export const SponsorsSection: React.FC<SponsorsSectionProps> = ({
 
                 {/* Text - bottom row */}
                 <div>
-                  <h3 className="text-xl md:text-display-xs font-semibold text-black">
+                  <h3 className="section-heading-title text-xl md:text-display-xs font-semibold text-black">
                     {sponsor.name}
                   </h3>
                   {sponsor.description && (
-                    <p className="mt-3 text-md md:text-lg text-[#343434]">
+                    <p className="section-heading-description mt-3 text-md md:text-lg text-[#343434]">
                       {sponsor.description}
                     </p>
                   )}

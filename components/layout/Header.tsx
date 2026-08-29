@@ -174,7 +174,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
   /* ─── Default variant: Gov-style (Saudi Center) — design system tokens ─── */
   return (
     <header
-      className="sticky top-0 z-50 bg-white font-primary antialiased border-b border-[#ebe8e8]"
+      className="sticky top-0 z-50 bg-bg-card font-primary antialiased border-b border-border"
       dir="rtl"
     >
       <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 xl:px-8">
@@ -241,7 +241,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
 
           {/* ── Mobile Menu Button ── */}
           <button
-            className="md:hidden p-2 text-foreground hover:bg-gray-100 rounded-xs transition-colors"
+            className="md:hidden p-2 text-foreground hover:bg-bg-neutral-100 rounded-xs transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -251,7 +251,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
 
         {/* ── Mobile Menu ── */}
         {mobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-[#ebe8e8]">
+          <div className="md:hidden py-4 border-t border-border">
             <nav className="flex flex-col gap-1">
               {navItems.map((item) => {
                 const active = isActive(item);
@@ -279,7 +279,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
                   </Link>
                 );
               })}
-              <div className="flex flex-col gap-2 pt-4 mt-2 border-t border-[#ebe8e8]">
+              <div className="flex flex-col gap-2 pt-4 mt-2 border-t border-border">
                 <Link href={listenHref} className="flex items-center justify-center gap-2 px-4 py-3 text-md font-medium text-foreground rounded-xs hover:bg-primary/10 transition-colors">
                   <ListenNowIcon size={20} />
                   استمع الان

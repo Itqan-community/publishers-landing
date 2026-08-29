@@ -80,11 +80,11 @@ export function generateThemeVariables(
     vars['--section-title-to-content-gap'] = '30px';
   }
   if (template === 'saudi-center') {
-    /* Logo gold primary (#FBB042) + green secondary — warm ivory surfaces */
-    vars['--color-primary-light'] = '#FDC86A';
-    vars['--color-primary-dark'] = '#C9922A';
+    /* Official logo gold (#CFA741) + green secondary — warm ivory surfaces */
+    vars['--color-primary-light'] = '#D8B867';
+    vars['--color-primary-dark'] = '#A58534';
     /* Same logo gold for filled CTAs (match nav / brand, not a second gold) */
-    vars['--color-primary-solid'] = '#FBB042';
+    vars['--color-primary-solid'] = '#CFA741';
     vars['--color-background'] = '#FAF8F3';
     vars['--color-foreground'] = '#193624';
     vars['--color-text-default'] = '#193624';
@@ -98,11 +98,11 @@ export function generateThemeVariables(
     vars['--color-bg-neutral-200'] = '#E5DCCE';
     vars['--color-bg-card'] = '#FFFFFF';
     vars['--color-button-black'] = accentColor || '#1A2E22';
-    /* Darker gold for icons (matches about-card icon SVGs #C9922A) */
-    vars['--hero-social-color'] = '#C9922A';
-    vars['--about-icon-color'] = '#C9922A';
-    vars['--about-icon-bg'] = 'color-mix(in srgb, #FBB042 18%, white)';
-    vars['--mushaf-card-top-bg'] = '#FFF6E5';
+    /* Darker gold for icons (derived from logo primary #CFA741) */
+    vars['--hero-social-color'] = '#A58534';
+    vars['--about-icon-color'] = '#A58534';
+    vars['--about-icon-bg'] = 'color-mix(in srgb, #CFA741 18%, white)';
+    vars['--mushaf-card-top-bg'] = '#FFF8E8';
     vars['--stat-number-color'] = primaryColor;
     vars['--footer-bg'] = '#1A1612';
   } else if (template === 'qiraat') {

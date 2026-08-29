@@ -20,15 +20,15 @@ export const FeaturedRecitationsSection: React.FC<FeaturedRecitationsSectionProp
   detailsHrefBase,
 }) => {
   return (
-    <section className="bg-[#f6f4f1] py-12 sm:py-16 md:py-20">
+    <section className="featured-section-bg bg-[#f6f4f1] py-12 sm:py-16 md:py-20">
       <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-12 flex flex-col gap-4 lg:flex-row lg:justify-between">
           <div className="flex flex-col gap-2">
-            <h2 className="text-display-xs sm:text-display-sm font-semibold leading-tight text-black md:text-display-md">
+            <h2 className="section-heading-title text-display-xs sm:text-display-sm font-semibold leading-tight text-black md:text-display-md">
               {title}
             </h2>
-            <p className="max-w-width-lg text-md sm:text-lg text-[#343434] md:text-xl">
+            <p className="section-heading-description max-w-width-lg text-md sm:text-lg text-[#343434] md:text-xl">
               {description}
             </p>
           </div>

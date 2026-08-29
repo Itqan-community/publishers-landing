@@ -188,6 +188,29 @@
   color: var(--color-primary-dark);
 }
 
+/* Saudi Center: themed overrides for shared component hardcoded colors */
+[data-template='saudi-center'] .section-heading-title {
+  color: var(--color-foreground);
+}
+[data-template='saudi-center'] .section-heading-description {
+  color: var(--color-text-paragraph);
+}
+[data-template='saudi-center'] .stats-section-bg {
+  background-color: var(--color-button-black);
+}
+[data-template='saudi-center'] .featured-section-bg {
+  background-color: var(--color-bg-neutral-100);
+}
+[data-template='saudi-center'] .card-placeholder-bg {
+  background-color: var(--color-bg-neutral-200);
+}
+[data-template='saudi-center'] .card-placeholder-icon {
+  color: var(--color-text-secondary);
+}
+[data-template='saudi-center'] .btn-secondary-variant:hover {
+  background-color: color-mix(in srgb, var(--color-button-black) 85%, black);
+}
+
 /* ─── Qiraat-only: living mushaf archive identity ─── */
 [data-template='qiraat'] .hero-bg-pattern {
   background-repeat: repeat;

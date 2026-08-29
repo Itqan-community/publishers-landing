@@ -24,7 +24,7 @@ export function StatisticsSection({
   }
 
   return (
-    <section className="relative bg-[#171b19] text-white py-12 sm:py-16 md:py-20 overflow-hidden">
+    <section className="stats-section-bg relative bg-[#171b19] text-white py-12 sm:py-16 md:py-20 overflow-hidden">
       {/* Background pattern (same as hero): diagonal fade top-start -> bottom-end */}
       <div
         className="pointer-events-none absolute inset-0 bg-[image:var(--hero-bg-pattern)] bg-no-repeat bg-right-top bg-cover opacity-50"

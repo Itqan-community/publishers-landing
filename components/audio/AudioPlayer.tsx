@@ -340,7 +340,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                       <div className="flex min-w-0 flex-1 items-center justify-start gap-4">
                         {isDetailsVariant && (
                           <div className="relative shrink-0">
-                            <div className="relative size-[56px] overflow-hidden rounded-full bg-[#d9d9d9] flex items-center justify-center">
+                            <div className="relative size-[56px] overflow-hidden rounded-full bg-bg-neutral-200 flex items-center justify-center">
                               {recitation.image?.trim() ? (
                                 <Image
                                   key={recitation.image}
@@ -518,7 +518,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                       onClick={handlePrev}
                       disabled={!hasPrev}
                       aria-label="السابق"
-                      className="flex size-[46px] items-center justify-center rounded-lg bg-white text-[#161616] disabled:opacity-40"
+                      className="flex size-[46px] items-center justify-center rounded-lg bg-white text-foreground disabled:opacity-40"
                     >
                       <PrevIcon />
                     </button>
@@ -527,7 +527,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                       type="button"
                       onClick={handleTogglePlay}
                       aria-label={isPlaying ? 'إيقاف مؤقت' : 'تشغيل'}
-                      className="flex size-[46px] items-center justify-center rounded-lg bg-bg-neutral-100 text-[#161616]"
+                      className="flex size-[46px] items-center justify-center rounded-lg bg-bg-neutral-100 text-foreground"
                     >
                       {isPlaying ? <PauseIcon className="h-6 w-6" /> : <PlayIcon />}
                     </button>
@@ -537,7 +537,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                       onClick={handleNext}
                       disabled={!hasNext}
                       aria-label="التالي"
-                      className="flex size-[46px] items-center justify-center rounded-lg bg-white text-[#161616] disabled:opacity-40"
+                      className="flex size-[46px] items-center justify-center rounded-lg bg-white text-foreground disabled:opacity-40"
                     >
                       <NextIcon />
                     </button>
@@ -643,7 +643,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                           <button
                             type="button"
                             onClick={() => handleRecitationClick(recitation)}
-                            className="flex h-[44px] w-[44px] items-center justify-center rounded-lg text-[#161616] hover:bg-black/5 transition-colors"
+                            className="flex h-[44px] w-[44px] items-center justify-center rounded-lg text-foreground hover:bg-black/5 transition-colors"
                             aria-label={isSelected && isPlaying ? 'إيقاف مؤقت' : 'تشغيل'}
                           >
                             {isSelected && isPlaying ? (
@@ -658,7 +658,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                               download={downloadFilename}
                               target="_blank"
                               onClick={(e) => e.stopPropagation()}
-                              className="flex h-[44px] w-[44px] items-center justify-center rounded-lg text-[#161616] hover:bg-black/5 transition-colors"
+                              className="flex h-[44px] w-[44px] items-center justify-center rounded-lg text-foreground hover:bg-black/5 transition-colors"
                               aria-label="تحميل"
                             >
                               <DownloadIcon className="h-[19px] w-[19px]" />
@@ -685,7 +685,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                     </p>
                   </div>
                 </div>
-                {/* Progress: time above, orange seekable bar */}
+                {/* Progress: time above, gold seekable bar */}
                 <div className="w-full max-w-full sm:max-w-[343px]">
                   <p className="mb-2 text-center text-sm text-text-secondary">
                     {durationSeconds ? formatTime(currentTimeSeconds) : selectedRecitation?.duration || '0:00'}
@@ -731,7 +731,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                     onClick={handlePrev}
                     disabled={!hasPrev}
                     aria-label="السابق"
-                    className="flex size-[46px] items-center justify-center rounded-[14px] bg-white text-[#161616] disabled:opacity-40"
+                    className="flex size-[46px] items-center justify-center rounded-[14px] bg-white text-foreground disabled:opacity-40"
                   >
                     <PrevIcon />
                   </button>
@@ -739,7 +739,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                     type="button"
                     onClick={handleTogglePlay}
                     aria-label={isPlaying ? 'إيقاف مؤقت' : 'تشغيل'}
-                    className="flex size-[46px] items-center justify-center rounded-[14px] bg-bg-neutral-100 text-[#161616]"
+                    className="flex size-[46px] items-center justify-center rounded-[14px] bg-bg-neutral-100 text-foreground"
                   >
                     {isPlaying ? <PauseIcon className="h-6 w-6" /> : <PlayIcon />}
                   </button>
@@ -748,7 +748,7 @@ export const RecitationsPlayer: React.FC<RecitationsPlayerProps> = ({
                     onClick={handleNext}
                     disabled={!hasNext}
                     aria-label="التالي"
-                    className="flex size-[46px] items-center justify-center rounded-[14px] bg-white text-[#161616] disabled:opacity-40"
+                    className="flex size-[46px] items-center justify-center rounded-[14px] bg-white text-foreground disabled:opacity-40"
                   >
                     <NextIcon />
                   </button>

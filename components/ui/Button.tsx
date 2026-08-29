@@ -42,7 +42,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         'bg-[var(--color-primary-solid,var(--color-primary))] text-white rounded-sm ' +
         'hover:bg-[var(--color-primary-dark)]',
       secondary:
-        'bg-[var(--color-button-black)] text-white rounded-sm ' +
+        'btn-secondary-variant bg-[var(--color-button-black)] text-white rounded-sm ' +
         'hover:bg-[#090d15]',
       outline:
         'border border-primary/25 text-[var(--color-primary)] bg-white rounded-sm ' +

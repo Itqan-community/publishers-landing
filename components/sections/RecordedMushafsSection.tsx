@@ -22,7 +22,7 @@ export const RecordedMushafsSection: React.FC<RecordedMushafsSectionProps> = ({
   viewAllHref,
 }) => {
   return (
-    <section id={id} className={`py-12 sm:py-16 md:py-20 bg-white ${id ? 'scroll-mt-20' : ''}`}>
+    <section id={id} className={`py-12 sm:py-16 md:py-20 bg-bg-card ${id ? 'scroll-mt-20' : ''}`}>
       <div className="max-w-content mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start mb-8 sm:mb-12 gap-4">

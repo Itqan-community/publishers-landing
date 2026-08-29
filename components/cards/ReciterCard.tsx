@@ -42,7 +42,7 @@ export const ReciterCard: React.FC<ReciterCardProps> = ({
 
   return (
     <div className="relative h-full overflow-hidden rounded-md  cursor-default">
-      <div className="relative w-full h-[380px] bg-[#f3f3f3] flex items-center justify-center">
+      <div className="card-placeholder-bg relative w-full h-[380px] bg-[#f3f3f3] flex items-center justify-center">
         {showImage ? (
           <Image
             key={image}
@@ -55,12 +55,12 @@ export const ReciterCard: React.FC<ReciterCardProps> = ({
             onError={() => setImageError(true)}
           />
         ) : (
-          <UserIcon className="h-24 w-24 text-[#6a6a6a]" />
+          <UserIcon className="card-placeholder-icon h-24 w-24 text-[#6a6a6a]" />
         )}
       </div>
       <div className="absolute left-[12px] right-[12px] bottom-[12px] bg-white rounded-md px-6 py-5 opacity-80">
         <h3 className="text-display-xs font-semibold text-black leading-tight">{name}</h3>
-        <p className="text-md text-[#343434] mt-2 line-clamp-2">{bio || title}</p>
+        <p className="section-heading-description text-md text-[#343434] mt-2 line-clamp-2">{bio || title}</p>
       </div>
     </div>
   );
