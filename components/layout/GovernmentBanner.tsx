@@ -35,7 +35,7 @@ export const GovernmentBanner: React.FC = () => {
     <div className="w-full bg-white border-b border-[#ebe8e8] font-primary antialiased" dir="rtl">
       {/* Main bar: padding on this block only so divider below can be full width */}
       <div className="w-full mx-auto px-4 sm:px-6 lg:px-12 xl:px-20 py-2">
-        <div className="flex items-center gap-md py-sm text-xs">
+        <div className="flex items-end gap-2 py-sm text-xs">
           <ArabicFlagIcon />
           <span className="text-[#555] font-medium">
             موقع حكومي مسجل لدى هيئة الحكومة الرقمية
