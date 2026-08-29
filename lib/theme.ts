@@ -104,7 +104,8 @@ export function generateThemeVariables(
     vars['--about-icon-bg'] = 'color-mix(in srgb, #CFA741 18%, white)';
     vars['--mushaf-card-top-bg'] = '#FFF8E8';
     vars['--stat-number-color'] = primaryColor;
-    vars['--footer-bg'] = '#1A1612';
+    vars['--stats-bg'] = '#1F190D';
+    vars['--footer-bg'] = '#14110C';
   } else if (template === 'qiraat') {
     /* Living mushaf archive — ink / verdigris / paper / sealing-wax */
     vars['--font-primary'] = 'var(--font-kufam), "Kufam", sans-serif';

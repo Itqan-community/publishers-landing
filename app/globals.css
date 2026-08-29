@@ -196,7 +196,7 @@
   color: var(--color-text-paragraph);
 }
 [data-template='saudi-center'] .stats-section-bg {
-  background-color: var(--color-button-black);
+  background-color: var(--stats-bg, #1F190D);
 }
 [data-template='saudi-center'] .featured-section-bg {
   background-color: var(--color-bg-neutral-100);

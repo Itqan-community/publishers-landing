@@ -157,7 +157,7 @@ export const Footer: React.FC<FooterProps> = ({ tenant, basePath = "" }) => {
 
   if (template === "saudi-center") {
     return (
-      <footer className="bg-[var(--footer-bg,#1A1612)] text-white" dir="rtl">
+      <footer className="bg-[var(--footer-bg,#14110C)] text-white" dir="rtl">
         <div className="mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8 pt-10 pb-6 flex flex-col gap-12">
           {/* ═══════ Top: 4 link columns ═══════
               RTL: start = right. First flex child → rightmost.
