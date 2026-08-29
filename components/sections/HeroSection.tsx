@@ -385,10 +385,10 @@ export function HeroSection({
                 <Link href={ctaLink ? `${prefix}${ctaLink}` : `${prefix}/recitations`}>استمع الان</Link>
               </Button>
             </div>
-            <div className="flex items-center gap-4 text-[var(--color-primary)] text-lg pt-1 justify-start flex-wrap sm:flex-nowrap">
+            <div className="flex items-center gap-4 text-[var(--hero-social-color,var(--color-primary))] text-lg pt-1 justify-start flex-wrap sm:flex-nowrap">
               <span className="text-sm text-[var(--color-text-paragraph)]">تابعنا على منصات التواصل الاجتماعي</span>
-              <div className="hidden sm:block h-[1px] w-[140px] bg-[var(--color-primary)]" />
-              <div className="flex items-center gap-4">
+              <div className="hidden sm:block h-[1px] w-[140px] bg-[var(--hero-social-color,var(--color-primary))]" />
+              <div className="flex items-center gap-4 text-[var(--hero-social-color,var(--color-primary))]">
                 <a href="#" aria-label="X" className="hover:opacity-80 transition-opacity">
                   <TwitterIcon className="w-6 h-6" />
                 </a>

@@ -54,7 +54,7 @@ export const FeatureAwardIcon = ({
   className?: string;
   variant?: "default" | "tahbeer";
 }) => {
-  const c = variant === "tahbeer" ? "currentColor" : "#193624";
+  const c = "currentColor";
   const stroke0 = variant === "tahbeer" ? "currentColor" : "#030315";
   return (
     <svg
@@ -147,7 +147,7 @@ export const TwitterIcon = ({
   className?: string;
   variant?: "default" | "tahbeer";
 }) => {
-  const c = variant === "tahbeer" ? "currentColor" : "#193624";
+  const c = "currentColor";
   return (
     <svg
       preserveAspectRatio="none"
@@ -177,8 +177,8 @@ export const InstagramIcon = ({
   className?: string;
   variant?: "default" | "tahbeer";
 }) => {
-  const c = variant === "tahbeer" ? "currentColor" : "#193624";
-  const dotStroke = variant === "tahbeer" ? "currentColor" : "#030315";
+  const c = "currentColor";
+  const dotStroke = "currentColor";
   return (
     <svg
       preserveAspectRatio="none"
@@ -225,7 +225,7 @@ export const YouTubeIcon = ({
   className?: string;
   variant?: "default" | "tahbeer";
 }) => {
-  const c = variant === "tahbeer" ? "currentColor" : "#193624";
+  const c = "currentColor";
   return (
     <svg
       preserveAspectRatio="none"
@@ -262,7 +262,7 @@ export const TikTokIcon = ({
   className?: string;
   variant?: "default" | "tahbeer";
 }) => {
-  const c = variant === "tahbeer" ? "currentColor" : "#193624";
+  const c = "currentColor";
   return (
     <svg
       preserveAspectRatio="none"
@@ -301,7 +301,7 @@ export const FacebookIcon = ({
   className?: string;
   variant?: "default" | "tahbeer";
 }) => {
-  const c = variant === "tahbeer" ? "currentColor" : "#193624";
+  const c = "currentColor";
   return (
     <svg
       preserveAspectRatio="none"

@@ -84,7 +84,7 @@ export const RecitationsListingSection: React.FC<RecitationsListingSectionProps>
             <button
               type="button"
               onClick={loadMore}
-              className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-[#193624] px-6 text-md font-medium text-white hover:bg-[#102516] focus:outline-none focus:ring-2 focus:ring-[#193624] focus:ring-offset-2"
+              className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-[var(--color-primary-solid,var(--color-primary))] px-6 text-md font-medium text-white hover:bg-[var(--color-primary-dark)] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             >
               <SparkleIcon className="h-5 w-5 text-white" />
               عرض المزيد

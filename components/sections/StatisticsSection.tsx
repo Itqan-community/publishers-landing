@@ -55,7 +55,7 @@ export function StatisticsSection({
               key={index}
               className="relative min-h-[140px] sm:min-h-[160px] md:h-[187px] w-full md:w-[240px] flex-shrink-0"
             >
-              <div className="text-display-sm sm:text-display-lg md:text-display-xl leading-none text-[var(--color-secondary)] font-medium">
+              <div className="text-display-sm sm:text-display-lg md:text-display-xl leading-none text-[var(--stat-number-color,var(--color-secondary))] font-medium">
                 {typeof stat.value === 'number'
                   ? stat.value.toLocaleString()
                   : stat.value}

@@ -12,9 +12,9 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 const toneClass: Record<BadgeTone, string> = {
-  gold: 'bg-secondary/15 text-[var(--color-secondary-dark)]',
+  gold: 'bg-primary/15 text-[var(--color-primary-dark)]',
   gray: 'bg-black/5 text-black/70',
-  green: 'bg-primary/10 text-[var(--color-primary)]',
+  green: 'bg-secondary/10 text-[var(--color-secondary)]',
 };
 
 const sizeClass: Record<BadgeSize, string> = {

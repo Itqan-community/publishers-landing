@@ -211,14 +211,16 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
                       }`}
                   >
                     {item.label}
-                    {/* Bottom indicator: visible on active and hover (theme-aware) */}
-                    <span
-                      className={`absolute bottom-0 start-2 end-2 h-[6px] rounded-full transition-colors duration-200
-                        ${active
-                          ? 'bg-secondary'
-                          : 'bg-transparent group-hover:bg-primary/25'
-                        }`}
-                    />
+                    {/* Bottom indicator — omitted for saudi-center (gold fill is enough) */}
+                    {!isSaudiCenter && (
+                      <span
+                        className={`absolute bottom-0 start-2 end-2 h-[6px] rounded-full transition-colors duration-200
+                          ${active
+                            ? 'bg-secondary'
+                            : 'bg-transparent group-hover:bg-primary/25'
+                          }`}
+                      />
+                    )}
                   </Link>
                 );
               })}
@@ -265,13 +267,15 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
                       }`}
                   >
                     {item.label}
-                    <span
-                      className={`absolute bottom-0 start-2 end-2 h-[4px] rounded-full transition-colors duration-200
-                        ${active
-                          ? 'bg-secondary'
-                          : 'bg-transparent group-hover:bg-primary/25'
-                        }`}
-                    />
+                    {!isSaudiCenter && (
+                      <span
+                        className={`absolute bottom-0 start-2 end-2 h-[4px] rounded-full transition-colors duration-200
+                          ${active
+                            ? 'bg-secondary'
+                            : 'bg-transparent group-hover:bg-primary/25'
+                          }`}
+                      />
+                    )}
                   </Link>
                 );
               })}

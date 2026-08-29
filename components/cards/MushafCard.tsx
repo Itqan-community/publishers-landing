@@ -13,13 +13,21 @@ export const MushafCard: React.FC<MushafCardProps> = ({ mushaf }) => {
 
   return (
     <div className="relative h-[348px] w-full rounded-md border border-[var(--color-border)] bg-[var(--color-bg-card)] flex flex-col">
-      {/* Top section with colored background */}
+      {/* Top section — saudi-center overrides via --mushaf-card-top-bg */}
       <div
         className="relative h-[226px] w-full overflow-hidden rounded-t-md flex items-center justify-center"
-        style={{ backgroundColor: visuals.topBackgroundColor }}
+        style={{
+          backgroundColor: `var(--mushaf-card-top-bg, ${visuals.topBackgroundColor})`,
+        }}
       >
         <div className="relative z-10 w-[50%] h-[70%]" aria-hidden="true">
-          <MushafIcon sizes="136px" />
+          {/* Default green icon; gold icon shown only under data-template=saudi-center */}
+          <div className="absolute inset-0 mushaf-icon-default">
+            <MushafIcon sizes="136px" />
+          </div>
+          <div className="absolute inset-0 mushaf-icon-gold hidden">
+            <MushafIcon src="/icons/big-mushaf-gold.svg" sizes="136px" />
+          </div>
         </div>
       </div>
       {/* Bottom section */}
@@ -41,7 +49,7 @@ export const MushafCard: React.FC<MushafCardProps> = ({ mushaf }) => {
         )}
         {/* CTA button */}
         <div className="mt-auto pt-3">
-          <Button variant="outline" size="sm" asChild className="w-full">
+          <Button variant="outline" size="sm" asChild className="w-full mushaf-card-listen-btn">
             <Link href={href}>استمع</Link>
           </Button>
         </div>

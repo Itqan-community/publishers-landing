@@ -39,7 +39,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variants: Record<NonNullable<ButtonProps['variant']>, string> = {
       primary:
-        'bg-[var(--color-primary)] text-white rounded-sm ' +
+        'bg-[var(--color-primary-solid,var(--color-primary))] text-white rounded-sm ' +
         'hover:bg-[var(--color-primary-dark)]',
       secondary:
         'bg-[var(--color-button-black)] text-white rounded-sm ' +

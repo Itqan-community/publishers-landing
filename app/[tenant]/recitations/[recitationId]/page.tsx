@@ -250,7 +250,7 @@ export default async function RecitationDetailsPage({
                             className={
                               isQiraat
                                 ? 'rounded-[8px] border border-[var(--color-rule-gold,#A68B4B)]/35 bg-[var(--color-paper,#E6E2D8)] px-[8px] py-[4px] text-xs font-[500] text-[var(--color-foreground)]'
-                                : 'rounded-xs bg-white px-[8px] py-[4px] text-xs font-[500] text-[#1f2a37]'
+                                : 'rounded-xs bg-white px-[8px] py-[4px] text-xs font-[500] text-text-display'
                             }
                           >
                             مصحف الجمع
@@ -261,7 +261,7 @@ export default async function RecitationDetailsPage({
                               className={
                                 isQiraat
                                   ? 'rounded-[8px] border border-[var(--color-rule-gold,#A68B4B)]/35 bg-[var(--color-paper,#E6E2D8)] px-[8px] py-[4px] text-xs font-[500] text-[var(--color-foreground)]'
-                                  : 'rounded-xs bg-white px-[8px] py-[4px] text-xs font-[500] text-[#1f2a37]'
+                                  : 'rounded-xs bg-white px-[8px] py-[4px] text-xs font-[500] text-text-display'
                               }
                             >
                               رواية {recitation.riwayah.name}
@@ -273,7 +273,7 @@ export default async function RecitationDetailsPage({
                             className={
                               isQiraat
                                 ? 'rounded-[8px] border border-[var(--color-rule-gold,#A68B4B)]/35 bg-[var(--color-paper,#E6E2D8)] px-[8px] py-[4px] text-xs font-[500] text-[var(--color-foreground)]'
-                                : 'rounded-xs bg-white px-[8px] py-[4px] text-xs font-[500] text-[#1f2a37]'
+                                : 'rounded-xs bg-white px-[8px] py-[4px] text-xs font-[500] text-text-display'
                             }
                           >
                             {recitation.madd_level === 'twassut' ? 'بالتوسط' : recitation.madd_level === 'qasr' ? 'بالقصر' : recitation.madd_level}
@@ -323,7 +323,7 @@ export default async function RecitationDetailsPage({
                 <div
                   role="tablist"
                   aria-label="مجلدات التلاوة"
-                  className="mb-6 flex gap-1 overflow-x-auto overflow-y-hidden border-b border-[#ebe8e8]"
+                  className="mb-6 flex gap-1 overflow-x-auto overflow-y-hidden border-b border-border"
                 >
                   {folders.map((folder) => {
                     const isSelected = selectedFolder?.slug === folder.slug;
@@ -337,10 +337,10 @@ export default async function RecitationDetailsPage({
                           isSelected
                             ? isQiraat
                               ? '-mb-px shrink-0 border-b-2 border-[var(--color-primary)] px-4 py-3 text-md font-semibold text-[var(--color-foreground)]'
-                              : '-mb-px shrink-0 border-b-2 border-[#193624] px-4 py-3 text-md font-semibold text-[#1f2a37]'
+                              : '-mb-px shrink-0 border-b-2 border-primary px-4 py-3 text-md font-semibold text-text-display'
                             : isQiraat
                               ? 'shrink-0 border-b-2 border-transparent px-4 py-3 text-md font-medium text-[var(--color-text-paragraph,#6a6a6a)] hover:text-[var(--color-foreground)]'
-                              : 'shrink-0 border-b-2 border-transparent px-4 py-3 text-md font-medium text-[#6a6a6a] hover:text-[#1f2a37]'
+                              : 'shrink-0 border-b-2 border-transparent px-4 py-3 text-md font-medium text-text-secondary hover:text-text-display'
                         }
                       >
                         {folder.name}
@@ -357,13 +357,14 @@ export default async function RecitationDetailsPage({
                   variant="details"
                   listTitle="قائمة السور"
                   hideReciterName={isTenQiraahsTemplate(tenant.template)}
+                  allowAudioDownload={tenant.features.audioDownload !== false}
                 />
               ) : (
                 <div
                   className={
                     isQiraat
                       ? 'rounded-[12px] border border-[var(--color-rule-gold,#A68B4B)]/35 bg-[var(--color-paper,#E6E2D8)]/40 px-6 py-16 text-center sm:px-10'
-                      : 'rounded-lg border border-[#ebe8e8] bg-white px-6 py-14 text-center sm:px-10'
+                      : 'rounded-lg border border-border bg-white px-6 py-14 text-center sm:px-10'
                   }
                   role="status"
                 >
@@ -371,7 +372,7 @@ export default async function RecitationDetailsPage({
                     className={
                       isQiraat
                         ? 'text-xl font-semibold text-[var(--color-foreground)]'
-                        : 'text-xl font-semibold text-[#1f2a37]'
+                        : 'text-xl font-semibold text-text-display'
                     }
                   >
                     لا توجد سور مرفوعة بعد
@@ -380,7 +381,7 @@ export default async function RecitationDetailsPage({
                     className={
                       isQiraat
                         ? 'mx-auto mt-3 max-w-md text-md leading-relaxed text-[var(--color-text-paragraph,#6a6a6a)]'
-                        : 'mx-auto mt-3 max-w-md text-md leading-relaxed text-[#6a6a6a]'
+                        : 'mx-auto mt-3 max-w-md text-md leading-relaxed text-text-secondary'
                     }
                   >
                     {selectedFolder && folders.length > 1

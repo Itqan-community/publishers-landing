@@ -69,25 +69,25 @@ export async function SaudiCenterTemplate({ tenant, basePath = '' }: SaudiCenter
       id: '1',
       title: 'نخبة من القراء',
       description: 'أفضل التلاوات وأعذب الأصوات لنخبة القراء',
-      iconSrc: '/icons/feature-muslim.svg',
+      iconSrc: '/icons/feature-muslim-gold.svg',
     },
     {
       id: '2',
       title: 'جودة عالية',
       description: 'تسجيلات بجودة صوتية استثنائية لأفضل تجربة استماع',
-      iconSrc: '/icons/feature-award.svg',
+      iconSrc: '/icons/feature-award-gold.svg',
     },
     {
       id: '3',
       title: 'بث مباشر',
       description: 'استمع للتلاوات مباشرة على مدار الساعة',
-      iconSrc: '/icons/feature-airdrop.svg',
+      iconSrc: '/icons/feature-airdrop-gold.svg',
     },
     {
       id: '4',
       title: 'محتوى موثوق',
       description: 'تلاوات متنوعة بمختلف الأساليب الأدائية',
-      iconSrc: '/icons/feature-ramadhan.svg',
+      iconSrc: '/icons/feature-ramadhan-gold.svg',
     },
   ];
 

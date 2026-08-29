@@ -76,6 +76,8 @@ export interface TenantFeatures {
   media: boolean;
   newsletter: boolean;
   governmentBanner?: boolean;
+  /** When false, hide audio track download controls (stream-only). Defaults to true when omitted. */
+  audioDownload?: boolean;
 }
 
 export interface TenantContent {

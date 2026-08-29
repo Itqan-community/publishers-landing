@@ -177,6 +177,17 @@
   }
 }
 
+/* Saudi Center only: gold mushaf icon on cards */
+[data-template='saudi-center'] .mushaf-icon-default {
+  display: none;
+}
+[data-template='saudi-center'] .mushaf-icon-gold {
+  display: block;
+}
+[data-template='saudi-center'] .mushaf-card-listen-btn {
+  color: var(--color-primary-dark);
+}
+
 /* ─── Qiraat-only: living mushaf archive identity ─── */
 [data-template='qiraat'] .hero-bg-pattern {
   background-repeat: repeat;

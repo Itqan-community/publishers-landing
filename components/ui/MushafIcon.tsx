@@ -9,6 +9,8 @@ interface MushafIconProps {
   /** Flip horizontally so the icon faces the correct direction in RTL. Applied in one place so all usages are consistent. */
   flipHorizontal?: boolean;
   sizes?: string;
+  /** Optional override of the mushaf SVG (e.g. gold variant for saudi-center). */
+  src?: string;
 }
 
 const MUSHAF_ICON_SRC = '/icons/big-mushaf.svg';
@@ -21,10 +23,11 @@ export function MushafIcon({
   className,
   flipHorizontal = true,
   sizes = '136px',
+  src = MUSHAF_ICON_SRC,
 }: MushafIconProps) {
   return (
     <Image
-      src={MUSHAF_ICON_SRC}
+      src={src}
       alt=""
       fill
       className={cn(
