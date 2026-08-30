@@ -17,8 +17,7 @@ import { TahbeerSponsorsSection } from '@/components/sections/TahbeerSponsorsSec
 import type { TahbeerSponsorItem } from '@/components/sections/TahbeerSponsorsSection';
 import { FeatureItem } from '@/components/sections/AboutSection';
 import { getQiraahs } from '@/lib/qiraahs';
-import { trimRiwayahName } from '@/lib/tahbeer-riwayah';
-import { ALL_TEN_QIRAAHS } from '@/lib/ten-qiraahs';
+import { buildTenReadingsItems } from '@/lib/ten-qiraahs';
 
 interface TahbeerTemplateProps {
   tenant: TenantConfig;
@@ -77,38 +76,7 @@ export async function TahbeerTemplate({ tenant, basePath = '' }: TahbeerTemplate
   const prefix = basePath || '';
 
   const qiraahs = await getQiraahs(tenant.id, 'TahbeerTemplate (home)');
-
-  const matchedApiIds = new Set<number>();
-
-  const findApiMatch = (canonical: typeof ALL_TEN_QIRAAHS[number]) => {
-    const bySlug = qiraahs.find((q) => q.slug === canonical.slug && !matchedApiIds.has(q.id));
-    if (bySlug) return bySlug;
-    return qiraahs.find((q) => q.name.includes(canonical.name) && !matchedApiIds.has(q.id))
-      ?? qiraahs.find((q) => canonical.name.includes(q.name) && !matchedApiIds.has(q.id));
-  };
-
-  const tenReadingsItems: TenReadingsItem[] = ALL_TEN_QIRAAHS.map((canonical, index) => {
-    const apiMatch = findApiMatch(canonical);
-    if (apiMatch) {
-      matchedApiIds.add(apiMatch.id);
-      const riwayats = apiMatch.riwayahs?.map((r) => trimRiwayahName(r.name)).join('، ') ?? canonical.riwayats;
-      return {
-        id: String(apiMatch.id),
-        number: index + 1,
-        title: apiMatch.name,
-        riwayats,
-        viewMushafHref: `/qiraahs/${apiMatch.slug}`,
-      };
-    }
-    return {
-      id: `canonical-${canonical.slug}`,
-      number: index + 1,
-      title: canonical.name,
-      riwayats: canonical.riwayats,
-      viewMushafHref: `/qiraahs/coming-soon`,
-      comingSoon: true,
-    };
-  });
+  const tenReadingsItems = buildTenReadingsItems(qiraahs);
 
   return (
     <PageLayout tenant={tenant}>
