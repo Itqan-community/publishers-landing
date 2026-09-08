@@ -5,13 +5,22 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { FiMenu, FiX } from 'react-icons/fi';
-import { Button } from '@/components/ui/Button';
+
+const API_DOCS_HREF = 'https://docs.cms.itqan.dev/';
 
 /* ─── "Listen now" icon (default/gov variant only) ─── */
 const ListenNowIcon = ({ size = 24 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0">
     <path d="M17.7 21.3351C16.528 21.4998 14.9996 21.4998 12.95 21.4998H11.05C7.01949 21.4998 5.00424 21.4998 3.75212 20.2477C2.5 18.9955 2.5 16.9803 2.5 12.9498V11.0498C2.5 7.01927 2.5 5.00402 3.75212 3.7519C5.00424 2.49978 7.01949 2.49978 11.05 2.49978H12.95C16.9805 2.49978 18.9958 2.49978 20.2479 3.7519C21.5 5.00402 21.5 7.01927 21.5 11.0498V12.9498C21.5 14.158 21.5 15.1851 21.4663 16.0649C21.4392 16.7699 21.4257 17.1224 21.1587 17.2542C20.8917 17.3859 20.5931 17.1746 19.9958 16.752L18.65 15.7998" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     <path d="M14.9453 12.3948C14.7686 13.0215 13.9333 13.4644 12.2629 14.3502C10.648 15.2064 9.8406 15.6346 9.18992 15.4625C8.9209 15.3913 8.6758 15.2562 8.47812 15.07C8 14.6198 8 13.7465 8 12C8 10.2535 8 9.38018 8.47812 8.92995C8.6758 8.74381 8.9209 8.60868 9.18992 8.53753C9.8406 8.36544 10.648 8.79357 12.2629 9.64983C13.9333 10.5356 14.7686 10.9785 14.9453 11.6052C15.0182 11.8639 15.0182 12.1361 14.9453 12.3948Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+  </svg>
+);
+
+const ApiDocsIcon = ({ size = 24 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0" aria-hidden>
+    <path d="M17 8L18.8398 9.85008C19.6133 10.6279 20 11.0168 20 11.5C20 11.9832 19.6133 12.3721 18.8398 13.1499L17 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M7 8L5.16019 9.85008C4.38673 10.6279 4 11.0168 4 11.5C4 11.9832 4.38673 12.3721 5.16019 13.1499L7 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M14.5 4L9.5 20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
@@ -130,12 +139,16 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
               ))}
             </nav>
 
-            {/* CTA (end side in RTL) — primary Button */}
-            <div className="hidden md:flex items-center gap-4 order-3 invisible">
-              <Link href={listenHref}>
-                <Button variant="primary" size="sm">
-                  استمع الان
-                </Button>
+            {/* CTA (end side in RTL) — API docs */}
+            <div className="hidden md:flex items-center gap-4 order-3">
+              <Link
+                href={API_DOCS_HREF}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-sm bg-[var(--color-primary-solid,var(--color-primary))] px-4 py-2 text-[16px] font-medium text-white transition-colors hover:bg-[var(--color-primary-dark)]"
+              >
+                <ApiDocsIcon size={20} />
+                API
               </Link>
             </div>
 
@@ -149,7 +162,7 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
             </button>
           </div>
 
-          {/* Mobile Menu — Tahbeer: no "استمع الان" button */}
+          {/* Mobile Menu — Tahbeer: API docs + nav */}
           {mobileMenuOpen && (
             <div className="md:hidden py-4 border-t border-gray-200">
               <nav className="flex flex-col gap-4">
@@ -163,6 +176,16 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
                     {item.label}
                   </Link>
                 ))}
+                <Link
+                  href={API_DOCS_HREF}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="inline-flex items-center justify-center gap-2 rounded-sm bg-[var(--color-primary-solid,var(--color-primary))] px-4 py-2.5 text-[16px] font-medium text-white transition-colors hover:bg-[var(--color-primary-dark)]"
+                >
+                  <ApiDocsIcon size={20} />
+                  API
+                </Link>
               </nav>
             </div>
           )}
@@ -229,6 +252,15 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
 
           {/* ── Left side: Action Buttons ── */}
           <div className="hidden md:flex items-center h-header">
+            <Link
+              href={API_DOCS_HREF}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-1 h-header px-4 text-md font-medium text-foreground hover:bg-primary/10 rounded-xs transition-colors duration-200"
+            >
+              <ApiDocsIcon size={24} />
+              <span>API</span>
+            </Link>
             {/* استمع الان */}
             <Link
               href={listenHref}
@@ -280,6 +312,16 @@ export const Header: React.FC<HeaderProps> = ({ logo, tenantName, navItems, home
                 );
               })}
               <div className="flex flex-col gap-2 pt-4 mt-2 border-t border-border">
+                <Link
+                  href={API_DOCS_HREF}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-center gap-2 px-4 py-3 text-md font-medium text-foreground rounded-xs hover:bg-primary/10 transition-colors"
+                >
+                  <ApiDocsIcon size={20} />
+                  API
+                </Link>
                 <Link href={listenHref} className="flex items-center justify-center gap-2 px-4 py-3 text-md font-medium text-foreground rounded-xs hover:bg-primary/10 transition-colors">
                   <ListenNowIcon size={20} />
                   استمع الان

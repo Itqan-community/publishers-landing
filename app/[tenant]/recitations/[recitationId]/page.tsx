@@ -286,7 +286,7 @@ export default async function RecitationDetailsPage({
                   {/* Part 2: CTAs */}
                   <div className="flex w-full flex-1 flex-col justify-between gap-6 mt-auto items-stretch lg:w-auto lg:items-end">
                     <div className="flex w-full flex-wrap items-center justify-center gap-3 lg:w-auto lg:justify-end">
-                      <Link href="https://api.cms.itqan.dev/docs/" target="_blank" className="w-full lg:w-auto">
+                      <Link href="https://docs.cms.itqan.dev/docs/reference/api/apps-content-api-public-recitation-list-list-recitations/" target="_blank" rel="noopener noreferrer" className="w-full lg:w-auto">
                         <Button
                           variant="secondary"
                           className={
