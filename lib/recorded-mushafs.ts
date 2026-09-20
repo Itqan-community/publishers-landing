@@ -241,7 +241,7 @@ export const getRecitationById = cache(async (
     const tenantDomain = await getTenantDomain(tenantId || 'default');
     
     // Try query parameter format first (API might not support REST endpoint for single recitation)
-    const apiUrl = `${backendUrl}/recitations/?id=${recitationId}`;
+    const apiUrl = `${backendUrl}/recitations/?id=${recitationId}&page_size=100`;
     
     // console.log(`[getRecitationById] Fetching from: ${apiUrl}`);
     // console.log(`[getRecitationById] Requested recitationId: ${recitationId} (type: ${typeof recitationId})`);
