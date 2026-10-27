@@ -4,11 +4,12 @@ const nextConfig: NextConfig = {
   // Enable static optimization where possible
   reactStrictMode: true,
 
-  // Enable standalone output for Docker deployment
+  // Enable standalone output for Docker / SSR deployment
   output: 'standalone',
 
   // Image optimization
   images: {
+    unoptimized: true,
     // Many of our "png" assets in /public are actually inline SVG content (exported from Figma).
     // Allow SVGs so Next/Image doesn't throw at runtime (which can cause 500s in dev).
     dangerouslyAllowSVG: true,
@@ -38,4 +39,6 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
+
 
