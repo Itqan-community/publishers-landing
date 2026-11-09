@@ -33,7 +33,9 @@ interface RecitationApiResponse {
   /** Legacy/extra: multiple riwayahs when API still sends an array for combined recitations. */
   riwayahs?: Array<{ id: number; name: string }>;
   surahs_count: number;
-  /** Audio variants for this recitation. Default folder first. */
+  /** Audio variants for this recitation. Default first. */
+  qualities?: RecitationFolderRef[];
+  /** The older backend's name for `qualities`. */
   folders?: RecitationFolderRef[];
   // Legacy fields that may still be present
   madd_level?: 'qasr' | 'twassut' | null;

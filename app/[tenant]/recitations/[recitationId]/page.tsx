@@ -14,6 +14,7 @@ import {
   folderFromQuery,
   isKnownFolderQuery,
   parseFolderQuery,
+  recitationVariants,
 } from '@/lib/recitation-folders';
 import { getBackendUrl } from '@/lib/backend-url';
 import { resolveImageUrl } from '@/lib/utils';
@@ -90,7 +91,7 @@ export default async function RecitationDetailsPage({
     notFound();
   }
 
-  const folders = recitation.folders ?? [];
+  const { folders, variantParam } = recitationVariants(recitation);
   const folderQuery = parseFolderQuery(sp.folder);
   const selectedFolder = folderFromQuery(folders, folderQuery);
 
@@ -109,7 +110,8 @@ export default async function RecitationDetailsPage({
       reciterName,
       undefined, // Let tracks API extract image from response
       tenantId,
-      selectedFolder?.slug
+      selectedFolder?.slug,
+      variantParam
     );
   } catch (error) {
     if (error instanceof RecitationFolderNotFoundError && selectedFolder) {

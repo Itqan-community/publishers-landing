@@ -4,7 +4,7 @@ import { getApiHeaders, resolveImageUrl } from '@/lib/utils';
 import { getTenantDomain } from '@/lib/tenant-domain';
 import type { RecitationItem } from '@/components/audio/AudioPlayer';
 import { getRecitationById } from '@/lib/recorded-mushafs';
-import { RecitationFolderNotFoundError } from '@/lib/recitation-folders';
+import { RecitationFolderNotFoundError, type RecitationVariantParam } from '@/lib/recitation-folders';
 
 /**
  * API response model for recitation tracks endpoint
@@ -204,7 +204,8 @@ export const getReciterImageFromRecitation = cache(async (
  * @param reciterName - Optional reciter name to include in the response (for display)
  * @param reciterImage - Optional reciter image URL to include in the response
  * @param tenantId - Tenant ID for backend URL (uses default tenant if omitted)
- * @param folderSlug - Recitation folder slug (`?folder=`). Omit for the default folder.
+ * @param folderSlug - Recitation variant slug. Omit for the default variant.
+ * @param variantParam - Query parameter the backend takes the slug in (see `recitationVariants`).
  * @returns Array of RecitationItem objects representing the tracks
  */
 export const getRecitationTracksByAssetId = cache(async (
@@ -212,7 +213,8 @@ export const getRecitationTracksByAssetId = cache(async (
   reciterName?: string,
   reciterImage?: string,
   tenantId?: string,
-  folderSlug?: string
+  folderSlug?: string,
+  variantParam: RecitationVariantParam = 'folder'
 ): Promise<RecitationItem[]> => {
   try {
     const backendUrl = await getBackendUrl(tenantId);
@@ -222,7 +224,7 @@ export const getRecitationTracksByAssetId = cache(async (
     const assetIdStr = String(assetId);
     const searchParams = new URLSearchParams({ page_size: '120' });
     if (folderSlug) {
-      searchParams.set('folder', folderSlug);
+      searchParams.set(variantParam, folderSlug);
     }
     const apiUrl = `${backendUrl}/recitation-tracks/${assetIdStr}/?${searchParams.toString()}`;
     
@@ -248,7 +250,7 @@ export const getRecitationTracksByAssetId = cache(async (
           } catch {
             errorName = undefined;
           }
-          if (errorName === 'folder_not_found') {
+          if (errorName === 'quality_not_found' || errorName === 'folder_not_found') {
             throw new RecitationFolderNotFoundError();
           }
         }
