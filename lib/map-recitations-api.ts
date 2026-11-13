@@ -5,7 +5,7 @@
 
 import type { RecordedMushaf } from '@/types/tenant.types';
 import { resolveImageUrl } from '@/lib/utils';
-import type { RecitationFolderRef } from '@/lib/recitation-folders';
+import type { RecitationQualityRef } from '@/lib/recitation-qualities';
 
 /** Matches RecitationItem from components/audio/AudioPlayer */
 export interface RecitationItemMap {
@@ -43,10 +43,10 @@ export function mapTracksApiToRecitationItems(
   results: TrackApiItem[],
   reciterName: string,
   reciterImage: string,
-  folderSlug?: string
+  qualitySlug?: string
 ): RecitationItemMap[] {
   const list = Array.isArray(results) ? results : [];
-  const idPrefix = folderSlug || 'default';
+  const idPrefix = qualitySlug || 'default';
   return list.map((track) => {
     const title =
       track.surah_name && track.surah_name.trim() !== ''
@@ -81,7 +81,7 @@ export interface RecitationApiResponse {
   };
   riwayah: { id: number; name: string };
   surahs_count: number;
-  folders?: RecitationFolderRef[];
+  qualities?: RecitationQualityRef[];
   madd_level?: 'qasr' | 'twassut' | null;
   year?: number | null;
 }

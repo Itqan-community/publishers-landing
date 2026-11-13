@@ -3,7 +3,7 @@ import type { RecordedMushaf } from '@/types/tenant.types';
 import { getBackendUrl } from '@/lib/backend-url';
 import { getApiHeaders, resolveImageUrl } from '@/lib/utils';
 import { getTenantDomain } from '@/lib/tenant-domain';
-import type { RecitationFolderRef } from '@/lib/recitation-folders';
+import type { RecitationQualityRef } from '@/lib/recitation-qualities';
 
 /**
  * API response model for recitations endpoint
@@ -34,9 +34,7 @@ interface RecitationApiResponse {
   riwayahs?: Array<{ id: number; name: string }>;
   surahs_count: number;
   /** Audio variants for this recitation. Default first. */
-  qualities?: RecitationFolderRef[];
-  /** The older backend's name for `qualities`. */
-  folders?: RecitationFolderRef[];
+  qualities?: RecitationQualityRef[];
   // Legacy fields that may still be present
   madd_level?: 'qasr' | 'twassut' | null;
   meem_behaviour?: 'silah' | 'skoun' | null;

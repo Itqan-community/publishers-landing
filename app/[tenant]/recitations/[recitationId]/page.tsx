@@ -10,12 +10,12 @@ import { RecitationsPlayer, RecitationItem } from '@/components/audio/AudioPlaye
 import { getRecitationById } from '@/lib/recorded-mushafs';
 import { getRecitationTracksByAssetId, getReciterImageFromRecitation } from '@/lib/recitation-tracks';
 import {
-  RecitationFolderNotFoundError,
-  folderFromQuery,
-  isKnownFolderQuery,
-  parseFolderQuery,
-  recitationVariants,
-} from '@/lib/recitation-folders';
+  RecitationQualityNotFoundError,
+  isKnownQualityQuery,
+  parseQualityQuery,
+  qualityFromQuery,
+  recitationQualities,
+} from '@/lib/recitation-qualities';
 import { getBackendUrl } from '@/lib/backend-url';
 import { resolveImageUrl } from '@/lib/utils';
 import { AvatarImage } from '@/components/ui/AvatarImage';
@@ -91,12 +91,12 @@ export default async function RecitationDetailsPage({
     notFound();
   }
 
-  const { folders, variantParam } = recitationVariants(recitation);
-  const folderQuery = parseFolderQuery(sp.folder);
-  const selectedFolder = folderFromQuery(folders, folderQuery);
+  const qualities = recitationQualities(recitation);
+  const qualityQuery = parseQualityQuery(sp.quality);
+  const selectedQuality = qualityFromQuery(qualities, qualityQuery);
 
-  if (folders.length > 0 && selectedFolder && !isKnownFolderQuery(folders, folderQuery)) {
-    redirect(`${recitationPath}?folder=${encodeURIComponent(selectedFolder.slug)}`);
+  if (qualities.length > 0 && selectedQuality && !isKnownQualityQuery(qualities, qualityQuery)) {
+    redirect(`${recitationPath}?quality=${encodeURIComponent(selectedQuality.slug)}`);
   }
 
   // Extract reciter information; /recitations/ API often omits reciter image - we get it from tracks
@@ -110,22 +110,21 @@ export default async function RecitationDetailsPage({
       reciterName,
       undefined, // Let tracks API extract image from response
       tenantId,
-      selectedFolder?.slug,
-      variantParam
+      selectedQuality?.slug
     );
   } catch (error) {
-    if (error instanceof RecitationFolderNotFoundError && selectedFolder) {
-      const fallback = folders.find((folder) => folder.is_default) ?? folders[0];
-      if (fallback && fallback.slug !== selectedFolder.slug) {
-        redirect(`${recitationPath}?folder=${encodeURIComponent(fallback.slug)}`);
+    if (error instanceof RecitationQualityNotFoundError && selectedQuality) {
+      const fallback = qualities.find((quality) => quality.is_default) ?? qualities[0];
+      if (fallback && fallback.slug !== selectedQuality.slug) {
+        redirect(`${recitationPath}?quality=${encodeURIComponent(fallback.slug)}`);
       }
       redirect(recitationPath);
     }
     throw error;
   }
 
-  // Prefer image from selected-folder tracks; /recitations/ often omits reciter image.
-  // Empty folders have no tracks — fall back to metadata, then default-folder tracks.
+  // Prefer image from the selected quality's tracks; /recitations/ often omits reciter image.
+  // Empty qualities have no tracks — fall back to metadata, then the default quality's tracks.
   let reciterImage =
     tracks[0]?.image ||
     (resolveImageUrl(
@@ -134,8 +133,8 @@ export default async function RecitationDetailsPage({
     ) ?? '');
 
   if (!reciterImage) {
-    const fromDefaultFolder = await getReciterImageFromRecitation(recitation.id, tenantId);
-    reciterImage = fromDefaultFolder?.image || '';
+    const fromDefaultQuality = await getReciterImageFromRecitation(recitation.id, tenantId);
+    reciterImage = fromDefaultQuality?.image || '';
   }
 
   // Build breadcrumb schema for SEO
@@ -321,20 +320,20 @@ export default async function RecitationDetailsPage({
 
           <div className="mx-auto max-w-[1280px] px-4 pb-16 sm:px-6 lg:px-8">
             <section className="mt-10">
-              {folders.length > 1 && (
+              {qualities.length > 1 && (
                 <div
                   role="tablist"
                   aria-label="مجلدات التلاوة"
                   className="mb-6 flex gap-1 overflow-x-auto overflow-y-hidden border-b border-border"
                 >
-                  {folders.map((folder) => {
-                    const isSelected = selectedFolder?.slug === folder.slug;
+                  {qualities.map((quality) => {
+                    const isSelected = selectedQuality?.slug === quality.slug;
                     return (
                       <Link
-                        key={folder.slug}
+                        key={quality.slug}
                         role="tab"
                         aria-selected={isSelected}
-                        href={`${recitationPath}?folder=${encodeURIComponent(folder.slug)}`}
+                        href={`${recitationPath}?quality=${encodeURIComponent(quality.slug)}`}
                         className={
                           isSelected
                             ? isQiraat
@@ -345,7 +344,7 @@ export default async function RecitationDetailsPage({
                               : 'shrink-0 border-b-2 border-transparent px-4 py-3 text-md font-medium text-text-secondary hover:text-text-display'
                         }
                       >
-                        {folder.name}
+                        {quality.name}
                       </Link>
                     );
                   })}
@@ -353,7 +352,7 @@ export default async function RecitationDetailsPage({
               )}
               {surahItems.length > 0 ? (
                 <RecitationsPlayer
-                  key={selectedFolder?.slug ?? 'default'}
+                  key={selectedQuality?.slug ?? 'default'}
                   recitations={surahItems}
                   defaultSelected={surahItems[0]?.id}
                   variant="details"
@@ -386,8 +385,8 @@ export default async function RecitationDetailsPage({
                         : 'mx-auto mt-3 max-w-md text-md leading-relaxed text-text-secondary'
                     }
                   >
-                    {selectedFolder && folders.length > 1
-                      ? `لم تُرفع سور نسخة «${selectedFolder.name}» بعد، وستكون متاحة قريبًا إن شاء الله.`
+                    {selectedQuality && qualities.length > 1
+                      ? `لم تُرفع سور نسخة «${selectedQuality.name}» بعد، وستكون متاحة قريبًا إن شاء الله.`
                       : 'لم تُرفع سور هذا المصحف بعد، وستكون متاحة قريبًا إن شاء الله.'}
                   </p>
                 </div>
