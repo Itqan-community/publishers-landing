@@ -67,7 +67,7 @@ If the build fails with a Node version error:
 
 ```toml
 [build.environment]
-  NODE_VERSION = "20"
+  NODE_VERSION = "22"
 ```
 
 (Use 18 or 20; 20 is a safe default.) Commit, push, and redeploy.
@@ -191,7 +191,7 @@ Create **`netlify.toml`** in the project root:
 
 # Optional: pin Node version
 [build.environment]
-  NODE_VERSION = "20"
+  NODE_VERSION = "22"
 
 # Optional: redirect www to non-www (or the opposite)
 # [[redirects]]

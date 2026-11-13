@@ -149,7 +149,7 @@ docker system prune -a
 ```
 
 2. **Check Node version:**
-   Ensure you're using Node.js 20 or higher as specified in the Dockerfiles.
+   Ensure you're using Node.js 22 or higher as specified in the Dockerfiles.
 
 3. **Verify dependencies:**
    Check that `package.json` has all required dependencies and `package-lock.json` is up to date.
@@ -265,7 +265,7 @@ docker run -p 80:3000 --name publishers-landing publishers-landing:latest
 
 1. **Multi-stage builds:** The production Dockerfile uses multi-stage builds to minimize image size
 2. **Layer caching:** Docker builds cache layers, so rebuilds are faster
-3. **Alpine base images:** Uses `node:20-alpine` for smaller image size
+3. **Alpine base images:** Uses `node:22-alpine` for smaller image size
 4. **Health checks:** Production setup includes health checks for monitoring
 
 ## Support
