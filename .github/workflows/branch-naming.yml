@@ -2,7 +2,7 @@ name: Branch Naming Check
 on:
   pull_request:
     types: [opened, edited, synchronize]
-    branches: [main, staging]
+    branches: [master, staging]
 
 jobs:
   check:

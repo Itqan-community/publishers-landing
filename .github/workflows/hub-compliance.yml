@@ -2,7 +2,7 @@ name: Org Compliance Check
 on:
   pull_request:
     types: [opened, synchronize]
-    branches: [main, staging]
+    branches: [master, staging]
 
 jobs:
   check:
