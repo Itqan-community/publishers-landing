@@ -15,5 +15,6 @@
       "binding": "WORKER_SELF_REFERENCE",
       "service": "publishers-landing"
     }
-  ]
+  ],
+  "previews": {}
 }
