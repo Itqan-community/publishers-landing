@@ -4,6 +4,25 @@ export interface RecitationFolderRef {
   is_default: boolean;
 }
 
+/** The tracks API query parameter that selects a variant. */
+export type RecitationVariantParam = 'quality' | 'folder';
+
+/**
+ * The backend renamed folders to qualities: the recitation's `folders` became `qualities`,
+ * and the tracks API takes `?quality=` and rejects `?folder=` with a 400.
+ * Reads whichever the response has, so the site works with both backend versions.
+ * The `folders` fallback can go once production serves `qualities`.
+ */
+export function recitationVariants(recitation: {
+  qualities?: RecitationFolderRef[];
+  folders?: RecitationFolderRef[];
+}): { folders: RecitationFolderRef[]; variantParam: RecitationVariantParam } {
+  if (recitation.qualities) {
+    return { folders: recitation.qualities, variantParam: 'quality' };
+  }
+  return { folders: recitation.folders ?? [], variantParam: 'folder' };
+}
+
 export class RecitationFolderNotFoundError extends Error {
   constructor() {
     super('folder_not_found');
