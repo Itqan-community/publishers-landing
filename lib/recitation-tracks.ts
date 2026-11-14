@@ -4,7 +4,7 @@ import { getApiHeaders, resolveImageUrl } from '@/lib/utils';
 import { getTenantDomain } from '@/lib/tenant-domain';
 import type { RecitationItem } from '@/components/audio/AudioPlayer';
 import { getRecitationById } from '@/lib/recorded-mushafs';
-import { RecitationFolderNotFoundError, type RecitationVariantParam } from '@/lib/recitation-folders';
+import { RecitationQualityNotFoundError } from '@/lib/recitation-qualities';
 
 /**
  * API response model for recitation tracks endpoint
@@ -204,8 +204,7 @@ export const getReciterImageFromRecitation = cache(async (
  * @param reciterName - Optional reciter name to include in the response (for display)
  * @param reciterImage - Optional reciter image URL to include in the response
  * @param tenantId - Tenant ID for backend URL (uses default tenant if omitted)
- * @param folderSlug - Recitation variant slug. Omit for the default variant.
- * @param variantParam - Query parameter the backend takes the slug in (see `recitationVariants`).
+ * @param qualitySlug - Recitation quality slug. Omit for the default quality.
  * @returns Array of RecitationItem objects representing the tracks
  */
 export const getRecitationTracksByAssetId = cache(async (
@@ -213,8 +212,7 @@ export const getRecitationTracksByAssetId = cache(async (
   reciterName?: string,
   reciterImage?: string,
   tenantId?: string,
-  folderSlug?: string,
-  variantParam: RecitationVariantParam = 'folder'
+  qualitySlug?: string
 ): Promise<RecitationItem[]> => {
   try {
     const backendUrl = await getBackendUrl(tenantId);
@@ -223,8 +221,8 @@ export const getRecitationTracksByAssetId = cache(async (
     // Ensure assetId is properly converted to string for URL
     const assetIdStr = String(assetId);
     const searchParams = new URLSearchParams({ page_size: '120' });
-    if (folderSlug) {
-      searchParams.set(variantParam, folderSlug);
+    if (qualitySlug) {
+      searchParams.set('quality', qualitySlug);
     }
     const apiUrl = `${backendUrl}/recitation-tracks/${assetIdStr}/?${searchParams.toString()}`;
     
@@ -250,8 +248,8 @@ export const getRecitationTracksByAssetId = cache(async (
           } catch {
             errorName = undefined;
           }
-          if (errorName === 'quality_not_found' || errorName === 'folder_not_found') {
-            throw new RecitationFolderNotFoundError();
+          if (errorName === 'quality_not_found') {
+            throw new RecitationQualityNotFoundError();
           }
         }
         console.error(`[getRecitationTracksByAssetId] API error: ${response.status} ${response.statusText}`);
@@ -264,7 +262,7 @@ export const getRecitationTracksByAssetId = cache(async (
       const trackReciterImage = data.results[0]?.reciter?.image_url || '';
       const effectiveReciterImage = reciterImage || trackReciterImage;
       const effectiveReciterName = reciterName || data.results[0]?.reciter?.name || 'غير معروف';
-      const idPrefix = folderSlug || 'default';
+      const idPrefix = qualitySlug || 'default';
 
       return data.results.map((track): RecitationItem => {
         const title = track.surah_number 
@@ -290,7 +288,7 @@ export const getRecitationTracksByAssetId = cache(async (
     } catch (fetchError) {
       clearTimeout(timeoutId);
 
-      if (fetchError instanceof RecitationFolderNotFoundError) {
+      if (fetchError instanceof RecitationQualityNotFoundError) {
         throw fetchError;
       }
       
@@ -301,7 +299,7 @@ export const getRecitationTracksByAssetId = cache(async (
       throw fetchError;
     }
   } catch (error) {
-    if (error instanceof RecitationFolderNotFoundError) {
+    if (error instanceof RecitationQualityNotFoundError) {
       throw error;
     }
 
